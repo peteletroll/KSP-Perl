@@ -18,11 +18,6 @@ sub BUILD {
 	$self
 }
 
-sub n { # mean motion
-	my ($self) = @_;
-	sqrt($self->body->mu / ($self->a ** 3))
-}
-
 sub T { # orbital period
 	my ($self) = @_;
 	2 * pi * sqrt($self->a ** 3 / $self->body->mu)
@@ -52,21 +47,6 @@ sub v_from_vis_viva {
 	my ($self) = @_;
 	my $r = $self->body->radius + shift;
 	sqrt($self->body->mu * (2 / $r - 1 / $self->a))
-}
-
-sub vel {
-	my ($self, $th) = @_;
-	my $r = $self->r($th);
-}
-
-sub vpe {
-	my ($self) = @_;
-	$self->v_from_vis_viva($self->pe) * $self->tgt(0);
-}
-
-sub vap {
-	my ($self) = @_;
-	$self->v_from_vis_viva($self->ap) * $self->tgt(pi);
 }
 
 sub desc {
