@@ -1,0 +1,6 @@
+Revision history for Perl extension KSP.
+
+0.01  Wed Jan  6 15:37:40 2021
+	- original version; created by h2xs 1.23 with options
+		-X KSP
+

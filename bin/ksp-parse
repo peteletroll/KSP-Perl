@@ -1,0 +1,94 @@
+#!/usr/bin/perl
+
+use strict;
+use warnings;
+
+use File::Find;
+use File::Basename;
+use Time::HiRes qw(time);
+use Term::ProgressBar;
+
+use KSP;
+
+binmode STDOUT, ":utf8";
+binmode STDERR, ":utf8";
+
+use Getopt::Std;
+my %opt = ();
+getopts("FlpqP", \%opt) or die "bad options";
+
+my @lst = @ARGV;
+@lst or push @lst, "$ENV{HOME}/KSP/KSP_linux/.";
+
+my @queue = ();
+my ($totfiles, $totbytes) = (0, 0);
+foreach my $arg (@lst) {
+	if ($arg eq "-") {
+		push @queue, [ $arg, $arg ];
+		$totfiles++, $totbytes += 1;
+		next;
+	}
+	my $anyextension = -f $arg;
+	find({
+		no_chdir => 1,
+		wanted => sub {
+			-f $_ && ($anyextension || /\.(cfg|sfs|craft|loadmeta)$/i)
+				or return;
+			push @queue, [ dirname($_), $_ ];
+			$totfiles++, $totbytes += -s $_;
+		}
+	}, $arg);
+}
+
+@queue = map { $_->[1] }
+	sort { $a->[0] cmp $b->[0] || $a->[1] cmp $b->[1] }
+	@queue;
+
+my ($seconds, $bytes) = (0, 0);
+
+my $progress = Term::ProgressBar->new({
+	count => $totbytes,
+	ETA => "linear",
+	silent => !($opt{p} || $opt{P})
+});
+$progress->minor(0);
+
+sub parse_cfg($);
+
+my $n = @queue;
+$progress->update(0);
+for (my $i = 0; $i < $n; $i++) {
+	my $file = $queue[$i];
+	$progress->message("parsing $file") if $opt{P};
+	parse_cfg($file);
+	$progress->update($bytes);
+}
+
+$progress->message(sprintf "done, %1.3f kB/sec", $bytes / 1024 / ($seconds || 1));
+
+exit 0;
+
+sub parse_cfg($) {
+	my ($file) = @_;
+	-f $file and $bytes += -s $file;
+	my $putcomments = !($opt{d} || $opt{l} || $opt{x});
+	local $@ = undef;
+	my $time = time;
+	local $KSP::ConfigNode::FIXENCODING = $opt{F} ? 1 : 0;
+	my $c = eval { KSP::ConfigNode->load($file) };
+	$time = time - $time;
+	$seconds += $time;
+	$@ and $progress->message("TRAPPED: $@");
+	if ($c && !$opt{q}) {
+		if ($opt{l}) {
+			$c->list(\*STDOUT);
+		} else {
+			printf "// $file\n"
+				if $putcomments;
+			$c->print(\*STDOUT);
+		}
+	}
+	$progress->message("$0: can't parse $file") unless defined $c;
+	$c
+}
+
