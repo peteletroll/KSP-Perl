@@ -4,6 +4,7 @@ use strict;
 use warnings;
 
 use KSP::SolarSystem;
+use KSP::Orbit2D;
 
 use Carp;
 
@@ -44,6 +45,10 @@ sub atmRadius {
 	$_[0]{size}{radius} + ($_[0]{size}{atmosphereDepth} || 0)
 }
 
+sub SOIRadius {
+	$_[0]{size}{sphereOfInfluence}
+}
+
 sub mu {
 	$_[0]{size}{mu}
 }
@@ -81,6 +86,12 @@ sub orbitPeriod {
 
 sub solarDayLength {
 	$_[0]{rotation}{solarDayLength}
+}
+
+sub lowOrbit {
+	my ($self) = @_;
+	my $a = $self->atmRadius() + $self->radius() / 20;
+	KSP::Orbit2D->new($self, $a, 0)
 }
 
 1;

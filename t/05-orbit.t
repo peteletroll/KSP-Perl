@@ -8,8 +8,12 @@ BEGIN { use_ok('KSP') };
 
 use Data::Dump qw(dump);
 
-my $o = KSP::Orbit2D->new(KSP::Body->get("Kerbin"), 700e3, 0);
+warn "\n";
 
-# warn dump($o), "\n";
-warn "\n", $o->desc();
+KSP::Body->get("Z");
+
+foreach my $b (KSP::Body->all()) {
+	my $o = $b->lowOrbit();
+	warn $o->desc(), "\n";
+}
 
