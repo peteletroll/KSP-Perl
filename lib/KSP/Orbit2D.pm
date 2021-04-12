@@ -57,12 +57,18 @@ sub v_from_vis_viva {
 	sqrt($self->body->mu * (2 / $r - $self->inv_a))
 }
 
+sub vmax {
+	my ($self) = @_;
+	$self->v_from_vis_viva($self->pe())
+}
+
 sub desc {
 	my ($self) = @_;
-	sprintf "[%s;pe=%g;ap=%g;T=%s]",
+	sprintf "[%s;pe=%4g;ap=%4g;vmax=%g;T=%s]",
 		$self->body->name(),
 		$self->pe(),
 		$self->ap(),
+		$self->vmax(),
 		KSP::Time->new($self->T)->pretty_interval()
 }
 

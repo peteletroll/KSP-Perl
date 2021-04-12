@@ -10,8 +10,8 @@ use Data::Dump qw(dump);
 
 warn "\n";
 
-foreach my $b (KSP::Body->all()) {
-	my $o = $b->lowOrbit();
-	warn $o->desc(), "\n";
+foreach my $b (sort { $a->name() cmp $b->name() } KSP::Body->all()) {
+	warn $b->lowOrbit()->desc(), "\n";
+	warn $b->highOrbit()->desc(), "\n";
 }
 

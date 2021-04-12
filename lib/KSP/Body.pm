@@ -88,11 +88,32 @@ sub solarDayLength {
 	$_[0]{rotation}{solarDayLength}
 }
 
+sub lowHeight {
+	my ($self) = @_;
+	$self->radius * 1.0 / 6.0
+}
+
+sub highHeight {
+	my ($self) = @_;
+	my $h = $self->SOIRadius();
+	$h and return $h - $self->radius();
+	1000 * $self->lowHeight()
+}
+
 sub lowOrbit {
 	my ($self) = @_;
-	# my $a = $self->atmRadius() + $self->radius() / 20;
-	my $a = $self->radius() * 7.0 / 6.0;
+	my $a = $self->lowHeight() + $self->radius();
 	KSP::Orbit2D->new($self, $a, 0)
+}
+
+sub highOrbit {
+	my ($self) = @_;
+	my $r = $self->radius();
+	my $rp = $self->lowHeight() + $r;
+	my $ra = $self->highHeight() + $r;
+	my $a = ($ra + $rp) / 2.0;
+	my $e = ($ra - $rp) / ($ra + $rp);
+	KSP::Orbit2D->new($self, $a, $e)
 }
 
 1;
