@@ -100,6 +100,15 @@ sub highHeight {
 	1000 * $self->lowHeight()
 }
 
+sub orbit {
+	my ($self) = @_;
+	my $p = $self->parent() or return undef;
+	my $o = $p->lowOrbit();
+	$o->set_p($self->{orbit}{semiLatusRectum});
+	$o->set_e($self->{orbit}{eccentricity});
+	$o
+}
+
 sub lowOrbit {
 	my ($self) = @_;
 	my $a = $self->lowHeight() + $self->radius();
