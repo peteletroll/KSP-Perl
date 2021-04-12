@@ -10,8 +10,6 @@ use Data::Dump qw(dump);
 
 warn "\n";
 
-KSP::Body->get("Z");
-
 foreach my $b (KSP::Body->all()) {
 	my $o = $b->lowOrbit();
 	warn $o->desc(), "\n";

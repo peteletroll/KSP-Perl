@@ -40,25 +40,15 @@ sub T { # orbital period
 	2 * pi * sqrt($self->a ** 3 / $self->body->mu)
 }
 
-sub pe { # periapsis radius
+sub pe { # periapsis height
 	my ($self) = @_;
-	$self->p / (1 + $self->e)
+	$self->p / (1 + $self->e) - $self->body->radius
 }
 
-sub ap { # apoapsis radius
+sub ap { # apoapsis height
 	my ($self) = @_;
 	$self->_need_ellipse();
-	$self->p / (1 - $self->e)
-}
-
-sub hpe { # periapsis height
-	my ($self) = @_;
-	$self->pe - $self->body->radius
-}
-
-sub hap { # apoapsis height
-	my ($self) = @_;
-	$self->ap - $self->body->radius
+	$self->p / (1 - $self->e) - $self->body->radius
 }
 
 sub v_from_vis_viva {
@@ -71,8 +61,8 @@ sub desc {
 	my ($self) = @_;
 	"[body: " . $self->body->name()
 		. ", period: " . KSP::Time->new($self->T)->pretty_interval()
-		. ", pe: " . $self->hpe()
-		. ", ap: " . $self->hap()
+		. ", pe: " . $self->pe()
+		. ", ap: " . $self->ap()
 		. "]"
 }
 
