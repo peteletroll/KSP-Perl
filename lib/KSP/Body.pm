@@ -110,7 +110,7 @@ sub orbit {
 sub lowOrbit {
 	my ($self) = @_;
 	my $a = $self->lowHeight() + $self->radius();
-	KSP::Orbit2D->new($self, $a, 0)
+	KSP::Orbit2D->new($self, a => $a, e => 0)
 }
 
 sub highOrbit {
@@ -120,7 +120,7 @@ sub highOrbit {
 	my $ra = $self->highHeight() + $r;
 	my $a = ($ra + $rp) / 2.0;
 	my $e = ($ra - $rp) / ($ra + $rp);
-	KSP::Orbit2D->new($self, $a, $e)
+	KSP::Orbit2D->new($self, a => $a, e => $e)
 }
 
 1;

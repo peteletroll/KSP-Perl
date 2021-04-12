@@ -9,14 +9,38 @@ use Math::Trig;
 
 use TinyStruct qw(body e p);
 
+our %newpar = map { $_ => 1 } qw(a e pe ap);
+
 sub BUILD {
-	@_ == 4 or croak "bad " . __PACKAGE__ . "->new() parameters";
-	my ($self, $body, $a, $e) = @_;
-	my $p = $a * (1 - $e ** 2);
+	my ($self, $body, %par) = @_;
+	$newpar{$_} or confess "unknown orbit parameter $_" foreach keys %par;
+
+	my $par = \%par;
+	my $r = $body->radius();
+
+	_defined($par, qw(!e)) and confess "can't compute e";
+	my $e = $par{e};
+
+	# !defined $par{p} && defined $par{a}
+	_defined($par, qw(a !p))
+		and $par{p} = $par{a} * (1 - $e * $e);
+
+	_defined(\%par, qw(!p)) and confess "can't compute p";
+	my $p = $par{p};
+
 	$self->set_body($body);
 	$self->set_e($e); # eccentricity
 	$self->set_p($p); # semilatus rectum
 	$self
+}
+
+sub _defined($@) {
+	my ($p, @c) = @_;
+	foreach my $c (@c) {
+		$c =~ /^(!*)(\w+)$/ or confess "bad _defined() spec";
+		(defined $p->{$2} xor $1) or return 0;
+	}
+	1
 }
 
 sub _need_ellipse {
