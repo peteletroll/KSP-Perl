@@ -52,18 +52,18 @@ sub ap { # apoapsis height
 }
 
 sub v_from_vis_viva {
-	my ($self, $r) = @_;
-	$r += $self->body->radius;
+	my ($self, $h) = @_;
+	my $r = $h + $self->body->radius;
 	sqrt($self->body->mu * (2 / $r - $self->inv_a))
 }
 
 sub desc {
 	my ($self) = @_;
-	"[body: " . $self->body->name()
-		. ", period: " . KSP::Time->new($self->T)->pretty_interval()
-		. ", pe: " . $self->pe()
-		. ", ap: " . $self->ap()
-		. "]"
+	sprintf "[%s;pe=%g;ap=%g;T=%s]",
+		$self->body->name(),
+		$self->pe(),
+		$self->ap(),
+		KSP::Time->new($self->T)->pretty_interval()
 }
 
 1;
