@@ -62,8 +62,8 @@ sub hap { # apoapsis height
 }
 
 sub v_from_vis_viva {
-	my ($self) = @_;
-	my $r = $self->body->radius + shift;
+	my ($self, $r) = @_;
+	$r += $self->body->radius;
 	sqrt($self->body->mu * (2 / $r - $self->inv_a))
 }
 
