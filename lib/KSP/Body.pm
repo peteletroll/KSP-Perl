@@ -41,10 +41,6 @@ sub radius {
 	$_[0]{size}{radius}
 }
 
-sub atmRadius {
-	$_[0]{size}{radius} + ($_[0]{size}{atmosphereDepth} || 0)
-}
-
 sub SOIRadius {
 	$_[0]{size}{sphereOfInfluence}
 }
@@ -90,7 +86,9 @@ sub solarDayLength {
 
 sub lowHeight {
 	my ($self) = @_;
-	$self->radius * 1.0 / 6.0
+	$self->{atmosphere} ?
+		$self->{size}{atmosphereDepth} + 10e3 :
+		10e3
 }
 
 sub highHeight {
