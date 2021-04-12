@@ -90,7 +90,8 @@ sub solarDayLength {
 
 sub lowOrbit {
 	my ($self) = @_;
-	my $a = $self->atmRadius() + $self->radius() / 20;
+	# my $a = $self->atmRadius() + $self->radius() / 20;
+	my $a = $self->radius() * 7.0 / 6.0;
 	KSP::Orbit2D->new($self, $a, 0)
 }
 
