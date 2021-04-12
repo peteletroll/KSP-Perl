@@ -9,7 +9,7 @@ use Math::Trig;
 
 use TinyStruct qw(body e p);
 
-our %newpar = map { $_ => 1 } qw(a e pe ap);
+our %newpar = map { $_ => 1 } qw(p e a pe ap);
 
 sub BUILD {
 	my ($self, $body, %par) = @_;
@@ -18,14 +18,19 @@ sub BUILD {
 	my $par = \%par;
 	my $r = $body->radius();
 
+	_defined($par, qw(ap pe !a))
+		and $par{a} = ($par{ap} + $par{pe}) / 2.0 + $r;
+
+	_defined($par, qw(ap pe !e))
+		and $par{e} = ($par{ap} - $par{pe}) / ($par{ap} + $par{pe} + 2 * $r);
+
 	_defined($par, qw(!e)) and confess "can't compute e";
 	my $e = $par{e};
 
-	# !defined $par{p} && defined $par{a}
 	_defined($par, qw(a !p))
 		and $par{p} = $par{a} * (1 - $e * $e);
 
-	_defined(\%par, qw(!p)) and confess "can't compute p";
+	_defined($par, qw(!p)) and confess "can't compute p";
 	my $p = $par{p};
 
 	$self->set_body($body);

@@ -101,26 +101,18 @@ sub highHeight {
 sub orbit {
 	my ($self) = @_;
 	my $p = $self->parent() or return undef;
-	my $o = $p->lowOrbit();
-	$o->set_p($self->{orbit}{semiLatusRectum});
-	$o->set_e($self->{orbit}{eccentricity});
-	$o
+	KSP::Orbit2D->new($p, p => $self->{orbit}{semiLatusRectum}, e => $self->{orbit}{eccentricity})
 }
 
 sub lowOrbit {
 	my ($self) = @_;
-	my $a = $self->lowHeight() + $self->radius();
-	KSP::Orbit2D->new($self, a => $a, e => 0)
+	my $h = $self->lowHeight();
+	KSP::Orbit2D->new($self, pe => $h, ap => $h);
 }
 
 sub highOrbit {
 	my ($self) = @_;
-	my $r = $self->radius();
-	my $rp = $self->lowHeight() + $r;
-	my $ra = $self->highHeight() + $r;
-	my $a = ($ra + $rp) / 2.0;
-	my $e = ($ra - $rp) / ($ra + $rp);
-	KSP::Orbit2D->new($self, a => $a, e => $e)
+	KSP::Orbit2D->new($self, pe => $self->lowHeight(), ap => $self->highHeight())
 }
 
 1;
