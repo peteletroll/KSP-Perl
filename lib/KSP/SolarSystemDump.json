@@ -125,7 +125,12 @@
         "argumentOfPeriapsisRad": 0,
         "argumentOfPeriapsisDeg": 0,
         "meanAnomalyAtEpochRad": 3.14000010490417,
-        "meanAnomalyAtEpochDeg": 179.9087536816447
+        "meanAnomalyAtEpochDeg": 179.9087536816447,
+        "normal": [
+          0,
+          0,
+          1
+        ]
       },
       "science": {
         "flyingHighThreshold": 18000,
@@ -246,7 +251,12 @@
         "argumentOfPeriapsisRad": 0,
         "argumentOfPeriapsisDeg": 0,
         "meanAnomalyAtEpochRad": 1.70000004768372,
-        "meanAnomalyAtEpochDeg": 97.402827904315856
+        "meanAnomalyAtEpochDeg": 97.402827904315856,
+        "normal": [
+          0,
+          0,
+          1
+        ]
       },
       "science": {
         "flyingHighThreshold": 18000,
@@ -333,7 +343,12 @@
         "argumentOfPeriapsisRad": 0.66322511575784526,
         "argumentOfPeriapsisDeg": 38,
         "meanAnomalyAtEpochRad": 0.899999976158142,
-        "meanAnomalyAtEpochDeg": 51.566200195736251
+        "meanAnomalyAtEpochDeg": 51.566200195736251,
+        "normal": [
+          -0.049073141005872879,
+          0.09229315502741739,
+          0.99452189536827329
+        ]
       },
       "science": {
         "flyingHighThreshold": 18000,
@@ -412,7 +427,12 @@
         "argumentOfPeriapsisRad": 0.26179938779914941,
         "argumentOfPeriapsisDeg": 15,
         "meanAnomalyAtEpochRad": 3.14000010490417,
-        "meanAnomalyAtEpochDeg": 179.9087536816447
+        "meanAnomalyAtEpochDeg": 179.9087536816447,
+        "normal": [
+          -0.041681770298433715,
+          0.11451972269784089,
+          0.992546151641322
+        ]
       },
       "science": {
         "flyingHighThreshold": 18000,
@@ -496,7 +516,12 @@
         "argumentOfPeriapsisRad": 0,
         "argumentOfPeriapsisDeg": 0,
         "meanAnomalyAtEpochRad": 3.14000010490417,
-        "meanAnomalyAtEpochDeg": 179.9087536816447
+        "meanAnomalyAtEpochDeg": 179.9087536816447,
+        "normal": [
+          0.021017966900529515,
+          0.030016767534762984,
+          0.99932839383964878
+        ]
       },
       "science": {
         "flyingHighThreshold": 22000,
@@ -583,7 +608,12 @@
         "argumentOfPeriapsisRad": 0,
         "argumentOfPeriapsisDeg": 0,
         "meanAnomalyAtEpochRad": 3.14000010490417,
-        "meanAnomalyAtEpochDeg": 179.9087536816447
+        "meanAnomalyAtEpochDeg": 179.9087536816447,
+        "normal": [
+          -0.0010439691764895047,
+          8.2162156062015081E-05,
+          0.999999451688719
+        ]
       },
       "science": {
         "flyingHighThreshold": 12000,
@@ -667,7 +697,12 @@
         "argumentOfPeriapsisRad": 0,
         "argumentOfPeriapsisDeg": 0,
         "meanAnomalyAtEpochRad": 1.70000004768372,
-        "meanAnomalyAtEpochDeg": 97.402827904315856
+        "meanAnomalyAtEpochDeg": 97.402827904315856,
+        "normal": [
+          0.0026739941593429883,
+          0.0022437475128749039,
+          0.99999390765760876
+        ]
       },
       "science": {
         "flyingHighThreshold": 18000,
@@ -751,7 +786,12 @@
         "argumentOfPeriapsisRad": 0,
         "argumentOfPeriapsisDeg": 0,
         "meanAnomalyAtEpochRad": 0.100000001490116,
-        "meanAnomalyAtEpochDeg": 5.72957803668559
+        "meanAnomalyAtEpochDeg": 5.72957803668559,
+        "normal": [
+          -0.00079421235085683738,
+          0.022743266039556009,
+          0.99974102300375556
+        ]
       },
       "science": {
         "flyingHighThreshold": 120000,
@@ -820,7 +860,12 @@
         "argumentOfPeriapsisRad": 0,
         "argumentOfPeriapsisDeg": 0,
         "meanAnomalyAtEpochRad": 3.14000010490417,
-        "meanAnomalyAtEpochDeg": 179.9087536816447
+        "meanAnomalyAtEpochDeg": 179.9087536816447,
+        "normal": [
+          0,
+          0,
+          1
+        ]
       },
       "science": {
         "flyingHighThreshold": 10000,
@@ -900,7 +945,12 @@
         "argumentOfPeriapsisRad": 0,
         "argumentOfPeriapsisDeg": 0,
         "meanAnomalyAtEpochRad": 0.899999976158142,
-        "meanAnomalyAtEpochDeg": 51.566200195736251
+        "meanAnomalyAtEpochDeg": 51.566200195736251,
+        "normal": [
+          0,
+          0,
+          1
+        ]
       },
       "science": {
         "flyingHighThreshold": 18000,
@@ -979,7 +1029,12 @@
         "argumentOfPeriapsisRad": 0.43633231299858238,
         "argumentOfPeriapsisDeg": 25,
         "meanAnomalyAtEpochRad": 0.899999976158142,
-        "meanAnomalyAtEpochDeg": 51.566200195736251
+        "meanAnomalyAtEpochDeg": 51.566200195736251,
+        "normal": [
+          0.16636567534280183,
+          0.19826689127414621,
+          0.96592582628906831
+        ]
       },
       "science": {
         "flyingHighThreshold": 18000,
@@ -1054,7 +1109,12 @@
         "argumentOfPeriapsisRad": 0,
         "argumentOfPeriapsisDeg": 0,
         "meanAnomalyAtEpochRad": 3.14000010490417,
-        "meanAnomalyAtEpochDeg": 179.9087536816447
+        "meanAnomalyAtEpochDeg": 179.9087536816447,
+        "normal": [
+          0.00033424993810044737,
+          0.00028046899978111426,
+          0.999999904807055
+        ]
       },
       "science": {
         "flyingHighThreshold": 18000,
@@ -1133,7 +1193,12 @@
         "argumentOfPeriapsisRad": 0.17453292519943295,
         "argumentOfPeriapsisDeg": 10,
         "meanAnomalyAtEpochRad": 0.899999976158142,
-        "meanAnomalyAtEpochDeg": 51.566200195736251
+        "meanAnomalyAtEpochDeg": 51.566200195736251,
+        "normal": [
+          -0.1039558454088797,
+          0.18005680599195537,
+          0.97814760073380569
+        ]
       },
       "science": {
         "flyingHighThreshold": 18000,
@@ -1206,7 +1271,12 @@
         "argumentOfPeriapsisRad": 0.26179938779914941,
         "argumentOfPeriapsisDeg": 15,
         "meanAnomalyAtEpochRad": 0.899999976158142,
-        "meanAnomalyAtEpochDeg": 51.566200195736251
+        "meanAnomalyAtEpochDeg": 51.566200195736251,
+        "normal": [
+          0.055073341012653126,
+          0.049588258980787,
+          0.99725018509948571
+        ]
       },
       "science": {
         "flyingHighThreshold": 18000,
@@ -1280,7 +1350,12 @@
         "argumentOfPeriapsisRad": 1.5707963267948966,
         "argumentOfPeriapsisDeg": 90,
         "meanAnomalyAtEpochRad": 3.14000010490417,
-        "meanAnomalyAtEpochDeg": 179.9087536816447
+        "meanAnomalyAtEpochDeg": 179.9087536816447,
+        "normal": [
+          0.0667651724177507,
+          -0.056022631551222127,
+          0.99619469809174555
+        ]
       },
       "science": {
         "flyingHighThreshold": 18000,
@@ -1358,7 +1433,12 @@
         "argumentOfPeriapsisRad": 4.5378560551852569,
         "argumentOfPeriapsisDeg": 260,
         "meanAnomalyAtEpochRad": 3.14000010490417,
-        "meanAnomalyAtEpochDeg": 179.9087536816447
+        "meanAnomalyAtEpochDeg": 179.9087536816447,
+        "normal": [
+          -3.4694469519536142E-17,
+          0.10713175431387367,
+          0.99424483263310537
+        ]
       },
       "science": {
         "flyingHighThreshold": 18000,
