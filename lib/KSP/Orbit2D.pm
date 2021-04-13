@@ -9,59 +9,78 @@ use Math::Trig;
 
 use TinyStruct qw(body e p);
 
-our %newpar = map { $_ => 1 } qw(p e a pe ap E r v T);
+our %newpar = map { $_ => 1 } qw(p e a pe ap E r v T trace);
+
+our $TRACE = 0;
 
 sub BUILD {
 	my ($self, $body, %par) = @_;
-	my $trace = 1;
 	defined $body or croak "missing body";
 	ref $body or $body = KSP::Body->get($body);
 	$newpar{$_} or croak "unknown orbit parameter $_" foreach keys %par;
 
+	my $trace = delete $par{trace} || $TRACE;
 	my $par = \%par;
 	my $origpar = _pardesc($par);
 	my $r = $body->radius();
 	my $mu = $body->mu();
 
-	$trace and warn "START: ", _pardesc($par);
+	$trace and warn "START: ", _pardesc($par), "\n";
 
-	_defined($par, qw(v r !E))
-		and $par{E} = $par{v} ** 2 / 2 - $mu / $par{r};
+	if (_defined($par, qw(v r !E))) {
+		$par{E} = $par{v} ** 2 / 2 - $mu / $par{r};
+		$trace and warn "CMP E: ", _pardesc($par), "\n";
+	}
 
-	_defined($par, qw(E !a))
-		and $par{E} ?
+	if (_defined($par, qw(E !a))) {
+		$par{E} ?
 			$par{a} = -$mu / 2 / $par{E} :
 			$par{inv_a} = 0;
+		$trace and warn "CMP a: ", _pardesc($par), "\n";
+	}
 
-	_defined($par, qw(T !a))
-		and $par{a} = ($mu * ($par{T} / 2 / pi) ** 2) ** (1 / 3);
+	if (_defined($par, qw(T !a))) {
+		$par{a} = ($mu * ($par{T} / 2 / pi) ** 2) ** (1 / 3);
+		$trace and warn "CMP a: ", _pardesc($par), "\n";
+	}
 
-	_defined($par, qw(ap pe !a))
-		and $par{a} = ($par{ap} + $par{pe}) / 2 + $r;
+	if (_defined($par, qw(ap pe !a))) {
+		$par{a} = ($par{ap} + $par{pe}) / 2 + $r;
+		$trace and warn "CMP a: ", _pardesc($par), "\n";
+	}
 
-	_defined($par, qw(a !inv_a)) && $par{a}
-		and $par{inv_a} = 1 / $par{a};
+	if (_defined($par, qw(a !inv_a)) && $par{a}) {
+		$par{inv_a} = 1 / $par{a};
+		$trace and warn "CMP inv_a: ", _pardesc($par), "\n";
+	}
 
-	_defined($par, qw(inv_a !a)) && $par{inv_a}
-		and $par{a} = 1 / $par{inv_a};
+	if (_defined($par, qw(inv_a !a)) && $par{inv_a}) {
+		$par{a} = 1 / $par{inv_a};
+		$trace and warn "CMP a: ", _pardesc($par), "\n";
+	}
 
-	_defined($par, qw(a pe !ap))
-		and $par{ap} = $par{a} - 2 * $r - $par{pe};
+	if (_defined($par, qw(a pe !ap))) {
+		$par{ap} = 2 * $par{a} - 2 * $r - $par{pe};
+		$trace and warn "CMP! ap: ", _pardesc($par), "\n";
+	}
 
-	_defined($par, qw(a ap !pe))
-		and $par{pe} = $par{a} - 2 * $r - $par{ap};
+	if (_defined($par, qw(a ap !pe))) {
+		$par{pe} = 2 * $par{a} - 2 * $r - $par{ap};
+		$trace and warn "CMP pe: ", _pardesc($par), "\n";
+	}
 
-	_defined($par, qw(ap pe !e))
-		and $par{e} = ($par{ap} - $par{pe}) / ($par{ap} + $par{pe} + 2 * $r);
+	if (_defined($par, qw(ap pe !e))) {
+		$par{e} = ($par{ap} - $par{pe}) / ($par{ap} + $par{pe} + 2 * $r);
+		$trace and warn "CMP e: ", _pardesc($par), "\n";
+	}
 
-	$trace and warn "NEED e: ", _pardesc($par);
 	_defined($par, qw(!e)) and confess "can't compute e from $origpar";
 	my $e = $par{e};
 
-	_defined($par, qw(a !p))
-		and $par{p} = $par{a} * (1 - $e * $e);
+	if (_defined($par, qw(a !p))) {
+		$par{p} = $par{a} * (1 - $e * $e);
+	}
 
-	$trace and warn "NEED p: ", _pardesc($par);
 	_defined($par, qw(!p)) and confess "can't compute p from $origpar";
 	my $p = $par{p};
 
