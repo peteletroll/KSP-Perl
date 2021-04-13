@@ -9,19 +9,21 @@ use Math::Trig;
 
 use TinyStruct qw(body e p);
 
-our %newpar = map { $_ => 1 } qw(p e a pe ap E T);
+our %newpar = map { $_ => 1 } qw(p e a pe ap E r v T);
 
 sub BUILD {
 	my ($self, $body, %par) = @_;
-	$newpar{$_} or confess "unknown orbit parameter $_" foreach keys %par;
-	my $origpar = join(", ",
-		map { sprintf "%s=%g", $_, $par{$_} }
-		sort grep { defined $par{$_} }
-		keys %par) || "nothing";
+	my $trace = 1;
+	defined $body or croak "missing body";
+	ref $body or $body = KSP::Body->get($body);
+	$newpar{$_} or croak "unknown orbit parameter $_" foreach keys %par;
 
 	my $par = \%par;
+	my $origpar = _pardesc($par);
 	my $r = $body->radius();
 	my $mu = $body->mu();
+
+	$trace and warn "START: ", _pardesc($par);
 
 	_defined($par, qw(v r !E))
 		and $par{E} = $par{v} ** 2 / 2 - $mu / $par{r};
@@ -52,12 +54,14 @@ sub BUILD {
 	_defined($par, qw(ap pe !e))
 		and $par{e} = ($par{ap} - $par{pe}) / ($par{ap} + $par{pe} + 2 * $r);
 
+	$trace and warn "NEED e: ", _pardesc($par);
 	_defined($par, qw(!e)) and confess "can't compute e from $origpar";
 	my $e = $par{e};
 
 	_defined($par, qw(a !p))
 		and $par{p} = $par{a} * (1 - $e * $e);
 
+	$trace and warn "NEED p: ", _pardesc($par);
 	_defined($par, qw(!p)) and confess "can't compute p from $origpar";
 	my $p = $par{p};
 
@@ -74,6 +78,14 @@ sub _defined($@) {
 		(defined $p->{$2} xor $1) or return 0;
 	}
 	1
+}
+
+sub _pardesc($) {
+	my ($par) = @_;
+	join(", ",
+		map { sprintf "%s=%g", $_, $par->{$_} }
+		sort grep { defined $par->{$_} }
+		keys %$par) || "nothing";
 }
 
 sub _need_ellipse {

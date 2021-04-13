@@ -12,7 +12,7 @@ warn "\n";
 
 my $k = KSP::Body->get("Kerbin");
 warn KSP::Orbit2D->new($k, a => -$k->radius() * 10, e => 1.1)->desc(), "\n";
-warn KSP::Orbit2D->new($k, T => 21549.425183089825, e => 0)->desc(), "\n";
+warn KSP::Orbit2D->new("Kerbin", T => 21549.425183089825, e => 0)->desc(), "\n";
 
 warn "\n";
 
