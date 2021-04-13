@@ -88,7 +88,7 @@ sub lowHeight {
 	my ($self) = @_;
 	$self->{atmosphere} ?
 		$self->{size}{atmosphereDepth} + 10e3 :
-		10e3
+		($self->{size}{maxHeight} || 10e3)
 }
 
 sub highHeight {
