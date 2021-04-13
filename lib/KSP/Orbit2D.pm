@@ -33,9 +33,11 @@ sub BUILD {
 	}
 
 	if (_defined($par, qw(E !a))) {
-		$par{E} ?
-			$par{a} = -$mu / 2 / $par{E} :
+		if ($par{E}) {
+			$par{a} = -$mu / 2 / $par{E};
+		} else {
 			$par{inv_a} = 0;
+		}
 		$trace and warn "CMP a: ", _pardesc($par), "\n";
 	}
 
@@ -74,14 +76,14 @@ sub BUILD {
 		$trace and warn "CMP e: ", _pardesc($par), "\n";
 	}
 
-	_defined($par, qw(!e)) and confess "can't compute e from $origpar";
+	_defined($par, qw(!e)) and croak "can't compute e from $origpar";
 	my $e = $par{e};
 
 	if (_defined($par, qw(a !p))) {
 		$par{p} = $par{a} * (1 - $e * $e);
 	}
 
-	_defined($par, qw(!p)) and confess "can't compute p from $origpar";
+	_defined($par, qw(!p)) and croak "can't compute p from $origpar";
 	my $p = $par{p};
 
 	$self->set_body($body);
@@ -108,7 +110,7 @@ sub _pardesc($) {
 }
 
 sub _need_ellipse {
-	$_[0]->e() < 1 or confess "not allowed for open orbit";
+	$_[0]->e() < 1 or croak "not allowed for open orbit";
 }
 
 sub a { # major semiaxis
@@ -142,7 +144,6 @@ sub ap { # apoapsis height
 sub v_from_vis_viva {
 	my ($self, $h) = @_;
 	my $r = $h + $self->body->radius;
-	# $r or confess "division by zero";
 	sqrt($self->body->mu * (2 / $r - $self->inv_a))
 }
 
