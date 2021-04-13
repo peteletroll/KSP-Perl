@@ -35,6 +35,6 @@ warn $n1->desc(), "\n";
 my $n2 = KSP::Orbit2D->new($l->body(), ap => $l->ap(), T => $l->T(), trace => 1);
 warn $n2->desc(), "\n";
 
-my $n3 = KSP::Orbit2D->new($l->body(), e => 0, v => $l->vmax(), r => $l->body->radius() + $l->pe(), trace => 1);
+my $n3 = KSP::Orbit2D->new($l->body(), e => 0, v => $l->vmax(), r => $l->rpe(), trace => 1);
 warn $n3->desc(), "\n";
 
