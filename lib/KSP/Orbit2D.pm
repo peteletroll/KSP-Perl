@@ -20,8 +20,13 @@ sub BUILD {
 	my $r = $body->radius();
 	my $mu = $body->mu();
 
-	_defined($par, qw(E !a)) && $par{E}
-		and $par{a} = undef;
+	_defined($par, qw(v r !E))
+		and $par{E} = $par{v} ** 2 / 2 - $mu / $par{r};
+
+	_defined($par, qw(E !a))
+		and $par{E} ?
+			$par{a} = -$mu / 2 / $par{E} :
+			$par{inv_a} = 0;
 
 	_defined($par, qw(T !a))
 		and $par{a} = ($mu * ($par{T} / 2 / pi) ** 2) ** (1 / 3);
