@@ -14,7 +14,10 @@ our %newpar = map { $_ => 1 } qw(p e a pe ap E T);
 sub BUILD {
 	my ($self, $body, %par) = @_;
 	$newpar{$_} or confess "unknown orbit parameter $_" foreach keys %par;
-	my $origpar = join(", ", map { sprintf "%s=%g", $_, $par{$_} } sort grep { defined $par{$_} } keys %par);
+	my $origpar = join(", ",
+		map { sprintf "%s=%g", $_, $par{$_} }
+		sort grep { defined $par{$_} }
+		keys %par) || "nothing";
 
 	my $par = \%par;
 	my $r = $body->radius();
@@ -34,6 +37,12 @@ sub BUILD {
 	_defined($par, qw(ap pe !a))
 		and $par{a} = ($par{ap} + $par{pe}) / 2 + $r;
 
+	_defined($par, qw(a !inv_a)) && $par{a}
+		and $par{inv_a} = 1 / $par{a};
+
+	_defined($par, qw(inv_a !a)) && $par{inv_a}
+		and $par{a} = 1 / $par{inv_a};
+
 	_defined($par, qw(a pe !ap))
 		and $par{ap} = $par{a} - 2 * $r - $par{pe};
 
@@ -45,12 +54,6 @@ sub BUILD {
 
 	_defined($par, qw(!e)) and confess "can't compute e from $origpar";
 	my $e = $par{e};
-
-	_defined($par, qw(a !inv_a)) && $par{a}
-		and $par{inv_a} = 1 / $par{a};
-
-	_defined($par, qw(inv_a !a)) && $par{inv_a}
-		and $par{a} = 1 / $par{inv_a};
 
 	_defined($par, qw(a !p))
 		and $par{p} = $par{a} * (1 - $e * $e);
