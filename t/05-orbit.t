@@ -29,15 +29,18 @@ warn "\n";
 my $l = $k->lowOrbit();
 warn $l->desc(), "\n";
 
-my $n1 = KSP::Orbit2D->new($l->body(), pe => $l->pe(), T => $l->T(), trace => 1);
+my $n1 = KSP::Orbit2D->new($l->body(), pe => $l->pe(), T => $l->T(), trace => 0);
 warn $n1->desc(), "\n";
 
-my $n2 = KSP::Orbit2D->new($l->body(), ap => $l->ap(), T => $l->T(), trace => 1);
+my $n2 = KSP::Orbit2D->new($l->body(), ap => $l->ap(), T => $l->T(), trace => 0);
 warn $n2->desc(), "\n";
 
-my $n3 = KSP::Orbit2D->new($l->body(), e => 0, v => $l->vmax(), r => $l->rpe(), e => 0, trace => 1);
+my $n3 = KSP::Orbit2D->new($l->body(), e => 0, v => $l->vmax(), r => $l->rpe(), e => 0, trace => 0);
 warn $n3->desc(), "\n";
 
 my $n4 = KSP::Orbit2D->new($l->body(), v => sqrt(2) * $l->vmax(), r => $l->rpe(), pe => $l->pe(), trace => 1);
 warn $n4->desc(), "\n";
+
+my $n5 = KSP::Orbit2D->new($l->body(), v => 1.00001 * sqrt(2) * $l->vmax(), r => $l->rpe(), pe => $l->pe(), trace => 1);
+warn $n5->desc(), "\n";
 
