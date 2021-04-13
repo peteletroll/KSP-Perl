@@ -29,7 +29,7 @@ sub BUILD {
 
 	if (_defined($par, qw(v r !E))) {
 		$par{E} = $par{v} ** 2 / 2 - $mu / $par{r};
-		$trace and warn "CMP E: ", _pardesc($par), "\n";
+		$trace and warn "\tCMP E: ", _pardesc($par), "\n";
 	}
 
 	if (_defined($par, qw(E !a))) {
@@ -38,42 +38,47 @@ sub BUILD {
 		} else {
 			$par{inv_a} = 0;
 		}
-		$trace and warn "CMP a: ", _pardesc($par), "\n";
+		$trace and warn "\tCMP a: ", _pardesc($par), "\n";
 	}
 
 	if (_defined($par, qw(T !a))) {
 		$par{a} = ($mu * ($par{T} / 2 / pi) ** 2) ** (1 / 3);
-		$trace and warn "CMP a: ", _pardesc($par), "\n";
+		$trace and warn "\tCMP a: ", _pardesc($par), "\n";
 	}
 
 	if (_defined($par, qw(ap pe !a))) {
 		$par{a} = ($par{ap} + $par{pe}) / 2 + $r;
-		$trace and warn "CMP a: ", _pardesc($par), "\n";
+		$trace and warn "\tCMP a: ", _pardesc($par), "\n";
 	}
 
 	if (_defined($par, qw(a !inv_a)) && $par{a}) {
 		$par{inv_a} = 1 / $par{a};
-		$trace and warn "CMP inv_a: ", _pardesc($par), "\n";
+		$trace and warn "\tCMP inv_a: ", _pardesc($par), "\n";
 	}
 
 	if (_defined($par, qw(inv_a !a)) && $par{inv_a}) {
 		$par{a} = 1 / $par{inv_a};
-		$trace and warn "CMP a: ", _pardesc($par), "\n";
+		$trace and warn "\tCMP a: ", _pardesc($par), "\n";
 	}
 
 	if (_defined($par, qw(a pe !ap))) {
 		$par{ap} = 2 * $par{a} - 2 * $r - $par{pe};
-		$trace and warn "CMP! ap: ", _pardesc($par), "\n";
+		$trace and warn "\tCMP ap: ", _pardesc($par), "\n";
 	}
 
 	if (_defined($par, qw(a ap !pe))) {
 		$par{pe} = 2 * $par{a} - 2 * $r - $par{ap};
-		$trace and warn "CMP pe: ", _pardesc($par), "\n";
+		$trace and warn "\tCMP pe: ", _pardesc($par), "\n";
 	}
 
 	if (_defined($par, qw(ap pe !e))) {
 		$par{e} = ($par{ap} - $par{pe}) / ($par{ap} + $par{pe} + 2 * $r);
-		$trace and warn "CMP e: ", _pardesc($par), "\n";
+		$trace and warn "\tCMP e: ", _pardesc($par), "\n";
+	}
+
+	if (_defined($par, qw(E)) && !$par{E}) {
+		$par{e} = 1;
+		$trace and warn "\tCMP e: ", _pardesc($par), "\n";
 	}
 
 	_defined($par, qw(!e)) and croak "can't compute e from $origpar";
@@ -81,6 +86,7 @@ sub BUILD {
 
 	if (_defined($par, qw(a !p))) {
 		$par{p} = $par{a} * (1 - $e * $e);
+		$trace and warn "\tCMP p: ", _pardesc($par), "\n";
 	}
 
 	_defined($par, qw(!p)) and croak "can't compute p from $origpar";
