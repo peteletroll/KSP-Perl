@@ -9,7 +9,7 @@ use Math::Trig;
 
 use TinyStruct qw(body e p);
 
-our %newpar = map { $_ => 1 } qw(p e a pe ap E);
+our %newpar = map { $_ => 1 } qw(p e a pe ap E T);
 
 sub BUILD {
 	my ($self, $body, %par) = @_;
@@ -18,9 +18,13 @@ sub BUILD {
 
 	my $par = \%par;
 	my $r = $body->radius();
+	my $mu = $body->mu();
 
 	_defined($par, qw(E !a)) && $par{E}
 		and $par{a} = undef;
+
+	_defined($par, qw(T !a))
+		and $par{a} = ($mu * ($par{T} / 2 / pi) ** 2) ** (1 / 3);
 
 	_defined($par, qw(ap pe !a))
 		and $par{a} = ($par{ap} + $par{pe}) / 2 + $r;
@@ -124,7 +128,7 @@ sub desc {
 	$open or push @d, sprintf("ap=%g", $self->ap());
 	push @d, sprintf("vmax=%g", $self->vmax());
 	push @d, sprintf("vmin=%g", $self->vmin());
-	$open or push @d, KSP::Time->new($self->T)->pretty_interval();
+	$open or push @d, "T=" . KSP::Time->new($self->T)->pretty_interval();
 	"[" . join(";", @d) . "]"
 }
 

@@ -115,5 +115,10 @@ sub highOrbit {
 	KSP::Orbit2D->new($self, pe => $self->lowHeight(), ap => $self->highHeight())
 }
 
+sub syncOrbit {
+	my ($self) = @_;
+	KSP::Orbit2D->new($self, T => $self->{orbit}{rotation}, e => 0)
+}
+
 1;
 
