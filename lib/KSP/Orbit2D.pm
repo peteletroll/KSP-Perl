@@ -191,7 +191,7 @@ sub desc {
 	push @d, sprintf("pe=%g", $self->pe());
 	$open or push @d, sprintf("ap=%g", $self->ap());
 	push @d, sprintf("v↓=%g", $self->vmax());
-	push @d, sprintf("v↑=%g", $self->vmin());
+	push @d, sprintf("v%s=%g", ($open ? "∞" : "↑"), $self->vmin());
 	$open or push @d, "T=" . KSP::Time->new($self->T)->pretty_interval();
 	$open and push @d, sprintf("θ∞=%1.1f°", 180 / pi * $self->th_inf());
 	"[" . join(";", @d) . "]"
