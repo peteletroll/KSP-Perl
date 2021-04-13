@@ -41,7 +41,7 @@ sub radius {
 	$_[0]{size}{radius}
 }
 
-sub SOIRadius {
+sub SOI {
 	$_[0]{size}{sphereOfInfluence}
 }
 
@@ -93,7 +93,7 @@ sub lowHeight {
 
 sub highHeight {
 	my ($self) = @_;
-	my $h = $self->SOIRadius();
+	my $h = $self->SOI();
 	$h and return $h - $self->radius();
 	1000 * $self->lowHeight()
 }
@@ -113,6 +113,15 @@ sub lowOrbit {
 sub highOrbit {
 	my ($self) = @_;
 	KSP::Orbit2D->new($self, pe => $self->lowHeight(), ap => $self->highHeight())
+}
+
+sub hohmannTo {
+	my ($self, $other) = @_;
+	$self->parent() == $other->parent() or croak "different parents";
+	my $inner = $self->orbit();
+	my $outer = $other->orbit();
+	$inner->a() < $outer->a() or ($inner, $outer) = ($outer, $inner);
+	KSP::Orbit2D->new($self->parent(), pe => $inner->pe(), ap => $outer->ap());
 }
 
 sub syncOrbit {

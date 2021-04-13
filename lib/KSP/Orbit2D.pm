@@ -1,5 +1,6 @@
 package KSP::Orbit2D;
 
+use utf8;
 use strict;
 use warnings;
 
@@ -131,6 +132,12 @@ sub inv_a { # 1 / major semiaxis
 	(1 - $self->e() ** 2) / $self->p()
 }
 
+sub th_inf { # true anomaly at infinity
+	my ($self) = @_;
+	my $e = $self->e();
+	$e > 1 ? acos(-1 / $e) : pi
+}
+
 sub T { # orbital period
 	my ($self) = @_;
 	$self->_need_ellipse();
@@ -183,9 +190,10 @@ sub desc {
 	push @d, $self->body->name();
 	push @d, sprintf("pe=%g", $self->pe());
 	$open or push @d, sprintf("ap=%g", $self->ap());
-	push @d, sprintf("vmax=%g", $self->vmax());
-	push @d, sprintf("vmin=%g", $self->vmin());
+	push @d, sprintf("v↓=%g", $self->vmax());
+	push @d, sprintf("v↑=%g", $self->vmin());
 	$open or push @d, "T=" . KSP::Time->new($self->T)->pretty_interval();
+	$open and push @d, sprintf("θ∞=%1.1f°", 180 / pi * $self->th_inf());
 	"[" . join(";", @d) . "]"
 }
 

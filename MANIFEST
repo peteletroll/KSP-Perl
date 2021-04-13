@@ -16,5 +16,6 @@ t/02-bigparse.t
 t/03-body.t
 t/04-time.t
 t/05-orbit.t
+t/06-hohmann.t
 bin/ksp-parse
 bin/ksp-delta-v

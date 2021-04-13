@@ -6,6 +6,8 @@ BEGIN { use_ok('KSP') };
 
 #########################
 
+binmode $_, ":utf8" foreach (\*STDOUT, \*STDERR);
+
 use Data::Dump qw(dump);
 
 my $k = KSP::Body->get("Kerbin");
