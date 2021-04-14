@@ -10,7 +10,7 @@ use Math::Trig;
 
 use TinyStruct qw(body e p);
 
-our %newpar = map { $_ => 1 } qw(p e a pe ap E r v T trace);
+our %newpar = map { $_ => 1 } qw(p e a pe ap E r v T th_inf trace);
 
 our $TRACE = 0;
 
@@ -80,6 +80,11 @@ sub BUILD {
 
 	if (_defined($par, qw(E)) && !$par{E}) {
 		$par{e} = 1;
+		$trace and warn "\tCMP e:\t", _pardesc($par), "\n";
+	}
+
+	if (_defined($par, qw(th_inf !e))) {
+		$par{e} = -1 / cos($par{th_inf});
 		$trace and warn "\tCMP e:\t", _pardesc($par), "\n";
 	}
 
@@ -199,13 +204,14 @@ sub desc {
 	my @d = ();
 	push @d, sprintf("↓ %sm, %sm/s", U($self->pe()), U($self->vmax()));
 	push @d, $open ?
-		sprintf("↑ %sm/s, %.0f°", U($self->vmin()), 180 / pi * $self->th_inf()) :
-		sprintf("↑ %sm/s, %sm", U($self->vmin()), U($self->ap()));
+		sprintf("↑ ∞m, %sm/s, %.0f°", U($self->vmin()), 180 / pi * $self->th_inf()) :
+		sprintf("↑ %sm, %sm/s", U($self->ap()), U($self->vmin()));
 	$open or push @d, KSP::Time->new($self->T())->pretty_interval();
 	$self->body->name() . "[ " . join("; ", @d) . " ]"
 }
 
 our @U = (
+	[ undef, 1e15 ],
 	[ "T", 1e12 ],
 	[ "G", 1e9 ],
 	[ "M", 1e6 ],
