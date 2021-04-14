@@ -86,6 +86,16 @@ sub BUILD {
 	_defined($par, qw(!e)) and croak "can't compute e from $origpar";
 	my $e = $par{e};
 
+	if (_defined($par, qw(pe e !p))) {
+		$par{p} = ($par{pe} + $r) * (1 + $par{e});
+		$trace and warn "\tCMP p:\t", _pardesc($par), "\n";
+	}
+
+	if (_defined($par, qw(ap e !p)) && $par{e} != 1) {
+		$par{p} = ($par{ap} + $r) * (1 - $par{e});
+		$trace and warn "\tCMP p:\t", _pardesc($par), "\n";
+	}
+
 	if (_defined($par, qw(a !p))) {
 		$par{p} = $par{a} * (1 - $e * $e);
 		$trace and warn "\tCMP p:\t", _pardesc($par), "\n";
