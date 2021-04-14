@@ -116,12 +116,17 @@ sub highOrbit {
 }
 
 sub hohmannTo {
+	my $swap = 0;
 	my ($self, $other) = @_;
 	$self->parent() == $other->parent() or croak "different parents";
 	my $inner = $self->orbit();
 	my $outer = $other->orbit();
-	$inner->a() < $outer->a() or ($inner, $outer) = ($outer, $inner);
-	KSP::Orbit2D->new($self->parent(), pe => $inner->pe(), ap => $outer->ap());
+	$inner->a() < $outer->a() or ($inner, $outer, $swap) = ($outer, $inner, 1);
+	my $innerh = $inner->pe();
+	my $outerh = $outer->ap();
+	my $trans = KSP::Orbit2D->new($self->parent(), pe => $innerh, ap => $outerh);
+	wantarray or return $trans;
+	$swap ? ($trans, $outerh, $innerh) : ($trans, $innerh, $outerh)
 }
 
 sub syncOrbit {
