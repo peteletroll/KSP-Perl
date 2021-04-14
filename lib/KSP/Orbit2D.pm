@@ -187,14 +187,43 @@ sub desc {
 	my ($self) = @_;
 	my $open = $self->e() >= 1;
 	my @d = ();
-	push @d, $self->body->name();
-	push @d, sprintf("pe=%g", $self->pe());
-	$open or push @d, sprintf("ap=%g", $self->ap());
-	push @d, sprintf("v↓=%g", $self->vmax());
-	push @d, sprintf("v%s=%g", ($open ? "∞" : "↑"), $self->vmin());
-	$open or push @d, "T=" . KSP::Time->new($self->T)->pretty_interval();
-	$open and push @d, sprintf("θ∞=%1.1f°", 180 / pi * $self->th_inf());
-	"[" . join(";", @d) . "]"
+	push @d, sprintf("↓ %sm, %sm/s", U($self->pe()), U($self->vmax()));
+	push @d, $open ?
+		sprintf("↑ %sm/s, %.0f°", U($self->vmin()), 180 / pi * $self->th_inf()) :
+		sprintf("↑ %sm/s, %sm", U($self->vmin()), U($self->ap()));
+	$open or push @d, KSP::Time->new($self->T())->pretty_interval();
+	$self->body->name() . "[ " . join("; ", @d) . " ]"
+}
+
+our @U = (
+	[ "T", 1e12 ],
+	[ "G", 1e9 ],
+	[ "M", 1e6 ],
+	[ "k", 1e3 ],
+	[ "",  1 ],
+);
+
+sub U($) {
+	my ($x) = @_;
+
+	my $a = abs($x);
+	my $m = undef;
+	foreach my $u (@U) {
+		if ($a >= $u->[1]) {
+			$m = $u->[0];
+			$x /= $u->[1];
+			last;
+		}
+	}
+
+	if (defined $m) {
+		my $p = $x >= 100 ? 0 :
+			$x >= 10 ? 1 :
+			2;
+		return sprintf "%.${p}f%s", $x, $m;
+	}
+
+	sprintf "%g", $x
 }
 
 1;

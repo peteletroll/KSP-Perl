@@ -67,7 +67,10 @@ sub pretty_date($) {
 }
 
 sub pretty_interval($) {
-	sprintf "%dy %dd %d:%02d:%06.3f", _unpack(${$_[0]})
+	my @t = _unpack(${$_[0]});
+	$t[0] ? sprintf "%dy %dd %d:%02d:%06.3f", @t :
+	$t[1] ? sprintf "%.0s%dd %d:%02d:%06.3f", @t :
+	sprintf "%.0s%.0s%d:%02d:%06.3f", @t
 }
 
 1;
