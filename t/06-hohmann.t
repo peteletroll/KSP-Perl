@@ -8,6 +8,8 @@ BEGIN { use_ok('KSP') };
 
 #########################
 
+use Math::Trig;
+
 binmode $_, ":utf8" foreach (\*STDOUT, \*STDERR);
 
 warn "\n";
@@ -19,6 +21,9 @@ my $b2 = KSP::Body->get($b[1]);
 
 warn "B1\t", $b1->name(), "\t", $b1->orbit->desc(), "\n";
 warn "B2\t", $b2->name(), "\t", $b2->orbit->desc(), "\n";
+warn "B1N\t", $b1->name(), "\t", $b1->orbitNormal(), "\n";
+warn "B2N\t", $b2->name(), "\t", $b2->orbitNormal(), "\n";
+warn "INCL\t", 180 / pi * $b1->orbitNormal()->angle($b2->orbitNormal()), "°\n";
 
 my $l1 = $b1->lowOrbit();
 my $l2 = $b2->lowOrbit();

@@ -3,6 +3,8 @@ package KSP::Body;
 use strict;
 use warnings;
 
+use FastVector;
+
 use KSP::SolarSystem;
 use KSP::Orbit2D;
 
@@ -78,6 +80,12 @@ sub common_ancestor {
 
 sub orbitPeriod {
 	$_[0]{orbit}{period}
+}
+
+sub orbitNormal {
+	my $n = $_[0]->{orbit}{normal}
+		or return undef;
+	V(@$n)
 }
 
 sub solarDayLength {
