@@ -172,20 +172,10 @@ sub pe { # periapsis height
 	$self->p / (1 + $self->e) - $self->body->radius
 }
 
-sub rpe {
-	my ($self) = @_;
-	$self->pe() + $self->body->radius()
-}
-
 sub ap { # apoapsis height
 	my ($self) = @_;
 	$self->_need_ellipse();
 	$self->p / (1 - $self->e) - $self->body->radius
-}
-
-sub rap {
-	my ($self) = @_;
-	$self->ap() + $self->body->radius()
 }
 
 sub v_from_vis_viva {
