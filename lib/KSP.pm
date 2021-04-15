@@ -31,6 +31,12 @@ sub BODY($) { KSP::Body->get($_[0]) }
 
 sub ORBIT($) { KSP::Orbit2D->new(@_) }
 
+use KSP::SolarSystem;
+my @body_names = KSP::SolarSystem->body_names();
+$EXPORT_TAGS{bodies} = [ @body_names ];
+push @EXPORT_OK, @body_names;
+KSP::SolarSystem->import_bodies();
+
 1;
 
 __END__

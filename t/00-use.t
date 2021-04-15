@@ -13,7 +13,8 @@ BEGIN { use_ok('KSP') };
 
 #########################
 
-KSP::SolarSystem->import_bodies();
-Kerbin();
-Kerbin()->lowOrbit();
+use KSP qw(:bodies);
+
+Kerbin;
+Kerbin->lowOrbit()->desc();
 

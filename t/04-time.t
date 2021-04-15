@@ -2,7 +2,7 @@ use strict;
 use warnings;
 
 use Test::More tests => 6;
-BEGIN { use_ok('KSP::Time') };
+BEGIN { use_ok('KSP') };
 
 #########################
 
