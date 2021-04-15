@@ -23,7 +23,9 @@ warn "B1\t", $b1->name(), "\t", $b1->orbit->desc(), "\n";
 warn "B2\t", $b2->name(), "\t", $b2->orbit->desc(), "\n";
 warn "B1N\t", $b1->name(), "\t", $b1->orbitNormal(), "\n";
 warn "B2N\t", $b2->name(), "\t", $b2->orbitNormal(), "\n";
-warn "INCL\t", 180 / pi * $b1->orbitNormal()->angle($b2->orbitNormal()), "°\n";
+
+my $incl = $b1->orbitNormal()->angle($b2->orbitNormal());
+warn "INCL\t", 180 / pi * $incl, "°\n";
 
 my $l1 = $b1->lowOrbit();
 my $l2 = $b2->lowOrbit();
@@ -36,9 +38,9 @@ my $e1 = KSP::Orbit2D->new($b1,
 	v => $tr->v_from_vis_viva($htr1) - $b1->orbit->vmax());
 
 my $e2 = KSP::Orbit2D->new($b2,
-        pe => $b2->lowHeight(),
-        r => $b2->SOI(),
-        v => $tr->v_from_vis_viva($htr2) - $b2->orbit->vmin());
+	pe => $b2->lowHeight(),
+	r => $b2->SOI(),
+	v => $tr->v_from_vis_viva($htr2) - $b2->orbit->vmin());
 
 my $delta_v = 0;
 warn "START\t", $l1->desc(), "\n";
@@ -48,6 +50,10 @@ warn "Δv esc\t", $dve1, "\n";
 warn "ESC1\t", $e1->desc(), "\n";
 warn "TRANS\t", $tr->desc(), "\n";
 warn "TRANS\t$htr1 -> $htr2\n";
+my $vincl = $tr->vmax();
+my $dvincl = 2 * sin($incl / 2) * $vincl;
+$delta_v += $dvincl;
+warn "Δv incl\t", $dvincl, " @ ", $vincl, "\n";
 warn "ESC2\t", $e2->desc(), "\n";
 my $dve2 = $e2->vmax() - $l2->vmax();
 $delta_v += $dve2;
