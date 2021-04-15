@@ -224,8 +224,9 @@ our @U = (
 	[ "",  1 ],
 );
 
-sub U($) {
-	my ($x) = @_;
+sub U($;$) {
+	my ($x, $d) = @_;
+	defined $d or $d = 4;
 
 	my $a = abs($x);
 	my $m = undef;
@@ -238,10 +239,13 @@ sub U($) {
 	}
 
 	if (defined $m) {
-		my $p = $x >= 100 ? 0 :
-			$x >= 10 ? 1 :
-			2;
-		return sprintf "%.${p}f%s", $x, $m;
+		$a = abs($x);
+		my $i = 1;
+		while ($d > 0 && $a >= $i) {
+			$i *= 10;
+			$d--;
+		}
+		return sprintf "%.${d}f%s", $x, $m;
 	}
 
 	sprintf "%g", $x
