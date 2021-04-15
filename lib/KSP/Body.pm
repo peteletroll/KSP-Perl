@@ -158,6 +158,8 @@ sub hohmannPair {
 
 sub hohmannTo {
 	my ($self, $other) = @_;
+	$self == $other and croak "same body";
+	$self->parent() && $other->parent() or croak "no parent";
 	$self->parent() == $other->parent() or croak "different parents";
 	my $inner = $self->orbit();
 	my $outer = $other->orbit();
