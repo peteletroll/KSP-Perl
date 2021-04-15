@@ -13,7 +13,7 @@ use TinyStruct qw(body e p);
 use overload
 	'""' => \&desc;
 
-our %newpar = map { $_ => 1 } qw(p e a pe ap E r h v T th_inf trace);
+our %newpar = map { $_ => 1 } qw(p e a pe ap E r h v v_soi v_inf T th_inf trace);
 
 our $TRACE = 0;
 
@@ -31,6 +31,12 @@ sub BUILD {
 
 	$trace and warn "START: ", _pardesc($par), "\n";
 
+	if (_defined($par, qw(v_soi !v !r))) {
+		$par{v} = $par{v_soi};
+		$par{r} = $body->SOI;
+		$trace and warn "\tCMP v:\t", _pardesc($par), "\n";
+	}
+
 	if (_defined($par, qw(h !r))) {
 		$par{r} = $par{h} + $r;
 		$trace and warn "\tCMP r:\t", _pardesc($par), "\n";
@@ -39,6 +45,11 @@ sub BUILD {
 	if (_defined($par, qw(v r !E))) {
 		$par{E} = $par{v} ** 2 / 2 - $mu / $par{r};
 		$trace and warn "\tCMP E:\t", _pardesc($par), "\n";
+	}
+
+	if (_defined($par, qw(v_inf !a))) {
+		$par{a} = -$mu / $par{v_inf} ** 2;
+		$trace and warn "\tCMP a:\t", _pardesc($par), "\n";
 	}
 
 	if (_defined($par, qw(E !a))) {
