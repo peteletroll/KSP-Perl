@@ -10,7 +10,7 @@ use Math::Trig;
 
 use TinyStruct qw(body e p);
 
-our %newpar = map { $_ => 1 } qw(p e a pe ap E r v T th_inf trace);
+our %newpar = map { $_ => 1 } qw(p e a pe ap E r h v T th_inf trace);
 
 our $TRACE = 0;
 
@@ -27,6 +27,11 @@ sub BUILD {
 	my $mu = $body->mu();
 
 	$trace and warn "START: ", _pardesc($par), "\n";
+
+	if (_defined($par, qw(h !r))) {
+		$par{r} = $par{h} + $r;
+		$trace and warn "\tCMP r:\t", _pardesc($par), "\n";
+	}
 
 	if (_defined($par, qw(v r !E))) {
 		$par{E} = $par{v} ** 2 / 2 - $mu / $par{r};
