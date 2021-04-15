@@ -226,7 +226,7 @@ our @U = (
 
 sub U($;$) {
 	my ($x, $d) = @_;
-	defined $d or $d = 4;
+	defined $d or $d = 3;
 
 	my $a = abs($x);
 	my $m = undef;

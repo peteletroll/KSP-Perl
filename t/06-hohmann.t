@@ -8,6 +8,8 @@ BEGIN { use_ok('KSP') };
 
 #########################
 
+use KSP qw(U);
+
 use Math::Trig;
 
 binmode $_, ":utf8" foreach (\*STDOUT, \*STDERR);
@@ -25,7 +27,7 @@ warn "B1N\t", $b1->name(), "\t", $b1->orbitNormal(), "\n";
 warn "B2N\t", $b2->name(), "\t", $b2->orbitNormal(), "\n";
 
 my $incl = $b1->orbitNormal()->angle($b2->orbitNormal());
-warn "INCL\t", 180 / pi * $incl, "°\n";
+warn "INCL\t", U(180 / pi * $incl), "°\n";
 
 my $l1 = $b1->lowOrbit();
 my $l2 = $b2->lowOrbit();
@@ -46,18 +48,18 @@ my $delta_v = 0;
 warn "START\t", $l1->desc(), "\n";
 my $dve1 = $e1->vmax() - $l1->vmax();
 $delta_v += $dve1;
-warn "Δv esc\t", $dve1, "\n";
+warn "Δv esc\t", U($dve1), "m/s\n";
 warn "ESC1\t", $e1->desc(), "\n";
 warn "TRANS\t", $tr->desc(), "\n";
-warn "TRANS\t$htr1 -> $htr2\n";
+warn "TRANS\t", U($htr1), "m -> ", U($htr2), "m\n";
 my $vincl = $tr->vmax();
 my $dvincl = 2 * sin($incl / 2) * $vincl;
 $delta_v += $dvincl;
-warn "Δv incl\t", $dvincl, " @ ", $vincl, "\n";
+warn "Δv incl\t", U($dvincl), "m/s @ ", U($vincl), "m/s\n";
 warn "ESC2\t", $e2->desc(), "\n";
 my $dve2 = $e2->vmax() - $l2->vmax();
 $delta_v += $dve2;
-warn "Δv capt\t", $dve2, "\n";
+warn "Δv capt\t", U($dve2), "m/s\n";
 warn "END\t", $l2->desc(), "\n";
-warn "Δv tot\t", $delta_v, "\n";
+warn "Δv tot\t", U($delta_v), "m/s\n";
 
