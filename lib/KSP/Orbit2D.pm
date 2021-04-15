@@ -207,6 +207,12 @@ sub vmin {
 		sqrt(-$self->body->mu() * $self->inv_a())
 }
 
+sub courseTo {
+	my ($self, $target) = @_;
+	$target->isa("KSP::Body") and $target = $target->lowOrbit();
+	[ $self, $target ]
+}
+
 sub desc {
 	my ($self) = @_;
 	my $open = $self->e() >= 1;

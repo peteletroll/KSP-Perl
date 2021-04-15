@@ -140,6 +140,11 @@ sub lowOrbit {
 	KSP::Orbit2D->new($self, pe => $h, e => 0);
 }
 
+sub syncOrbit {
+	my ($self) = @_;
+	KSP::Orbit2D->new($self, T => $self->rotationPeriod, e => 0)
+}
+
 sub highOrbit {
 	my ($self) = @_;
 	KSP::Orbit2D->new($self, pe => $self->lowHeight(), ap => $self->highHeight())
@@ -172,9 +177,9 @@ sub hohmannTo {
 	$swap ? ($trans, $outerh, $innerh) : ($trans, $innerh, $outerh)
 }
 
-sub syncOrbit {
-	my ($self) = @_;
-	KSP::Orbit2D->new($self, T => $self->rotationPeriod, e => 0)
+sub courseTo {
+	my ($self, $target) = @_;
+	$self->lowOrbit->courseTo($target)
 }
 
 sub desc {
