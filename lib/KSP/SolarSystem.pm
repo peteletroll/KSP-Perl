@@ -24,17 +24,17 @@ sub _load_system {
 	bless $_, "KSP::Body" foreach values %{$SolarSystemDump->{bodies}};
 }
 
-sub secs_per_year($) {
+sub secs_per_year {
 	_load_system();
 	$SolarSystemDump->{timeUnits}{Year}
 }
 
-sub secs_per_day($) {
+sub secs_per_day {
 	_load_system();
 	$SolarSystemDump->{timeUnits}{Day}
 }
 
-sub bodies($) {
+sub bodies {
 	wantarray or croak __PACKAGE__, "->all() wants list context";
 	_load_system();
 	values %{$SolarSystemDump->{bodies}}
@@ -48,9 +48,25 @@ sub body($$) {
 	$ret
 }
 
-sub root($) {
+sub root {
 	_load_system();
 	__PACKAGE__->body($SolarSystemDump->{rootBody})
+}
+
+sub body_names {
+	map { $_->{name} } bodies()
+}
+
+sub import_bodies {
+	my $tgt = (caller(0))[0];
+	defined $tgt or return;
+	no strict "refs";
+	no warnings;
+	foreach (body_names()) {
+		/^\w+$/ or die "bad name \"$_\"";
+		my $name = $_;
+		*{"${tgt}::${name}"} = sub { KSP::SolarSystem->body($name) };
+	}
 }
 
 1;
