@@ -6,7 +6,7 @@ use warnings;
 require Exporter;
 
 our @ISA = qw(Exporter);
-our %EXPORT_TAGS = ('all' => [ qw(U) ]);
+our %EXPORT_TAGS = ('all' => [ qw(U BODY ORBIT) ]);
 our @EXPORT_OK = (@{$EXPORT_TAGS{'all'}});
 our @EXPORT = qw();
 
@@ -26,6 +26,10 @@ use KSP::Time;
 use KSP::Orbit2D;
 
 sub U($;$) { goto &KSP::Orbit2D::U }
+
+sub BODY($) { KSP::Body->get($_[0]) }
+
+sub ORBIT($) { KSP::Orbit2D->new(@_) }
 
 1;
 
