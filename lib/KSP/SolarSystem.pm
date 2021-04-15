@@ -44,7 +44,7 @@ sub body($$) {
 	my ($pkg, $name) = @_;
 	_load_system();
 	my $ret = $SolarSystemDump->{bodies}{$name}
-		or croak "can't find body \"$name\"";
+		or die "can't find body \"$name\"";
 	$ret
 }
 

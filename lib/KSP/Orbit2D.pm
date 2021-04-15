@@ -219,7 +219,11 @@ sub desc {
 }
 
 our @U = (
-	[ undef, 1e15 ],
+	[ undef, 1e27 ],
+	[ "Y", 1e24 ],
+	[ "Z", 1e21 ],
+	[ "E", 1e18 ],
+	[ "P", 1e15 ],
 	[ "T", 1e12 ],
 	[ "G", 1e9 ],
 	[ "M", 1e6 ],
@@ -236,7 +240,7 @@ sub U($;$) {
 	foreach my $u (@U) {
 		if ($a >= $u->[1]) {
 			$m = $u->[0];
-			$x /= $u->[1];
+			defined $m and $x /= $u->[1];
 			last;
 		}
 	}

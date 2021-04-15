@@ -5,6 +5,7 @@ use warnings;
 
 use FastVector;
 
+use KSP qw(U);
 use KSP::SolarSystem;
 use KSP::Orbit2D;
 
@@ -113,7 +114,7 @@ sub highHeight {
 
 sub orbit {
 	my ($self, @rest) = @_;
-	@rest and return KSP::Orbit->new($self, @rest);
+	@rest and return KSP::Orbit2D->new($self, @rest);
 	my $p = $self->parent() or return undef;
 	KSP::Orbit2D->new($p, p => $self->{orbit}{semiLatusRectum}, e => $self->{orbit}{eccentricity})
 }
@@ -151,7 +152,7 @@ sub syncOrbit {
 sub desc {
 	my ($self) = @_;
 	my @d = ();
-	push @d, KSP::U($self->radius()) . "m";
+	push @d, U($self->radius()) . "m";
 	$self->name() . "[ " . join("; ", @d) . " ]"
 }
 

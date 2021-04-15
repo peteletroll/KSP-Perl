@@ -13,7 +13,7 @@ BEGIN { use_ok('KSP') };
 
 #########################
 
-use KSP qw(:bodies);
+use KSP qw(:all);
 
 Kerbin;
 Kerbin->lowOrbit()->desc();

@@ -3,13 +3,6 @@ package KSP;
 use strict;
 use warnings;
 
-require Exporter;
-
-our @ISA = qw(Exporter);
-our %EXPORT_TAGS = ('all' => [ qw(U BODY ORBIT) ]);
-our @EXPORT_OK = (@{$EXPORT_TAGS{'all'}});
-our @EXPORT = qw();
-
 our $VERSION = '0.01';
 
 our $KSP_DIR;
@@ -20,22 +13,31 @@ BEGIN {
 	$KSP_DIR =~ s/\.pm$//;
 }
 
+require Exporter;
+our (@ISA, %EXPORT_TAGS, @EXPORT_OK, @EXPORT);
+BEGIN {
+	@ISA = qw(Exporter);
+	%EXPORT_TAGS = ('all' => [ qw(U) ]);
+	@EXPORT_OK = (@{$EXPORT_TAGS{'all'}});
+	@EXPORT = qw();
+}
+
+use KSP::SolarSystem;
+our @BODY_NAMES = ();
+BEGIN {
+	@BODY_NAMES = KSP::SolarSystem->body_names();
+	$EXPORT_TAGS{bodies} = [ @BODY_NAMES ];
+	push @EXPORT_OK, @BODY_NAMES;
+	push @{$EXPORT_TAGS{all}}, @BODY_NAMES;
+}
+KSP::SolarSystem->import_bodies();
+
 use KSP::Body;
 use KSP::ConfigNode;
 use KSP::Time;
 use KSP::Orbit2D;
 
 sub U($;$) { goto &KSP::Orbit2D::U }
-
-sub BODY($) { KSP::Body->get($_[0]) }
-
-sub ORBIT($) { KSP::Orbit2D->new(@_) }
-
-use KSP::SolarSystem;
-my @body_names = KSP::SolarSystem->body_names();
-$EXPORT_TAGS{bodies} = [ @body_names ];
-push @EXPORT_OK, @body_names;
-KSP::SolarSystem->import_bodies();
 
 1;
 
