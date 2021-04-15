@@ -101,8 +101,8 @@ sub lowHeight {
 
 sub highHeight {
 	my ($self) = @_;
-	my $h = $self->SOI();
-	$h and return $h - $self->radius();
+	my $soi = $self->SOI();
+	$soi and return $soi - $self->radius();
 	1000 * $self->lowHeight()
 }
 
