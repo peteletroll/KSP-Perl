@@ -84,6 +84,17 @@ sub common_ancestor {
 	$b2
 }
 
+sub pathToRoot {
+	my ($self) = @_;
+	wantarray or croak "pathToRoot() wants list context";
+	my @ret = ();
+	while ($self) {
+		push @ret, $self;
+		$self = $self->parent();
+	}
+	@ret
+}
+
 sub orbitPeriod {
 	$_[0]{orbit}{period}
 }
@@ -128,6 +139,17 @@ sub lowOrbit {
 sub highOrbit {
 	my ($self) = @_;
 	KSP::Orbit2D->new($self, pe => $self->lowHeight(), ap => $self->highHeight())
+}
+
+sub hohmannPair {
+	my ($self, $other) = @_;
+	foreach my $b1 ($self->pathToRoot) {
+		$b1->parent or next;
+		foreach my $b2 ($other->pathToRoot) {
+			$b1->parent == $b2->parent and return ($b1, $b2);
+		}
+	}
+	return ();
 }
 
 sub hohmannTo {
