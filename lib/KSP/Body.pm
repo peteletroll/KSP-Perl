@@ -105,6 +105,10 @@ sub orbitNormal {
 	V(@$n)
 }
 
+sub rotationPeriod {
+	$_[0]{rotation}{rotationPeriod}
+}
+
 sub solarDayLength {
 	$_[0]{rotation}{solarDayLength}
 }
@@ -144,7 +148,7 @@ sub highOrbit {
 sub hohmannPair {
 	my ($self, $other) = @_;
 	foreach my $b1 ($self->pathToRoot) {
-		$b1->parent or next;
+		$b1->parent or return ();
 		foreach my $b2 ($other->pathToRoot) {
 			$b1->parent == $b2->parent and return ($b1, $b2);
 		}
@@ -153,11 +157,11 @@ sub hohmannPair {
 }
 
 sub hohmannTo {
-	my $swap = 0;
 	my ($self, $other) = @_;
 	$self->parent() == $other->parent() or croak "different parents";
 	my $inner = $self->orbit();
 	my $outer = $other->orbit();
+	my $swap = 0;
 	$inner->a() < $outer->a() or ($inner, $outer, $swap) = ($outer, $inner, 1);
 	my $innerh = $inner->pe();
 	my $outerh = $outer->ap();
@@ -168,13 +172,14 @@ sub hohmannTo {
 
 sub syncOrbit {
 	my ($self) = @_;
-	KSP::Orbit2D->new($self, T => $self->{orbit}{rotation}, e => 0)
+	KSP::Orbit2D->new($self, T => $self->rotationPeriod, e => 0)
 }
 
 sub desc {
 	my ($self) = @_;
 	my @d = ();
-	push @d, U($self->radius()) . "m";
+	push @d, "r " . U($self->radius()) . "m";
+	push @d, "rot " . KSP::Time->new($self->rotationPeriod())->pretty_interval();
 	$self->name() . "[ " . join("; ", @d) . " ]"
 }
 
