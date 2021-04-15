@@ -10,6 +10,11 @@ use KSP::Orbit2D;
 
 use Carp;
 
+use overload
+	fallback => 1,
+	'==' => sub { $_[0]->name eq ($_[1] ? $_[1]->name : "") },
+	'""' => \&desc;
+
 our $G;
 sub G {
 	defined $G and return $G;
@@ -107,7 +112,8 @@ sub highHeight {
 }
 
 sub orbit {
-	my ($self) = @_;
+	my ($self, @rest) = @_;
+	@rest and return KSP::Orbit->new($self, @rest);
 	my $p = $self->parent() or return undef;
 	KSP::Orbit2D->new($p, p => $self->{orbit}{semiLatusRectum}, e => $self->{orbit}{eccentricity})
 }
@@ -140,6 +146,13 @@ sub hohmannTo {
 sub syncOrbit {
 	my ($self) = @_;
 	KSP::Orbit2D->new($self, T => $self->{orbit}{rotation}, e => 0)
+}
+
+sub desc {
+	my ($self) = @_;
+	my @d = ();
+	push @d, KSP::U($self->radius()) . "m";
+	$self->name() . "[ " . join("; ", @d) . " ]"
 }
 
 1;

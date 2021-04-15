@@ -10,6 +10,9 @@ use Math::Trig;
 
 use TinyStruct qw(body e p);
 
+use overload
+	'""' => \&desc;
+
 our %newpar = map { $_ => 1 } qw(p e a pe ap E r h v T th_inf trace);
 
 our $TRACE = 0;
