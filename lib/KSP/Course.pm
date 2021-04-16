@@ -51,37 +51,28 @@ sub desc {
 
 sub _go_samebody {
 	my ($self, $cur, $dst) = @_;
-	$self->_go_ap($self->current, $dst->ap);
-	$self->_go_pe($self->current, $dst->pe);
-}
 
-sub _go_ap {
-	my ($self, $cur, $ap) = @_;
-	my $swap = $ap < $cur->pe ? 1 : 0;
-	my $dst = $swap ?
-		$cur->body->orbit(pe => $cur->pe, ap => $ap) :
-		$cur->body->orbit(pe => $cur->pe, ap => $ap);
-	my $h = $cur->pe;
-	my $dv = $dst->v_from_vis_viva($h) - $cur->v_from_vis_viva($h);
-	warn "BURNPE $swap ", U($dv), "m/s AT ", U($h), "m TO $dst\n";
-	$dv and $self->_add(do => "burn", dv => $dv, h => $h, then => $dst);
-}
+	my $tr1 = $cur->body->orbit(pe => $dst->pe, ap => $cur->ap);
+	my $h1 = $cur->ap;
+	$self->_add_burn($cur, $tr1, $h1);
 
-sub _go_pe {
-	my ($self, $cur, $pe) = @_;
-	my $swap = $pe > $cur->ap ? 1 : 0;
-	my $dst = $swap ?
-		$cur->body->orbit(pe => $pe, ap => $cur->ap) :
-		$cur->body->orbit(pe => $pe, ap => $cur->ap);
-	my $h = $cur->ap;
-	my $dv = $dst->v_from_vis_viva($h) - $cur->v_from_vis_viva($h);
-	warn "BURNAP $swap ", U($dv), "m/s AT ", U($h), "m TO $dst\n";
-	$dv and $self->_add(do => "burn", dv => $dv, h => $h, then => $dst);
+	my $tr2 = $cur->body->orbit(pe => $dst->pe, ap => $cur->ap);
+	my $h2 = $dst->pe;
+	$self->_add_burn($tr1, $tr2, $h2);
+
+	$self->_add_burn($tr2, $dst, $dst->ap);
 }
 
 sub _cur($) { $_[0]->[-1] }
 
 sub _len($) { scalar @{$_[0]} }
+
+sub _add_burn {
+	my ($self, $from, $to, $h) = @_;
+	my $dv = $to->v_from_vis_viva($h) - $from->v_from_vis_viva($h);
+	# warn "BURN ", U($dv), "m/s AT ", U($h), "m TO $to\n";
+	$dv and $self->_add(do => "burn", dv => $dv, h => $h, then => $to);
+}
 
 sub _add($%) {
 	my ($self, %data) = @_;
