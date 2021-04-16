@@ -217,10 +217,9 @@ sub vmin {
 		sqrt(-$self->body->mu() * $self->inv_a())
 }
 
-sub courseTo {
-	my ($self, $target) = @_;
-	$target->isa("KSP::Body") and $target = $target->lowOrbit();
-	[ $self, $target ]
+sub goTo {
+	my ($self, $dest) = @_;
+	KSP::Course->new($self)->goTo($dest)
 }
 
 sub desc {

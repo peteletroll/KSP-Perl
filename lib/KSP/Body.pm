@@ -177,9 +177,9 @@ sub hohmannTo {
 	$swap ? ($trans, $outerh, $innerh) : ($trans, $innerh, $outerh)
 }
 
-sub courseTo {
-	my ($self, $target) = @_;
-	$self->lowOrbit->courseTo($target)
+sub goTo {
+	my ($self, $dest) = @_;
+	$self->lowOrbit->goTo($dest)
 }
 
 sub desc {
