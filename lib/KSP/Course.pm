@@ -31,24 +31,26 @@ sub goTo {
 
 sub _go_samebody {
 	my ($self, $cur, $dst) = @_;
-	$self->_go_ap($cur, $dst->ap);
-	$self->_go_pe($cur, $dst->pe);
+	$self->_go_ap($self->current, $dst->ap);
+	$self->_go_pe($self->current, $dst->pe);
 }
 
 sub _go_ap {
 	my ($self, $cur, $ap) = @_;
 	my $dst = $cur->body->orbit(pe => $cur->pe, ap => $ap);
-	my $dv = $dst->v_from_vis_viva($cur->pe) - $cur->vmax();
-	warn "BURN ", U($dv), "m/s TO $dst\n";
-	$self->_add(do => "burn", dv => $dv, then => $dst);
+	my $h = $cur->pe;
+	my $dv = $dst->v_from_vis_viva($h) - $cur->vmax();
+	warn "BURN ", U($dv), "m/s AT ", U($h), "m TO $dst\n";
+	$self->_add(do => "burn", dv => $dv, h => $h, then => $dst);
 }
 
 sub _go_pe {
 	my ($self, $cur, $pe) = @_;
 	my $dst = $cur->body->orbit(pe => $pe, ap => $cur->ap);
-	my $dv = $dst->v_from_vis_viva($cur->ap) - $cur->vmin();
-	warn "BURN ", U($dv), "m/s TO $dst\n";
-	$self->_add(do => "burn", dv => $dv, then => $dst);
+	my $h = $cur->ap;
+	my $dv = $dst->v_from_vis_viva($h) - $cur->vmin();
+	warn "BURN ", U($dv), "m/s AT ", U($h), "m TO $dst\n";
+	$self->_add(do => "burn", dv => $dv, h => $h, then => $dst);
 }
 
 sub _cur($) { $_[0]->[-1] }
