@@ -29,6 +29,15 @@
         52320000,
         65400000
       ],
+      "orbitingBodies": [
+        "Moho",
+        "Eve",
+        "Kerbin",
+        "Duna",
+        "Dres",
+        "Jool",
+        "Eeloo"
+      ],
       "size": {
         "radius": 261600000,
         "maxHeight": 0,
@@ -84,6 +93,10 @@
         480000,
         600000
       ],
+      "orbitingBodies": [
+        "Mun",
+        "Minmus"
+      ],
       "size": {
         "radius": 600000,
         "maxHeight": 9600,
@@ -112,10 +125,6 @@
       },
       "orbit": {
         "referenceBody": "Sun",
-        "orbitingBodies": [
-          "Mun",
-          "Minmus"
-        ],
         "period": 9203544.6175014134,
         "semiMajorAxis": 13599840256,
         "semiLatusRectum": 13599840256,
@@ -214,6 +223,7 @@
         100000,
         200000
       ],
+      "orbitingBodies": [ ],
       "size": {
         "radius": 200000,
         "maxHeight": 9000,
@@ -242,7 +252,6 @@
       },
       "orbit": {
         "referenceBody": "Kerbin",
-        "orbitingBodies": [ ],
         "period": 138984.37657447575,
         "semiMajorAxis": 12000000,
         "semiLatusRectum": 12000000,
@@ -307,6 +316,7 @@
         48000,
         60000
       ],
+      "orbitingBodies": [ ],
       "size": {
         "radius": 60000,
         "maxHeight": 4000,
@@ -335,7 +345,6 @@
       },
       "orbit": {
         "referenceBody": "Kerbin",
-        "orbitingBodies": [ ],
         "period": 1077310.5210188075,
         "semiMajorAxis": 47000000,
         "semiLatusRectum": 46999999.999999978,
@@ -392,6 +401,7 @@
         200000,
         300000
       ],
+      "orbitingBodies": [ ],
       "size": {
         "radius": 250000,
         "maxHeight": 8000,
@@ -420,7 +430,6 @@
       },
       "orbit": {
         "referenceBody": "Sun",
-        "orbitingBodies": [ ],
         "period": 2215754.2196843214,
         "semiMajorAxis": 5263138304,
         "semiLatusRectum": 5052612765.5658512,
@@ -480,6 +489,9 @@
         480000,
         600000
       ],
+      "orbitingBodies": [
+        "Gilly"
+      ],
       "size": {
         "radius": 700000,
         "maxHeight": 10000,
@@ -508,9 +520,6 @@
       },
       "orbit": {
         "referenceBody": "Sun",
-        "orbitingBodies": [
-          "Gilly"
-        ],
         "period": 5657995.1464830358,
         "semiMajorAxis": 9832684544,
         "semiLatusRectum": 9831701275.5895557,
@@ -573,6 +582,9 @@
         600000,
         800000
       ],
+      "orbitingBodies": [
+        "Ike"
+      ],
       "size": {
         "radius": 320000,
         "maxHeight": 10500,
@@ -601,9 +613,6 @@
       },
       "orbit": {
         "referenceBody": "Sun",
-        "orbitingBodies": [
-          "Ike"
-        ],
         "period": 17315400.142569773,
         "semiMajorAxis": 20726155264,
         "semiLatusRectum": 20672246536.174469,
@@ -665,6 +674,7 @@
         100000,
         200000
       ],
+      "orbitingBodies": [ ],
       "size": {
         "radius": 130000,
         "maxHeight": 20000,
@@ -693,7 +703,6 @@
       },
       "orbit": {
         "referenceBody": "Duna",
-        "orbitingBodies": [ ],
         "period": 65517.862134808071,
         "semiMajorAxis": 3200000,
         "semiLatusRectum": 3197120.000128746,
@@ -749,6 +758,13 @@
         600000,
         1200000
       ],
+      "orbitingBodies": [
+        "Laythe",
+        "Vall",
+        "Tylo",
+        "Bop",
+        "Pol"
+      ],
       "size": {
         "radius": 6000000,
         "maxHeight": 0,
@@ -777,13 +793,6 @@
       },
       "orbit": {
         "referenceBody": "Sun",
-        "orbitingBodies": [
-          "Laythe",
-          "Vall",
-          "Tylo",
-          "Bop",
-          "Pol"
-        ],
         "period": 104661432.1079886,
         "semiMajorAxis": 68773560320,
         "semiLatusRectum": 68601626414.075966,
@@ -830,6 +839,7 @@
         480000,
         600000
       ],
+      "orbitingBodies": [ ],
       "size": {
         "radius": 500000,
         "maxHeight": 4096,
@@ -858,7 +868,6 @@
       },
       "orbit": {
         "referenceBody": "Jool",
-        "orbitingBodies": [ ],
         "period": 52980.879059379578,
         "semiMajorAxis": 27184000,
         "semiLatusRectum": 27184000.000000004,
@@ -916,6 +925,7 @@
         80000,
         100000
       ],
+      "orbitingBodies": [ ],
       "size": {
         "radius": 300000,
         "maxHeight": 20000,
@@ -944,7 +954,6 @@
       },
       "orbit": {
         "referenceBody": "Jool",
-        "orbitingBodies": [ ],
         "period": 105962.08889392365,
         "semiMajorAxis": 43152000,
         "semiLatusRectum": 43151999.999999993,
@@ -1001,6 +1010,7 @@
         80000,
         100000
       ],
+      "orbitingBodies": [ ],
       "size": {
         "radius": 65000,
         "maxHeight": 30000,
@@ -1029,7 +1039,6 @@
       },
       "orbit": {
         "referenceBody": "Jool",
-        "orbitingBodies": [ ],
         "period": 544507.42851665418,
         "semiMajorAxis": 128500000,
         "semiLatusRectum": 121403587.5359982,
@@ -1082,6 +1091,7 @@
         480000,
         600000
       ],
+      "orbitingBodies": [ ],
       "size": {
         "radius": 600000,
         "maxHeight": 16000,
@@ -1110,7 +1120,6 @@
       },
       "orbit": {
         "referenceBody": "Jool",
-        "orbitingBodies": [ ],
         "period": 211926.35802123015,
         "semiMajorAxis": 68500000,
         "semiLatusRectum": 68500000.000000015,
@@ -1167,6 +1176,7 @@
         80000,
         100000
       ],
+      "orbitingBodies": [ ],
       "size": {
         "radius": 13000,
         "maxHeight": 9000,
@@ -1195,7 +1205,6 @@
       },
       "orbit": {
         "referenceBody": "Eve",
-        "orbitingBodies": [ ],
         "period": 388587.37684792886,
         "semiMajorAxis": 31500000,
         "semiLatusRectum": 21971249.586939808,
@@ -1246,6 +1255,7 @@
         30000,
         90000
       ],
+      "orbitingBodies": [ ],
       "size": {
         "radius": 44000,
         "maxHeight": 6000,
@@ -1274,7 +1284,6 @@
       },
       "orbit": {
         "referenceBody": "Jool",
-        "orbitingBodies": [ ],
         "period": 901902.62353117333,
         "semiMajorAxis": 179890000,
         "semiLatusRectum": 174639060.81947502,
@@ -1326,6 +1335,7 @@
         200000,
         300000
       ],
+      "orbitingBodies": [ ],
       "size": {
         "radius": 138000,
         "maxHeight": 8000,
@@ -1354,7 +1364,6 @@
       },
       "orbit": {
         "referenceBody": "Sun",
-        "orbitingBodies": [ ],
         "period": 47893063.138593182,
         "semiMajorAxis": 40839348203,
         "semiLatusRectum": 39980700907.031921,
@@ -1410,6 +1419,7 @@
         70000,
         150000
       ],
+      "orbitingBodies": [ ],
       "size": {
         "radius": 210000,
         "maxHeight": 6000,
@@ -1438,7 +1448,6 @@
       },
       "orbit": {
         "referenceBody": "Sun",
-        "orbitingBodies": [ ],
         "period": 156992048.39735857,
         "semiMajorAxis": 90118820000,
         "semiLatusRectum": 84026787767.999985,

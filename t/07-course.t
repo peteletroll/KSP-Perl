@@ -16,5 +16,12 @@ binmode $_, ":utf8" foreach (\*STDOUT, \*STDERR);
 
 warn "\n";
 
-warn Kerbin->goTo(Kerbin->syncOrbit())->goTo(Kerbin), "\n";
+my @b = sort { $a->orbit->a <=> $b->orbit->a } Sun->children;
+warn scalar @b, "\n";
+foreach my $b1 (@b) {
+	foreach my $b2 (@b) {
+		$b1 == $b2 and next;
+		warn $b1->orbit->goTo($b2->orbit), "\n";
+	}
+}
 

@@ -65,8 +65,7 @@ sub parent {
 
 sub children {
 	wantarray or croak __PACKAGE__ . "::children() wants list context";
-	my $o = $_[0]->{orbit} or return ();
-	my $c = $o->{orbitingBodies} or return ();
+	my $c = $_[0]->{orbitingBodies} or return ();
 	map { __PACKAGE__->get($_) } @$c
 }
 
