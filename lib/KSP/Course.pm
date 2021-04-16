@@ -24,12 +24,8 @@ sub goTo {
 	my $cur = $self->current();
 	# warn "CUR $cur\n";
 	$dst = _asorbit($dst, 1);
-	if ($cur->body == $dst->body) {
-		# warn "SAME BODY\n";
-		$self->_go_samebody($cur, $dst);
-	} else {
-		croak "can't go from $cur to $dst";
-	}
+	$self->_go_samebody($cur, $dst)
+		or croak "can't go from $cur to $dst";
 	$self
 }
 
@@ -52,6 +48,11 @@ sub desc {
 sub _go_samebody {
 	my ($self, $cur, $dst) = @_;
 
+	$cur->body == $dst->body
+		&& $cur->e < 1
+		&& $dst->e < 1
+		or return;
+
 	my $tr1 = $cur->body->orbit(pe => $dst->pe, ap => $cur->ap);
 	my $h1 = $cur->ap;
 	$self->_add_burn($cur, $tr1, $h1);
@@ -61,6 +62,7 @@ sub _go_samebody {
 	$self->_add_burn($tr1, $tr2, $h2);
 
 	$self->_add_burn($tr2, $dst, $dst->ap);
+	1
 }
 
 sub _cur($) { $_[0]->[-1] }
