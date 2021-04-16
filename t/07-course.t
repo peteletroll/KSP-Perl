@@ -18,5 +18,5 @@ warn "\n";
 
 my $c = KSP::Course->new(Kerbin);
 warn "AT ", $c->current, "\n";
-warn $c->goTo(Kerbin->syncOrbit()), "\n";
+warn $c->goTo(Kerbin->syncOrbit())->goTo(Kerbin), "\n";
 

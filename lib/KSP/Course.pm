@@ -22,10 +22,10 @@ sub current { $_[0]->_cur->{then} }
 sub goTo {
 	my ($self, $dst) = @_;
 	my $cur = $self->current();
-	warn "CUR $cur\n";
+	# warn "CUR $cur\n";
 	$dst = _asorbit($dst, 1);
 	if ($cur->body == $dst->body) {
-		warn "SAME BODY\n";
+		# warn "SAME BODY\n";
 		$self->_go_samebody($cur, $dst);
 	} else {
 		croak "can't go from $cur to $dst";
@@ -40,8 +40,8 @@ sub desc {
 	foreach (@$self) {
 		my $d = $_->{do};
 		my $p = "at";
-		$_->{dv} and $d .= " " . U($_->{dv}) . "m/s", $p = "to", $dv += $_->{dv};
-		$_->{h} and $d .= " at " . U($_->{dv}) . "m/s";
+		$_->{dv} and $d .= " " . U($_->{dv}) . "m/s", $p = "to", $dv += abs($_->{dv});
+		$_->{h} and $d .= " at " . U($_->{h}) . "m";
 		$d .= " $p " . $_->{then};
 		push @d, $d;
 	}
@@ -57,20 +57,26 @@ sub _go_samebody {
 
 sub _go_ap {
 	my ($self, $cur, $ap) = @_;
-	my $dst = $cur->body->orbit(pe => $cur->pe, ap => $ap);
+	my $swap = $ap < $cur->pe ? 1 : 0;
+	my $dst = $swap ?
+		$cur->body->orbit(pe => $cur->pe, ap => $ap) :
+		$cur->body->orbit(pe => $cur->pe, ap => $ap);
 	my $h = $cur->pe;
-	my $dv = $dst->v_from_vis_viva($h) - $cur->vmax();
-	warn "BURN ", U($dv), "m/s AT ", U($h), "m TO $dst\n";
-	$self->_add(do => "burn", dv => $dv, h => $h, then => $dst);
+	my $dv = $dst->v_from_vis_viva($h) - $cur->v_from_vis_viva($h);
+	warn "BURNPE $swap ", U($dv), "m/s AT ", U($h), "m TO $dst\n";
+	$dv and $self->_add(do => "burn", dv => $dv, h => $h, then => $dst);
 }
 
 sub _go_pe {
 	my ($self, $cur, $pe) = @_;
-	my $dst = $cur->body->orbit(pe => $pe, ap => $cur->ap);
+	my $swap = $pe > $cur->ap ? 1 : 0;
+	my $dst = $swap ?
+		$cur->body->orbit(pe => $pe, ap => $cur->ap) :
+		$cur->body->orbit(pe => $pe, ap => $cur->ap);
 	my $h = $cur->ap;
-	my $dv = $dst->v_from_vis_viva($h) - $cur->vmin();
-	warn "BURN ", U($dv), "m/s AT ", U($h), "m TO $dst\n";
-	$self->_add(do => "burn", dv => $dv, h => $h, then => $dst);
+	my $dv = $dst->v_from_vis_viva($h) - $cur->v_from_vis_viva($h);
+	warn "BURNAP $swap ", U($dv), "m/s AT ", U($h), "m TO $dst\n";
+	$dv and $self->_add(do => "burn", dv => $dv, h => $h, then => $dst);
 }
 
 sub _cur($) { $_[0]->[-1] }
