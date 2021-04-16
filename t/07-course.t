@@ -25,3 +25,5 @@ foreach my $b1 (@b) {
 	}
 }
 
+warn Kerbin->lowOrbit->goTo(Mun), "\n";
+

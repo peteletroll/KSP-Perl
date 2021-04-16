@@ -25,6 +25,7 @@ sub goTo {
 	# warn "CUR $cur\n";
 	$dst = _asorbit($dst, 1);
 	$self->_go_samebody($cur, $dst)
+		or $self->_go_child($cur, $dst)
 		or croak "can't go from $cur to $dst";
 	$self
 }
@@ -32,16 +33,21 @@ sub goTo {
 sub desc {
 	my ($self) = @_;
 	my @d = ();
-	my $dv = 0;
+	my $dvtot = 0;
 	foreach (@$self) {
 		my $d = $_->{do};
 		my $p = "at";
-		$_->{dv} and $d .= " " . U($_->{dv}) . "m/s", $p = "to", $dv += abs($_->{dv});
+		my $dv = $_->{dv};
+		if ($dv) {
+			$d .= " " . ($dv > 0 ? "+" : "") . U($dv) . "m/s";
+			$p = "to";
+			$dvtot += abs($dv);
+		}
 		$_->{h} and $d .= " at " . U($_->{h}) . "m";
 		$d .= " $p " . $_->{then};
 		push @d, $d;
 	}
-	push @d, "total Δv " . U($dv) . "m/s";
+	push @d, "total Δv " . U($dvtot) . "m/s";
 	join "\n", @d
 }
 
@@ -66,6 +72,26 @@ sub _go_samebody {
 	1
 }
 
+sub _go_child {
+	my ($self, $cur, $dst) = @_;
+	$dst->body->hasAncestor($cur->body)
+		or return;
+
+	my $htr = $cur->pe;
+	my $hin = $dst->body->orbit->ap;
+	my $tr = $cur->body->orbit(pe => $htr, ap => $hin);
+	$self->_add_burn($cur, $tr, $htr);
+	# warn "TO CHILD $tr\n";
+
+	my $vin = $tr->v_from_vis_viva($hin) - $dst->body->orbit->v_from_vis_viva($hin);
+	my $in = $dst->body->orbit(pe => $dst->pe, v => $vin, r => $dst->body->SOI);
+	$self->_add_soi($in);
+
+	$self->_add_burn($in, $dst, $in->pe);
+
+	1
+}
+
 sub _cur($) { $_[0]->[-1] }
 
 sub _len($) { scalar @{$_[0]} }
@@ -75,6 +101,12 @@ sub _add_burn {
 	my $dv = $to->v_from_vis_viva($h) - $from->v_from_vis_viva($h);
 	# warn "BURN ", U($dv), "m/s AT ", U($h), "m TO $to\n";
 	$dv and $self->_add(do => "burn", dv => $dv, h => $h, then => $to);
+	$self
+}
+
+sub _add_soi {
+	my ($self, $to) = @_;
+	$self->_add(do => "soi", then => $to)
 }
 
 sub _add($%) {

@@ -69,7 +69,7 @@ sub children {
 	map { __PACKAGE__->get($_) } @$c
 }
 
-sub common_ancestor {
+sub commonAncestor {
 	my ($b1, $b2) = @_;
 	my %b1anc = ();
 	while ($b1) {
@@ -92,6 +92,15 @@ sub pathToRoot {
 		$self = $self->parent();
 	}
 	@ret
+}
+
+sub hasAncestor {
+	my ($self, $other) = @_;
+	while ($self) {
+		$self == $other and return 1;
+		$self = $self->parent;
+	}
+	0
 }
 
 sub orbitPeriod {
