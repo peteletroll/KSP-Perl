@@ -1,11 +1,15 @@
 package KSP::Course;
 
+use utf8;
 use strict;
 use warnings;
 
 use Carp;
 
 use KSP qw(U);
+
+use overload
+	'""' => \&desc;
 
 sub new {
 	my ($pkg, $start) = @_;
@@ -27,6 +31,22 @@ sub goTo {
 		croak "can't go from $cur to $dst";
 	}
 	$self
+}
+
+sub desc {
+	my ($self) = @_;
+	my @d = ();
+	my $dv = 0;
+	foreach (@$self) {
+		my $d = $_->{do};
+		my $p = "at";
+		$_->{dv} and $d .= " " . U($_->{dv}) . "m/s", $p = "to", $dv += $_->{dv};
+		$_->{h} and $d .= " at " . U($_->{dv}) . "m/s";
+		$d .= " $p " . $_->{then};
+		push @d, $d;
+	}
+	push @d, "total Δv " . U($dv) . "m/s";
+	join "\n", @d
 }
 
 sub _go_samebody {
