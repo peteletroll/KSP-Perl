@@ -67,6 +67,16 @@ sub BUILD {
 		$trace and warn "\tCMP a:\t", _pardesc($par), "\n";
 	}
 
+	if (_defined($par, qw(ap pe))) {
+		my $ap = $par{ap};
+		my $pe = $par{pe};
+		if ($pe < 0 || $ap > 0 && $pe > $ap) {
+			$par{pe} = $ap;
+			$par{ap} = $pe;
+			$trace and warn "\tSWAP:\t", _pardesc($par), "\n";
+		}
+	}
+
 	if (_defined($par, qw(ap pe !a))) {
 		$par{a} = ($par{ap} + $par{pe}) / 2 + $r;
 		$trace and warn "\tCMP a:\t", _pardesc($par), "\n";
