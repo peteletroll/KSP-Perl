@@ -36,6 +36,7 @@ use KSP::Body;
 use KSP::ConfigNode;
 use KSP::Time;
 use KSP::Orbit2D;
+use KSP::Course;
 
 sub U($;$) { goto &KSP::Orbit2D::U }
 

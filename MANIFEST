@@ -7,6 +7,7 @@ lib/KSP/Time.pm
 lib/KSP/SolarSystem.pm
 lib/KSP/SolarSystemDump.json
 lib/KSP/Orbit2D.pm
+lib/KSP/Course.pm
 Makefile.PL
 MANIFEST
 README
@@ -17,5 +18,6 @@ t/03-body.t
 t/04-time.t
 t/05-orbit.t
 t/06-hohmann.t
+t/07-course.t
 bin/ksp-parse
 bin/ksp-delta-v
