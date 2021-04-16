@@ -16,7 +16,5 @@ binmode $_, ":utf8" foreach (\*STDOUT, \*STDERR);
 
 warn "\n";
 
-my $c = KSP::Course->new(Kerbin);
-warn "AT ", $c->current, "\n";
-warn $c->goTo(Kerbin->syncOrbit())->goTo(Kerbin), "\n";
+warn Kerbin->goTo(Kerbin->syncOrbit())->goTo(Kerbin), "\n";
 

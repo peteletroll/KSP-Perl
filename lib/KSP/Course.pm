@@ -57,11 +57,12 @@ sub _go_samebody {
 	my $h1 = $cur->ap;
 	$self->_add_burn($cur, $tr1, $h1);
 
-	my $tr2 = $cur->body->orbit(pe => $dst->pe, ap => $cur->ap);
+	my $tr2 = $cur->body->orbit(pe => $dst->pe, ap => $dst->ap);
 	my $h2 = $dst->pe;
 	$self->_add_burn($tr1, $tr2, $h2);
 
 	$self->_add_burn($tr2, $dst, $dst->ap);
+
 	1
 }
 
