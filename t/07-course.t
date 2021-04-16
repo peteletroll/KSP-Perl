@@ -29,3 +29,7 @@ warn Kerbin->lowOrbit->goTo(Mun), "\n";
 
 warn Mun->lowOrbit->goTo(Kerbin), "\n";
 
+warn Mun->lowOrbit->goTo(Minmus), "\n";
+
+warn Minmus->lowOrbit->goTo(Mun), "\n";
+

@@ -27,6 +27,7 @@ sub goTo {
 	$self->_go_samebody($cur, $dst)
 		or $self->_go_child($cur, $dst)
 		or $self->_go_parent($cur, $dst)
+		or $self->_go_sibling($cur, $dst)
 		or croak "can't go from $cur to $dst";
 	$self
 }
@@ -104,6 +105,74 @@ sub _go_parent {
 
 	my $vout = $tr->v_from_vis_viva($hout) - $cur->body->orbit->v_from_vis_viva($hout);
 	my $out = $cur->body->orbit(pe => $dst->pe, v => $vout, r => $cur->body->SOI);
+	# warn "OUT $out\n";
+
+	$self->_add_burn($cur, $out, $cur->pe);
+
+	$self->_add_soi($out);
+
+	$self->_add_burn($tr, $dst, $dst->pe);
+
+	1
+}
+
+sub _go_sibling {
+	my ($self, $cur, $dst) = @_;
+	$cur->body->parent == $dst->body->parent
+		or return;
+
+	my ($tr, $htr1, $htr2) = $cur->body->hohmannTo($dst->body);
+	# warn "TO SIBLING $htr1 $htr2 $tr\n";
+
+	my $out = $cur->body->orbit(pe => $cur->pe,
+		v_soi => $tr->v_from_vis_viva($htr1) - $cur->body->orbit->v_from_vis_viva($htr1));
+	# warn "OUT $out\n";
+
+	my $in = $dst->body->orbit(pe => $dst->pe,
+		v_soi => $tr->v_from_vis_viva($htr2) - $dst->body->orbit->v_from_vis_viva($htr2));
+	# warn "IN $in\n";
+
+	$self->_add_burn($cur, $out, $cur->pe);
+
+	$self->_add_soi($out);
+
+	my $incl = $cur->body->orbitNormal()->angle($dst->body->orbitNormal());
+	my $vincl = $tr->vmax();
+	my $dvincl = 2 * sin($incl / 2) * $vincl;
+	$self->_add(do => "incl", dv => $dvincl, then => $tr);
+
+	$self->_add_soi($in);
+
+	$self->_add_burn($in, $dst, $dst->pe);
+
+	return 1;
+
+	no strict;
+
+	my $delta_v = 0;
+	warn "START\t", $l1->desc(), "\n";
+	my $dve1 = $e1->vmax() - $l1->vmax();
+	$delta_v += $dve1;
+	warn "Δv esc\t", U($dve1), "m/s\n";
+	warn "ESC1\t", $e1->desc(), "\n";
+	warn "TRANS\t", $tr->desc(), "\n";
+	warn "TRANS\t", U($htr1), "m -> ", U($htr2), "m\n";
+	$vincl = $tr->vmax();
+	$dvincl = 2 * sin($incl / 2) * $vincl;
+	$delta_v += $dvincl;
+	warn "Δv incl\t", U($dvincl), "m/s @ ", U($vincl), "m/s\n";
+	warn "ESC2\t", $e2->desc(), "\n";
+	my $dve2 = $e2->vmax() - $l2->vmax();
+	$delta_v += $dve2;
+	warn "Δv capt\t", U($dve2), "m/s\n";
+	warn "END\t", $l2->desc(), "\n";
+
+	my $hout = $cur->body->orbit->ap;
+	$tr = $dst->body->orbit(pe => $dst->pe, ap => $hout);
+	# warn "TO PARENT $tr\n";
+
+	my $vout = $tr->v_from_vis_viva($hout) - $cur->body->orbit->v_from_vis_viva($hout);
+	$out = $cur->body->orbit(pe => $dst->pe, v => $vout, r => $cur->body->SOI);
 	# warn "OUT $out\n";
 
 	$self->_add_burn($cur, $out, $cur->pe);
