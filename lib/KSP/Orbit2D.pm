@@ -138,6 +138,8 @@ sub BUILD {
 	_defined($par, qw(!p)) and croak "can't compute p from $origpar";
 	my $p = $par{p};
 
+	$p > 0 && $e >= 0 or confess sprintf "can't create orbit with p=%g, e=%g from %s",
+		$p, $e, $origpar;
 	$self->set_body($body);
 	$self->set_e($e); # eccentricity
 	$self->set_p($p); # semilatus rectum
@@ -202,7 +204,9 @@ sub ap { # apoapsis height
 sub v_from_vis_viva {
 	my ($self, $h) = @_;
 	my $r = $h + $self->body->radius;
-	sqrt($self->body->mu * (2 / $r - $self->inv_a))
+	my $vsq = $self->body->mu * (2 / $r - $self->inv_a);
+	$vsq >= 0 or confess "can't find v at ", U($h), "m, e = ", $self->e, ", p = ", $self->p;
+	sqrt($vsq)
 }
 
 sub vmax {
