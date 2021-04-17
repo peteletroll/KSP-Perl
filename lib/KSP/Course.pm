@@ -54,7 +54,7 @@ sub _step($) {
 	my ($s) = @_;
 
 	my $type = $s->{do};
-	my $prep = $type =~ /burn|incl|soi/ ? "to" : "at";
+	my $prep = $type =~ /start/ ? "at" : "to";
 
 	my $dv = "";
 	if ($s->{dv}) {
@@ -155,7 +155,7 @@ sub _go_sibling {
 
 	$self->_add_burn($cur, $out, $cur->pe);
 
-	$self->_add_soi($out);
+	$self->_add_soi($tr);
 
 	my $incl = $cur->body->orbitNormal()->angle($dst->body->orbitNormal());
 	my $vincl = $tr->vmax();
