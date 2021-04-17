@@ -36,21 +36,27 @@ sub desc {
 	my ($self) = @_;
 	my @d = ();
 	my $dvtot = 0;
-	foreach (@$self) {
-		my $d = $_->{do};
-		my $p = "at";
-		my $dv = $_->{dv};
-		if ($dv) {
-			$d .= " " . ($dv > 0 ? "+" : "") . U($dv) . "m/s";
-			$p = "to";
-			$dvtot += abs($dv);
-		}
-		$_->{h} and $d .= " at " . U($_->{h}) . "m";
-		$d .= " $p " . $_->{then};
-		push @d, $d;
+	for (my $i = 0; $i < @$self; $i++) {
+		my $s = $self->[$i];
+		push @d, sprintf("%3d: ", $i) . _step($s);
+		$dvtot += abs($s->{dv} || 0);
 	}
-	push @d, "total Δv " . U($dvtot) . "m/s";
+	push @d, "     total Δv " . U($dvtot) . "m/s";
 	join "\n", @d
+}
+
+sub _step($) {
+	my ($s) = @_;
+	my $d = $s->{do};
+	my $p = "at";
+	my $dv = $s->{dv};
+	if ($dv) {
+		$d .= " " . ($dv > 0 ? "+" : "") . U($dv) . "m/s";
+		$p = "to";
+	}
+	$s->{h} and $d .= " at " . U($s->{h}) . "m";
+	$d .= " $p " . $s->{then};
+	$d
 }
 
 sub _go_samebody {
@@ -109,7 +115,7 @@ sub _go_parent {
 
 	$self->_add_burn($cur, $out, $cur->pe);
 
-	$self->_add_soi($out);
+	$self->_add_soi($tr);
 
 	$self->_add_burn($tr, $dst, $dst->pe);
 

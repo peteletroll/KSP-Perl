@@ -194,6 +194,7 @@ sub desc {
 	my ($self) = @_;
 	my @d = ();
 	push @d, "r " . U($self->radius()) . "m";
+	push @d, "soi " . U($self->SOI) . "m" if $self->SOI;
 	push @d, "rot " . KSP::Time->new($self->rotationPeriod())->pretty_interval();
 	$self->name() . "[ " . join("; ", @d) . " ]"
 }

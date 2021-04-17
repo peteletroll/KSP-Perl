@@ -21,7 +21,7 @@ warn scalar @b, "\n";
 foreach my $b1 (@b) {
 	foreach my $b2 (@b) {
 		$b1 == $b2 and next;
-		warn $b1->orbit->goTo($b2->orbit), "\n";
+		warn $b1->goTo($b2), "\n\n";
 	}
 }
 
