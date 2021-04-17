@@ -139,8 +139,9 @@ sub BUILD {
 	_defined($par, qw(!p)) and croak "can't compute p from $origpar";
 	my $p = $par{p};
 
-	$p > 0 && $e >= 0 or confess sprintf "can't create orbit with p=%g, e=%g from %s",
-		$p, $e, $origpar;
+	$p > 0 && $e >= 0 or confess sprintf "can't create orbit around %s with p=%g, e=%g from %s",
+		$body->name, $p, $e, $origpar;
+
 	$self->set_body($body);
 	$self->set_e($e); # eccentricity
 	$self->set_p($p); # semilatus rectum
