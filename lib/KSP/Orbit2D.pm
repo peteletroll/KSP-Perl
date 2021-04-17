@@ -119,6 +119,7 @@ sub BUILD {
 
 	_defined($par, qw(!e)) and croak "can't compute e from $origpar";
 	my $e = $par{e};
+	$e < 0 && $e > -1e-10 and $e = 0;
 
 	if (_defined($par, qw(pe e !p))) {
 		$par{p} = ($par{pe} + $r) * (1 + $par{e});
