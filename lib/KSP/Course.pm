@@ -86,7 +86,7 @@ sub _go_child {
 	# warn "TO CHILD $tr\n";
 
 	my $vin = $tr->v_from_vis_viva($hin) - $dst->body->orbit->v_from_vis_viva($hin);
-	my $in = $dst->body->orbit(pe => $dst->pe, v => $vin, r => $dst->body->SOI);
+	my $in = $dst->body->orbit(pe => $dst->pe, v_soi => $vin);
 	$self->_add_soi($in);
 
 	$self->_add_burn($in, $dst, $in->pe);
@@ -104,7 +104,7 @@ sub _go_parent {
 	# warn "TO PARENT $tr\n";
 
 	my $vout = $tr->v_from_vis_viva($hout) - $cur->body->orbit->v_from_vis_viva($hout);
-	my $out = $cur->body->orbit(pe => $dst->pe, v => $vout, r => $cur->body->SOI);
+	my $out = $cur->body->orbit(pe => $dst->pe, v_soi => $vout);
 	# warn "OUT $out\n";
 
 	$self->_add_burn($cur, $out, $cur->pe);
@@ -144,42 +144,6 @@ sub _go_sibling {
 	$self->_add_soi($in);
 
 	$self->_add_burn($in, $dst, $dst->pe);
-
-	return 1;
-
-	no strict;
-
-	my $delta_v = 0;
-	warn "START\t", $l1->desc(), "\n";
-	my $dve1 = $e1->vmax() - $l1->vmax();
-	$delta_v += $dve1;
-	warn "Δv esc\t", U($dve1), "m/s\n";
-	warn "ESC1\t", $e1->desc(), "\n";
-	warn "TRANS\t", $tr->desc(), "\n";
-	warn "TRANS\t", U($htr1), "m -> ", U($htr2), "m\n";
-	$vincl = $tr->vmax();
-	$dvincl = 2 * sin($incl / 2) * $vincl;
-	$delta_v += $dvincl;
-	warn "Δv incl\t", U($dvincl), "m/s @ ", U($vincl), "m/s\n";
-	warn "ESC2\t", $e2->desc(), "\n";
-	my $dve2 = $e2->vmax() - $l2->vmax();
-	$delta_v += $dve2;
-	warn "Δv capt\t", U($dve2), "m/s\n";
-	warn "END\t", $l2->desc(), "\n";
-
-	my $hout = $cur->body->orbit->ap;
-	$tr = $dst->body->orbit(pe => $dst->pe, ap => $hout);
-	# warn "TO PARENT $tr\n";
-
-	my $vout = $tr->v_from_vis_viva($hout) - $cur->body->orbit->v_from_vis_viva($hout);
-	$out = $cur->body->orbit(pe => $dst->pe, v => $vout, r => $cur->body->SOI);
-	# warn "OUT $out\n";
-
-	$self->_add_burn($cur, $out, $cur->pe);
-
-	$self->_add_soi($out);
-
-	$self->_add_burn($tr, $dst, $dst->pe);
 
 	1
 }
