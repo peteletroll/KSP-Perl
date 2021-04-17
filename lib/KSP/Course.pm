@@ -32,31 +32,46 @@ sub goTo {
 	$self
 }
 
+sub dv {
+	my ($self) = @_;
+	my $dv = 0;
+	$dv += abs($_->{dv} || 0) foreach @$self;
+	$dv
+}
+
 sub desc {
 	my ($self) = @_;
 	my @d = ();
-	my $dvtot = 0;
 	for (my $i = 0; $i < @$self; $i++) {
 		my $s = $self->[$i];
 		push @d, sprintf("%3d: ", $i) . _step($s);
-		$dvtot += abs($s->{dv} || 0);
 	}
-	push @d, "     total Δv " . U($dvtot) . "m/s";
+	push @d, sprintf "     tot Δv%9sm/s", U($self->dv);
 	join "\n", @d
 }
 
 sub _step($) {
 	my ($s) = @_;
-	my $d = $s->{do};
-	my $p = "at";
-	my $dv = $s->{dv};
-	if ($dv) {
-		$d .= " " . ($dv > 0 ? "+" : "") . U($dv) . "m/s";
-		$p = "to";
+
+	my $type = $s->{do};
+	my $prep = $type =~ /burn|incl|soi/ ? "to" : "at";
+
+	my $dv = "";
+	if ($s->{dv}) {
+		$prep = "to";
+		if ($type =~ /incl/) {
+			$dv = "⟂" . U(abs($s->{dv}));
+		} else {
+			$dv = U($s->{dv});
+			$dv =~ /^[\+\-]/ or $dv = "+$dv";
+		}
+		$dv .= "m/s";
 	}
-	$s->{h} and $d .= " at " . U($s->{h}) . "m";
-	$d .= " $p " . $s->{then};
-	$d
+
+	my $h = $s->{h} ? U($s->{h}) . "m" : "";
+
+	sprintf "%-8s %9s %8s %3s %s",
+		$type, $dv, $h, $prep, $s->{then}
 }
 
 sub _go_samebody {
