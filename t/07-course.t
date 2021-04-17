@@ -25,6 +25,18 @@ foreach my $b1 (@b) {
 	}
 }
 
+warn scalar @b, "\n";
+
+@b = sort { $a->orbit->a <=> $b->orbit->a } Jool->children;
+my %l = ();
+foreach my $b1 (@b) {
+	foreach my $b2 (@b) {
+		$b1 == $b2 and next;
+		$l{$b1->name . "\t" . $b2->name} = $b1->goTo($b2)->dv;
+	}
+}
+warn "$_\t", U($l{$_}), "m/s\n" foreach sort { $l{$a} <=> $l{$b} } keys %l;
+
 warn Kerbin->lowOrbit->goTo(Mun), "\n";
 
 warn Mun->lowOrbit->goTo(Kerbin), "\n";
