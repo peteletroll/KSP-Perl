@@ -29,7 +29,7 @@ sub G {
 
 sub all($) {
 	wantarray or croak __PACKAGE__, "->all() wants list context";
-	KSP::SolarSystem->bodies()
+	_sort(KSP::SolarSystem->bodies())
 }
 
 sub get($$) {
@@ -66,7 +66,7 @@ sub parent {
 sub children {
 	wantarray or croak __PACKAGE__ . "::children() wants list context";
 	my $c = $_[0]->{orbitingBodies} or return ();
-	map { __PACKAGE__->get($_) } @$c
+	_sort(map { __PACKAGE__->get($_) } @$c)
 }
 
 sub commonAncestor {
@@ -197,6 +197,22 @@ sub desc {
 	push @d, "soi " . U($self->SOI) . "m" if $self->SOI;
 	push @d, "rot " . KSP::Time->new($self->rotationPeriod())->pretty_interval();
 	$self->name() . "[ " . join("; ", @d) . " ]"
+}
+
+sub _sort {
+	sort { $a->_sortkey <=> $b->_sortkey } @_
+}
+
+sub _sortkey {
+	my ($self) = @_;
+	$self->{_sortkey} ||= do {
+		my $a = 1;
+		for (my $o = $self->orbit; $o; $o = $o->body->orbit) {
+			$a += $o->a;
+		}
+		# warn "SORT\t", $self->name, "\t$a\n";
+		$a
+	}
 }
 
 1;
