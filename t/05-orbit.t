@@ -27,22 +27,21 @@ foreach my $b (sort { $a->name() cmp $b->name() } KSP::Body->all()) {
 
 local $KSP::Orbit2D::TRACE = 0;
 
-warn "\n";
 my $l = $k->lowOrbit();
-warn $l->desc(), "\n";
+print $l->desc(), "\n";
 
 my $n1 = KSP::Orbit2D->new($l->body(), pe => $l->pe(), T => $l->T(), trace => 0);
-warn $n1->desc(), "\n";
+print $n1->desc(), "\n";
 
 my $n2 = KSP::Orbit2D->new($l->body(), ap => $l->ap(), T => $l->T(), trace => 0);
-warn $n2->desc(), "\n";
+print $n2->desc(), "\n";
 
 my $n3 = KSP::Orbit2D->new($l->body(), e => 0, v => $l->vmax(), h => $l->pe(), e => 0, trace => 0);
-warn $n3->desc(), "\n";
+print $n3->desc(), "\n";
 
-my $n4 = KSP::Orbit2D->new($l->body(), v => sqrt(2) * $l->vmax(), h => $l->pe(), pe => $l->pe(), trace => 1);
-warn $n4->desc(), "\n";
+my $n4 = KSP::Orbit2D->new($l->body(), v => sqrt(2) * $l->vmax(), h => $l->pe(), pe => $l->pe(), trace => 0);
+print $n4->desc(), "\n";
 
-my $n5 = KSP::Orbit2D->new($l->body(), v => 1.00001 * sqrt(2) * $l->vmax(), h => $l->pe(), pe => $l->pe(), trace => 1);
-warn $n5->desc(), "\n";
+my $n5 = KSP::Orbit2D->new($l->body(), v => 1.00001 * sqrt(2) * $l->vmax(), h => $l->pe(), pe => $l->pe(), trace => 0);
+print $n5->desc(), "\n";
 

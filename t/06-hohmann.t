@@ -14,20 +14,18 @@ use Math::Trig;
 
 binmode $_, ":utf8" foreach (\*STDOUT, \*STDERR);
 
-warn "\n";
-
 my @b = qw(Mun Minmus);
 
 my $b1 = KSP::Body->get($b[0]);
 my $b2 = KSP::Body->get($b[1]);
 
-warn "B1\t", $b1->name(), "\t", $b1->orbit->desc(), "\n";
-warn "B2\t", $b2->name(), "\t", $b2->orbit->desc(), "\n";
-warn "B1N\t", $b1->name(), "\t", $b1->orbitNormal(), "\n";
-warn "B2N\t", $b2->name(), "\t", $b2->orbitNormal(), "\n";
+print "B1\t", $b1->name(), "\t", $b1->orbit->desc(), "\n";
+print "B2\t", $b2->name(), "\t", $b2->orbit->desc(), "\n";
+print "B1N\t", $b1->name(), "\t", $b1->orbitNormal(), "\n";
+print "B2N\t", $b2->name(), "\t", $b2->orbitNormal(), "\n";
 
 my $incl = $b1->orbitNormal()->angle($b2->orbitNormal());
-warn "INCL\t", U(180 / pi * $incl), "°\n";
+print "INCL\t", U(180 / pi * $incl), "°\n";
 
 my $l1 = $b1->lowOrbit();
 my $l2 = $b2->lowOrbit();
@@ -43,21 +41,21 @@ my $e2 = KSP::Orbit2D->new($b2,
 	v_soi => $tr->v_from_vis_viva($htr2) - $b2->orbit->vmin());
 
 my $delta_v = 0;
-warn "START\t", $l1->desc(), "\n";
+print "START\t", $l1->desc(), "\n";
 my $dve1 = $e1->vmax() - $l1->vmax();
 $delta_v += $dve1;
-warn "Δv esc\t", U($dve1), "m/s\n";
-warn "ESC1\t", $e1->desc(), "\n";
-warn "TRANS\t", $tr->desc(), "\n";
-warn "TRANS\t", U($htr1), "m -> ", U($htr2), "m\n";
+print "Δv esc\t", U($dve1), "m/s\n";
+print "ESC1\t", $e1->desc(), "\n";
+print "TRANS\t", $tr->desc(), "\n";
+print "TRANS\t", U($htr1), "m -> ", U($htr2), "m\n";
 my $vincl = $tr->vmax();
 my $dvincl = 2 * sin($incl / 2) * $vincl;
 $delta_v += $dvincl;
-warn "Δv incl\t", U($dvincl), "m/s @ ", U($vincl), "m/s\n";
-warn "ESC2\t", $e2->desc(), "\n";
+print "Δv incl\t", U($dvincl), "m/s @ ", U($vincl), "m/s\n";
+print "ESC2\t", $e2->desc(), "\n";
 my $dve2 = $e2->vmax() - $l2->vmax();
 $delta_v += $dve2;
-warn "Δv capt\t", U($dve2), "m/s\n";
-warn "END\t", $l2->desc(), "\n";
-warn "Δv tot\t", U($delta_v), "m/s\n";
+print "Δv capt\t", U($dve2), "m/s\n";
+print "END\t", $l2->desc(), "\n";
+print "Δv tot\t", U($delta_v), "m/s\n";
 
