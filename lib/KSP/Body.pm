@@ -96,9 +96,10 @@ sub pathToRoot {
 
 sub hasAncestor {
 	my ($self, $other) = @_;
-	while ($self) {
-		$self == $other and return 1;
-		$self = $self->parent;
+	my $i = $self->parent;
+	while ($i) {
+		$i == $other and return 1;
+		$i = $i->parent;
 	}
 	0
 }
