@@ -237,8 +237,8 @@ sub desc {
 		sprintf("↑ ∞, %sm/s, %.0f°", U($self->vmin()), 180 / pi * $self->th_inf()) :
 		sprintf("↑ %sm, %sm/s", U($self->ap()), U($self->vmin()));
 	$open or push @d, KSP::Time->new($self->T())->pretty_interval();
-	my $y = $open ? "U" : $self->e > 0.05 ? "O" : "o";
-	$self->body->name() . ":${y}[ " . join("; ", @d) . " ]"
+	my $y = $open ? "U" : $self->e > 0.06 ? "O" : "o";
+	"$y:" . $self->body->name() . "[ " . join("; ", @d) . " ]"
 }
 
 our @U = (
