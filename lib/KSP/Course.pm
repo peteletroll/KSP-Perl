@@ -17,8 +17,6 @@ sub new {
 	$new->_add(do => "start", then => $start)
 }
 
-sub current { $_[0]->_cur->{then} }
-
 sub goTo {
 	my ($self, $dst) = @_;
 	my $cur = $self->current();
@@ -30,6 +28,15 @@ sub goTo {
 		or $self->_go_sibling($cur, $dst)
 		or croak "can't go from $cur to $dst";
 	$self
+}
+
+sub current { $_[0]->[-1]->{then} }
+
+sub at {
+	my ($self, $at) = @_;
+	$at >= -@$self && $at < @$self
+		or croak "at($at) out of range";
+	$self->[$at]->{then}
 }
 
 sub dv {
@@ -168,10 +175,6 @@ sub _go_sibling {
 
 	1
 }
-
-sub _cur($) { $_[0]->[-1] }
-
-sub _len($) { scalar @{$_[0]} }
 
 sub _add_burn {
 	my ($self, $from, $to, $h) = @_;
