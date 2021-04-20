@@ -234,7 +234,7 @@ sub desc {
 	my @d = ();
 	push @d, sprintf("↓ %sm, %sm/s", U($self->pe()), U($self->vmax()));
 	push @d, $open ?
-		sprintf("↑ ∞, %sm/s, %.0f°", U($self->vmin()), 180 / pi * $self->th_inf()) :
+		sprintf("↑ ∞, %sm/s, θ %.0f°", U($self->vmin()), 180 / pi * $self->th_inf()) :
 		sprintf("↑ %sm, %sm/s", U($self->ap()), U($self->vmin()));
 	$open or push @d, KSP::Time->new($self->T())->pretty_interval();
 	my $y = $open ? "U" : $self->e > 0.06 ? "O" : "o";
