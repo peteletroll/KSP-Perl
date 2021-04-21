@@ -1,0 +1,14 @@
+#!/bin/bash
+
+rc=`tempfile -p kspsh`
+trap "rm '$rc'" EXIT
+
+baserc="$HOME/.re.pl/repl.rc"
+
+[ -f "$baserc" ] && cp "$baserc" "$rc"
+cat <<ENDRC >> $rc
+use KSP qw(:all);
+ENDRC
+
+re.pl --rcfile "$rc"
+

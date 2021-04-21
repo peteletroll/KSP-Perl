@@ -21,3 +21,4 @@ t/06-hohmann.t
 t/07-course.t
 bin/ksp-parse
 bin/ksp-delta-v
+bin/ksp-shell
