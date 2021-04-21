@@ -14,6 +14,7 @@ use Carp;
 use overload
 	fallback => 1,
 	'==' => sub { $_[0]->name eq ($_[1] ? $_[1]->name : "") },
+	'!=' => sub { $_[0]->name ne ($_[1] ? $_[1]->name : "") },
 	'""' => \&desc;
 
 our $G;
@@ -102,6 +103,11 @@ sub hasAncestor {
 		$i = $i->parent;
 	}
 	0
+}
+
+sub hasDescendant {
+	my ($self, $other) = @_;
+	$other->has_ancestor($self);
 }
 
 sub orbitPeriod {
