@@ -7,6 +7,7 @@ baserc="$HOME/.re.pl/repl.rc"
 
 [ -f "$baserc" ] && cp "$baserc" "$rc"
 cat <<ENDRC >> $rc
+use Math::Trig;
 use KSP qw(:all);
 ENDRC
 
