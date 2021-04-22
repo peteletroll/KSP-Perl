@@ -70,7 +70,7 @@ sub _step($) {
 
 sub goTo {
 	my ($self, $dst) = @_;
-	my $cur = $self->current();
+	my $cur = $self->current;
 	# warn "CUR $cur\n";
 	$dst = _asorbit($dst, 1);
 	$self->_go_samebody($cur, $dst)
@@ -189,8 +189,8 @@ sub _go_sibling {
 
 	$self->_add_soi($tr);
 
-	my $incl = $cur->body->orbitNormal()->angle($dst->body->orbitNormal());
-	my $vincl = $tr->vmax();
+	my $incl = $cur->body->orbitNormal->angle($dst->body->orbitNormal);
+	my $vincl = $tr->vmax;
 	my $dvincl = 2 * sin($incl / 2) * $vincl;
 	$self->_add(do => "incl", dv => $dvincl, then => $tr);
 
@@ -226,7 +226,7 @@ sub _add($%) {
 sub _asorbit($;$) {
 	my ($o, $die) = @_;
 	ref $o && $o->isa("KSP::Body")
-		and $o = $o->lowOrbit();
+		and $o = $o->lowOrbit;
 	ref $o && $o->isa("KSP::Orbit2D")
 		or ($die ? croak "KSP::Orbit2D or KSP::Body needed here" : ($o = undef));
 	$o
