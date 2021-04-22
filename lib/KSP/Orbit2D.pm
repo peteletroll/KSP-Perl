@@ -223,6 +223,23 @@ sub vmin {
 		sqrt(-$self->body->mu() * $self->inv_a())
 }
 
+sub hohmannTo {
+	my ($self, $other) = @_;
+	# warn "HOHMANN ", __PACKAGE__, "\n";
+	# warn "\tSELF $self\n\tOTHER $other\n";
+	$self->body == $other->body or croak "different bodies";
+	my $inner = $self;
+	my $outer = $other;
+	my $swap = 0;
+	$inner->a < $outer->a or ($inner, $outer, $swap) = ($outer, $inner, 1);
+	# warn "\tINNER $inner\n\tOUTER $outer\n\tSWAP $swap\n";
+	my $innerh = $inner->pe;
+	my $outerh = $outer->ap;
+	my $trans = KSP::Orbit2D->new($self->body, pe => $innerh, ap => $outerh);
+	wantarray or return $trans;
+	$swap ? ($trans, $outerh, $innerh) : ($trans, $innerh, $outerh)
+}
+
 sub goTo {
 	my ($self, $dest) = @_;
 	KSP::Course->new($self)->goTo($dest)

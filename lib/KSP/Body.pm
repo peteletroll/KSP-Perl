@@ -178,18 +178,12 @@ sub hohmannPair {
 
 sub hohmannTo {
 	my ($self, $other) = @_;
+	# warn "HOHMANN ", __PACKAGE__, "\n";
+	# warn "\tSELF $self\n\tOTHER $other\n";
 	$self == $other and croak "same body";
-	$self->parent() && $other->parent() or croak "no parent";
-	$self->parent() == $other->parent() or croak "different parents";
-	my $inner = $self->orbit();
-	my $outer = $other->orbit();
-	my $swap = 0;
-	$inner->a() < $outer->a() or ($inner, $outer, $swap) = ($outer, $inner, 1);
-	my $innerh = $inner->pe();
-	my $outerh = $outer->ap();
-	my $trans = KSP::Orbit2D->new($self->parent(), pe => $innerh, ap => $outerh);
-	wantarray or return $trans;
-	$swap ? ($trans, $outerh, $innerh) : ($trans, $innerh, $outerh)
+	$self->parent && $other->parent or croak "no parent";
+	$self->parent == $other->parent or croak "different parents";
+	$self->orbit->hohmannTo($other->orbit)
 }
 
 sub goTo {
