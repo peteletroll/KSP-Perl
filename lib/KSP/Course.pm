@@ -150,13 +150,18 @@ sub _go_ancestor {
 	$cur->body->hasAncestor($dst->body)
 		or return;
 
-	warn "TO ANCESTOR\n";
+	warn "TO ANCESTOR $cur -> $dst\n";
 	my @b = ();
 	for (my $b = $cur->body; $b && $b != $dst->body; $b = $b->parent) {
 		push @b, $b;
 	}
-	push @b, $dst->body;
+	# push @b, $dst->body;
 	warn "CHAIN ", join(" ", map { $_->name } @b), "\n";
+
+	warn "LAST ", $b[-1]->orbit, "\n";
+
+	my $tr = $b[-1]->orbit->hohmannTo($dst);
+	warn "TR $tr\n";
 
 	my $out = $dst;
 	for (my $i = @b - 2; $i >= 0; $i--) {
