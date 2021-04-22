@@ -42,5 +42,11 @@ warn Mun->lowOrbit->goTo(Minmus), "\n";
 
 warn Minmus->lowOrbit->goTo(Mun), "\n";
 
+warn "MUN TO MINMUS\n";
+warn Mun->goTo(Minmus->orbit), "\n";
+
+warn "MINMUS TO MUN\n";
+warn Mun->goTo(Minmus->orbit), "\n";
+
 warn Mun->goTo(Duna->orbit), "\n";
 

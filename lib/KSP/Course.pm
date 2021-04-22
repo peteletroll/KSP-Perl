@@ -133,7 +133,7 @@ sub _go_parent {
 	# warn "TO PARENT $tr\n";
 
 	my $vout = $tr->v_from_vis_viva($hout) - $cur->body->orbit->v_from_vis_viva($hout);
-	my $out = $cur->body->orbit(pe => $dst->pe, v_soi => $vout);
+	my $out = $cur->body->orbit(pe => $cur->pe, v_soi => $vout);
 	# warn "OUT $out\n";
 
 	$self->_add_burn($cur, $out, $cur->pe);
