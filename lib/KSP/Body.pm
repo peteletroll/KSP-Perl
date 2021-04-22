@@ -30,7 +30,7 @@ sub G {
 
 sub all($) {
 	wantarray or croak __PACKAGE__, "->all() wants list context";
-	_sort(KSP::SolarSystem->bodies())
+	_sort(KSP::SolarSystem->bodies)
 }
 
 sub get($$) {
@@ -39,7 +39,7 @@ sub get($$) {
 }
 
 sub root($) {
-	KSP::SolarSystem->root()
+	KSP::SolarSystem->root
 }
 
 sub name {
@@ -74,12 +74,12 @@ sub commonAncestor {
 	my ($b1, $b2) = @_;
 	my %b1anc = ();
 	while ($b1) {
-		$b1anc{$b1->name()} = 1;
-		$b1 = $b1->parent();
+		$b1anc{$b1->name} = 1;
+		$b1 = $b1->parent;
 	}
 	while ($b2) {
-		$b1anc{$b2->name()} and last;
-		$b2 = $b2->parent();
+		$b1anc{$b2->name} and last;
+		$b2 = $b2->parent;
 	}
 	$b2
 }
@@ -90,7 +90,7 @@ sub pathToRoot {
 	my @ret = ();
 	while ($self) {
 		push @ret, $self;
-		$self = $self->parent();
+		$self = $self->parent;
 	}
 	@ret
 }
@@ -137,21 +137,21 @@ sub lowHeight {
 
 sub highHeight {
 	my ($self) = @_;
-	my $soi = $self->SOI();
-	$soi and return $soi - $self->radius();
-	1e6 * $self->lowHeight()
+	my $soi = $self->SOI;
+	$soi and return $soi - $self->radius;
+	1e6 * $self->lowHeight
 }
 
 sub orbit {
 	my ($self, @rest) = @_;
 	@rest and return KSP::Orbit2D->new($self, @rest);
-	my $p = $self->parent() or return undef;
+	my $p = $self->parent or return undef;
 	KSP::Orbit2D->new($p, p => $self->{orbit}{semiLatusRectum}, e => $self->{orbit}{eccentricity})
 }
 
 sub lowOrbit {
 	my ($self) = @_;
-	my $h = $self->lowHeight();
+	my $h = $self->lowHeight;
 	KSP::Orbit2D->new($self, pe => $h, e => 0);
 }
 
@@ -162,7 +162,7 @@ sub syncOrbit {
 
 sub highOrbit {
 	my ($self) = @_;
-	KSP::Orbit2D->new($self, pe => $self->lowHeight(), ap => $self->highHeight())
+	KSP::Orbit2D->new($self, pe => $self->lowHeight, ap => $self->highHeight)
 }
 
 sub hohmannPair {
@@ -194,10 +194,10 @@ sub goTo {
 sub desc {
 	my ($self) = @_;
 	my @d = ();
-	push @d, "r " . U($self->radius()) . "m";
+	push @d, "r " . U($self->radius) . "m";
 	push @d, "soi " . U($self->SOI) . "m" if $self->SOI;
-	push @d, "rot " . KSP::Time->new($self->rotationPeriod())->pretty_interval();
-	$self->name() . "[ " . join("; ", @d) . " ]"
+	push @d, "rot " . KSP::Time->new($self->rotationPeriod)->pretty_interval;
+	$self->name . "[ " . join("; ", @d) . " ]"
 }
 
 sub _sort {

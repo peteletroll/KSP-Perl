@@ -160,8 +160,9 @@ sub _go_ancestor {
 
 	my $out = $dst;
 	for (my $i = @b - 2; $i >= 0; $i--) {
-		# my $hout = 
-		my $tr = $b[$i]->orbit(e => 0);
+		warn "OUT $out\n";
+		my $vout = $out->vmax;
+		my $tr = $b[$i]->orbit(v_soi => );
 		warn "SOI $b[$i] -> $b[$i + 1] $tr\n";
 	}
 

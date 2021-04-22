@@ -26,8 +26,8 @@ sub BUILD {
 	my $trace = delete $par{trace} || $TRACE;
 	my $par = \%par;
 	my $origpar = _pardesc($par);
-	my $r = $body->radius();
-	my $mu = $body->mu();
+	my $r = $body->radius;
+	my $mu = $body->mu;
 
 	$trace and warn "START: ", _pardesc($par), "\n";
 
@@ -166,29 +166,29 @@ sub _pardesc($) {
 }
 
 sub _need_ellipse {
-	$_[0]->e() < 1 or croak "not allowed for open orbit";
+	$_[0]->e < 1 or croak "not allowed for open orbit";
 }
 
 sub a { # major semiaxis
 	my ($self) = @_;
-	$self->_need_ellipse();
-	1 / $self->inv_a()
+	$self->_need_ellipse;
+	1 / $self->inv_a
 }
 
 sub inv_a { # 1 / major semiaxis
 	my ($self) = @_;
-	(1 - $self->e() ** 2) / $self->p()
+	(1 - $self->e ** 2) / $self->p
 }
 
 sub th_inf { # true anomaly at infinity
 	my ($self) = @_;
-	my $e = $self->e();
+	my $e = $self->e;
 	$e > 1 ? acos(-1 / $e) : pi
 }
 
 sub T { # orbital period
 	my ($self) = @_;
-	$self->_need_ellipse();
+	$self->_need_ellipse;
 	2 * pi * sqrt($self->a ** 3 / $self->body->mu)
 }
 
@@ -199,7 +199,7 @@ sub pe { # periapsis height
 
 sub ap { # apoapsis height
 	my ($self) = @_;
-	$self->_need_ellipse();
+	$self->_need_ellipse;
 	$self->p / (1 - $self->e) - $self->body->radius
 }
 
@@ -213,14 +213,14 @@ sub v_from_vis_viva {
 
 sub vmax {
 	my ($self) = @_;
-	$self->v_from_vis_viva($self->pe())
+	$self->v_from_vis_viva($self->pe)
 }
 
 sub vmin {
 	my ($self) = @_;
-	$self->e() < 1 ?
-		$self->v_from_vis_viva($self->ap()) :
-		sqrt(-$self->body->mu() * $self->inv_a())
+	$self->e < 1 ?
+		$self->v_from_vis_viva($self->ap) :
+		sqrt(-$self->body->mu * $self->inv_a)
 }
 
 sub hohmannTo {
@@ -235,7 +235,7 @@ sub hohmannTo {
 	# warn "\tINNER $inner\n\tOUTER $outer\n\tSWAP $swap\n";
 	my $innerh = $inner->pe;
 	my $outerh = $outer->ap;
-	my $trans = KSP::Orbit2D->new($self->body, pe => $innerh, ap => $outerh);
+	my $trans = $self->body->orbit(pe => $innerh, ap => $outerh);
 	wantarray or return $trans;
 	$swap ? ($trans, $outerh, $innerh) : ($trans, $innerh, $outerh)
 }
@@ -247,15 +247,15 @@ sub goTo {
 
 sub desc {
 	my ($self) = @_;
-	my $open = $self->e() >= 1;
+	my $open = $self->e >= 1;
 	my @d = ();
-	push @d, sprintf("↓ %sm, %sm/s", U($self->pe()), U($self->vmax()));
+	push @d, sprintf("↓ %sm, %sm/s", U($self->pe), U($self->vmax));
 	push @d, $open ?
-		sprintf("↑ ∞, %sm/s, θ %.0f°", U($self->vmin()), 180 / pi * $self->th_inf()) :
-		sprintf("↑ %sm, %sm/s", U($self->ap()), U($self->vmin()));
-	$open or push @d, KSP::Time->new($self->T())->pretty_interval();
+		sprintf("↑ ∞, %sm/s, θ %.0f°", U($self->vmin), 180 / pi * $self->th_inf) :
+		sprintf("↑ %sm, %sm/s", U($self->ap), U($self->vmin));
+	$open or push @d, KSP::Time->new($self->T)->pretty_interval;
 	my $y = $open ? "U" : $self->e > 0.06 ? "O" : "o";
-	"$y:" . $self->body->name() . "[ " . join("; ", @d) . " ]"
+	"$y:" . $self->body->name . "[ " . join("; ", @d) . " ]"
 }
 
 our @U = (
