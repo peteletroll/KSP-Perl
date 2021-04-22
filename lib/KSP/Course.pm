@@ -17,19 +17,6 @@ sub new {
 	$new->_add(do => "start", then => $start)
 }
 
-sub goTo {
-	my ($self, $dst) = @_;
-	my $cur = $self->current();
-	# warn "CUR $cur\n";
-	$dst = _asorbit($dst, 1);
-	$self->_go_samebody($cur, $dst)
-		or $self->_go_child($cur, $dst)
-		or $self->_go_parent($cur, $dst)
-		or $self->_go_sibling($cur, $dst)
-		or croak "can't go from $cur to $dst";
-	$self
-}
-
 sub current { $_[0]->[-1]->{then} }
 
 sub at {
@@ -79,6 +66,20 @@ sub _step($) {
 
 	sprintf "%-8s %9s %8s %3s %s",
 		$type, $dv, $h, $prep, $s->{then}
+}
+
+sub goTo {
+	my ($self, $dst) = @_;
+	my $cur = $self->current();
+	# warn "CUR $cur\n";
+	$dst = _asorbit($dst, 1);
+	$self->_go_samebody($cur, $dst)
+		or $self->_go_child($cur, $dst)
+		or $self->_go_parent($cur, $dst)
+		or $self->_go_ancestor($cur, $dst)
+		or $self->_go_sibling($cur, $dst)
+		or croak "can't go from $cur to $dst";
+	$self
 }
 
 sub _go_samebody {
@@ -140,6 +141,29 @@ sub _go_parent {
 	$self->_add_soi($tr);
 
 	$self->_add_burn($tr, $dst, $dst->pe);
+
+	1
+}
+
+sub _go_ancestor {
+	my ($self, $cur, $dst) = @_;
+	$cur->body->hasAncestor($dst->body)
+		or return;
+
+	warn "TO ANCESTOR\n";
+	my @b = ();
+	for (my $b = $cur->body; $b && $b != $dst->body; $b = $b->parent) {
+		push @b, $b;
+	}
+	push @b, $dst->body;
+	warn "CHAIN ", join(" ", map { $_->name } @b), "\n";
+
+	my $out = $dst;
+	for (my $i = @b - 2; $i >= 0; $i--) {
+		# my $hout = 
+		my $tr = $b[$i]->orbit(e => 0);
+		warn "SOI $b[$i] -> $b[$i + 1] $tr\n";
+	}
 
 	1
 }
