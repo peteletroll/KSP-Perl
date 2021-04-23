@@ -186,6 +186,8 @@ sub _go_ancestor {
 		$self->_add_soi($tr[$i]);
 	}
 
+	$self->_add_burn($tr[0], $dst, $htr2);
+
 	1
 }
 
