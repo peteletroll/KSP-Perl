@@ -146,7 +146,9 @@ sub orbit {
 	my ($self, @rest) = @_;
 	@rest and return KSP::Orbit2D->new($self, @rest);
 	my $p = $self->parent or return undef;
-	KSP::Orbit2D->new($p, p => $self->{orbit}{semiLatusRectum}, e => $self->{orbit}{eccentricity})
+	$self->{_orbit_} ||= KSP::Orbit2D->new($p,
+		p => $self->{orbit}{semiLatusRectum},
+		e => $self->{orbit}{eccentricity})
 }
 
 sub lowOrbit {
