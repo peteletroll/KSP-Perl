@@ -207,7 +207,7 @@ sub v_from_vis_viva {
 	my ($self, $h) = @_;
 	my $r = $h + $self->body->radius;
 	my $vsq = $self->body->mu * (2 / $r - $self->inv_a);
-	$vsq >= 0 or confess "can't find v at ", U($h), "m, e = ", $self->e, ", p = ", $self->p;
+	$vsq >= 0 or confess "can't find v at ", U($h), "m for $self";
 	sqrt($vsq)
 }
 
