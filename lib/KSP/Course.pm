@@ -150,16 +150,16 @@ sub _go_ancestor {
 	$cur->body->hasAncestor($dst->body)
 		or return;
 
-	warn "TO ANCESTOR $cur -> $dst\n";
+	# warn "TO ANCESTOR $cur -> $dst\n";
 	my @b = ();
 	for (my $b = $cur->body; $b && $b != $dst->body; $b = $b->parent) {
 		push @b, $b;
 	}
 	push @b, $dst->body;
-	warn "CHAIN ", join(" ", map { "[" . $_->name . "]" } @b), "\n";
+	# warn "CHAIN ", join(" ", map { "[" . $_->name . "]" } @b), "\n";
 
 	my ($tr, $htr1, $htr2) = $b[-2]->orbit->hohmannTo($dst);
-	warn "TR ", U($htr1), "m ", U($htr2), "m $tr\n";
+	# warn "TR ", U($htr1), "m ", U($htr2), "m $tr\n";
 
 	my @tr = ($tr);
 	my $out = $tr;
@@ -167,23 +167,19 @@ sub _go_ancestor {
 		# my ($b1, $b2) = @b[$i, $i + 1];
 		my $b1 = $b[$i];
 		my $b2 = $out->body;
-		warn "\nSTEP ", $b1->name, " -> ", $b2->name, ", $out\n";
+		# warn "\nSTEP ", $b1->name, " -> ", $b2->name, ", $out\n";
 		my $hout = $b1->orbit->ap;
 		my $vout = $out->v_from_vis_viva($hout) - $b1->orbit->v_from_vis_viva($hout);
 		my $b1pe = $i > 0 ? $b[$i - 1]->orbit->pe : $cur->pe;
-		warn "OUT ", U($vout), "m/s AT ", U($hout), "m FROM ", U($b1pe), "\n";
+		# warn "OUT ", U($vout), "m/s AT ", U($hout), "m FROM ", U($b1pe), "\n";
 
 		$out = $b1->orbit(pe => $b1pe, v_soi => $vout);
-		warn "OUT $out\n";
+		# warn "OUT $out\n";
 		push @tr, $out;
-
-		# my $vout = $out->vmax;
-		# my $tr = $b[$i]->orbit(v_soi => 0);
-		# warn "SOI $b[$i] -> $b[$i + 1] $tr\n";
 	}
 
-	warn "\n";
-	warn "SEQ $_\n" foreach @tr;
+	# warn "\n";
+	# warn "SEQ $_\n" foreach @tr;
 
 	$self->_add_burn($cur, $tr[-1], $cur->pe);
 	for (my $i = @tr - 2; $i >= 0; $i--) {
