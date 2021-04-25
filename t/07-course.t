@@ -32,7 +32,7 @@ foreach my $b1 (@b) {
 		$l{$b1->name . "\t" . $b2->name} = $b1->goTo($b2)->dv;
 	}
 }
-warn "$_\t", U($l{$_}), "m/s\n" foreach sort { $l{$a} <=> $l{$b} } keys %l;
+warn "$_\t", U($l{$_}), "m/s\t$l{$_}m/s\n" foreach sort { $l{$a} <=> $l{$b} } keys %l;
 
 warn Kerbin->lowOrbit->goTo(Mun), "\n";
 
@@ -46,7 +46,7 @@ warn "MUN TO MINMUS\n";
 warn Mun->goTo(Minmus->orbit), "\n";
 
 warn "MINMUS TO MUN\n";
-warn Mun->goTo(Minmus->orbit), "\n";
+warn Minmus->goTo(Mun->orbit), "\n";
 
 warn "ANCESTOR TEST\n";
 warn Mun->goTo(Duna->orbit), "\n";
