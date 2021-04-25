@@ -227,7 +227,8 @@ sub hohmannTo {
 	my ($self, $other) = @_;
 	# warn "HOHMANN ", __PACKAGE__, "\n";
 	# warn "\tSELF $self\n\tOTHER $other\n";
-	$self->body == $other->body or croak "different bodies";
+	$self->body == $other->body
+		or croak "different bodies (" . $self->body->name . ", " . $other->body->name . ")";
 	my $inner = $self;
 	my $outer = $other;
 	my $swap = 0;
