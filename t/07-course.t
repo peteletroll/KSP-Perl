@@ -51,3 +51,6 @@ warn Minmus->goTo(Mun->orbit), "\n";
 warn "ANCESTOR TEST\n";
 warn Mun->goTo(Duna->orbit), "\n";
 
+warn "DESCENDANT TEST\n";
+warn Duna->orbit->goTo(Mun), "\n";
+

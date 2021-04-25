@@ -76,6 +76,7 @@ sub goTo {
 	$self->_go_samebody($cur, $dst)
 		or $self->_go_child($cur, $dst)
 		or $self->_go_ancestor($cur, $dst)
+		or $self->_go_descendant($cur, $dst)
 		or $self->_go_sibling($cur, $dst)
 		or croak "can't go from $cur to $dst";
 	$self
@@ -118,6 +119,55 @@ sub _go_child {
 	$self->_add_soi($in);
 
 	$self->_add_burn($in, $dst, $in->pe);
+
+	1
+}
+
+sub _go_descendant {
+	my ($self, $cur, $dst) = @_;
+	$cur->body->hasDescendant($dst->body)
+		or return;
+
+	warn "TO DESCENDANT $cur -> $dst\n";
+	my @b = ();
+	for (my $b = $dst->body; $b && $b != $cur->body; $b = $b->parent) {
+		push @b, $b;
+	}
+	push @b, $cur->body;
+	@b = reverse @b;
+	warn "CHAIN ", join(" ", map { "[" . $_->name . "]" } @b), "\n";
+
+	my ($tr, $htr1, $htr2) = $cur->hohmannTo($b[1]->orbit);
+	warn "TR ", U($htr1), "m ", U($htr2), "m $tr\n";
+
+	return;
+
+	my @tr = ($tr);
+	my $out = $tr;
+	for (my $i = @b - 2; $i >= 0; $i--) {
+		# my ($b1, $b2) = @b[$i, $i + 1];
+		my $b1 = $b[$i];
+		my $b2 = $out->body;
+		# warn "\nSTEP ", $b1->name, " -> ", $b2->name, ", $out\n";
+		my $hout = $b1->orbit->ap;
+		my $vout = $out->v_from_vis_viva($hout) - $b1->orbit->v_from_vis_viva($hout);
+		my $b1pe = $i > 0 ? $b[$i - 1]->orbit->pe : $cur->pe;
+		# warn "OUT ", U($vout), "m/s AT ", U($hout), "m FROM ", U($b1pe), "\n";
+
+		$out = $b1->orbit(pe => $b1pe, v_soi => $vout);
+		# warn "OUT $out\n";
+		push @tr, $out;
+	}
+
+	# warn "\n";
+	# warn "SEQ $_\n" foreach @tr;
+
+	$self->_add_burn($cur, $tr[-1], $cur->pe);
+	for (my $i = @tr - 2; $i >= 0; $i--) {
+		$self->_add_soi($tr[$i]);
+	}
+
+	$self->_add_burn($tr[0], $dst, $htr2);
 
 	1
 }
