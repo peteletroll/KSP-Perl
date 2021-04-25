@@ -107,7 +107,7 @@ sub hasAncestor {
 
 sub hasDescendant {
 	my ($self, $other) = @_;
-	$other->has_ancestor($self);
+	$other->hasAncestor($self);
 }
 
 sub orbitPeriod {
