@@ -117,7 +117,7 @@ sub orbitPeriod {
 sub orbitNormal {
 	my $n = $_[0]->{orbit}{normal}
 		or return undef;
-	V(@$n)
+	$_[0]->{_normal_} ||= V(@$n)
 }
 
 sub rotationPeriod {
