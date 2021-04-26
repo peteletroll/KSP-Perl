@@ -34,8 +34,10 @@ sub dv {
 }
 
 sub nextBurnHeight {
-	my ($self) = @_;
-	$self->[-1]{_nextBurnHeight_} || $self->current->pe
+	my ($self, $hdefault) = @_;
+	my $cur = $self->current;
+	$hdefault and $self->checkHeight($hdefault);
+	$self->[-1]{_nextBurnHeight_} || $hdefault || $cur->pe
 }
 
 sub desc {
