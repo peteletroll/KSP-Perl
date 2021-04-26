@@ -74,7 +74,6 @@ sub goTo {
 	# warn "CUR $cur\n";
 	$dst = _asorbit($dst, 1);
 	$self->_go_samebody($cur, $dst)
-		or $self->_go_child($cur, $dst)
 		or $self->_go_ancestor($cur, $dst)
 		or $self->_go_descendant($cur, $dst)
 		or $self->_go_sibling($cur, $dst)
@@ -99,26 +98,6 @@ sub _go_samebody {
 	$self->_add_burn($tr1, $tr2, $h2);
 
 	$self->_add_burn($tr2, $dst, $dst->ap);
-
-	1
-}
-
-sub _go_child {
-	my ($self, $cur, $dst) = @_;
-	$dst->body->parent == $cur->body
-		or return;
-
-	my $htr = $cur->pe;
-	my $hin = $dst->body->orbit->ap;
-	my $tr = $cur->body->orbit(pe => $htr, ap => $hin);
-	$self->_add_burn($cur, $tr, $htr);
-	# warn "TO CHILD $tr\n";
-
-	my $vin = $tr->v_from_vis_viva($hin) - $dst->body->orbit->v_from_vis_viva($hin);
-	my $in = $dst->body->orbit(pe => $dst->pe, v_soi => $vin);
-	$self->_add_soi($in);
-
-	$self->_add_burn($in, $dst, $in->pe);
 
 	1
 }
