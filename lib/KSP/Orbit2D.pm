@@ -203,8 +203,20 @@ sub ap { # apoapsis height
 	$self->p / (1 - $self->e) - $self->body->radius
 }
 
+sub checkHeight {
+	my ($self, $h) = @_;
+	my $tol = 1e-4;
+	if ($h < $self->pe * (1 - $tol)) {
+		confess "lower than periapsis";
+	}
+	if ($self->e < 1 && $h > $self->ap * (1 + $tol)) {
+		confess "higher than apoapsis";
+	}
+}
+
 sub v_from_vis_viva {
 	my ($self, $h) = @_;
+	$self->checkHeight($h);
 	my $r = $h + $self->body->radius;
 	my $vsq = $self->body->mu * (2 / $r - $self->inv_a);
 	$vsq >= 0 or confess "can't find v at ", U($h), "m for $self";
