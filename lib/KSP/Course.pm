@@ -140,34 +140,32 @@ sub _go_descendant {
 	my ($tr, $htr1, $htr2) = $cur->hohmannTo($b[1]->orbit);
 	warn "TR ", U($htr1), "m ", U($htr2), "m $tr\n";
 
-	return;
-
 	my @tr = ($tr);
-	my $out = $tr;
-	for (my $i = @b - 2; $i >= 0; $i--) {
-		# my ($b1, $b2) = @b[$i, $i + 1];
-		my $b1 = $b[$i];
-		my $b2 = $out->body;
-		# warn "\nSTEP ", $b1->name, " -> ", $b2->name, ", $out\n";
-		my $hout = $b1->orbit->ap;
-		my $vout = $out->v_from_vis_viva($hout) - $b1->orbit->v_from_vis_viva($hout);
-		my $b1pe = $i > 0 ? $b[$i - 1]->orbit->pe : $cur->pe;
-		# warn "OUT ", U($vout), "m/s AT ", U($hout), "m FROM ", U($b1pe), "\n";
+	my $in = $tr;
+	for (my $i = 1; $i < @b; $i++) {
+		my $b1 = $in->body;
+		my $b2 = $b[$i];
+		warn "\nSTEP ", $b1->name, " -> ", $b2->name, ", $in\n";
+		my $hin = $b2->orbit->ap;
+		my $vin = $in->v_from_vis_viva($hin) - $b2->orbit->v_from_vis_viva($hin);
+		my $b2pe = $i < $#b ? $b[$i + 1]->orbit->pe : $dst->pe;
+		warn "IN ", U($vin), "m/s AT ", U($hin), "m TO ", U($b2pe), "\n";
 
-		$out = $b1->orbit(pe => $b1pe, v_soi => $vout);
-		# warn "OUT $out\n";
-		push @tr, $out;
+		$in = $b2->orbit(pe => $b2pe, v_soi => $vin);
+		warn "IN $in\n";
+		push @tr, $in;
 	}
 
-	# warn "\n";
-	# warn "SEQ $_\n" foreach @tr;
+	warn "\n";
+	warn "SEQ $_\n" foreach @tr;
 
-	$self->_add_burn($cur, $tr[-1], $cur->pe);
-	for (my $i = @tr - 2; $i >= 0; $i--) {
+	$self->_add_burn($cur, $tr[0], $htr1);
+
+	for (my $i = 1; $i < @b; $i++) {
 		$self->_add_soi($tr[$i]);
 	}
 
-	$self->_add_burn($tr[0], $dst, $htr2);
+	$self->_add_burn($tr[-1], $dst, $dst->pe);
 
 	1
 }
@@ -191,7 +189,6 @@ sub _go_ancestor {
 	my @tr = ($tr);
 	my $out = $tr;
 	for (my $i = @b - 2; $i >= 0; $i--) {
-		# my ($b1, $b2) = @b[$i, $i + 1];
 		my $b1 = $b[$i];
 		my $b2 = $out->body;
 		# warn "\nSTEP ", $b1->name, " -> ", $b2->name, ", $out\n";
