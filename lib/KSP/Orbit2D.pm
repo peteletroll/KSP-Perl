@@ -207,10 +207,10 @@ sub checkHeight {
 	my ($self, $h) = @_;
 	my $tol = 1e-4;
 	if ($h < $self->pe * (1 - $tol)) {
-		confess "lower than periapsis";
+		confess U($h) . "m is lower than periapsis of $self";
 	}
 	if ($self->e < 1 && $h > $self->ap * (1 + $tol)) {
-		confess "higher than apoapsis";
+		confess U($h) . "m is higher than apoapsis of $self";
 	}
 }
 
