@@ -128,36 +128,36 @@ sub _go_descendant {
 	$cur->body->hasDescendant($dst->body)
 		or return;
 
-	warn "TO DESCENDANT $cur -> $dst\n";
+	# warn "TO DESCENDANT $cur -> $dst\n";
 	my @b = ();
 	for (my $b = $dst->body; $b && $b != $cur->body; $b = $b->parent) {
 		push @b, $b;
 	}
 	push @b, $cur->body;
 	@b = reverse @b;
-	warn "CHAIN ", join(" ", map { "[" . $_->name . "]" } @b), "\n";
+	# warn "CHAIN ", join(" ", map { "[" . $_->name . "]" } @b), "\n";
 
 	my ($tr, $htr1, $htr2) = $cur->hohmannTo($b[1]->orbit);
-	warn "TR ", U($htr1), "m ", U($htr2), "m $tr\n";
+	# warn "TR ", U($htr1), "m ", U($htr2), "m $tr\n";
 
 	my @tr = ($tr);
 	my $in = $tr;
 	for (my $i = 1; $i < @b; $i++) {
 		my $b1 = $in->body;
 		my $b2 = $b[$i];
-		warn "\nSTEP ", $b1->name, " -> ", $b2->name, ", $in\n";
+		# warn "\nSTEP ", $b1->name, " -> ", $b2->name, ", $in\n";
 		my $hin = $b2->orbit->ap;
 		my $vin = $in->v_from_vis_viva($hin) - $b2->orbit->v_from_vis_viva($hin);
 		my $b2pe = $i < $#b ? $b[$i + 1]->orbit->pe : $dst->pe;
-		warn "IN ", U($vin), "m/s AT ", U($hin), "m TO ", U($b2pe), "\n";
+		# warn "IN ", U($vin), "m/s AT ", U($hin), "m TO ", U($b2pe), "\n";
 
 		$in = $b2->orbit(pe => $b2pe, v_soi => $vin);
-		warn "IN $in\n";
+		# warn "IN $in\n";
 		push @tr, $in;
 	}
 
-	warn "\n";
-	warn "SEQ $_\n" foreach @tr;
+	# warn "\n";
+	# warn "SEQ $_\n" foreach @tr;
 
 	$self->_add_burn($cur, $tr[0], $htr1);
 
