@@ -37,7 +37,7 @@ sub nextBurnHeight {
 	my ($self, $hdefault) = @_;
 	my $cur = $self->current;
 	$hdefault and $self->checkHeight($hdefault);
-	$self->[-1]{_nextBurnHeight_} || $hdefault || $cur->pe
+	$self->[-1]{hburn} || $hdefault || $cur->pe
 }
 
 sub desc {
@@ -49,7 +49,7 @@ sub desc {
 	}
 	push @d, sprintf "     tot Δv%9sm/s%s",
 		U($self->dv),
-		($self->[-1]{_nextBurnHeight_} ? sprintf("%8sm", U($self->nextBurnHeight)) : "");
+		($self->[-1]{hburn} ? sprintf("%8sm", U($self->nextBurnHeight)) : "");
 	join "\n", @d
 }
 
@@ -79,12 +79,12 @@ sub _step($) {
 
 sub goTo {
 	my ($self, $dst) = @_;
+	my $cur = $self->current;
 	unless (ref $dst) {
-		$self->checkHeight($dst);
-		$self->[-1]{_nextBurnHeight_} = $dst;
+		$cur->checkHeight($dst);
+		$self->[-1]{hburn} = $dst;
 		return $self
 	}
-	my $cur = $self->current;
 	# warn "CUR $cur\n";
 	$dst = _asorbit($dst, 1);
 	$self->_go_samebody($cur, $dst)
