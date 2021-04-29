@@ -97,21 +97,26 @@ sub goTo {
 
 sub _go_samebody {
 	my ($self, $cur, $dst) = @_;
-
 	$cur->body == $dst->body
-		&& $cur->e < 1
-		&& $dst->e < 1
 		or return;
 
-	my $tr1 = $cur->body->orbit(pe => $dst->pe, ap => $cur->ap);
-	my $h1 = $cur->ap;
+	if (abs($dst->pe - $cur->pe) / ($dst->pe + $cur->pe) < 1e-5) {
+		$self->_add_burn($cur, $dst, $cur->pe);
+		return 1
+	}
+
+	my $ap1 = $cur->e < 1 ? $cur->ap : $cur->body->highHeight;
+	$dst->e < 1 && $dst->ap < $ap1 and $ap1 = $dst->ap;
+
+	my $h1 = $cur->pe;
+	my $tr1 = $cur->body->orbit(pe => $h1, ap => $ap1);
 	$self->_add_burn($cur, $tr1, $h1);
 
-	my $tr2 = $cur->body->orbit(pe => $dst->pe, ap => $dst->ap);
-	my $h2 = $dst->pe;
+	my $h2 = $ap1;
+	my $tr2 = $cur->body->orbit(pe => $dst->pe, ap => $ap1);
 	$self->_add_burn($tr1, $tr2, $h2);
 
-	$self->_add_burn($tr2, $dst, $dst->ap);
+	$self->_add_burn($tr2, $dst, $dst->pe);
 
 	1
 }
