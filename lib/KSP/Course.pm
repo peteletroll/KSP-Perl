@@ -109,7 +109,7 @@ sub _go_samebody {
 		$cur->e < 1 ? $cur->ap :
 		$cur->body->highHeight;
 
-	my $h1 = $cur->pe;
+	my $h1 = $self->nextBurnHeight;
 	my $tr1 = $cur->body->orbit(pe => $h1, ap => $ap1);
 	$self->_add_burn($cur, $tr1, $h1);
 
