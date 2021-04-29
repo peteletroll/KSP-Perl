@@ -253,9 +253,14 @@ sub hohmannTo {
 	$swap ? ($trans, $outerh, $innerh) : ($trans, $innerh, $outerh)
 }
 
+sub goAp {
+	my ($self, @rest) = @_;
+	KSP::Course->new($self)->goAp(@rest)
+}
+
 sub goTo {
-	my ($self, $dest) = @_;
-	KSP::Course->new($self)->goTo($dest)
+	my ($self, @rest) = @_;
+	KSP::Course->new($self)->goTo(@rest)
 }
 
 sub desc {

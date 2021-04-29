@@ -77,14 +77,15 @@ sub _step($) {
 		$type, $dv, $h, $prep, $s->{then}
 }
 
+sub goAp {
+	my ($self) = @_;
+	$self->[-1]{hburn} = $self->current->ap;
+	$self
+}
+
 sub goTo {
 	my ($self, $dst) = @_;
 	my $cur = $self->current;
-	unless (ref $dst) {
-		$cur->checkHeight($dst);
-		$self->[-1]{hburn} = $dst;
-		return $self
-	}
 	# warn "CUR $cur\n";
 	$dst = _asorbit($dst, 1);
 	$self->_go_samebody($cur, $dst)
