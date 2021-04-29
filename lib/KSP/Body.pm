@@ -179,13 +179,13 @@ sub hohmannPair {
 }
 
 sub hohmannTo {
-	my ($self, $other) = @_;
+	my ($self, $other, @rest) = @_;
 	# warn "HOHMANN ", __PACKAGE__, "\n";
 	# warn "\tSELF $self\n\tOTHER $other\n";
 	$self == $other and croak "same body";
 	$self->parent && $other->parent or croak "no parent";
 	$self->parent == $other->parent or croak "different parents";
-	$self->orbit->hohmannTo($other->orbit)
+	$self->orbit->hohmannTo($other->orbit, @rest)
 }
 
 sub goTo {
