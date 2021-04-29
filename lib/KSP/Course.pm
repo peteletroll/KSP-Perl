@@ -105,8 +105,9 @@ sub _go_samebody {
 		return 1
 	}
 
-	my $ap1 = $cur->e < 1 ? $cur->ap : $cur->body->highHeight;
-	$dst->e < 1 && $dst->ap < $ap1 and $ap1 = $dst->ap;
+	my $ap1 = $dst->e < 1 ? $dst->ap :
+		$cur->e < 1 ? $cur->ap :
+		$cur->body->highHeight;
 
 	my $h1 = $cur->pe;
 	my $tr1 = $cur->body->orbit(pe => $h1, ap => $ap1);
