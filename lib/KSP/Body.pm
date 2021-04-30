@@ -167,17 +167,6 @@ sub highOrbit {
 	KSP::Orbit2D->new($self, pe => $self->lowHeight, ap => $self->highHeight)
 }
 
-sub hohmannPair {
-	my ($self, $other) = @_;
-	foreach my $b1 ($self->pathToRoot) {
-		$b1->parent or return ();
-		foreach my $b2 ($other->pathToRoot) {
-			$b1->parent == $b2->parent and return ($b1, $b2);
-		}
-	}
-	return ();
-}
-
 sub goTo {
 	my ($self, $dest) = @_;
 	$self->lowOrbit->goTo($dest)

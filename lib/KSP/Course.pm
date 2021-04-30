@@ -91,6 +91,7 @@ sub goTo {
 	$self->_go_samebody($cur, $dst)
 		or $self->_go_ancestor($cur, $dst, $toAp)
 		or $self->_go_descendant($cur, $dst, $toAp)
+		or $self->_go_hohmann($cur, $dst, $toAp)
 		or $self->_go_sibling($cur, $dst, $toAp)
 		or croak "can't go from $cur to $dst";
 	$self
@@ -215,6 +216,18 @@ sub _go_ancestor {
 	1
 }
 
+sub _go_hohmann {
+	my ($self, $cur, $dst, $toAp) = @_;
+	$cur->body != $dst->body
+		or return;
+	my ($trb1, $trb2) = _hohmann_pair($cur->body, $dst->body);
+	$trb1 && $trb2
+		or return;
+	my ($tr, $htr1, $htr2) = $trb1->orbit->hohmannTo($trb2->orbit);
+	warn "TO HOHMANN ", $trb1->name, " ", U($htr1), "m -> ", $trb2->name, " ", U($htr2), "m, $tr\n";
+	return
+}
+
 sub _go_sibling {
 	my ($self, $cur, $dst, $toAp) = @_;
 	$cur->body->parent == $dst->body->parent
@@ -246,6 +259,17 @@ sub _go_sibling {
 	$self->_add_burn($in, $dst, $dst->pe);
 
 	1
+}
+
+sub _hohmann_pair {
+	my ($self, $other) = @_;
+	foreach my $b1 ($self->pathToRoot) {
+		$b1->parent or return ();
+		foreach my $b2 ($other->pathToRoot) {
+			$b1->parent == $b2->parent and return ($b1, $b2);
+		}
+	}
+	return ();
 }
 
 sub _add_burn {
