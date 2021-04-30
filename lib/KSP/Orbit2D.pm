@@ -253,8 +253,8 @@ sub hohmannTo {
 	# warn "\tINNER $inner\n\tOUTER $outer\n\tSWAP $swap\n";
 
 	@_ > 2 or ($innerAp, $outerAp) = (0, 1);
-	my $innerh = $innerAp ? $inner->ap : $inner->pe;
-	my $outerh = $outerAp ? $outer->ap : $outer->pe;
+	my $innerh = $innerAp && $inner->e < 1 ? $inner->ap : $inner->pe;
+	my $outerh = $outerAp && $outer->e < 1 ? $outer->ap : $outer->pe;
 
 	my $trans = $self->body->orbit(pe => $innerh, ap => $outerh);
 	wantarray or return $trans;
