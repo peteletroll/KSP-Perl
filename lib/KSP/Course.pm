@@ -220,7 +220,7 @@ sub _go_sibling {
 	$cur->body->parent == $dst->body->parent
 		or return;
 
-	my ($tr, $htr1, $htr2) = $cur->body->hohmannTo($dst->body);
+	my ($tr, $htr1, $htr2) = $cur->body->orbit->hohmannTo($dst->body->orbit);
 	# warn "TO SIBLING $htr1 $htr2 $tr\n";
 
 	my $out = $cur->body->orbit(pe => $cur->pe,

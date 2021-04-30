@@ -30,7 +30,7 @@ print "INCL\t", U(180 / pi * $incl), "°\n";
 my $l1 = $b1->lowOrbit();
 my $l2 = $b2->lowOrbit();
 
-my ($tr, $htr1, $htr2) = $b1->hohmannTo($b2);
+my ($tr, $htr1, $htr2) = $b1->orbit->hohmannTo($b2->orbit);
 
 my $e1 = KSP::Orbit2D->new($b1,
 	pe => $b1->lowHeight(),
