@@ -84,20 +84,20 @@ sub goAp {
 }
 
 sub goTo {
-	my ($self, $dst) = @_;
+	my ($self, $dst, $toAp) = @_;
 	my $cur = $self->current;
 	# warn "CUR $cur\n";
 	$dst = _asorbit($dst, 1);
 	$self->_go_samebody($cur, $dst)
-		or $self->_go_ancestor($cur, $dst)
-		or $self->_go_descendant($cur, $dst)
-		or $self->_go_sibling($cur, $dst)
+		or $self->_go_ancestor($cur, $dst, $toAp)
+		or $self->_go_descendant($cur, $dst, $toAp)
+		or $self->_go_sibling($cur, $dst, $toAp)
 		or croak "can't go from $cur to $dst";
 	$self
 }
 
 sub _go_samebody {
-	my ($self, $cur, $dst) = @_;
+	my ($self, $cur, $dst, $toAp) = @_;
 	$cur->body == $dst->body
 		or return;
 
@@ -124,7 +124,7 @@ sub _go_samebody {
 }
 
 sub _go_descendant {
-	my ($self, $cur, $dst) = @_;
+	my ($self, $cur, $dst, $toAp) = @_;
 	$cur->body->hasDescendant($dst->body)
 		or return;
 
@@ -171,7 +171,7 @@ sub _go_descendant {
 }
 
 sub _go_ancestor {
-	my ($self, $cur, $dst) = @_;
+	my ($self, $cur, $dst, $toAp) = @_;
 	$cur->body->hasAncestor($dst->body)
 		or return;
 
@@ -216,7 +216,7 @@ sub _go_ancestor {
 }
 
 sub _go_sibling {
-	my ($self, $cur, $dst) = @_;
+	my ($self, $cur, $dst, $toAp) = @_;
 	$cur->body->parent == $dst->body->parent
 		or return;
 
