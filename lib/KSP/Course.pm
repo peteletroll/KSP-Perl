@@ -175,7 +175,6 @@ sub _go_ancestor {
 	$cur->body->hasAncestor($dst->body)
 		or return;
 
-	# warn "TO ANCESTOR $cur -> $dst\n";
 	my @b = ();
 	for (my $b = $cur->body; $b && $b != $dst->body; $b = $b->parent) {
 		push @b, $b;
@@ -194,7 +193,7 @@ sub _go_ancestor {
 		# warn "\nSTEP ", $b1->name, " -> ", $b2->name, ", $out\n";
 		my $hout = $b1->orbit->ap;
 		my $vout = $out->v_from_vis_viva($hout) - $b1->orbit->v_from_vis_viva($hout);
-		my $b1pe = $i > 0 ? $b[$i - 1]->orbit->pe : $cur->pe;
+		my $b1pe = $i > 0 ? $b[$i - 1]->orbit->pe : $self->nextBurnHeight;
 		# warn "OUT ", U($vout), "m/s AT ", U($hout), "m FROM ", U($b1pe), "\n";
 
 		$out = $b1->orbit(pe => $b1pe, v_soi => $vout);
@@ -205,7 +204,8 @@ sub _go_ancestor {
 	# warn "\n";
 	# warn "SEQ $_\n" foreach @tr;
 
-	$self->_add_burn($cur, $tr[-1], $cur->pe);
+	$self->_add_burn($cur, $tr[-1], $self->nextBurnHeight);
+
 	for (my $i = @tr - 2; $i >= 0; $i--) {
 		$self->_add_soi($tr[$i]);
 	}
@@ -236,7 +236,8 @@ sub _go_sibling {
 	$self->_add_soi($tr);
 
 	my $incl = $cur->body->orbitNormal->angle($dst->body->orbitNormal);
-	my $vincl = $tr->vmax;
+	my $hincl = $tr->pe;
+	my $vincl = $tr->v_from_vis_viva($hincl);
 	my $dvincl = 2 * sin($incl / 2) * $vincl;
 	$self->_add(do => "incl", dv => $dvincl, then => $tr);
 
