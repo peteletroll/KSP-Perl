@@ -187,12 +187,13 @@ sub _go_ancestor {
 	# warn "TR ", U($htr1), "m ", U($htr2), "m $tr\n";
 
 	my @tr = ($tr);
+	my @h = ($htr1);
 	my $out = $tr;
 	for (my $i = @b - 2; $i >= 0; $i--) {
 		my $b1 = $b[$i];
 		my $b2 = $out->body;
 		# warn "\nSTEP ", $b1->name, " -> ", $b2->name, ", $out\n";
-		my $hout = $b1->orbit->ap;
+		my $hout = $b1->orbit->pe;
 		my $vout = $out->v_from_vis_viva($hout) - $b1->orbit->v_from_vis_viva($hout);
 		my $b1pe = $i > 0 ? $b[$i - 1]->orbit->pe : $self->nextBurnHeight;
 		# warn "OUT ", U($vout), "m/s AT ", U($hout), "m FROM ", U($b1pe), "\n";
@@ -200,6 +201,7 @@ sub _go_ancestor {
 		$out = $b1->orbit(pe => $b1pe, v_soi => $vout);
 		# warn "OUT $out\n";
 		push @tr, $out;
+		push @h, $hout;
 	}
 
 	# warn "\n";
@@ -208,7 +210,8 @@ sub _go_ancestor {
 	$self->_add_burn($cur, $tr[-1], $self->nextBurnHeight);
 
 	for (my $i = @tr - 2; $i >= 0; $i--) {
-		$self->_add_soi($tr[$i]);
+		# $self->_add_soi($tr[$i]);
+		$self->_add(do => "leave", then => $tr[$i], h => $h[$i]);
 	}
 
 	$self->_add_burn($tr[0], $dst, $htr2);
@@ -216,7 +219,7 @@ sub _go_ancestor {
 	1
 }
 
-our $HOHMANN = 0;
+our $HOHMANN = $ENV{HOHMANN} ? 1 : 0;
 
 sub _go_hohmann {
 	$HOHMANN or return;
@@ -266,7 +269,8 @@ sub _go_sibling {
 
 	$self->_add_burn($cur, $out, $cur->pe);
 
-	$self->_add_soi($tr, $htr1);
+	# $self->_add_soi($tr, $htr1);
+	$self->_add(do => "leave", then => $tr, h => $htr1);
 
 	my $incl = $cur->body->orbitNormal->angle($dst->body->orbitNormal);
 	my $hincl = $tr->pe;
@@ -274,7 +278,8 @@ sub _go_sibling {
 	my $dvincl = 2 * sin($incl / 2) * $vincl;
 	$self->_add(do => "incl", dv => $dvincl, then => $tr);
 
-	$self->_add_soi($in, $htr2);
+	# $self->_add_soi($in, $htr2);
+	$self->_add(do => "enter", then => $in, h => $htr2);
 
 	$self->_add_burn($in, $dst, $dst->pe);
 
