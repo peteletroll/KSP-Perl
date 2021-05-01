@@ -216,16 +216,36 @@ sub _go_ancestor {
 	1
 }
 
+our $HOHMANN = 0;
+
 sub _go_hohmann {
+	$HOHMANN or return;
+
 	my ($self, $cur, $dst, $toAp) = @_;
 	$cur->body != $dst->body
 		or return;
+
 	my ($trb1, $trb2) = _hohmann_pair($cur->body, $dst->body);
 	$trb1 && $trb2
 		or return;
 	my ($tr, $htr1, $htr2) = $trb1->orbit->hohmannTo($trb2->orbit);
-	warn "TO HOHMANN ", $trb1->name, " ", U($htr1), "m -> ", $trb2->name, " ", U($htr2), "m, $tr\n";
-	return
+	my $goUp = $htr2 > $htr1;
+
+	$self->_go_ancestor($cur, $tr, !$goUp) or return;
+
+	my $incl = $trb1->orbitNormal->angle($trb2->orbitNormal);
+	my $hincl = $tr->pe;
+	my $vincl = $tr->v_from_vis_viva($hincl);
+	my $dvincl = 2 * sin($incl / 2) * $vincl;
+	$self->_add(do => "incl", dv => $dvincl, then => $tr);
+
+	$goUp and $self->goAp();
+
+	$self->_go_descendant($tr, $dst, !$goUp) or return;
+
+	warn "HOHMANN ", ($goUp ? "UP" : "DN"), " ", $trb1->name, " ", U($htr1), "m -> ", $trb2->name, " ", U($htr2), "m, $tr\n";
+
+	1
 }
 
 sub _go_sibling {
@@ -234,7 +254,7 @@ sub _go_sibling {
 		or return;
 
 	my ($tr, $htr1, $htr2) = $cur->body->orbit->hohmannTo($dst->body->orbit);
-	# warn "TO SIBLING $htr1 $htr2 $tr\n";
+	warn "TO SIBLING ", U($htr1), "m ", U($htr2), "m $tr\n";
 
 	my $out = $cur->body->orbit(pe => $cur->pe,
 		v_soi => $tr->v_from_vis_viva($htr1) - $cur->body->orbit->v_from_vis_viva($htr1));
@@ -246,7 +266,7 @@ sub _go_sibling {
 
 	$self->_add_burn($cur, $out, $cur->pe);
 
-	$self->_add_soi($tr);
+	$self->_add_soi($tr, $htr1);
 
 	my $incl = $cur->body->orbitNormal->angle($dst->body->orbitNormal);
 	my $hincl = $tr->pe;
@@ -254,7 +274,7 @@ sub _go_sibling {
 	my $dvincl = 2 * sin($incl / 2) * $vincl;
 	$self->_add(do => "incl", dv => $dvincl, then => $tr);
 
-	$self->_add_soi($in);
+	$self->_add_soi($in, $htr2);
 
 	$self->_add_burn($in, $dst, $dst->pe);
 
@@ -276,13 +296,13 @@ sub _add_burn {
 	my ($self, $from, $to, $h) = @_;
 	my $dv = $to->v_from_vis_viva($h) - $from->v_from_vis_viva($h);
 	# warn "BURN ", U($dv), "m/s AT ", U($h), "m TO $to\n";
-	$dv and $self->_add(do => "burn", dv => $dv, h => $h, then => $to);
+	abs($dv) > 1e-10 and $self->_add(do => "burn", dv => $dv, h => $h, then => $to);
 	$self
 }
 
 sub _add_soi {
-	my ($self, $to) = @_;
-	$self->_add(do => "soi", then => $to)
+	my ($self, $to, $h) = @_;
+	$self->_add(do => "soi", h => $h, then => $to)
 }
 
 sub _add($%) {
