@@ -165,7 +165,6 @@ sub _go_descendant {
 	$self->_add_burn($cur, $tr[0], $htr1);
 
 	for (my $i = 1; $i < @b; $i++) {
-		# $self->_add_soi($tr[$i]);
 		$self->_add(do => "enter", then => $tr[$i], h => $h[$i]);
 	}
 
@@ -213,7 +212,6 @@ sub _go_ancestor {
 	$self->_add_burn($cur, $tr[-1], $self->nextBurnHeight);
 
 	for (my $i = @tr - 2; $i >= 0; $i--) {
-		# $self->_add_soi($tr[$i]);
 		$self->_add(do => "leave", then => $tr[$i], h => $h[$i]);
 	}
 
@@ -272,7 +270,6 @@ sub _go_sibling {
 
 	$self->_add_burn($cur, $out, $cur->pe);
 
-	# $self->_add_soi($tr, $htr1);
 	$self->_add(do => "leave", then => $tr, h => $htr1);
 
 	my $incl = $cur->body->orbitNormal->angle($dst->body->orbitNormal);
@@ -281,7 +278,6 @@ sub _go_sibling {
 	my $dvincl = 2 * sin($incl / 2) * $vincl;
 	$self->_add(do => "incl", dv => $dvincl, then => $tr);
 
-	# $self->_add_soi($in, $htr2);
 	$self->_add(do => "enter", then => $in, h => $htr2);
 
 	$self->_add_burn($in, $dst, $dst->pe);
@@ -306,11 +302,6 @@ sub _add_burn {
 	# warn "BURN ", U($dv), "m/s AT ", U($h), "m TO $to\n";
 	abs($dv) > 1e-10 and $self->_add(do => "burn", dv => $dv, h => $h, then => $to);
 	$self
-}
-
-sub _add_soi {
-	my ($self, $to, $h) = @_;
-	$self->_add(do => "soi", h => $h, then => $to)
 }
 
 sub _add($%) {
