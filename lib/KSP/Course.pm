@@ -142,12 +142,13 @@ sub _go_descendant {
 	# warn "TR ", U($htr1), "m ", U($htr2), "m $tr\n";
 
 	my @tr = ($tr);
+	my @h = ($htr1);
 	my $in = $tr;
 	for (my $i = 1; $i < @b; $i++) {
 		my $b1 = $in->body;
 		my $b2 = $b[$i];
 		# warn "\nSTEP ", $b1->name, " -> ", $b2->name, ", $in\n";
-		my $hin = $b2->orbit->ap;
+		my $hin = $b2->orbit->pe;
 		my $vin = $in->v_from_vis_viva($hin) - $b2->orbit->v_from_vis_viva($hin);
 		my $b2pe = $i < $#b ? $b[$i + 1]->orbit->pe : $dst->pe;
 		# warn "IN ", U($vin), "m/s AT ", U($hin), "m TO ", U($b2pe), "\n";
@@ -155,6 +156,7 @@ sub _go_descendant {
 		$in = $b2->orbit(pe => $b2pe, v_soi => $vin);
 		# warn "IN $in\n";
 		push @tr, $in;
+		push @h, $hin;
 	}
 
 	# warn "\n";
@@ -163,7 +165,8 @@ sub _go_descendant {
 	$self->_add_burn($cur, $tr[0], $htr1);
 
 	for (my $i = 1; $i < @b; $i++) {
-		$self->_add_soi($tr[$i]);
+		# $self->_add_soi($tr[$i]);
+		$self->_add(do => "enter", then => $tr[$i], h => $h[$i]);
 	}
 
 	$self->_add_burn($tr[-1], $dst, $dst->pe);
