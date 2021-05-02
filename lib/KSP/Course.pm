@@ -201,7 +201,7 @@ sub _go_ancestor {
 		$out = $b1->orbit(pe => $b1pe, v_soi => $vout);
 		# warn "OUT $out\n";
 		push @tr, $out;
-		push @h, $hout;
+		push @h, $b1pe;
 	}
 
 	# warn "\n";
