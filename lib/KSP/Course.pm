@@ -129,7 +129,7 @@ sub _go_descendant {
 	$cur->body->hasDescendant($dst->body)
 		or return;
 
-	# warn "TO DESCENDANT $cur -> $dst\n";
+	# warn "TO DESCENDANT $cur -> $dst ", ($toAp ? "AP" : "PE"), "\n";
 	my @b = ();
 	for (my $b = $dst->body; $b && $b != $cur->body; $b = $b->parent) {
 		push @b, $b;
@@ -147,8 +147,8 @@ sub _go_descendant {
 	for (my $i = 1; $i < @b; $i++) {
 		my $b1 = $in->body;
 		my $b2 = $b[$i];
-		# warn "\nSTEP ", $b1->name, " -> ", $b2->name, ", $in\n";
-		my $hin = $b2->orbit->pe;
+		# warn "\nSTEP$i ", $b1->name, " -> ", $b2->name, ", $in\n";
+		my $hin = $i > 1 ? $b2->orbit->pe : $htr2;
 		my $vin = $in->v_from_vis_viva($hin) - $b2->orbit->v_from_vis_viva($hin);
 		my $b2pe = $i < $#b ? $b[$i + 1]->orbit->pe : $dst->pe;
 		# warn "IN ", U($vin), "m/s AT ", U($hin), "m TO ", U($b2pe), "\n";
@@ -245,7 +245,7 @@ sub _go_hohmann {
 
 	$goUp and $self->goAp();
 
-	$self->_go_descendant($tr, $dst, !$goUp) or return;
+	$self->_go_descendant($tr, $dst, $goUp) or return;
 
 	warn "HOHMANN ", ($goUp ? "UP" : "DN"), " ", $trb1->name, " ", U($htr1), "m -> ", $trb2->name, " ", U($htr2), "m, $tr\n";
 
