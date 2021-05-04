@@ -16,7 +16,7 @@ sub proxy(&) {
 	my $tgt = (caller(0))[0];
 	defined $tgt or return;
 	# warn "BODIES INTO $tgt\n";
-	foreach my $name (qw(goAp goTo)) {
+	foreach my $name (qw(goAp burnTo goTo)) {
 		$name =~ /^\w+$/ or die "bad name \"$name\"";
 		no strict "refs";
 		my $method = \&$name;
@@ -102,6 +102,13 @@ sub goAp {
 	$ap = 1 if @_ < 2;
 	$self->[-1]{hburn} = $ap ? $self->current->ap : $self->current->pe;
 	$self
+}
+
+sub burnTo {
+	my ($self, $hdst) = @_;
+	my $cur = $self->current;
+	ref $hdst and croak "scalar needed for burnTo()";
+	$self->goTo($cur->body->orbit(pe => $self->nextBurnHeight, ap => $hdst));
 }
 
 sub goTo {
