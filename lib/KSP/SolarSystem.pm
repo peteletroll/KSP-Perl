@@ -61,10 +61,10 @@ sub import_bodies {
 	my $tgt = (caller(0))[0];
 	defined $tgt or return;
 	# warn "BODIES INTO $tgt\n";
-	no strict "refs";
 	foreach (body_names()) {
 		/^\w+$/ or die "bad name \"$_\"";
 		my $name = $_;
+		no strict "refs";
 		*{"${tgt}::${name}"} = sub { KSP::SolarSystem->body($name) };
 	}
 }
