@@ -42,15 +42,20 @@ warn Mun->lowOrbit->goTo(Minmus), "\n";
 
 warn Minmus->lowOrbit->goTo(Mun), "\n";
 
-warn "MUN TO MINMUS\n";
-warn Mun->goTo(Minmus->orbit), "\n";
+warn "\n";
+warn "MOHO ", Moho->orbit, "\n";
+warn "JOOL ", Moho->orbit, "\n";
+warn "\n";
 
-warn "MINMUS TO MUN\n";
-warn Minmus->goTo(Mun->orbit), "\n";
+warn "MOHO/PE TO JOOL/PE\n";
+warn Moho->orbit->goTo(Jool), "\n";
 
-warn "ANCESTOR TEST\n";
-warn Mun->goTo(Duna->orbit), "\n";
+warn "MOHO/AP TO JOOL/PE\n";
+warn Moho->orbit->goAp->goTo(Jool), "\n";
 
-warn "DESCENDANT TEST\n";
-warn Duna->orbit->goTo(Mun), "\n";
+warn "MOHO/PE TO JOOL/AP\n";
+warn Moho->orbit->goTo(Jool), "\n";
+
+warn "MOHO/AP TO JOOL/AP\n";
+warn Moho->orbit->goAp->goTo(Jool), "\n";
 

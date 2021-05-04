@@ -258,7 +258,7 @@ sub _go_sibling {
 		or return;
 
 	my ($tr, $htr1, $htr2) = $cur->body->orbit->hohmannTo($dst->body->orbit);
-	warn "TO SIBLING ", U($htr1), "m ", U($htr2), "m $tr\n";
+	# warn "TO SIBLING ", U($htr1), "m ", U($htr2), "m $tr\n";
 
 	my $out = $cur->body->orbit(pe => $cur->pe,
 		v_soi => $tr->v_from_vis_viva($htr1) - $cur->body->orbit->v_from_vis_viva($htr1));
