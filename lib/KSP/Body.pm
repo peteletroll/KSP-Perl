@@ -12,7 +12,7 @@ use KSP::SolarSystem;
 use KSP::Orbit2D;
 
 use KSP::Course;
-KSP::Course::proxy(sub { KSP::Course->new($_) });
+KSP::Course::proxy(sub { KSP::Course->new($_->lowOrbit) });
 
 use overload
 	fallback => 1,

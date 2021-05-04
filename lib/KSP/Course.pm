@@ -31,6 +31,8 @@ sub proxy(&) {
 
 sub new {
 	my ($pkg, $start) = @_;
+	ref $start && $start->isa("KSP::Orbit2D")
+		or confess "KSP::Orbit2D needed";
 	my $new = bless [ ], $pkg;
 	$new->_add(do => "start", then => $start)
 }
