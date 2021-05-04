@@ -78,8 +78,9 @@ sub _step($) {
 }
 
 sub goAp {
-	my ($self) = @_;
-	$self->[-1]{hburn} = $self->current->ap;
+	my ($self, $ap) = @_;
+	$ap = 1 if @_ < 2;
+	$self->[-1]{hburn} = $ap ? $self->current->ap : $self->current->pe;
 	$self
 }
 
