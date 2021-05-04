@@ -3,13 +3,16 @@ package KSP::Body;
 use strict;
 use warnings;
 
+use Carp;
+
 use FastVector;
 
 use KSP qw(U);
 use KSP::SolarSystem;
 use KSP::Orbit2D;
 
-use Carp;
+use KSP::Course;
+KSP::Course::proxy(sub { KSP::Course->new($_) });
 
 use overload
 	fallback => 1,
@@ -165,11 +168,6 @@ sub syncOrbit {
 sub highOrbit {
 	my ($self) = @_;
 	KSP::Orbit2D->new($self, pe => $self->lowHeight, ap => $self->highHeight)
-}
-
-sub goTo {
-	my ($self, $dest) = @_;
-	$self->lowOrbit->goTo($dest)
 }
 
 sub desc {

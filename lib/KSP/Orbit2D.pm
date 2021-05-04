@@ -10,6 +10,9 @@ use Math::Trig;
 
 use TinyStruct qw(body e p);
 
+use KSP::Course;
+KSP::Course::proxy(sub { KSP::Course->new($_) });
+
 use overload
 	'""' => \&desc;
 
@@ -259,16 +262,6 @@ sub hohmannTo {
 	my $trans = $self->body->orbit(pe => $innerh, ap => $outerh);
 	wantarray or return $trans;
 	$swap ? ($trans, $outerh, $innerh) : ($trans, $innerh, $outerh)
-}
-
-sub goAp {
-	my ($self, @rest) = @_;
-	KSP::Course->new($self)->goAp(@rest)
-}
-
-sub goTo {
-	my ($self, @rest) = @_;
-	KSP::Course->new($self)->goTo(@rest)
 }
 
 sub desc {

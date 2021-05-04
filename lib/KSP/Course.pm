@@ -11,6 +11,24 @@ use KSP qw(U);
 use overload
 	'""' => \&desc;
 
+sub proxy(&) {
+	my ($sub) = @_;
+	my $tgt = (caller(0))[0];
+	defined $tgt or return;
+	# warn "BODIES INTO $tgt\n";
+	foreach my $name (qw(goAp goTo)) {
+		$name =~ /^\w+$/ or die "bad name \"$name\"";
+		no strict "refs";
+		my $method = \&$name;
+		*{"${tgt}::${name}"} = sub {
+			my ($self, @rest) = @_;
+			# warn "PROXYED $name $self\n";
+			local $_ = $self;
+			$method->($sub->(), @rest)
+		};
+	}
+}
+
 sub new {
 	my ($pkg, $start) = @_;
 	my $new = bless [ ], $pkg;
