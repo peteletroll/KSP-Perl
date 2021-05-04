@@ -109,6 +109,8 @@ sub burnTo {
 	my $cur = $self->current;
 	ref $hdst and croak "scalar needed for burnTo()";
 	$self->goTo($cur->body->orbit(pe => $self->nextBurnHeight, ap => $hdst));
+	$self->[-1]{hburn} = $hdst;
+	$self
 }
 
 sub goTo {
