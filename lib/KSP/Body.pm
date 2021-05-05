@@ -7,9 +7,9 @@ use Carp;
 
 use FastVector;
 
-use KSP qw(U);
 use KSP::SolarSystem;
 use KSP::Orbit2D;
+use KSP::Util qw(U);
 
 use KSP::Course;
 KSP::Course::proxy(sub { KSP::Course->new($_->lowOrbit) });

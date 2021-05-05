@@ -37,8 +37,7 @@ use KSP::ConfigNode;
 use KSP::Time;
 use KSP::Orbit2D;
 use KSP::Course;
-
-sub U($;$) { goto &KSP::Orbit2D::U }
+use KSP::Util qw(U);
 
 1;
 

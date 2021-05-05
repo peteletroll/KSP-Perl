@@ -8,7 +8,7 @@ BEGIN { use_ok('KSP') };
 
 #########################
 
-use KSP qw(U);
+use KSP::Util qw(U);
 
 use Math::Trig;
 

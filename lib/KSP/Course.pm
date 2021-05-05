@@ -6,7 +6,7 @@ use warnings;
 
 use Carp;
 
-use KSP qw(U);
+use KSP::Util qw(U);
 
 use overload
 	'""' => \&desc;
