@@ -118,7 +118,7 @@ sub goTo {
 	my $cur = $self->current;
 	# warn "CUR $cur\n";
 	$dst = _asorbit($dst, 1);
-	$self->_go_samebody($cur, $dst)
+	$self->_go_samebody($dst)
 		or $self->_go_ancestor($cur, $dst, $toAp)
 		or $self->_go_descendant($cur, $dst, $toAp)
 		or $self->_go_hohmann($cur, $dst, $toAp)
@@ -134,28 +134,23 @@ sub _go_height {
 }
 
 sub _go_samebody {
-	my ($self, $cur, $dst, $toAp) = @_;
+	my ($self, $dst) = @_;
+	my $cur = $self->current;
 	$cur->body == $dst->body
 		or return;
 
-	if (abs($dst->pe - $cur->pe) / ($dst->pe + $cur->pe) < 1e-5) {
-		$self->_add_burn($cur, $dst, $cur->pe);
+	if (abs($dst->pe - $cur->pe) / ($dst->pe + $cur->pe) < 1e-6) {
+		# same periapsis
+		$self->goAp(0)->_add_burn($cur, $dst, $self->nextBurnHeight);
 		return 1
 	}
 
-	my $ap1 = $dst->e < 1 ? $dst->ap :
-		$cur->e < 1 ? $cur->ap :
-		$cur->body->highHeight;
+	my $hh = $cur->body->highHeight;
+	my $ap1 = $dst->e < 1 && $dst->ap < $hh ? $dst->ap :
+		$cur->e < 1 && $cur->ap < $hh ? $cur->ap :
+		$hh;
 
-	my $h1 = $self->nextBurnHeight;
-	my $tr1 = $cur->body->orbit(pe => $h1, ap => $ap1);
-	$self->_add_burn($cur, $tr1, $h1);
-
-	my $h2 = $ap1;
-	my $tr2 = $cur->body->orbit(pe => $dst->pe, ap => $ap1);
-	$self->_add_burn($tr1, $tr2, $h2);
-
-	$self->_add_burn($tr2, $dst, $dst->pe);
+	$self->burnTo($ap1)->burnTo($dst->pe)->_add_burn($self->current, $dst, $self->nextBurnHeight);
 
 	1
 }
