@@ -173,8 +173,8 @@ sub _need_ellipse {
 }
 
 sub a { # major semiaxis
-	my ($self) = @_;
-	$self->_need_ellipse;
+	my ($self, $noerr) = @_;
+	$noerr or $self->_need_ellipse;
 	1 / $self->inv_a
 }
 
@@ -201,8 +201,8 @@ sub pe { # periapsis height
 }
 
 sub ap { # apoapsis height
-	my ($self) = @_;
-	$self->_need_ellipse;
+	my ($self, $noerr) = @_;
+	$noerr or $self->_need_ellipse;
 	$self->p / (1 - $self->e) - $self->body->radius
 }
 
