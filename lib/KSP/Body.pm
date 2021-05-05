@@ -9,7 +9,7 @@ use FastVector;
 
 use KSP::SolarSystem;
 use KSP::Orbit2D;
-use KSP::Util qw(U);
+use KSP::Util qw(U proxy);
 
 use KSP::Course;
 KSP::Course::proxy(sub { KSP::Course->new($_->lowOrbit) });
@@ -60,6 +60,8 @@ sub SOI {
 sub mu {
 	$_[0]{size}{mu}
 }
+
+proxy("KSP::Orbit2D" => sub { $_->orbit }, qw(pe ap));
 
 sub parent {
 	my $o = $_[0]->{orbit} or return undef;

@@ -6,7 +6,7 @@ use warnings;
 
 require Exporter;
 our @ISA = qw(Exporter);
-our @EXPORT_OK = qw(U);
+our @EXPORT_OK = qw(U proxy);
 
 our @U = (
 	[ undef, 1e27 ],
@@ -49,4 +49,23 @@ sub U($;$) {
 
 	sprintf "%g", $x
 }
+
+sub proxy($$@) {
+	my ($to, $adj, @sub) = @_;
+	my $from = (caller(0))[0];
+	defined $from or return;
+	foreach my $name (@sub) {
+		$name =~ /^\w+$/ or die "bad name \"$name\"";
+		no strict "refs";
+		my $method = \&{"${to}::${name}"};
+		*{"${from}::${name}"} = sub {
+			my ($self, @rest) = @_;
+			# warn "PROXYED $name $self\n";
+			local $_ = $self;
+			$method->($adj->(), @rest)
+		};
+	}
+}
+
+1
 
