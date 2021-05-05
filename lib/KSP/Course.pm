@@ -67,9 +67,9 @@ sub desc {
 		my $s = $self->[$i];
 		push @d, sprintf("%3d: ", $i) . _step($s);
 	}
-	push @d, sprintf "     tot Δv%9sm/s%s",
+	push @d, sprintf "     tot Δv%9sm/s, next burn at %sm\n",
 		U($self->dv),
-		($self->[-1]{hburn} ? sprintf("%8sm", U($self->nextBurnHeight)) : "");
+		U($self->nextBurnHeight);
 	join "\n", @d
 }
 
@@ -100,7 +100,7 @@ sub _step($) {
 sub goAp {
 	my ($self, $ap) = @_;
 	$ap = 1 if @_ < 2;
-	$self->[-1]{hburn} = $ap ? $self->current->ap : $self->current->pe;
+	$self->_go_height($ap ? $self->current->ap : $self->current->pe);
 	$self
 }
 
@@ -108,9 +108,9 @@ sub burnTo {
 	my ($self, $hdst) = @_;
 	my $cur = $self->current;
 	ref $hdst and croak "scalar needed for burnTo()";
+	my $tr = $cur->body->orbit(pe => $self->nextBurnHeight, ap => $hdst);
 	$self->goTo($cur->body->orbit(pe => $self->nextBurnHeight, ap => $hdst));
-	$self->[-1]{hburn} = $hdst;
-	$self
+	$self->_go_height($hdst)
 }
 
 sub goTo {
@@ -124,6 +124,12 @@ sub goTo {
 		or $self->_go_hohmann($cur, $dst, $toAp)
 		or $self->_go_sibling($cur, $dst, $toAp)
 		or croak "can't go from $cur to $dst";
+	$self
+}
+
+sub _go_height {
+	my ($self, $hdst) = @_;
+	$self->[-1]{hburn} = 0 + $hdst;
 	$self
 }
 
