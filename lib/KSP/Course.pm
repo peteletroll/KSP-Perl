@@ -110,7 +110,7 @@ sub burnTo {
 	ref $hdst and croak "scalar needed for burnTo()";
 	my $hcur = $self->nextBurnHeight;
 	my $tr = $cur->body->orbit(pe => $hcur, ap => $hdst);
-	$self->_add_burn($cur, $tr, $hcur)->_go_height($hdst)
+	$self->_add_burn($cur, $tr, $hcur)->_go_height($hdst > 0 ? $hdst : $hcur)
 }
 
 sub goTo {
@@ -150,7 +150,7 @@ sub _go_samebody {
 		$cur->e < 1 && $cur->ap < $hh ? $cur->ap :
 		$hh;
 
-	$self->burnTo($ap1)->burnTo($dst->pe)->_add_burn($self->current, $dst, $self->nextBurnHeight);
+	$self->burnTo($ap1)->burnTo($dst->pe)->burnTo($dst->ap(1));
 
 	1
 }
