@@ -11,9 +11,9 @@ use Math::Trig;
 use TinyStruct qw(body e p);
 
 use KSP::Course;
-KSP::Course::proxy(sub { KSP::Course->new($_) });
 
-use KSP::Util qw(U);
+use KSP::Util qw(U proxy);
+proxy("KSP::Course" => sub { KSP::Course->new($_) }, qw(goAp burnTo goTo));
 
 use overload
 	'""' => \&desc;
