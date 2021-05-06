@@ -191,7 +191,7 @@ sub _sort {
 
 sub _sortkey {
 	my ($self) = @_;
-	$self->{_sortkey} ||= do {
+	$self->{_sortkey_} ||= do {
 		my $a = 1;
 		for (my $o = $self->orbit; $o; $o = $o->body->orbit) {
 			$a += $o->a;
