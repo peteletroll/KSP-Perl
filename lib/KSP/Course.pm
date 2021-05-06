@@ -95,6 +95,16 @@ sub burnTo {
 	$self->_add_burn($cur, $tr, $hcur)->_go_height($hdst > 0 ? $hdst : $hcur)
 }
 
+sub burnIncl {
+	my ($self, $incl, $h) = @_;
+	my $cur = $self->current;
+	defined $h or $h = $cur->pe;
+	my $vincl = $cur->v_from_vis_viva($h);
+	my $dvincl = 2 * sin($incl / 2) * $vincl;
+	$self->_add(do => "incl", dv => $dvincl, h => $h, then => $cur);
+
+}
+
 sub goTo {
 	my ($self, $dst, $toAp) = @_;
 	my $cur = $self->current;
@@ -252,9 +262,7 @@ sub _go_hohmann {
 
 	my $incl = $trb1->orbitNormal->angle($trb2->orbitNormal);
 	my $hincl = $tr->pe;
-	my $vincl = $tr->v_from_vis_viva($hincl);
-	my $dvincl = 2 * sin($incl / 2) * $vincl;
-	$self->_add(do => "incl", dv => $dvincl, then => $tr);
+	$self->burnIncl($incl, $hincl);
 
 	$goUp and $self->goAp();
 
