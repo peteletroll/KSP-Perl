@@ -116,7 +116,7 @@ sub hohmannTo {
 
 sub hasDescendant {
 	my ($self, $other) = @_;
-	$other->hasAncestor($self);
+	$other->hasAncestor($self)
 }
 
 sub orbitPeriod {
