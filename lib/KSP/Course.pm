@@ -6,6 +6,8 @@ use warnings;
 
 use Carp;
 
+use Math::Trig;
+
 use KSP::Util qw(U);
 
 use overload
@@ -93,6 +95,11 @@ sub burnTo {
 	my $hcur = $self->nextBurnHeight;
 	my $tr = $cur->body->orbit(pe => $hcur, ap => $hdst);
 	$self->_add_burn($cur, $tr, $hcur)->_go_height($hdst > 0 ? $hdst : $hcur)
+}
+
+sub burnInclDeg {
+	my ($self, $incl, $h) = @_;
+	$self->burnIncl(deg2rad($incl), $h)
 }
 
 sub burnIncl {

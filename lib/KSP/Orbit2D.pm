@@ -13,7 +13,8 @@ use TinyStruct qw(body e p);
 use KSP::Course;
 
 use KSP::Util qw(U proxy);
-proxy("KSP::Course" => sub { KSP::Course->new($_) }, qw(goAp burnTo burnIncl goTo));
+proxy("KSP::Course" => sub { KSP::Course->new($_) },
+	qw(goAp burnTo burnIncl burnInclDeg goTo));
 
 use overload
 	'""' => \&desc;

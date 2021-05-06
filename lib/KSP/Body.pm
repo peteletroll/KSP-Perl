@@ -13,7 +13,8 @@ use KSP::Course;
 
 use KSP::Util qw(U proxy);
 proxy("KSP::Orbit2D" => sub { $_->orbit }, qw(pe ap));
-proxy("KSP::Course" => sub { KSP::Course->new($_->lowOrbit) }, qw(goAp burnTo burnIncl goTo));
+proxy("KSP::Course" => sub { KSP::Course->new($_->lowOrbit) },
+	qw(goAp burnTo burnIncl burnInclDeg goTo));
 
 use overload
 	fallback => 1,
