@@ -270,10 +270,14 @@ sub desc {
 	my ($self) = @_;
 	my $open = $self->e >= 1;
 	my @d = ();
-	push @d, sprintf("↓ %sm, %sm/s", U($self->pe), U($self->vmax));
+
+	my $wpe = ($self->pe > 0 && $self->pe < $self->body->highHeight) ? "": "⚠";
+	my $wap = ($self->e >= 1 || $self->ap > 0 && $self->ap < $self->body->highHeight) ? "": "⚠";
+
+	push @d, sprintf("↓ %sm$wpe, %sm/s", U($self->pe), U($self->vmax));
 	push @d, $open ?
-		sprintf("↑ ∞, %sm/s, θ∞ %.0f°", U($self->vmin), 180 / pi * $self->th_inf) :
-		sprintf("↑ %sm, %sm/s", U($self->ap), U($self->vmin));
+		sprintf("↑ ∞$wap, %sm/s, θ∞ %.0f°", U($self->vmin), 180 / pi * $self->th_inf) :
+		sprintf("↑ %sm$wap, %sm/s", U($self->ap), U($self->vmin));
 	$open or push @d, KSP::Time->new($self->T)->pretty_interval;
 	my $y = $open ? "U" : $self->e > 0.06 ? "O" : "o";
 	"$y:" . $self->body->name . "[ " . join("; ", @d) . " ]"
