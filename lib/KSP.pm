@@ -8,6 +8,7 @@ our $VERSION = '0.01';
 our $KSP_DIR;
 BEGIN {
 	my $thisfile = __PACKAGE__ . ".pm";
+	$thisfile =~ s/::/\//g;
 	$KSP_DIR = $INC{$thisfile}
 		or die __PACKAGE__ . ": can't find KSP.pm directory";
 	$KSP_DIR =~ s/\.pm$//;
