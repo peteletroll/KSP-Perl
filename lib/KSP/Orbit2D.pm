@@ -243,6 +243,8 @@ sub vmin {
 sub hohmannTo {
 	my ($self, $other, $fromAp, $toAp) = @_;
 
+	ref $other && $other->isa("KSP::Body") and $other = $other->orbit;
+
 	# warn "HOHMANN ", __PACKAGE__, "\n";
 	# warn "\tSELF $self\n\tOTHER $other\n";
 	$self->body == $other->body

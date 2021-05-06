@@ -110,8 +110,8 @@ sub hasAncestor {
 }
 
 sub hohmannTo {
-	my ($self, $dst, @rest) = @_;
-	$self->orbit->hohmannTo($dst->orbit, @rest)
+	my ($self, $other, @rest) = @_;
+	$self->orbit->hohmannTo($other, @rest)
 }
 
 sub hasDescendant {
