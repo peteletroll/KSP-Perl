@@ -210,14 +210,17 @@ sub ap { # apoapsis height
 }
 
 sub checkHeight {
-	my ($self, $h) = @_;
+	my ($self, $h, $die) = @_;
+	@_ > 2 or $die = 1;
 	my $tol = 1e-4;
+	my $err = undef;
 	if ($h < $self->pe * (1 - $tol)) {
-		confess U($h) . "m is lower than periapsis of $self";
+		$err = U($h) . "m is lower than periapsis of $self";
+	} elsif ($self->e < 1 && $h > $self->ap * (1 + $tol)) {
+		$err = U($h) . "m is higher than apoapsis of $self";
 	}
-	if ($self->e < 1 && $h > $self->ap * (1 + $tol)) {
-		confess U($h) . "m is higher than apoapsis of $self";
-	}
+	$err && $die and confess $err;
+	!$err
 }
 
 sub v_from_vis_viva {
