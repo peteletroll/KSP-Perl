@@ -277,8 +277,10 @@ sub desc {
 	my $open = $self->e >= 1;
 	my @d = ();
 
-	my $wpe = ($self->pe > 0 && $self->pe < $self->body->highHeight) ? "": "⚠";
-	my $wap = ($self->e >= 1 || $self->ap > 0 && $self->ap < $self->body->highHeight) ? "": "⚠";
+	my $wtol = 1e-4;
+	my $hmax = (1 + $wtol) * $self->body->highHeight;
+	my $wpe = ($self->pe > 0 && $self->pe < $hmax) ? "": "⚠";
+	my $wap = ($self->e >= 1 || $self->ap > 0 && $self->ap < $hmax) ? "": "⚠";
 
 	push @d, sprintf("↓ %sm$wpe, %sm/s", U($self->pe), U($self->vmax));
 	push @d, $open ?
