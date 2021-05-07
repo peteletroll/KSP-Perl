@@ -9,7 +9,7 @@ use strict;
 use warnings;
 
 use Test::More tests => 1;
-BEGIN { use_ok('KSP') };
+BEGIN { use_ok('KSP') or BAIL_OUT("can't load") };
 
 #########################
 
