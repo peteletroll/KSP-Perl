@@ -209,6 +209,30 @@ sub ap { # apoapsis height
 	$self->p / (1 - $self->e) - $self->body->radius
 }
 
+sub apses {
+	my ($self) = @_;
+	$self-> e < 1 ? ($self->pe, $self->ap) : ($self->pe)
+}
+
+sub commonApsis {
+	my ($self, $other) = @_;
+	$self->body == $other->body or return;
+	my @pair = ();
+	foreach my $v1 ($self->apses) {
+		foreach my $v2 ($other->apses) {
+			if (@pair) {
+				abs($pair[0] - $pair[1]) < abs($v1 - $v2)
+					or @pair = ($v1, $v2);
+			} else {
+				@pair = ($v1, $v2);
+			}
+		}
+	}
+	my $e = abs($pair[0] - $pair[1]) / ($pair[0] + $pair[1]);
+	warn "ERROR $e\n";
+	($pair[0] + $pair[1]) / 2
+}
+
 sub checkHeight {
 	my ($self, $h, $die) = @_;
 	@_ > 2 or $die = 1;
