@@ -110,6 +110,18 @@ sub hasAncestor {
 	0
 }
 
+sub nextTo {
+	my ($self, $other) = @_;
+	$self->hasAncestor($other) and return $self->parent;
+	$other->hasAncestor($self)
+		or return;
+	while ($other) {
+		$other->parent == $self and last;
+		$other = $other->parent;
+	}
+	$other
+}
+
 sub hohmannTo {
 	my ($self, $other, @rest) = @_;
 	$self->orbit->hohmannTo($other, @rest)
