@@ -119,7 +119,7 @@ sub enterTo {
 		or croak "can't enter from ", $cur->body->name, " to ", $bdst->name;
 	ref $hdst and croak "scalar needed for enterTo()";
 	$hdst ||= $bdst->lowHeight;
-	while ($cur->body->nextTo($bdst) != $bdst) {
+	while ($cur->body != $bdst) {
 		# warn "CUR $cur\n";
 		my $b1 = $cur->body;
 		my $b2 = $cur->body->nextTo($bdst);
@@ -127,15 +127,10 @@ sub enterTo {
 		my $hb1 = $b2->pe; # TODO: add some goAp flag
 		my $vb2 = $cur->v_from_vis_viva($hb1) - $b2->orbit->v_from_vis_viva($hb1);
 		# warn "VDST ", U($vb2), "m/s AT ", U($hb1), "m\n";
-		my $next = $b2->orbit(pe => $b2->nextTo($bdst)->pe, v_soi => $vb2);
+		my $next = $b2->orbit(v_soi => $vb2, pe => $b2 == $bdst ? $hdst : $b2->nextTo($bdst)->pe);
 		$self->_add(do => "enter", then => $next, h => $hb1);
 		$cur = $next;
 	}
-	my $hin = $cur->pe; # TODO: add ap option
-	# warn "FINAL AT ", U($hin), "m\n";
-	my $vin = $cur->v_from_vis_viva($hin) - $bdst->orbit->v_from_vis_viva($hin);
-	my $in = $bdst->orbit(pe => $hdst, v_soi => $vin);
-	$self->_add(do => "enter", then => $in, h => $hin);
 	$self
 }
 
