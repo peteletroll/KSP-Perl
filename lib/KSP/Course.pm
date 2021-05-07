@@ -294,7 +294,7 @@ sub _go_sibling {
 	my $hincl = $tr->pe;
 	my $vincl = $tr->v_from_vis_viva($hincl);
 	my $dvincl = 2 * sin($incl / 2) * $vincl;
-	$self->_add(do => "incl", dv => $dvincl, then => $tr);
+	$self->_add(do => "incl", dv => $dvincl, h => $hincl, then => $tr);
 
 	$self->_add(do => "enter", then => $in, h => $htr2);
 
