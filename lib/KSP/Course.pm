@@ -127,9 +127,8 @@ sub enterTo {
 		my $hb1 = $b2->pe; # TODO: add some goAp flag
 		my $vb2 = $cur->v_from_vis_viva($hb1) - $b2->orbit->v_from_vis_viva($hb1);
 		# warn "VDST ", U($vb2), "m/s AT ", U($hb1), "m\n";
-		my $next = $b2->orbit(v_soi => $vb2, pe => $b2 == $bdst ? $hdst : $b2->nextTo($bdst)->pe);
-		$self->_add(do => "enter", then => $next, h => $hb1);
-		$cur = $next;
+		$cur = $b2->orbit(v_soi => $vb2, pe => $b2 == $bdst ? $hdst : $b2->nextTo($bdst)->pe);
+		$self->_add(do => "enter", then => $cur, h => $hb1);
 	}
 	$self
 }
