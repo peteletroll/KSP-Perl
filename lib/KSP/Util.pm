@@ -6,7 +6,7 @@ use warnings;
 
 require Exporter;
 our @ISA = qw(Exporter);
-our @EXPORT_OK = qw(U proxy);
+our @EXPORT_OK = qw(U closest proxy);
 
 our @U = (
 	[ undef, 1e27 ],
@@ -48,6 +48,16 @@ sub U($;$) {
 	}
 
 	sprintf "%g", $x
+}
+
+sub closest($@) {
+	my ($tgt, @val) = @_;
+	@val or return $tgt;
+	my $imin = 0;
+	for (my $i = 1; $i < @val; $i++) {
+		abs($val[$imin] - $tgt) < abs($val[$i] - $tgt) or $imin = $i;
+	}
+	$val[$imin];
 }
 
 sub proxy($$@) {
