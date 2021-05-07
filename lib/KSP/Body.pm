@@ -1,5 +1,6 @@
 package KSP::Body;
 
+use utf8;
 use strict;
 use warnings;
 
@@ -193,6 +194,7 @@ sub desc {
 	my ($self) = @_;
 	my @d = ();
 	push @d, "r " . U($self->radius) . "m";
+	push @d, "g₀ " . U($self->{size}{g0}) . "m/s²";
 	push @d, "soi " . U($self->SOI) . "m" if $self->SOI;
 	push @d, "rot " . KSP::Time->new($self->rotationPeriod)->pretty_interval;
 	$self->name . "[ " . join("; ", @d) . " ]"
