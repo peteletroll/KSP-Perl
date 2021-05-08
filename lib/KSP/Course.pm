@@ -124,15 +124,16 @@ sub enterTo {
 		my $b1 = $cur->body;
 		my $b2 = $cur->body->nextTo($bdst);
 		# warn "STEP ", $b1->name, " -> ", $b2->name, "\n";
-		my $hb1 = $cur->checkHeight($b2->pe, 0) ? $b2->pe :
-			$cur->checkHeight($b2->ap, 0) ? $b2->ap :
-			undef; # TODO: allow enter height choice
+
+		my $hb1 = $b2->orbit->commonApsis($cur);
 		defined $hb1 or croak "apses mismatched for enter";
+
 		my $vb2 = $cur->v_from_vis_viva($hb1) - $b2->orbit->v_from_vis_viva($hb1);
 		# warn "VDST ", U($vb2), "m/s AT ", U($hb1), "m\n";
 		$cur = $b2->orbit(v_soi => $vb2, pe => $b2 == $bdst ? $hdst : $b2->nextTo($bdst)->pe);
 		$self->_add(do => "enter", then => $cur, h => $hb1);
 	}
+	# warn "CUR $cur\n";
 	$self
 }
 

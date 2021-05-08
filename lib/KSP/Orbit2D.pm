@@ -220,17 +220,12 @@ sub commonApsis {
 	my @pair = ();
 	foreach my $v1 ($self->apses) {
 		foreach my $v2 ($other->apses) {
-			if (@pair) {
-				abs($pair[0] - $pair[1]) < abs($v1 - $v2)
-					or @pair = ($v1, $v2);
-			} else {
-				@pair = ($v1, $v2);
-			}
+			!@pair || abs($pair[0] - $pair[1]) > abs($v1 - $v2)
+				and @pair = ($v1, $v2);
 		}
 	}
 	my $e = abs($pair[0] - $pair[1]) / ($pair[0] + $pair[1]);
-	warn "ERROR $e\n";
-	($pair[0] + $pair[1]) / 2
+	$e < 1e-3 ? $pair[0] : undef
 }
 
 sub checkHeight {
