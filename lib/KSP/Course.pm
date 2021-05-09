@@ -21,6 +21,8 @@ sub new {
 	$new->_add(do => "start", then => $start)
 }
 
+sub length { scalar @{$_[0]} }
+
 sub current { $_[0]->[-1]->{then} }
 
 sub at {
