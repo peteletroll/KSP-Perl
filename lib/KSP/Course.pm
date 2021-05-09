@@ -139,6 +139,23 @@ sub enterTo {
 	$self
 }
 
+sub leaveTo {
+	my ($self, $dst, @rest) = @_;
+	my $cur = $self->current;
+	$cur->body->hasAncestor($dst->body)
+		or croak "can't leave from ", $cur->body->name, " to ", $dst->body->name;
+
+	my ($tr, $htr1, $htr2) = $dst->body->nextTo($cur->body)->orbit->hohmannTo($dst, @rest);
+
+	my $inv = KSP::Course->new($tr)->enterTo($cur->body, $self->nextBurnHeight);
+	# warn "<INV>\n$inv</INV>\n";
+	$self->goTo($inv->current);
+	for (my $i = $inv->length - 1; $i > 0; $i--) {
+		$self->_add(do => "leave", then => $inv->[$i - 1]{then}, h => $inv->[$i]{h});
+	}
+	$self->goTo($dst)
+}
+
 sub goTo {
 	my ($self, $dst, $toAp) = @_;
 	my $cur = $self->current;
