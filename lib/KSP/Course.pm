@@ -151,7 +151,8 @@ sub leaveTo {
 	# warn "<INV>\n$inv</INV>\n";
 	$self->goTo($inv->current);
 	for (my $i = $inv->length - 1; $i > 0; $i--) {
-		$self->_add(do => "leave", then => $inv->[$i - 1]{then}, h => $inv->[$i]{h});
+		$self->_add(do => "leave", then => $inv->[$i - 1]{then}, h => $inv->[$i]{h})
+			if $inv->[$i]{do} eq "enter";
 	}
 	$self->goTo($dst)
 }
