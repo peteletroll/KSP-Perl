@@ -116,6 +116,8 @@ sub burnIncl {
 
 sub enterTo {
 	my ($self, $bdst, $hdst) = @_;
+	UNIVERSAL::isa($bdst, "KSP::Body")
+		or croak "body needed for enterTo()";
 	my $cur = $self->current;
 	$bdst->hasAncestor($cur->body)
 		or croak "can't enter from ", $cur->body->name, " to ", $bdst->name;
@@ -219,44 +221,7 @@ sub _go_ancestor {
 	$cur->body->hasAncestor($dst->body)
 		or return;
 
-	my @b = ();
-	for (my $b = $cur->body; $b && $b != $dst->body; $b = $b->parent) {
-		push @b, $b;
-	}
-	push @b, $dst->body;
-	# warn "CHAIN ", join(" ", map { "[" . $_->name . "]" } @b), "\n";
-
-	my ($tr, $htr1, $htr2) = $b[-2]->orbit->hohmannTo($dst);
-	# warn "TR ", U($htr1), "m ", U($htr2), "m $tr\n";
-
-	my @tr = ($tr);
-	my @h = ($htr1);
-	my $out = $tr;
-	for (my $i = @b - 2; $i >= 0; $i--) {
-		my $b1 = $b[$i];
-		my $b2 = $out->body;
-		# warn "\nSTEP ", $b1->name, " -> ", $b2->name, ", $out\n";
-		my $hout = $b1->orbit->pe;
-		my $vout = $out->v_from_vis_viva($hout) - $b1->orbit->v_from_vis_viva($hout);
-		my $b1pe = $i > 0 ? $b[$i - 1]->orbit->pe : $self->nextBurnHeight;
-		# warn "OUT ", U($vout), "m/s AT ", U($hout), "m FROM ", U($b1pe), "\n";
-
-		$out = $b1->orbit(pe => $b1pe, v_soi => $vout);
-		# warn "OUT $out\n";
-		push @tr, $out;
-		push @h, $b1pe;
-	}
-
-	# warn "\n";
-	# warn "SEQ $_\n" foreach @tr;
-
-	$self->_add_burn($cur, $tr[-1], $self->nextBurnHeight);
-
-	for (my $i = @tr - 2; $i >= 0; $i--) {
-		$self->_add(do => "leave", then => $tr[$i], h => $h[$i]);
-	}
-
-	$self->_add_burn($tr[0], $dst, $htr2);
+	$self->leaveTo($dst);
 
 	1
 }
