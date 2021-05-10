@@ -160,15 +160,15 @@ sub leaveTo {
 }
 
 sub goTo {
-	my ($self, $dst, $toAp) = @_;
+	my ($self, $dst, @rest) = @_;
 	my $cur = $self->current;
 	# warn "CUR $cur\n";
 	$dst = _asorbit($dst, 1);
 	$self->_go_samebody($dst)
-		or $self->_go_ancestor($cur, $dst, $toAp)
-		or $self->_go_descendant($cur, $dst, $toAp)
-		or $self->_go_hohmann($cur, $dst, $toAp)
-		or $self->_go_sibling($cur, $dst, $toAp)
+		or $self->_go_ancestor($cur, $dst, @rest)
+		or $self->_go_descendant($cur, $dst, @rest)
+		or $self->_go_hohmann($cur, $dst, @rest)
+		or $self->_go_sibling($cur, $dst, @rest)
 		or croak "can't go from $cur to $dst";
 	$self
 }
@@ -202,7 +202,7 @@ sub _go_samebody {
 }
 
 sub _go_descendant {
-	my ($self, $cur, $dst, $toAp) = @_;
+	my ($self, $cur, $dst, @rest) = @_;
 	$cur->body->hasDescendant($dst->body)
 		or return;
 
@@ -217,7 +217,7 @@ sub _go_descendant {
 }
 
 sub _go_ancestor {
-	my ($self, $cur, $dst, $toAp) = @_;
+	my ($self, $cur, $dst, @rest) = @_;
 	$cur->body->hasAncestor($dst->body)
 		or return;
 
@@ -231,7 +231,7 @@ our $HOHMANN = $ENV{HOHMANN} ? 1 : 0;
 sub _go_hohmann {
 	$HOHMANN or return;
 
-	my ($self, $cur, $dst, $toAp) = @_;
+	my ($self, $cur, $dst, @rest) = @_;
 	$cur->body != $dst->body
 		or return;
 
@@ -257,7 +257,7 @@ sub _go_hohmann {
 }
 
 sub _go_sibling {
-	my ($self, $cur, $dst, $toAp) = @_;
+	my ($self, $cur, $dst, @rest) = @_;
 	$cur->body->parent == $dst->body->parent
 		or return;
 
