@@ -13,6 +13,8 @@ use KSP::Util qw(U);
 use overload
 	'""' => \&desc;
 
+sub proxable { qw(goAp burnTo burnIncl burnInclDeg goTo) }
+
 sub new {
 	my ($pkg, $start) = @_;
 	ref $start && $start->isa("KSP::Orbit2D")

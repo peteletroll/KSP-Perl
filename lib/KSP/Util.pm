@@ -54,6 +54,10 @@ sub proxy($$@) {
 	my ($to, $adj, @sub) = @_;
 	my $from = (caller(0))[0];
 	defined $from or return;
+	if (!@sub && UNIVERSAL::can($to, "proxable")) {
+		@sub = $to->proxable();
+		# warn "PROXABLE ${to} ", join(" ", @sub), "\n";
+	}
 	foreach my $name (@sub) {
 		$name =~ /^\w+$/ or die "bad name \"$name\"";
 		no strict "refs";
