@@ -13,7 +13,11 @@ use KSP::Util qw(U);
 use overload
 	'""' => \&desc;
 
-sub proxable { qw(goAp burnTo burnIncl burnInclDeg goTo) }
+sub proxable { qw(
+	burnTo burnIncl burnInclDeg
+	enterTo leaveTo
+	goAp goTo
+) }
 
 sub new {
 	my ($pkg, $start) = @_;
