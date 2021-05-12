@@ -66,8 +66,15 @@
       },
       "orbit": null,
       "science": {
-        "flyingHighThreshold": 18000,
-        "spaceHighThreshold": 1000000000,
+        "flyingAltitudeThreshold": 18000,
+        "spaceAltitudeThreshold": 1000000000,
+        "InSpaceHighDataValue": 2,
+        "InSpaceLowDataValue": 11,
+        "FlyingLowDataValue": 1,
+        "FlyingHighDataValue": 1,
+        "LandedDataValue": 1,
+        "SplashedDataValue": 1,
+        "RecoveryValue": 4,
         "biomes": [ ],
         "miniBiomes": [ ]
       }
@@ -144,8 +151,15 @@
         ]
       },
       "science": {
-        "flyingHighThreshold": 18000,
-        "spaceHighThreshold": 250000,
+        "flyingAltitudeThreshold": 18000,
+        "spaceAltitudeThreshold": 250000,
+        "InSpaceHighDataValue": 1.5,
+        "InSpaceLowDataValue": 1,
+        "FlyingLowDataValue": 0.699999988079071,
+        "FlyingHighDataValue": 0.89999997615814209,
+        "LandedDataValue": 0.30000001192092896,
+        "SplashedDataValue": 0.40000000596046448,
+        "RecoveryValue": 1,
         "biomes": [
           "Water",
           "Grasslands",
@@ -271,8 +285,15 @@
         ]
       },
       "science": {
-        "flyingHighThreshold": 18000,
-        "spaceHighThreshold": 60000,
+        "flyingAltitudeThreshold": 18000,
+        "spaceAltitudeThreshold": 60000,
+        "InSpaceHighDataValue": 2,
+        "InSpaceLowDataValue": 3,
+        "FlyingLowDataValue": 1,
+        "FlyingHighDataValue": 1,
+        "LandedDataValue": 4,
+        "SplashedDataValue": 1,
+        "RecoveryValue": 2,
         "biomes": [
           "Midlands",
           "NorthernBasin",
@@ -364,8 +385,15 @@
         ]
       },
       "science": {
-        "flyingHighThreshold": 18000,
-        "spaceHighThreshold": 30000,
+        "flyingAltitudeThreshold": 18000,
+        "spaceAltitudeThreshold": 30000,
+        "InSpaceHighDataValue": 2.5,
+        "InSpaceLowDataValue": 4,
+        "FlyingLowDataValue": 1,
+        "FlyingHighDataValue": 1,
+        "LandedDataValue": 5,
+        "SplashedDataValue": 1,
+        "RecoveryValue": 2.5,
         "biomes": [
           "Highlands",
           "Midlands",
@@ -449,8 +477,15 @@
         ]
       },
       "science": {
-        "flyingHighThreshold": 18000,
-        "spaceHighThreshold": 80000,
+        "flyingAltitudeThreshold": 18000,
+        "spaceAltitudeThreshold": 80000,
+        "InSpaceHighDataValue": 7,
+        "InSpaceLowDataValue": 8,
+        "FlyingLowDataValue": 1,
+        "FlyingHighDataValue": 1,
+        "LandedDataValue": 10,
+        "SplashedDataValue": 1,
+        "RecoveryValue": 7,
         "biomes": [
           "NorthPole",
           "NorthernSinkholeRidge",
@@ -539,8 +574,15 @@
         ]
       },
       "science": {
-        "flyingHighThreshold": 22000,
-        "spaceHighThreshold": 400000,
+        "flyingAltitudeThreshold": 22000,
+        "spaceAltitudeThreshold": 400000,
+        "InSpaceHighDataValue": 5,
+        "InSpaceLowDataValue": 7,
+        "FlyingLowDataValue": 6,
+        "FlyingHighDataValue": 6,
+        "LandedDataValue": 8,
+        "SplashedDataValue": 8,
+        "RecoveryValue": 5,
         "biomes": [
           "Poles",
           "Midlands",
@@ -632,8 +674,15 @@
         ]
       },
       "science": {
-        "flyingHighThreshold": 12000,
-        "spaceHighThreshold": 140000,
+        "flyingAltitudeThreshold": 12000,
+        "spaceAltitudeThreshold": 140000,
+        "InSpaceHighDataValue": 5,
+        "InSpaceLowDataValue": 7,
+        "FlyingLowDataValue": 5,
+        "FlyingHighDataValue": 5,
+        "LandedDataValue": 8,
+        "SplashedDataValue": 1,
+        "RecoveryValue": 5,
         "biomes": [
           "Poles",
           "Midlands",
@@ -722,8 +771,15 @@
         ]
       },
       "science": {
-        "flyingHighThreshold": 18000,
-        "spaceHighThreshold": 50000,
+        "flyingAltitudeThreshold": 18000,
+        "spaceAltitudeThreshold": 50000,
+        "InSpaceHighDataValue": 5,
+        "InSpaceLowDataValue": 7,
+        "FlyingLowDataValue": 1,
+        "FlyingHighDataValue": 1,
+        "LandedDataValue": 8,
+        "SplashedDataValue": 1,
+        "RecoveryValue": 5,
         "biomes": [
           "PolarLowlands",
           "Midlands",
@@ -812,8 +868,15 @@
         ]
       },
       "science": {
-        "flyingHighThreshold": 120000,
-        "spaceHighThreshold": 4000000,
+        "flyingAltitudeThreshold": 120000,
+        "spaceAltitudeThreshold": 4000000,
+        "InSpaceHighDataValue": 6,
+        "InSpaceLowDataValue": 7,
+        "FlyingLowDataValue": 12,
+        "FlyingHighDataValue": 9,
+        "LandedDataValue": 30,
+        "SplashedDataValue": 1,
+        "RecoveryValue": 6,
         "biomes": [ ],
         "miniBiomes": [ ]
       }
@@ -887,8 +950,15 @@
         ]
       },
       "science": {
-        "flyingHighThreshold": 10000,
-        "spaceHighThreshold": 200000,
+        "flyingAltitudeThreshold": 10000,
+        "spaceAltitudeThreshold": 200000,
+        "InSpaceHighDataValue": 8,
+        "InSpaceLowDataValue": 9,
+        "FlyingLowDataValue": 11,
+        "FlyingHighDataValue": 10,
+        "LandedDataValue": 14,
+        "SplashedDataValue": 12,
+        "RecoveryValue": 8,
         "biomes": [
           "Poles",
           "Shores",
@@ -973,8 +1043,15 @@
         ]
       },
       "science": {
-        "flyingHighThreshold": 18000,
-        "spaceHighThreshold": 90000,
+        "flyingAltitudeThreshold": 18000,
+        "spaceAltitudeThreshold": 90000,
+        "InSpaceHighDataValue": 8,
+        "InSpaceLowDataValue": 9,
+        "FlyingLowDataValue": 1,
+        "FlyingHighDataValue": 1,
+        "LandedDataValue": 12,
+        "SplashedDataValue": 1,
+        "RecoveryValue": 8,
         "biomes": [
           "Poles",
           "Midlands",
@@ -1058,8 +1135,15 @@
         ]
       },
       "science": {
-        "flyingHighThreshold": 18000,
-        "spaceHighThreshold": 25000,
+        "flyingAltitudeThreshold": 18000,
+        "spaceAltitudeThreshold": 25000,
+        "InSpaceHighDataValue": 8,
+        "InSpaceLowDataValue": 9,
+        "FlyingLowDataValue": 1,
+        "FlyingHighDataValue": 1,
+        "LandedDataValue": 12,
+        "SplashedDataValue": 1,
+        "RecoveryValue": 8,
         "biomes": [
           "Peaks",
           "Ridges",
@@ -1139,8 +1223,15 @@
         ]
       },
       "science": {
-        "flyingHighThreshold": 18000,
-        "spaceHighThreshold": 250000,
+        "flyingAltitudeThreshold": 18000,
+        "spaceAltitudeThreshold": 250000,
+        "InSpaceHighDataValue": 8,
+        "InSpaceLowDataValue": 10,
+        "FlyingLowDataValue": 1,
+        "FlyingHighDataValue": 1,
+        "LandedDataValue": 12,
+        "SplashedDataValue": 1,
+        "RecoveryValue": 8,
         "biomes": [
           "Midlands",
           "Highlands",
@@ -1224,8 +1315,15 @@
         ]
       },
       "science": {
-        "flyingHighThreshold": 18000,
-        "spaceHighThreshold": 6000,
+        "flyingAltitudeThreshold": 18000,
+        "spaceAltitudeThreshold": 6000,
+        "InSpaceHighDataValue": 6,
+        "InSpaceLowDataValue": 8,
+        "FlyingLowDataValue": 1,
+        "FlyingHighDataValue": 1,
+        "LandedDataValue": 9,
+        "SplashedDataValue": 1,
+        "RecoveryValue": 6,
         "biomes": [
           "Midlands",
           "Lowlands",
@@ -1303,8 +1401,15 @@
         ]
       },
       "science": {
-        "flyingHighThreshold": 18000,
-        "spaceHighThreshold": 22000,
+        "flyingAltitudeThreshold": 18000,
+        "spaceAltitudeThreshold": 22000,
+        "InSpaceHighDataValue": 8,
+        "InSpaceLowDataValue": 9,
+        "FlyingLowDataValue": 1,
+        "FlyingHighDataValue": 1,
+        "LandedDataValue": 12,
+        "SplashedDataValue": 1,
+        "RecoveryValue": 8,
         "biomes": [
           "Poles",
           "Lowlands",
@@ -1383,8 +1488,15 @@
         ]
       },
       "science": {
-        "flyingHighThreshold": 18000,
-        "spaceHighThreshold": 25000,
+        "flyingAltitudeThreshold": 18000,
+        "spaceAltitudeThreshold": 25000,
+        "InSpaceHighDataValue": 6,
+        "InSpaceLowDataValue": 7,
+        "FlyingLowDataValue": 1,
+        "FlyingHighDataValue": 1,
+        "LandedDataValue": 8,
+        "SplashedDataValue": 1,
+        "RecoveryValue": 6,
         "biomes": [
           "Poles",
           "Midlands",
@@ -1467,8 +1579,15 @@
         ]
       },
       "science": {
-        "flyingHighThreshold": 18000,
-        "spaceHighThreshold": 60000,
+        "flyingAltitudeThreshold": 18000,
+        "spaceAltitudeThreshold": 60000,
+        "InSpaceHighDataValue": 10,
+        "InSpaceLowDataValue": 12,
+        "FlyingLowDataValue": 1,
+        "FlyingHighDataValue": 1,
+        "LandedDataValue": 15,
+        "SplashedDataValue": 1,
+        "RecoveryValue": 10,
         "biomes": [
           "Poles",
           "NorthernGlaciers",
