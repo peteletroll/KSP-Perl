@@ -174,8 +174,7 @@ sub goTo {
 		or $self->_go_ancestor($cur, $dst, @rest)
 		or $self->_go_descendant($cur, $dst, @rest)
 		or $self->_go_hohmann($cur, $dst, @rest)
-		or $self->_go_sibling($cur, $dst, @rest)
-		or croak "can't go from $cur to $dst";
+		or croak "don't know how to go from $cur to $dst";
 	$self
 }
 
@@ -232,11 +231,7 @@ sub _go_ancestor {
 	1
 }
 
-our $HOHMANN = $ENV{HOHMANN} ? 1 : 0;
-
 sub _go_hohmann {
-	$HOHMANN or return;
-
 	my ($self, $cur, $dst, @rest) = @_;
 	$cur->body != $dst->body
 		or return;
@@ -254,39 +249,6 @@ sub _go_hohmann {
 	$self->burnIncl($incl, $hincl);
 
 	$self->enterTo($dst->body, $dst->pe)->goTo($dst);
-
-	1
-}
-
-sub _go_sibling {
-	my ($self, $cur, $dst, @rest) = @_;
-	$cur->body->parent == $dst->body->parent
-		or return;
-
-	my ($tr, $htr1, $htr2) = $cur->body->orbit->hohmannTo($dst->body->orbit);
-	# warn "TO SIBLING ", U($htr1), "m ", U($htr2), "m $tr\n";
-
-	my $out = $cur->body->orbit(pe => $cur->pe,
-		v_soi => $tr->v_from_vis_viva($htr1) - $cur->body->orbit->v_from_vis_viva($htr1));
-	# warn "OUT $out\n";
-
-	my $in = $dst->body->orbit(pe => $dst->pe,
-		v_soi => $tr->v_from_vis_viva($htr2) - $dst->body->orbit->v_from_vis_viva($htr2));
-	# warn "IN $in\n";
-
-	$self->_add_burn($cur, $out, $cur->pe);
-
-	$self->_add(do => "leave", then => $tr, h => $htr1);
-
-	my $incl = $cur->body->orbitNormal->angle($dst->body->orbitNormal);
-	my $hincl = $tr->pe;
-	my $vincl = $tr->v_from_vis_viva($hincl);
-	my $dvincl = 2 * sin($incl / 2) * $vincl;
-	$self->_add(do => "incl", dv => $dvincl, h => $hincl, then => $tr);
-
-	$self->_add(do => "enter", then => $in, h => $htr2);
-
-	$self->_add_burn($in, $dst, $dst->pe);
 
 	1
 }
