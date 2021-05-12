@@ -39,7 +39,7 @@ sub _comment($$) {
 		}
 		join(", ", @a)
 	} elsif ($name =~ /UT$/ && $value =~ /^-?\d/) {
-		KSP::Time->new($value)->pretty()
+		KSP::Time->new($value)->pretty_date()
 	} else {
 		undef
 	}
