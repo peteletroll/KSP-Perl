@@ -292,10 +292,11 @@ sub _go_sibling {
 }
 
 sub _hohmann_pair {
-	my ($self, $other) = @_;
-	foreach my $b1 ($self->pathToRoot) {
+	my ($body1, $body2) = @_;
+
+	foreach my $b1 ($body1->pathToRoot) {
 		$b1->parent or return ();
-		foreach my $b2 ($other->pathToRoot) {
+		foreach my $b2 ($body2->pathToRoot) {
 			$b1->parent == $b2->parent and return ($b1, $b2);
 		}
 	}
