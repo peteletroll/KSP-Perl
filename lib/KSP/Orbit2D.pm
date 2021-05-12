@@ -8,7 +8,7 @@ use Carp;
 
 use Math::Trig;
 
-use TinyStruct qw(body e p);
+use KSP::TinyStruct qw(body e p);
 
 use KSP::Course;
 

@@ -9,6 +9,8 @@ lib/KSP/SolarSystemDump.json
 lib/KSP/Orbit2D.pm
 lib/KSP/Course.pm
 lib/KSP/Util.pm
+lib/KSP/TinyParser.pm
+lib/KSP/TinyStruct.pm
 Makefile.PL
 MANIFEST
 README

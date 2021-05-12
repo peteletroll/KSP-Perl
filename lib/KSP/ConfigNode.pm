@@ -5,9 +5,9 @@ use warnings;
 
 use Carp;
 
-use TinyStruct qw(name parent values nodes);
+use KSP::TinyStruct qw(name parent values nodes);
 
-use TinyParser;
+use KSP::TinyParser;
 
 use KSP::ConfigValue;
 
@@ -69,7 +69,7 @@ sub parse_string($$) {
 
 our $_parser;
 sub _parser() {
-	$_parser ||= TinyParser->new(
+	$_parser ||= KSP::TinyParser->new(
 
 		_ => qr{([ \t\r\x{feff}]+|(//)[^\n]*)+},
 

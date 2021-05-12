@@ -3,7 +3,7 @@ package KSP::ConfigValue;
 use strict;
 use warnings;
 
-use TinyStruct qw(op name value);
+use KSP::TinyStruct qw(op name value);
 
 sub addTo($$) {
 	my ($self, $node) = @_;
