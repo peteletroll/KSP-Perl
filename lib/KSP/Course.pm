@@ -245,19 +245,15 @@ sub _go_hohmann {
 	$trb1 && $trb2
 		or return;
 	my ($tr, $htr1, $htr2) = $trb1->orbit->hohmannTo($trb2->orbit);
-	my $goUp = $htr2 > $htr1;
+	# warn "HOHMANN ", $trb1->name, " ", U($htr1), "m -> ", $trb2->name, " ", U($htr2), "m, $tr\n";
 
-	$self->_go_ancestor($cur, $tr, !$goUp) or return;
+	$self->leaveTo($tr);
 
 	my $incl = $trb1->orbitNormal->angle($trb2->orbitNormal);
 	my $hincl = $tr->pe;
 	$self->burnIncl($incl, $hincl);
 
-	$goUp and $self->goAp();
-
-	$self->_go_descendant($tr, $dst, $goUp) or return;
-
-	warn "HOHMANN ", ($goUp ? "UP" : "DN"), " ", $trb1->name, " ", U($htr1), "m -> ", $trb2->name, " ", U($htr2), "m, $tr\n";
+	$self->enterTo($dst->body, $dst->pe)->goTo($dst);
 
 	1
 }
