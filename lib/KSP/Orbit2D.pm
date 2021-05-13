@@ -227,6 +227,13 @@ sub commonApsis {
 	$e < 1e-3 ? $pair[0] : undef
 }
 
+sub otherApsis {
+	my ($self, $apsis) = @_;
+	$self->e > 1 and return $self->pe;
+	error($self->pe, $apsis) > error($self->ap, $apsis) ?
+		$self->pe : $self->ap;
+}
+
 sub checkHeight {
 	my ($self, $h, $die) = @_;
 	@_ > 2 or $die = 1;
