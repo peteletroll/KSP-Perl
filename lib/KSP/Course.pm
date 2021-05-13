@@ -247,7 +247,7 @@ sub _go_hohmann {
 
 	$self->leaveTo($tr);
 
-	my $incl = $trb1->orbitNormal->angle($trb2->orbitNormal);
+	my $incl = atan2($trb1->orbitNormal, $trb2->orbitNormal);
 	my $hincl = $tr->pe;
 	$self->burnIncl($incl, $hincl);
 

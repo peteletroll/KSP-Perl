@@ -6,7 +6,7 @@ use warnings;
 
 use Carp;
 
-use FastVector;
+use Math::Vector::Real;
 
 use KSP::SolarSystem;
 use KSP::Orbit2D;

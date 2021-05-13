@@ -24,7 +24,7 @@ print "B2\t", $b2->name(), "\t", $b2->orbit->desc(), "\n";
 print "B1N\t", $b1->name(), "\t", $b1->orbitNormal(), "\n";
 print "B2N\t", $b2->name(), "\t", $b2->orbitNormal(), "\n";
 
-my $incl = $b1->orbitNormal()->angle($b2->orbitNormal());
+my $incl = atan2($b1->orbitNormal(), $b2->orbitNormal());
 print "INCL\t", U(180 / pi * $incl), "°\n";
 
 my $l1 = $b1->lowOrbit();
