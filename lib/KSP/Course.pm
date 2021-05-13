@@ -196,6 +196,14 @@ sub _go_samebody {
 		return 1
 	}
 
+	my $common = $cur->commonApsis($dst);
+	if ($common) {
+		my $other = $dst->otherApsis($common);
+		# warn "SAMEBODY COMMON ", U($common), "m -> ", U($other), "m\n";
+		$self->_go_height($common)->_add_burn($cur, $dst, $self->nextBurnHeight);
+		return 1
+	}
+
 	my $hh = $cur->body->highHeight;
 	my $ap1 = $dst->e < 1 && $dst->ap < $hh ? $dst->ap :
 		$cur->e < 1 && $cur->ap < $hh ? $cur->ap :
