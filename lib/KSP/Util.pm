@@ -6,7 +6,7 @@ use warnings;
 
 require Exporter;
 our @ISA = qw(Exporter);
-our @EXPORT_OK = qw(U proxy);
+our @EXPORT_OK = qw(U error proxy);
 
 our @U = (
 	[ undef, 1e27 ],
@@ -48,6 +48,12 @@ sub U($;$) {
 	}
 
 	sprintf "%g", $x
+}
+
+sub error($$) {
+	my ($x1, $x2) = @_;
+	$x1 == $x2 and return 0;
+	2 * abs($x1 - $x2) / (abs($x1) + abs($x2))
 }
 
 sub proxy($$@) {
