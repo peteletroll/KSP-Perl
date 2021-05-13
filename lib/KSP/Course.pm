@@ -190,12 +190,6 @@ sub _go_samebody {
 	$cur->body == $dst->body
 		or return;
 
-	if (error($cur->pe, $dst->pe) < 1e-6) {
-		# same periapsis
-		$self->goAp(0)->_add_burn($cur, $dst, $self->nextBurnHeight);
-		return 1
-	}
-
 	my $common = $cur->commonApsis($dst);
 	if ($common) {
 		my $other = $dst->otherApsis($common);
