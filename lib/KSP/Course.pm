@@ -180,6 +180,7 @@ sub goTo {
 
 sub _go_height {
 	my ($self, $hdst) = @_;
+	$self->current->checkHeight($hdst);
 	$self->[-1]{hburn} = 0 + $hdst;
 	$self
 }
