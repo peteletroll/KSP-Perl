@@ -12,7 +12,7 @@ use KSP::TinyStruct qw(body e p);
 
 use KSP::Course;
 
-use KSP::Util qw(U proxy);
+use KSP::Util qw(U error proxy);
 proxy("KSP::Course" => sub { KSP::Course->new($_) });
 
 use overload
@@ -223,7 +223,7 @@ sub commonApsis {
 				and @pair = ($v1, $v2);
 		}
 	}
-	my $e = abs($pair[0] - $pair[1]) / ($pair[0] + $pair[1]);
+	my $e = error($pair[0], $pair[1]);
 	$e < 1e-3 ? $pair[0] : undef
 }
 

@@ -8,7 +8,7 @@ use Carp;
 
 use Math::Trig;
 
-use KSP::Util qw(U);
+use KSP::Util qw(U error);
 
 use overload
 	'""' => \&desc;
@@ -190,7 +190,7 @@ sub _go_samebody {
 	$cur->body == $dst->body
 		or return;
 
-	if (abs($dst->pe - $cur->pe) / ($dst->pe + $cur->pe) < 1e-6) {
+	if (error($cur->pe, $dst->pe) < 1e-6) {
 		# same periapsis
 		$self->goAp(0)->_add_burn($cur, $dst, $self->nextBurnHeight);
 		return 1
