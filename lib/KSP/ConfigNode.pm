@@ -117,7 +117,7 @@ sub _parser() {
 			qr{([\+\-\*\/\!\^]?=)}, # this must be coherent with "lstring" regexp
 			\"rstring",
 			EV{ KSP::ConfigValue->new($_[2][0], undef, $_[2][1]) },
-		), 
+		),
 
 		lstring => SEQ(
 			qr{(

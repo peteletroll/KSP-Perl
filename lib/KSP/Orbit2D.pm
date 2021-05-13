@@ -210,7 +210,7 @@ sub ap { # apoapsis height
 
 sub apses {
 	my ($self) = @_;
-	$self-> e < 1 ? ($self->pe, $self->ap) : ($self->pe)
+	$self->e < 1 ? ($self->pe, $self->ap) : ($self->pe)
 }
 
 sub commonApsis {

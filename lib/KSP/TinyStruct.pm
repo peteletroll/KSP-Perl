@@ -42,7 +42,7 @@ sub import {
 		$pkg->export_to_level(1, $pkg, qw(defstruct));
 	}
 }
-	
+
 sub checkfield($) {
 	$_[0] =~ /^$FLD$/io
 		and $_[0] ne uc $_[0]
@@ -108,7 +108,7 @@ sub definition {
 
 	$ret .= "\n";
 	$ret .= "sub $FIELDS() { qw(\n"
-		. join("", map { "  $_\n" } @allfields) 
+		. join("", map { "  $_\n" } @allfields)
 		. ") }\n";
 
 	if (@allfields) {
