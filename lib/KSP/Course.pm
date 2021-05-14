@@ -131,11 +131,11 @@ sub burnIncl {
 	defined $h or $h = $cur->pe;
 	my $vincl = $cur->v_from_vis_viva($h);
 	my $dvincl = 2 * sin($incl / 2) * $vincl;
+	$dvincl > 1e-10 or return $self;
 	my $deg = rad2deg($incl);
 	$deg = sprintf(($deg < 1 ? "%0.2f°" : $deg < 10 ? "%0.1f°" : "%.0f°"), $deg);
 	$deg =~ s/^0\././;
 	$self->_add(do => "incl $deg", dv => $dvincl, h => $h, then => $cur)
-
 }
 
 sub enterTo {
