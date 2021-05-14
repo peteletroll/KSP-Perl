@@ -59,7 +59,7 @@ sub desc {
 		my $s = $self->[$i];
 		push @d, sprintf("%3d: ", $i) . _step($s);
 	}
-	push @d, sprintf "     tot Δv%9sm/s, next burn at %sm\n",
+	push @d, sprintf "      tot Δv%9sm/s, next burn at %sm\n",
 		U($self->dv),
 		U($self->nextBurnHeight);
 	join "\n", @d
@@ -85,7 +85,7 @@ sub _step($) {
 
 	my $h = $s->{h} ? U($s->{h}) . "m" : "";
 
-	sprintf "%-8s %9s %8s %3s %s",
+	sprintf "%-9s %9s %8s %3s %s",
 		$type, $dv, $h, $prep, $s->{then}
 }
 
@@ -116,7 +116,10 @@ sub burnIncl {
 	defined $h or $h = $cur->pe;
 	my $vincl = $cur->v_from_vis_viva($h);
 	my $dvincl = 2 * sin($incl / 2) * $vincl;
-	$self->_add(do => "incl", dv => $dvincl, h => $h, then => $cur)
+	my $deg = rad2deg($incl);
+	$deg = sprintf(($deg < 1 ? "%0.2f°" : $deg < 10 ? "%0.1f°" : "%.0f°"), $deg);
+	$deg =~ s/^0\././;
+	$self->_add(do => "incl $deg", dv => $dvincl, h => $h, then => $cur)
 
 }
 
