@@ -57,8 +57,7 @@ sub desc {
 	my ($self) = @_;
 	my @d = ();
 	for (my $i = 0; $i < @$self; $i++) {
-		my $s = $self->[$i];
-		push @d, sprintf("%3d: ", $i) . _step($s);
+		push @d, sprintf("%3d: ", $i) . $self->_step($i);
 	}
 	push @d, sprintf "      tot Δv%9sm/s, next burn at %sm\n",
 		U($self->dv),
@@ -66,28 +65,42 @@ sub desc {
 	join "\n", @d
 }
 
-sub _step($) {
-	my ($s) = @_;
+sub _step($$) {
+	my ($self, $i) = @_;
+	my $c = $self->[$i];
+	my $p = $self->[$i - 1];
 
-	my $type = $s->{do};
+	my $type = $c->{do};
 	my $prep = $type =~ /start/ ? "at" : "to";
 
+	my $cur = $c->{then};
+	my $ref = $type =~ /leave/ ? $cur : $p && $p->{then};
+
 	my $dv = "";
-	if ($s->{dv}) {
+	if ($c->{dv}) {
 		$prep = "to";
 		if ($type =~ /incl/) {
-			$dv = "⟂" . U(abs($s->{dv}));
+			$dv = "⟂" . U(abs($c->{dv}));
 		} else {
-			$dv = U($s->{dv});
+			$dv = U($c->{dv});
 			$dv =~ /^[\+\-]/ or $dv = "+$dv";
 		}
 		$dv .= "m/s";
 	}
 
-	my $h = $s->{h} ? U($s->{h}) . "m" : "";
+	my $h = $c->{h};
+	my $hflag = "";
+	if ($h && $ref) {
+		if (error($h, $ref->pe) < 1e-3) {
+			$hflag = "↓";
+		} elsif (error($h, $ref->ap(1)) < 1e-3) {
+			$hflag = "↑";
+		}
+	}
+	$h = $h ? U($h) . "m" : "";
 
-	sprintf "%-9s %9s %8s %3s %s",
-		$type, $dv, $h, $prep, $s->{then}
+	sprintf "%-9s %9s %8s%-1s %3s %s",
+		$type, $dv, $h, $hflag, $prep, $cur
 }
 
 sub goPe {
