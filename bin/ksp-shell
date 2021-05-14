@@ -7,6 +7,7 @@ baserc="$HOME/.re.pl/repl.rc"
 
 [ -f "$baserc" ] && cp "$baserc" "$rc"
 cat <<ENDRC >> $rc
+use utf8;
 use Math::Trig;
 use Math::Vector::Real;
 use KSP qw(:all);
