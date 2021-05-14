@@ -14,7 +14,8 @@ use overload
 	'""' => \&desc;
 
 sub proxable { qw(
-	burnTo burnIncl burnInclDeg
+	burnTo burnCirc
+	burnIncl burnInclDeg
 	enterTo leaveTo
 	goAp goTo
 ) }
@@ -103,6 +104,13 @@ sub burnTo {
 	my $hcur = $self->nextBurnHeight;
 	my $tr = $cur->body->orbit(pe => $hcur, ap => $hdst);
 	$self->_add_burn($cur, $tr, $hcur)->_go_height($hdst > 0 ? $hdst : $hcur)
+}
+
+sub burnCirc {
+	my ($self) = @_;
+	my $cur = $self->current;
+	my $h = $self->nextBurnHeight;
+	$self->goTo($cur->body->orbit(pe => $h, ap => $h));
 }
 
 sub burnInclDeg {
