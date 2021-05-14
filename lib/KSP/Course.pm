@@ -17,7 +17,7 @@ sub proxable { qw(
 	burnTo burnCirc
 	burnIncl burnInclDeg
 	enterTo leaveTo
-	goAp goTo
+	goPe goAp goTo
 ) }
 
 sub new {
@@ -88,6 +88,13 @@ sub _step($) {
 
 	sprintf "%-9s %9s %8s %3s %s",
 		$type, $dv, $h, $prep, $s->{then}
+}
+
+sub goPe {
+	my ($self, $pe) = @_;
+	$pe = 1 if @_ < 2;
+	$self->_go_height($pe ? $self->current->pe : $self->current->ap);
+	$self
 }
 
 sub goAp {
