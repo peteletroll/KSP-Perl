@@ -10,6 +10,8 @@ use Math::Trig;
 
 use KSP::Util qw(U error);
 
+use KSP::TinyStruct qw(step);
+
 use overload
 	'""' => \&desc;
 
@@ -20,29 +22,30 @@ sub proxable { qw(
 	goPe goAp goTo
 ) }
 
-sub new {
-	my ($pkg, $start) = @_;
+sub BUILD {
+	my ($self, $start) = @_;
+	$self->set_step([ ]);
 	ref $start && $start->isa("KSP::Orbit2D")
 		or confess "KSP::Orbit2D needed";
-	my $new = bless [ ], $pkg;
-	$new->_add(do => "start", then => $start)
+	$self->_add(do => "start", then => $start)
 }
 
-sub length { scalar @{$_[0]} }
+sub length { scalar @{$_[0]->step} }
 
-sub current { $_[0]->[-1]->{then} }
+sub current { $_[0]->step->[-1]->{then} }
 
 sub at {
 	my ($self, $at) = @_;
-	$at >= -@$self && $at < @$self
+	my $l = $self->length;
+	$at >= -$l && $at < $l
 		or croak "at($at) out of range";
-	$self->[$at]->{then}
+	$self->step->[$at]->{then}
 }
 
 sub dv {
 	my ($self) = @_;
 	my $dv = 0;
-	$dv += abs($_->{dv} || 0) foreach @$self;
+	$dv += abs($_->{dv} || 0) foreach @{$self->step};
 	$dv
 }
 
@@ -50,14 +53,14 @@ sub nextBurnHeight {
 	my ($self, $hdefault) = @_;
 	my $cur = $self->current;
 	$hdefault and $self->checkHeight($hdefault);
-	$self->[-1]{hburn} || $hdefault || $cur->pe
+	$self->step->[-1]{hburn} || $hdefault || $cur->pe
 }
 
 sub desc {
 	my ($self) = @_;
 	my @d = ();
-	for (my $i = 0; $i < @$self; $i++) {
-		push @d, sprintf("%3d: ", $i) . $self->_step($i);
+	for (my $i = 0; $i < $self->length; $i++) {
+		push @d, sprintf("%3d: ", $i) . $self->_stepdesc($i);
 	}
 	push @d, sprintf "      tot Δv%9sm/s, next burn at %sm\n",
 		U($self->dv),
@@ -65,10 +68,10 @@ sub desc {
 	join "\n", @d
 }
 
-sub _step($$) {
+sub _stepdesc($$) {
 	my ($self, $i) = @_;
-	my $c = $self->[$i];
-	my $p = $self->[$i - 1];
+	my $c = $self->step->[$i];
+	my $p = $self->step->[$i - 1];
 
 	my $type = $c->{do};
 	my $prep = $type =~ /start/ ? "at" : "to";
@@ -190,8 +193,8 @@ sub leaveTo {
 	# warn "<INV>\n$inv</INV>\n";
 	$self->goTo($inv->current);
 	for (my $i = $inv->length - 1; $i > 0; $i--) {
-		$self->_add(do => "leave", then => $inv->[$i - 1]{then}, h => $inv->[$i]{h})
-			if $inv->[$i]{do} eq "enter";
+		$self->_add(do => "leave", then => $inv->step->[$i - 1]{then}, h => $inv->step->[$i]{h})
+			if $inv->step->[$i]{do} eq "enter";
 	}
 	$self->goTo($dst)
 }
@@ -212,7 +215,7 @@ sub goTo {
 sub _go_height {
 	my ($self, $hdst) = @_;
 	$self->current->checkHeight($hdst);
-	$self->[-1]{hburn} = 0 + $hdst;
+	$self->step->[-1]{hburn} = 0 + $hdst;
 	$self
 }
 
@@ -312,7 +315,7 @@ sub _add($%) {
 	$data{do} or croak "\"do\" needed";
 	$data{then} = _asorbit($data{then})
 		or croak "KSP::Orbit2D needed as \"then\"";
-	push @$self, \%data;
+	push @{$self->step}, \%data;
 	$self
 }
 
