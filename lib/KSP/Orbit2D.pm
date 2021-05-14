@@ -219,12 +219,14 @@ sub commonApsis {
 	my @pair = ();
 	foreach my $v1 ($self->apses) {
 		foreach my $v2 ($other->apses) {
-			!@pair || abs($pair[0] - $pair[1]) > abs($v1 - $v2)
-				and @pair = ($v1, $v2);
+			my $e = error($v1, $v2);
+			# warn "ERROR ", U($v1), " ", U($v2), " $e\n";
+			!@pair || $pair[1] > $e
+				and @pair = ($v1, $e);
 		}
 	}
-	my $e = error($pair[0], $pair[1]);
-	$e < 1e-3 ? $pair[0] : undef
+	# warn "ERROR FINAL ", U($pair[0]), " $pair[1]\n";
+	$pair[1] < 1e-3 ? $pair[0] : undef
 }
 
 sub otherApsis {
