@@ -12,6 +12,8 @@ use KSP::Util qw(U error);
 
 use KSP::TinyStruct qw(step);
 
+use Text::Table;
+
 use overload
 	'""' => \&desc;
 
@@ -58,17 +60,26 @@ sub nextBurnHeight {
 
 sub desc {
 	my ($self) = @_;
-	my @d = ();
+	my $table = Text::Table->new(
+		{ align => "right" },
+		{ align => "left" },
+		{ align => "right" },
+		{ align => "right" },
+		{ align => "left" },
+		{ align => "left" },
+	);
 	for (my $i = 0; $i < $self->length; $i++) {
-		push @d, sprintf("%3d: ", $i) . $self->_stepdesc($i);
+		$table->add($self->_row($i));
 	}
-	push @d, sprintf "      tot Δv%9sm/s, next burn at %sm\n",
-		U($self->dv),
-		U($self->nextBurnHeight);
-	join "\n", @d
+	$table->add(
+		"",
+		"tot Δv",
+		U($self->dv) . "m/s",
+		U($self->nextBurnHeight) . "m ");
+	$table
 }
 
-sub _stepdesc($$) {
+sub _row {
 	my ($self, $i) = @_;
 	my $c = $self->step->[$i];
 	my $p = $self->step->[$i - 1];
@@ -102,8 +113,7 @@ sub _stepdesc($$) {
 	}
 	$h = $h ? U($h) . "m" : "";
 
-	sprintf "%-9s %9s %8s%-1s %3s %s",
-		$type, $dv, $h, $hflag, $prep, $cur
+	("$i:", $type, $dv, "$h$hflag", $prep, $cur)
 }
 
 sub goPe {
