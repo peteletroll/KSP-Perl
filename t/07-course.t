@@ -16,7 +16,7 @@ binmode $_, ":utf8" foreach (\*STDOUT, \*STDERR);
 
 warn "\n";
 
-my @b = sort { $a->orbit->a <=> $b->orbit->a } Sun->children;
+my @b = KSP::Body->all();
 foreach my $b1 (@b) {
 	foreach my $b2 (@b) {
 		$b1 == $b2 and next;
