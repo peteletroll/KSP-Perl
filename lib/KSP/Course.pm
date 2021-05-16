@@ -63,8 +63,11 @@ sub desc {
 	my $table = Text::Table->new(
 		{ align => "right" },
 		{ align => "left" },
+		\"  ",
 		{ align => "right" },
+		\"  ",
 		{ align => "right" },
+		\"  ",
 		{ align => "left" },
 		{ align => "left" },
 	);
