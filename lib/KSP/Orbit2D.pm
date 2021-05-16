@@ -316,9 +316,9 @@ sub desc {
 	my $tap = "↑";
 	if ($prev && $prev->body == $self->body) {
 		my $tol = 1e-3;
-		error($self->pe, $prev->pe) > $tol && error($self->pe, $prev->ap(1)) > $tol
+		error($self->pe, $prev->pe) > $tol
 			and $tpe = "⇓";
-		error($self->ap(1), $prev->pe) > $tol && error($self->ap(1), $prev->ap(1)) > $tol
+		error($self->ap(1), $prev->ap(1)) > $tol
 			and $tap = "⇑";
 	}
 
