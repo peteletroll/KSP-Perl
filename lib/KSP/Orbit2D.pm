@@ -309,13 +309,13 @@ sub desc {
 	my $open = $self->e >= 1;
 	my @d = ();
 
-	my $wtol = 1e-4;
-	my $hmax = (1 + $wtol) * $self->body->highHeight;
+	my $tol = 1e-3;
+
+	my $hmax = (1 + $tol) * $self->body->highHeight;
 
 	my $tpe = "↓";
 	my $tap = "↑";
 	if ($prev && $prev->body == $self->body) {
-		my $tol = 1e-3;
 		error($self->pe, $prev->pe) > $tol
 			and $tpe = "⇓";
 		error($self->ap(1), $prev->ap(1)) > $tol
