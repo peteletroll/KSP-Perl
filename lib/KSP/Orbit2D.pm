@@ -305,20 +305,34 @@ sub hohmannTo {
 }
 
 sub desc {
-	my ($self) = @_;
+	my ($self, $prev) = @_;
 	my $open = $self->e >= 1;
 	my @d = ();
 
 	my $wtol = 1e-4;
 	my $hmax = (1 + $wtol) * $self->body->highHeight;
+
+	my $tpe = "↓";
+	my $tap = "↑";
+	if ($prev && $prev->body == $self->body) {
+		my $tol = 1e-3;
+		error($self->pe, $prev->pe) > $tol && error($self->pe, $prev->ap(1)) > $tol
+			and $tpe = "⇓";
+		error($self->ap(1), $prev->pe) > $tol && error($self->ap(1), $prev->ap(1)) > $tol
+			and $tap = "⇑";
+	}
+
 	my $wpe = ($self->pe > 0 && $self->pe < $hmax) ? "": "⚠";
 	my $wap = ($self->e >= 1 || $self->ap > 0 && $self->ap < $hmax) ? "": "⚠";
 
-	push @d, sprintf("↓ %sm$wpe, %sm/s", U($self->pe), U($self->vmax));
+	push @d, sprintf("$tpe %sm$wpe, %sm/s", U($self->pe), U($self->vmax));
+
 	push @d, $open ?
-		sprintf("↑ ∞$wap, %sm/s, θ∞ %.0f°", U($self->vmin), 180 / pi * $self->th_inf) :
-		sprintf("↑ %sm$wap, %sm/s", U($self->ap), U($self->vmin));
+		sprintf("$tap ∞$wap, %sm/s, θ∞ %.0f°", U($self->vmin), 180 / pi * $self->th_inf) :
+		sprintf("$tap %sm$wap, %sm/s", U($self->ap), U($self->vmin));
+
 	$open or push @d, KSP::Time->new($self->T)->pretty_interval;
+
 	my $y = $open ? "U" : $self->e > 0.06 ? "O" : "o";
 	"$y:" . $self->body->name . "[ " . join("; ", @d) . " ]"
 }

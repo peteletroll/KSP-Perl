@@ -85,13 +85,13 @@ sub desc {
 sub _row {
 	my ($self, $i) = @_;
 	my $c = $self->step->[$i];
-	my $p = $self->step->[$i - 1];
+	my $p = ($i > 0 && $self->step->[$i - 1]);
 
 	my $type = $c->{do};
 	my $prep = $type =~ /start/ ? "at" : "to";
 
 	my $cur = $c->{then};
-	my $ref = $type =~ /leave/ ? $cur : $p && $p->{then};
+	my $ref = $type =~ /leave/ ? $cur : ($p && $p->{then});
 
 	my $dv = "";
 	if ($c->{dv}) {
@@ -116,7 +116,7 @@ sub _row {
 	}
 	$h = $h ? U($h) . "m" : "";
 
-	("$i:", $type, $dv, "$h$hflag", $prep, "$cur")
+	("$i:", $type, $dv, "$h$hflag", $prep, $cur->desc($p && $p->{then}))
 }
 
 sub goPe {
