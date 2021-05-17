@@ -152,9 +152,10 @@ sub solarDayLength {
 
 sub lowHeight {
 	my ($self) = @_;
+	my $safety = 10e3;
 	$self->{atmosphere} ?
-		$self->{size}{atmosphereDepth} + 10e3 :
-		($self->{size}{maxHeight} || 10e3)
+		$self->{size}{atmosphereDepth} + $safety :
+		($self->{size}{maxHeight} || $safety) + $safety;
 }
 
 sub highHeight {
