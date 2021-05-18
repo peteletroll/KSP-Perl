@@ -142,6 +142,20 @@ sub orbitNormal {
 	$_[0]->{_normal_} ||= V(@$n)
 }
 
+sub orbitNormal2 {
+	my ($self) = @_;
+	my $o = $self->{orbit} or return;
+	# https://en.wikipedia.org/wiki/Orbital_elements#Euler_angle_transformations
+	my $incl = $o->{inclinationRad};
+	my $longOfAN = $o->{longitudeOfAscendingNodeRad};
+	my $argOfPE = $o->{argumentOfPeriapsisRad};
+	V(
+		sin($incl) * sin($longOfAN),
+		-sin($incl) * cos($longOfAN),
+		cos($incl)
+	)
+}
+
 sub rotationPeriod {
 	$_[0]{rotation}{rotationPeriod}
 }
