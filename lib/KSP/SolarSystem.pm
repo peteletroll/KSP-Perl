@@ -54,7 +54,7 @@ sub root {
 }
 
 sub body_names {
-	map { $_->{name} } bodies()
+	map { $_->{info}{name} } bodies()
 }
 
 sub import_bodies {

@@ -9,35 +9,31 @@
   "rootBody": "Sun",
   "bodies": {
     "Sun": {
-      "index": 0,
-      "name": "Sun",
-      "isStar": true,
-      "isHomeWorld": false,
-      "hasSolidSurface": false,
-      "ocean": false,
-      "atmosphere": true,
-      "atmosphereContainsOxygen": false,
-      "albedo": 0,
-      "emissivity": 0,
-      "timeWarpAltitudeLimits": [
-        0,
-        3270000,
-        3270000,
-        6540000,
-        13080000,
-        26160000,
-        52320000,
-        65400000
-      ],
-      "orbitingBodies": [
-        "Moho",
-        "Eve",
-        "Kerbin",
-        "Duna",
-        "Dres",
-        "Jool",
-        "Eeloo"
-      ],
+      "info": {
+        "index": 0,
+        "name": "Sun",
+        "isStar": true,
+        "isHomeWorld": false,
+        "timeWarpAltitudeLimits": [
+          0,
+          3270000,
+          3270000,
+          6540000,
+          13080000,
+          26160000,
+          52320000,
+          65400000
+        ],
+        "orbitingBodies": [
+          "Moho",
+          "Eve",
+          "Kerbin",
+          "Duna",
+          "Dres",
+          "Jool",
+          "Eeloo"
+        ]
+      },
       "size": {
         "radius": 261600000,
         "maxHeight": 0,
@@ -45,10 +41,19 @@
         "mu": 1.1723327948324905E+18,
         "GeeASL": 1.7468465610013681,
         "g0": 17.136564763423422,
-        "atmosphereDepth": 600000,
         "sphereOfInfluence": null,
         "hillSphere": null,
         "oceanDensity": 1
+      },
+      "surface": {
+        "hasSolidSurface": false,
+        "ocean": false,
+        "albedo": 0,
+        "emissivity": 0
+      },
+      "atmosphere": {
+        "atmosphereDepth": 600000,
+        "atmosphereContainsOxygen": false
       },
       "rotation": {
         "axis": [
@@ -80,30 +85,26 @@
       }
     },
     "Kerbin": {
-      "index": 1,
-      "name": "Kerbin",
-      "isStar": false,
-      "isHomeWorld": true,
-      "hasSolidSurface": true,
-      "ocean": true,
-      "atmosphere": true,
-      "atmosphereContainsOxygen": true,
-      "albedo": 0.35,
-      "emissivity": 0.65,
-      "timeWarpAltitudeLimits": [
-        0,
-        30000,
-        30000,
-        60000,
-        120000,
-        240000,
-        480000,
-        600000
-      ],
-      "orbitingBodies": [
-        "Mun",
-        "Minmus"
-      ],
+      "info": {
+        "index": 1,
+        "name": "Kerbin",
+        "isStar": false,
+        "isHomeWorld": true,
+        "timeWarpAltitudeLimits": [
+          0,
+          30000,
+          30000,
+          60000,
+          120000,
+          240000,
+          480000,
+          600000
+        ],
+        "orbitingBodies": [
+          "Mun",
+          "Minmus"
+        ]
+      },
       "size": {
         "radius": 600000,
         "maxHeight": 9600,
@@ -111,10 +112,19 @@
         "mu": 3531599999999.9995,
         "GeeASL": 1.0003416049313476,
         "g0": 9.81335114437652,
-        "atmosphereDepth": 70000,
         "sphereOfInfluence": 84159286.479630485,
         "hillSphere": 196414707.77848035,
         "oceanDensity": 1
+      },
+      "surface": {
+        "hasSolidSurface": true,
+        "ocean": true,
+        "albedo": 0.35,
+        "emissivity": 0.65
+      },
+      "atmosphere": {
+        "atmosphereDepth": 70000,
+        "atmosphereContainsOxygen": true
       },
       "rotation": {
         "axis": [
@@ -217,27 +227,23 @@
       }
     },
     "Mun": {
-      "index": 2,
-      "name": "Mun",
-      "isStar": false,
-      "isHomeWorld": false,
-      "hasSolidSurface": true,
-      "ocean": false,
-      "atmosphere": false,
-      "atmosphereContainsOxygen": false,
-      "albedo": 0.1,
-      "emissivity": 0.9,
-      "timeWarpAltitudeLimits": [
-        0,
-        5000,
-        5000,
-        10000,
-        25000,
-        50000,
-        100000,
-        200000
-      ],
-      "orbitingBodies": [ ],
+      "info": {
+        "index": 2,
+        "name": "Mun",
+        "isStar": false,
+        "isHomeWorld": false,
+        "timeWarpAltitudeLimits": [
+          0,
+          5000,
+          5000,
+          10000,
+          25000,
+          50000,
+          100000,
+          200000
+        ],
+        "orbitingBodies": [ ]
+      },
       "size": {
         "radius": 200000,
         "maxHeight": 9000,
@@ -245,10 +251,15 @@
         "mu": 65138397520.780693,
         "GeeASL": 0.16605670009835341,
         "g0": 1.629016227964847,
-        "atmosphereDepth": 0,
         "sphereOfInfluence": 2429559.1165647474,
         "hillSphere": 3170563.3375711604,
         "oceanDensity": 1
+      },
+      "surface": {
+        "hasSolidSurface": true,
+        "ocean": false,
+        "albedo": 0.1,
+        "emissivity": 0.9
       },
       "rotation": {
         "axis": [
@@ -317,27 +328,23 @@
       }
     },
     "Minmus": {
-      "index": 3,
-      "name": "Minmus",
-      "isStar": false,
-      "isHomeWorld": false,
-      "hasSolidSurface": true,
-      "ocean": false,
-      "atmosphere": false,
-      "atmosphereContainsOxygen": false,
-      "albedo": 0.5,
-      "emissivity": 0.7,
-      "timeWarpAltitudeLimits": [
-        0,
-        3000,
-        3000,
-        6000,
-        12000,
-        24000,
-        48000,
-        60000
-      ],
-      "orbitingBodies": [ ],
+      "info": {
+        "index": 3,
+        "name": "Minmus",
+        "isStar": false,
+        "isHomeWorld": false,
+        "timeWarpAltitudeLimits": [
+          0,
+          3000,
+          3000,
+          6000,
+          12000,
+          24000,
+          48000,
+          60000
+        ],
+        "orbitingBodies": [ ]
+      },
       "size": {
         "radius": 60000,
         "maxHeight": 4000,
@@ -345,10 +352,15 @@
         "mu": 1765800026.3124719,
         "GeeASL": 0.050017080991879993,
         "g0": 0.49066756453034277,
-        "atmosphereDepth": 0,
         "sphereOfInfluence": 2247428.3879023045,
         "hillSphere": 3730392.4906543302,
         "oceanDensity": 1
+      },
+      "surface": {
+        "hasSolidSurface": true,
+        "ocean": false,
+        "albedo": 0.5,
+        "emissivity": 0.7
       },
       "rotation": {
         "axis": [
@@ -409,27 +421,23 @@
       }
     },
     "Moho": {
-      "index": 4,
-      "name": "Moho",
-      "isStar": false,
-      "isHomeWorld": false,
-      "hasSolidSurface": true,
-      "ocean": false,
-      "atmosphere": false,
-      "atmosphereContainsOxygen": false,
-      "albedo": 0.1,
-      "emissivity": 0.9,
-      "timeWarpAltitudeLimits": [
-        0,
-        10000,
-        10000,
-        30000,
-        50000,
-        100000,
-        200000,
-        300000
-      ],
-      "orbitingBodies": [ ],
+      "info": {
+        "index": 4,
+        "name": "Moho",
+        "isStar": false,
+        "isHomeWorld": false,
+        "timeWarpAltitudeLimits": [
+          0,
+          10000,
+          10000,
+          30000,
+          50000,
+          100000,
+          200000,
+          300000
+        ],
+        "orbitingBodies": [ ]
+      },
       "size": {
         "radius": 250000,
         "maxHeight": 8000,
@@ -437,10 +445,15 @@
         "mu": 168609378654.50949,
         "GeeASL": 0.27509394731862069,
         "g0": 2.6986716231956693,
-        "atmosphereDepth": 0,
         "sphereOfInfluence": 9646663.023328105,
         "hillSphere": 22060314.815546606,
         "oceanDensity": 1
+      },
+      "surface": {
+        "hasSolidSurface": true,
+        "ocean": false,
+        "albedo": 0.1,
+        "emissivity": 0.9
       },
       "rotation": {
         "axis": [
@@ -504,29 +517,25 @@
       }
     },
     "Eve": {
-      "index": 5,
-      "name": "Eve",
-      "isStar": false,
-      "isHomeWorld": false,
-      "hasSolidSurface": true,
-      "ocean": true,
-      "atmosphere": true,
-      "atmosphereContainsOxygen": false,
-      "albedo": 0.44999998807907104,
-      "emissivity": 0.550000011920929,
-      "timeWarpAltitudeLimits": [
-        0,
-        30000,
-        30000,
-        60000,
-        120000,
-        240000,
-        480000,
-        600000
-      ],
-      "orbitingBodies": [
-        "Gilly"
-      ],
+      "info": {
+        "index": 5,
+        "name": "Eve",
+        "isStar": false,
+        "isHomeWorld": false,
+        "timeWarpAltitudeLimits": [
+          0,
+          30000,
+          30000,
+          60000,
+          120000,
+          240000,
+          480000,
+          600000
+        ],
+        "orbitingBodies": [
+          "Gilly"
+        ]
+      },
       "size": {
         "radius": 700000,
         "maxHeight": 10000,
@@ -534,10 +543,19 @@
         "mu": 8171730229210.8721,
         "GeeASL": 1.7005807760832998,
         "g0": 16.682697413377173,
-        "atmosphereDepth": 90000,
         "sphereOfInfluence": 85109364.738244072,
         "hillSphere": 185949494.96597227,
         "oceanDensity": 1.5
+      },
+      "surface": {
+        "hasSolidSurface": true,
+        "ocean": true,
+        "albedo": 0.44999998807907104,
+        "emissivity": 0.550000011920929
+      },
+      "atmosphere": {
+        "atmosphereDepth": 90000,
+        "atmosphereContainsOxygen": false
       },
       "rotation": {
         "axis": [
@@ -604,29 +622,25 @@
       }
     },
     "Duna": {
-      "index": 6,
-      "name": "Duna",
-      "isStar": false,
-      "isHomeWorld": false,
-      "hasSolidSurface": true,
-      "ocean": false,
-      "atmosphere": true,
-      "atmosphereContainsOxygen": false,
-      "albedo": 0.17000000178813934,
-      "emissivity": 0.82999998331069946,
-      "timeWarpAltitudeLimits": [
-        0,
-        30000,
-        30000,
-        60000,
-        100000,
-        300000,
-        600000,
-        800000
-      ],
-      "orbitingBodies": [
-        "Ike"
-      ],
+      "info": {
+        "index": 6,
+        "name": "Duna",
+        "isStar": false,
+        "isHomeWorld": false,
+        "timeWarpAltitudeLimits": [
+          0,
+          30000,
+          30000,
+          60000,
+          100000,
+          300000,
+          600000,
+          800000
+        ],
+        "orbitingBodies": [
+          "Ike"
+        ]
+      },
       "size": {
         "radius": 320000,
         "maxHeight": 10500,
@@ -634,10 +648,19 @@
         "mu": 301363211975.09772,
         "GeeASL": 0.30010249340440553,
         "g0": 2.9440054602972183,
-        "atmosphereDepth": 50000,
         "sphereOfInfluence": 47921949.369738035,
         "hillSphere": 125063736.74833646,
         "oceanDensity": 1
+      },
+      "surface": {
+        "hasSolidSurface": true,
+        "ocean": false,
+        "albedo": 0.17000000178813934,
+        "emissivity": 0.82999998331069946
+      },
+      "atmosphere": {
+        "atmosphereDepth": 50000,
+        "atmosphereContainsOxygen": false
       },
       "rotation": {
         "axis": [
@@ -703,27 +726,23 @@
       }
     },
     "Ike": {
-      "index": 7,
-      "name": "Ike",
-      "isStar": false,
-      "isHomeWorld": false,
-      "hasSolidSurface": true,
-      "ocean": false,
-      "atmosphere": false,
-      "atmosphereContainsOxygen": false,
-      "albedo": 0.14,
-      "emissivity": 0.86,
-      "timeWarpAltitudeLimits": [
-        0,
-        5000,
-        5000,
-        10000,
-        25000,
-        50000,
-        100000,
-        200000
-      ],
-      "orbitingBodies": [ ],
+      "info": {
+        "index": 7,
+        "name": "Ike",
+        "isStar": false,
+        "isHomeWorld": false,
+        "timeWarpAltitudeLimits": [
+          0,
+          5000,
+          5000,
+          10000,
+          25000,
+          50000,
+          100000,
+          200000
+        ],
+        "orbitingBodies": [ ]
+      },
       "size": {
         "radius": 130000,
         "maxHeight": 20000,
@@ -731,10 +750,15 @@
         "mu": 18568368573.144009,
         "GeeASL": 0.11203826321056089,
         "g0": 1.0990953620956023,
-        "atmosphereDepth": 0,
         "sphereOfInfluence": 1049598.9393116189,
         "hillSphere": 1225978.5834331543,
         "oceanDensity": 1
+      },
+      "surface": {
+        "hasSolidSurface": true,
+        "ocean": false,
+        "albedo": 0.14,
+        "emissivity": 0.86
       },
       "rotation": {
         "axis": [
@@ -794,33 +818,29 @@
       }
     },
     "Jool": {
-      "index": 8,
-      "name": "Jool",
-      "isStar": false,
-      "isHomeWorld": false,
-      "hasSolidSurface": false,
-      "ocean": false,
-      "atmosphere": true,
-      "atmosphereContainsOxygen": false,
-      "albedo": 0.52,
-      "emissivity": 0.48,
-      "timeWarpAltitudeLimits": [
-        0,
-        0,
-        15000,
-        60000,
-        150000,
-        300000,
-        600000,
-        1200000
-      ],
-      "orbitingBodies": [
-        "Laythe",
-        "Vall",
-        "Tylo",
-        "Bop",
-        "Pol"
-      ],
+      "info": {
+        "index": 8,
+        "name": "Jool",
+        "isStar": false,
+        "isHomeWorld": false,
+        "timeWarpAltitudeLimits": [
+          0,
+          0,
+          15000,
+          60000,
+          150000,
+          300000,
+          600000,
+          1200000
+        ],
+        "orbitingBodies": [
+          "Laythe",
+          "Vall",
+          "Tylo",
+          "Bop",
+          "Pol"
+        ]
+      },
       "size": {
         "radius": 6000000,
         "maxHeight": 0,
@@ -828,10 +848,19 @@
         "mu": 282528004209995.25,
         "GeeASL": 0.80027329587007934,
         "g0": 7.850681032485479,
-        "atmosphereDepth": 200000,
         "sphereOfInfluence": 2455985185.4234691,
         "hillSphere": 4065824625.3435812,
         "oceanDensity": 1
+      },
+      "surface": {
+        "hasSolidSurface": false,
+        "ocean": false,
+        "albedo": 0.52,
+        "emissivity": 0.48
+      },
+      "atmosphere": {
+        "atmosphereDepth": 200000,
+        "atmosphereContainsOxygen": false
       },
       "rotation": {
         "axis": [
@@ -882,27 +911,23 @@
       }
     },
     "Laythe": {
-      "index": 9,
-      "name": "Laythe",
-      "isStar": false,
-      "isHomeWorld": false,
-      "hasSolidSurface": true,
-      "ocean": true,
-      "atmosphere": true,
-      "atmosphereContainsOxygen": true,
-      "albedo": 0.3,
-      "emissivity": 0.7,
-      "timeWarpAltitudeLimits": [
-        0,
-        30000,
-        30000,
-        60000,
-        120000,
-        240000,
-        480000,
-        600000
-      ],
-      "orbitingBodies": [ ],
+      "info": {
+        "index": 9,
+        "name": "Laythe",
+        "isStar": false,
+        "isHomeWorld": false,
+        "timeWarpAltitudeLimits": [
+          0,
+          30000,
+          30000,
+          60000,
+          120000,
+          240000,
+          480000,
+          600000
+        ],
+        "orbitingBodies": [ ]
+      },
       "size": {
         "radius": 500000,
         "maxHeight": 4096,
@@ -910,10 +935,19 @@
         "mu": 1962000029236.0781,
         "GeeASL": 0.80027329587007934,
         "g0": 7.850681032485479,
-        "atmosphereDepth": 50000,
         "sphereOfInfluence": 3723645.8111330215,
         "hillSphere": 5186318.6615949627,
         "oceanDensity": 1
+      },
+      "surface": {
+        "hasSolidSurface": true,
+        "ocean": true,
+        "albedo": 0.3,
+        "emissivity": 0.7
+      },
+      "atmosphere": {
+        "atmosphereDepth": 50000,
+        "atmosphereContainsOxygen": true
       },
       "rotation": {
         "axis": [
@@ -975,27 +1009,23 @@
       }
     },
     "Vall": {
-      "index": 10,
-      "name": "Vall",
-      "isStar": false,
-      "isHomeWorld": false,
-      "hasSolidSurface": true,
-      "ocean": false,
-      "atmosphere": false,
-      "atmosphereContainsOxygen": false,
-      "albedo": 0.5,
-      "emissivity": 0.7,
-      "timeWarpAltitudeLimits": [
-        0,
-        24500,
-        24500,
-        24500,
-        40000,
-        60000,
-        80000,
-        100000
-      ],
-      "orbitingBodies": [ ],
+      "info": {
+        "index": 10,
+        "name": "Vall",
+        "isStar": false,
+        "isHomeWorld": false,
+        "timeWarpAltitudeLimits": [
+          0,
+          24500,
+          24500,
+          24500,
+          40000,
+          60000,
+          80000,
+          100000
+        ],
+        "orbitingBodies": [ ]
+      },
       "size": {
         "radius": 300000,
         "maxHeight": 20000,
@@ -1003,10 +1033,15 @@
         "mu": 207481499473.75098,
         "GeeASL": 0.23508027656261707,
         "g0": 2.3061375130792734,
-        "atmosphereDepth": 0,
         "sphereOfInfluence": 2406401.44479404,
         "hillSphere": 3893201.5526243551,
         "oceanDensity": 1
+      },
+      "surface": {
+        "hasSolidSurface": true,
+        "ocean": false,
+        "albedo": 0.5,
+        "emissivity": 0.7
       },
       "rotation": {
         "axis": [
@@ -1067,27 +1102,23 @@
       }
     },
     "Bop": {
-      "index": 11,
-      "name": "Bop",
-      "isStar": false,
-      "isHomeWorld": false,
-      "hasSolidSurface": true,
-      "ocean": false,
-      "atmosphere": false,
-      "atmosphereContainsOxygen": false,
-      "albedo": 0.20000000298023224,
-      "emissivity": 0.800000011920929,
-      "timeWarpAltitudeLimits": [
-        0,
-        24500,
-        24500,
-        24500,
-        40000,
-        60000,
-        80000,
-        100000
-      ],
-      "orbitingBodies": [ ],
+      "info": {
+        "index": 11,
+        "name": "Bop",
+        "isStar": false,
+        "isHomeWorld": false,
+        "timeWarpAltitudeLimits": [
+          0,
+          24500,
+          24500,
+          24500,
+          40000,
+          60000,
+          80000,
+          100000
+        ],
+        "orbitingBodies": [ ]
+      },
       "size": {
         "radius": 65000,
         "maxHeight": 30000,
@@ -1095,10 +1126,15 @@
         "mu": 2486834944.4149065,
         "GeeASL": 0.060020494954318229,
         "g0": 0.5888010555018619,
-        "atmosphereDepth": 0,
         "sphereOfInfluence": 1221060.8628425281,
         "hillSphere": 2029674.4421137555,
         "oceanDensity": 1
+      },
+      "surface": {
+        "hasSolidSurface": true,
+        "ocean": false,
+        "albedo": 0.20000000298023224,
+        "emissivity": 0.800000011920929
       },
       "rotation": {
         "axis": [
@@ -1155,27 +1191,23 @@
       }
     },
     "Tylo": {
-      "index": 12,
-      "name": "Tylo",
-      "isStar": false,
-      "isHomeWorld": false,
-      "hasSolidSurface": true,
-      "ocean": false,
-      "atmosphere": false,
-      "atmosphereContainsOxygen": false,
-      "albedo": 0.1,
-      "emissivity": 0.9,
-      "timeWarpAltitudeLimits": [
-        0,
-        30000,
-        30000,
-        60000,
-        120000,
-        240000,
-        480000,
-        600000
-      ],
-      "orbitingBodies": [ ],
+      "info": {
+        "index": 12,
+        "name": "Tylo",
+        "isStar": false,
+        "isHomeWorld": false,
+        "timeWarpAltitudeLimits": [
+          0,
+          30000,
+          30000,
+          60000,
+          120000,
+          240000,
+          480000,
+          600000
+        ],
+        "orbitingBodies": [ ]
+      },
       "size": {
         "radius": 600000,
         "maxHeight": 16000,
@@ -1183,10 +1215,15 @@
         "mu": 2825280042099.9526,
         "GeeASL": 0.80027329587007934,
         "g0": 7.850681032485479,
-        "atmosphereDepth": 0,
         "sphereOfInfluence": 10856518.368358627,
         "hillSphere": 14757877.626718406,
         "oceanDensity": 1
+      },
+      "surface": {
+        "hasSolidSurface": true,
+        "ocean": false,
+        "albedo": 0.1,
+        "emissivity": 0.9
       },
       "rotation": {
         "axis": [
@@ -1247,27 +1284,23 @@
       }
     },
     "Gilly": {
-      "index": 13,
-      "name": "Gilly",
-      "isStar": false,
-      "isHomeWorld": false,
-      "hasSolidSurface": true,
-      "ocean": false,
-      "atmosphere": false,
-      "atmosphereContainsOxygen": false,
-      "albedo": 0.15,
-      "emissivity": 0.85,
-      "timeWarpAltitudeLimits": [
-        0,
-        8000,
-        8000,
-        8000,
-        20000,
-        40000,
-        80000,
-        100000
-      ],
-      "orbitingBodies": [ ],
+      "info": {
+        "index": 13,
+        "name": "Gilly",
+        "isStar": false,
+        "isHomeWorld": false,
+        "timeWarpAltitudeLimits": [
+          0,
+          8000,
+          8000,
+          8000,
+          20000,
+          40000,
+          80000,
+          100000
+        ],
+        "orbitingBodies": [ ]
+      },
       "size": {
         "radius": 13000,
         "maxHeight": 9000,
@@ -1275,10 +1308,15 @@
         "mu": 8289449.8147163512,
         "GeeASL": 0.00500170791285985,
         "g0": 0.049066754625155133,
-        "atmosphereDepth": 0,
         "sphereOfInfluence": 126123.27170456758,
         "hillSphere": 142427.42347887522,
         "oceanDensity": 1
+      },
+      "surface": {
+        "hasSolidSurface": true,
+        "ocean": false,
+        "albedo": 0.15,
+        "emissivity": 0.85
       },
       "rotation": {
         "axis": [
@@ -1333,27 +1371,23 @@
       }
     },
     "Pol": {
-      "index": 14,
-      "name": "Pol",
-      "isStar": false,
-      "isHomeWorld": false,
-      "hasSolidSurface": true,
-      "ocean": false,
-      "atmosphere": false,
-      "atmosphereContainsOxygen": false,
-      "albedo": 0.5,
-      "emissivity": 0.5,
-      "timeWarpAltitudeLimits": [
-        0,
-        5000,
-        5000,
-        5000,
-        8000,
-        12000,
-        30000,
-        90000
-      ],
-      "orbitingBodies": [ ],
+      "info": {
+        "index": 14,
+        "name": "Pol",
+        "isStar": false,
+        "isHomeWorld": false,
+        "timeWarpAltitudeLimits": [
+          0,
+          5000,
+          5000,
+          5000,
+          8000,
+          12000,
+          30000,
+          90000
+        ],
+        "orbitingBodies": [ ]
+      },
       "size": {
         "radius": 44000,
         "maxHeight": 6000,
@@ -1361,10 +1395,15 @@
         "mu": 721702080,
         "GeeASL": 0.038012980987391212,
         "g0": 0.37290734348630783,
-        "atmosphereDepth": 0,
         "sphereOfInfluence": 1042138.8923017805,
         "hillSphere": 2038945.4743036495,
         "oceanDensity": 1
+      },
+      "surface": {
+        "hasSolidSurface": true,
+        "ocean": false,
+        "albedo": 0.5,
+        "emissivity": 0.5
       },
       "rotation": {
         "axis": [
@@ -1420,27 +1459,23 @@
       }
     },
     "Dres": {
-      "index": 15,
-      "name": "Dres",
-      "isStar": false,
-      "isHomeWorld": false,
-      "hasSolidSurface": true,
-      "ocean": false,
-      "atmosphere": false,
-      "atmosphereContainsOxygen": false,
-      "albedo": 0.12,
-      "emissivity": 0.88,
-      "timeWarpAltitudeLimits": [
-        0,
-        10000,
-        10000,
-        30000,
-        50000,
-        100000,
-        200000,
-        300000
-      ],
-      "orbitingBodies": [ ],
+      "info": {
+        "index": 15,
+        "name": "Dres",
+        "isStar": false,
+        "isHomeWorld": false,
+        "timeWarpAltitudeLimits": [
+          0,
+          10000,
+          10000,
+          30000,
+          50000,
+          100000,
+          200000,
+          300000
+        ],
+        "orbitingBodies": [ ]
+      },
       "size": {
         "radius": 138000,
         "maxHeight": 8000,
@@ -1448,10 +1483,15 @@
         "mu": 21484488600,
         "GeeASL": 0.11503928456710498,
         "g0": 1.1285353816033,
-        "atmosphereDepth": 0,
         "sphereOfInfluence": 32832839.576776203,
         "hillSphere": 92059713.500596389,
         "oceanDensity": 1
+      },
+      "surface": {
+        "hasSolidSurface": true,
+        "ocean": false,
+        "albedo": 0.12,
+        "emissivity": 0.88
       },
       "rotation": {
         "axis": [
@@ -1511,27 +1551,23 @@
       }
     },
     "Eeloo": {
-      "index": 16,
-      "name": "Eeloo",
-      "isStar": false,
-      "isHomeWorld": false,
-      "hasSolidSurface": true,
-      "ocean": false,
-      "atmosphere": false,
-      "atmosphereContainsOxygen": false,
-      "albedo": 0.5,
-      "emissivity": 0.5,
-      "timeWarpAltitudeLimits": [
-        0,
-        4000,
-        4000,
-        20000,
-        30000,
-        40000,
-        70000,
-        150000
-      ],
-      "orbitingBodies": [ ],
+      "info": {
+        "index": 16,
+        "name": "Eeloo",
+        "isStar": false,
+        "isHomeWorld": false,
+        "timeWarpAltitudeLimits": [
+          0,
+          4000,
+          4000,
+          20000,
+          30000,
+          40000,
+          70000,
+          150000
+        ],
+        "orbitingBodies": [ ]
+      },
       "size": {
         "radius": 210000,
         "maxHeight": 6000,
@@ -1539,10 +1575,15 @@
         "mu": 74410814527.049576,
         "GeeASL": 0.1720587618914422,
         "g0": 1.6878964541550481,
-        "atmosphereDepth": 0,
         "sphereOfInfluence": 119082941.64781189,
         "hillSphere": 266016718.01522258,
         "oceanDensity": 1
+      },
+      "surface": {
+        "hasSolidSurface": true,
+        "ocean": false,
+        "albedo": 0.5,
+        "emissivity": 0.5
       },
       "rotation": {
         "axis": [

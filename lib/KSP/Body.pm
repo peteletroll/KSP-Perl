@@ -48,7 +48,7 @@ sub root($) {
 }
 
 sub name {
-	$_[0]{name}
+	$_[0]{info}{name}
 }
 
 sub radius {
@@ -71,7 +71,7 @@ sub parent {
 
 sub children {
 	wantarray or croak __PACKAGE__ . "::children() wants list context";
-	my $c = $_[0]->{orbitingBodies} or return ();
+	my $c = $_[0]->{info}{orbitingBodies} or return ();
 	_sort(map { __PACKAGE__->get($_) } @$c)
 }
 
@@ -168,7 +168,7 @@ sub lowHeight {
 	my ($self) = @_;
 	my $safety = 10e3;
 	$self->{atmosphere} ?
-		$self->{size}{atmosphereDepth} + $safety :
+		($self->{atmosphere}{atmosphereDepth} || $safety) + $safety :
 		($self->{size}{maxHeight} || $safety) + $safety;
 }
 
