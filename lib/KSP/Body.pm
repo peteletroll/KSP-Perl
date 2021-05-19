@@ -135,12 +135,6 @@ sub hasDescendant {
 }
 
 sub orbitNormal {
-	my $n = $_[0]->{orbit}{normal}
-		or return undef;
-	$_[0]->{_normal_} ||= V(@$n)
-}
-
-sub orbitNormal2 {
 	my ($self) = @_;
 	my $o = $self->{orbit} or return;
 	# https://en.wikipedia.org/wiki/Orbital_elements#Euler_angle_transformations
