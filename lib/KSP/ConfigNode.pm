@@ -70,6 +70,18 @@ sub visit($$) {
 	$_->visit($sub) foreach @$n;
 }
 
+sub delete($) {
+	my ($self) = @_;
+	my $parent = $self->parent;
+	$_ = undef foreach @$self;
+	if ($parent && $parent->nodes) {
+		$parent->set_nodes([
+			grep { $_ != $self }
+			@{$parent->nodes}
+		]);
+	}
+}
+
 sub parse_string($$) {
 	my ($pkg, $str) = @_;
 	_parser()->parse(start => $str)
