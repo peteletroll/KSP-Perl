@@ -62,6 +62,14 @@ sub load($$) {
 	$ret
 }
 
+sub visit($$) {
+	my ($self, $sub) = @_;
+	local $_ = $self;
+	$sub->();
+	my $n = $self->nodes or return;
+	$_->visit($sub) foreach @$n;
+}
+
 sub parse_string($$) {
 	my ($pkg, $str) = @_;
 	_parser()->parse(start => $str)
