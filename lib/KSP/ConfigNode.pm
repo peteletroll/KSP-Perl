@@ -62,6 +62,12 @@ sub load($$) {
 	$ret
 }
 
+sub get($$) {
+	my ($self, $name) = @_;
+	my @ret = map { $_->value } _elt($self->values(), $name);
+	wantarray ? @ret : $ret[0]
+}
+
 sub visit($$) {
 	my ($self, $sub) = @_;
 	local $_ = $self;
