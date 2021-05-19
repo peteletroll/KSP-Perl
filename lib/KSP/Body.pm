@@ -134,10 +134,6 @@ sub hasDescendant {
 	$other->hasAncestor($self)
 }
 
-sub orbitPeriod {
-	$_[0]{orbit}{period}
-}
-
 sub orbitNormal {
 	my $n = $_[0]->{orbit}{normal}
 		or return undef;
