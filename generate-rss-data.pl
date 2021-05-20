@@ -51,7 +51,7 @@ foreach my $b (@bodies) {
 	my $name = $b->get("name") or die "NO NAME: ", $b->asString, "\n";
 	$rename{$name} ||= $b->get("cbNameLater") || $name;
 	my $j = { };
-	# $j->{info}{name} = $rename{$name};
+	$j->{info}{name} = $rename{$name};
 	$j->{info}{orbitingBodies} = [ ];
 	$b->visit(sub {
 		my $n = $_->name;
