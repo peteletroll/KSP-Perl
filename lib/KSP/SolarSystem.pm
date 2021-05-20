@@ -38,7 +38,7 @@ sub secs_per_day {
 sub bodies {
 	my ($self) = @_;
 	wantarray or croak __PACKAGE__, "->bodies() wants list context";
-	map { KSP::Body->new($_, $self) } values %{$self->json->{bodies}}
+	sort { $a->_sortkey <=> $b->_sortkey } map { KSP::Body->new($_, $self) } values %{$self->json->{bodies}}
 }
 
 sub body($$) {
