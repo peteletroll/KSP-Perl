@@ -5,8 +5,9 @@ use warnings;
 
 use KSP::SolarSystem;
 
-our $SECS_PER_DAY = KSP::SolarSystem->secs_per_day();
-our $SECS_PER_YEAR = KSP::SolarSystem->secs_per_year();
+my $system = KSP::SolarSystem->new();
+our $SECS_PER_DAY = $system->secs_per_day();
+our $SECS_PER_YEAR = $system->secs_per_year();
 
 sub _floor($) {
 	my ($v) = @_;

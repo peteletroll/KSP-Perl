@@ -10,11 +10,13 @@ binmode $_, ":utf8" foreach (\*STDOUT, \*STDERR);
 
 use Data::Dump qw(dump);
 
-my $k = KSP::Body->get("Kerbin");
-print KSP::Orbit2D->new($k, a => -$k->radius() * 10, e => 1.1)->desc(), "\n";
-print KSP::Orbit2D->new("Kerbin", T => 21549.425183089825, e => 0)->desc(), "\n";
+my $system = KSP::SolarSystem->new();
 
-foreach my $b (sort { $a->name() cmp $b->name() } KSP::Body->all()) {
+my $k = $system->body("Kerbin");
+print KSP::Orbit2D->new($k, a => -$k->radius() * 10, e => 1.1)->desc(), "\n";
+print KSP::Orbit2D->new($k, T => 21549.425183089825, e => 0)->desc(), "\n";
+
+foreach my $b (sort { $a->name() cmp $b->name() } $system->bodies()) {
 	my $n = $b->name();
 	my $o = $b->orbit();
 	my $l = $b->lowOrbit();

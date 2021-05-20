@@ -25,7 +25,7 @@ our $TRACE = 0;
 sub BUILD {
 	my ($self, $body, %par) = @_;
 	defined $body or croak "missing body";
-	ref $body or $body = KSP::Body->get($body);
+	ref $body or Carp::confess "body needed here";
 	$newpar{$_} or croak "unknown orbit parameter $_" foreach keys %par;
 
 	my $trace = delete $par{trace} || $TRACE;

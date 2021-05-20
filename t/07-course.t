@@ -16,7 +16,9 @@ binmode $_, ":utf8" foreach (\*STDOUT, \*STDERR);
 
 warn "\n";
 
-my @b = KSP::Body->all();
+my $system = KSP::SolarSystem->new();
+
+my @b = $system->bodies();
 foreach my $b1 (@b) {
 	foreach my $b2 (@b) {
 		$b1 == $b2 and next;

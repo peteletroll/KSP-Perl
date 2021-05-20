@@ -24,14 +24,16 @@ BEGIN {
 }
 
 use KSP::SolarSystem;
+my $SYSTEM;
 our @BODY_NAMES = ();
 BEGIN {
-	@BODY_NAMES = KSP::SolarSystem->body_names();
+	$SYSTEM = KSP::SolarSystem->new();
+	@BODY_NAMES = $SYSTEM->body_names();
 	$EXPORT_TAGS{bodies} = [ @BODY_NAMES ];
 	push @EXPORT_OK, @BODY_NAMES;
 	push @{$EXPORT_TAGS{all}}, @BODY_NAMES;
 }
-KSP::SolarSystem->import_bodies();
+$SYSTEM->import_bodies();
 
 use KSP::Body;
 use KSP::ConfigNode;

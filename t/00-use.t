@@ -15,6 +15,9 @@ BEGIN { use_ok('KSP') or BAIL_OUT("can't load") };
 
 use KSP qw(:all);
 
+print "1\n";
 Kerbin;
+print "2\n";
 Kerbin->lowOrbit()->desc();
+print "3\n";
 

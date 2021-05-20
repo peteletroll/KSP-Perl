@@ -35,31 +35,6 @@ use overload
 	'!=' => sub { $_[0]->name ne ($_[1] ? $_[1]->name : "") },
 	'""' => \&desc;
 
-our $G;
-sub G {
-	defined $G and return $G;
-	my ($M, $mu) = (0, 0);
-	foreach my $b (all()) {
-		$M += $b->json->{size}{mass};
-		$mu += $b->json->{size}{mu};
-	}
-	$G = $mu / $M
-}
-
-sub all($) {
-	wantarray or croak __PACKAGE__, "->all() wants list context";
-	_sort(KSP::SolarSystem->bodies)
-}
-
-sub get($$) {
-	my ($pkg, $name) = @_;
-	KSP::SolarSystem->body($name)
-}
-
-sub root($) {
-	KSP::SolarSystem->root
-}
-
 sub name {
 	$_[0]->json->{info}{name}
 }
@@ -77,15 +52,17 @@ sub mu {
 }
 
 sub parent {
-	my $o = $_[0]->json->{orbit} or return undef;
+	my ($self) = @_;
+	my $o = $self->json->{orbit} or return undef;
 	my $p = $o->{referenceBody} or return undef;
-	__PACKAGE__->get($p)
+	$self->system->body($p)
 }
 
 sub children {
+	my ($self) = @_;
 	wantarray or croak __PACKAGE__ . "::children() wants list context";
-	my $c = $_[0]->json->{info}{orbitingBodies} or return ();
-	_sort(map { __PACKAGE__->get($_) } @$c)
+	my $c = $self->json->{info}{orbitingBodies} or return ();
+	_sort(map { $self->system->body($_) } @$c)
 }
 
 sub commonAncestor {

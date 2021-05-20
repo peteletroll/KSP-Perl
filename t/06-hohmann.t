@@ -14,10 +14,12 @@ use Math::Trig;
 
 binmode $_, ":utf8" foreach (\*STDOUT, \*STDERR);
 
+my $system = KSP::SolarSystem->new();
+
 my @b = qw(Mun Minmus);
 
-my $b1 = KSP::Body->get($b[0]);
-my $b2 = KSP::Body->get($b[1]);
+my $b1 = $system->body($b[0]);
+my $b2 = $system->body($b[1]);
 
 print "B1\t", $b1->name(), "\t", $b1->orbit->desc(), "\n";
 print "B2\t", $b2->name(), "\t", $b2->orbit->desc(), "\n";

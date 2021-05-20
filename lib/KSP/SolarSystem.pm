@@ -12,11 +12,9 @@ use JSON;
 
 use KSP::TinyStruct qw(json);
 
-our $SolarSystemDump;
-
 sub BUILD {
 	my ($self, $name) = @_;
-
+	defined $name or $name = "SolarSystemDump";
 	my $json = "$KSP::KSP_DIR/$name.json";
 	open JSONDATA, "<:utf8", $json
 		or die "can't open $json: $!";
@@ -27,56 +25,54 @@ sub BUILD {
 	$self
 }
 
-sub _load_system {
-	$SolarSystemDump ||= KSP::SolarSystem->new("SolarSystemDump");
-}
-
 sub secs_per_year {
-	_load_system();
-	$SolarSystemDump->json->{timeUnits}{Year}
+	my ($self) = @_;
+	$self->json->{timeUnits}{Year}
 }
 
 sub secs_per_day {
-	_load_system();
-	$SolarSystemDump->json->{timeUnits}{Day}
+	my ($self) = @_;
+	$self->json->{timeUnits}{Day}
 }
 
 sub bodies {
+	my ($self) = @_;
 	wantarray or croak __PACKAGE__, "->bodies() wants list context";
-	_load_system();
-	map { KSP::Body->new($_, $SolarSystemDump) } values %{$SolarSystemDump->json->{bodies}}
+	map { KSP::Body->new($_, $self) } values %{$self->json->{bodies}}
 }
 
 sub body($$) {
-	my ($pkg, $name) = @_;
-	_load_system();
-	my $json = $SolarSystemDump->json->{bodies}{$name}
+	my ($self, $name) = @_;
+	ref $self or Carp::confess "no ref here";
+	my $json = $self->json->{bodies}{$name}
 		or die "can't find body \"$name\"";
-	KSP::Body->new($json, $SolarSystemDump);
+	KSP::Body->new($json, $self)
 }
 
 sub root {
-	_load_system();
-	__PACKAGE__->body($SolarSystemDump->json->{rootBody})
+	my ($self) = @_;
+	$self->body($self->json->{rootBody})
 }
 
 sub body_names {
+	my ($self) = @_;
+	ref $self eq __PACKAGE__ or Carp::confess __PACKAGE__, " needed here";
 	wantarray or croak __PACKAGE__, "->body_names() wants list context";
-	_load_system();
-	keys %{$SolarSystemDump->json->{bodies}}
+	keys %{$self->json->{bodies}}
 }
 
 sub import_bodies {
+	my ($self) = @_;
 	my $tgt = (caller(0))[0];
 	defined $tgt or return;
 	# warn "BODIES INTO $tgt\n";
 	my $ret = 0;
-	foreach (body_names()) {
+	foreach ($self->body_names()) {
 		/^\w+$/ or die "bad name \"$_\"";
 		my $name = $_;
 		$ret++;
 		no strict "refs";
-		*{"${tgt}::${name}"} = sub { KSP::SolarSystem->body($name) };
+		*{"${tgt}::${name}"} = sub { $self->body($name) };
 	}
 	$ret
 }
