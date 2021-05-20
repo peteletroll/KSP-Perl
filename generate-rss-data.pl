@@ -45,6 +45,7 @@ find {
 
 # print KSP::ConfigNode->new("bodies", @bodies)->asString, "\n";
 
+my $rootBody = undef;
 my %rename = (Sun => "Sol");
 my %bodiesJson = ();
 foreach my $b (@bodies) {
@@ -87,8 +88,11 @@ foreach my $b (@bodies) {
 }
 
 foreach my $j (values %bodiesJson) {
-	$j->{orbit} or next;
-	$j->{orbit}{referenceBody} = $rename{$j->{orbit}{referenceBody}};
+	if ($j->{orbit}) {
+		$j->{orbit}{referenceBody} = $rename{$j->{orbit}{referenceBody}};
+	} else {
+		$rootBody = $j->{info}{name};
+	}
 }
 
 foreach my $j (values %bodiesJson) {
@@ -103,9 +107,8 @@ my $system = {
 		Hour => 3600,
 		Minute => 60
 	},
-	bodies => \%bodiesJson,
-	rename => \%rename
-
+	rootBody => $rootBody,
+	bodies => \%bodiesJson
 };
 
 print to_json($system, { indent => 1, space_after => 1, canonical => 1 });
