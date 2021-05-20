@@ -18,11 +18,14 @@ use KSP::Util qw(U proxy);
 proxy("KSP::Orbit2D" => sub { $_->orbit }, qw(pe ap e));
 proxy("KSP::Course" => sub { KSP::Course->new($_->lowOrbit) });
 
-use KSP::TinyStruct qw(json);
+use KSP::TinyStruct qw(json system);
 
 sub BUILD {
-	my ($self, $json) = @_;
+	my ($self, $json, $system) = @_;
+	ref $json eq "HASH" or croak "hash needed here";
+	ref $system eq "KSP::SolarSystem" or croak "KSP::SolarSystem needed here";
 	$self->set_json($json);
+	$self->set_system($system);
 	$self
 }
 

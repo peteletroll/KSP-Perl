@@ -15,20 +15,20 @@ use KSP::TinyStruct qw(json);
 our $SolarSystemDump;
 
 sub BUILD {
-	my ($self, $json) = @_;
-	$self->set_json($json);
-	$self
-}
+	my ($self, $name) = @_;
 
-sub _load_system {
-	$SolarSystemDump and return;
-	my $json = "$KSP::KSP_DIR/SolarSystemDump.json";
+	my $json = "$KSP::KSP_DIR/$name.json";
 	open JSONDATA, "<:utf8", $json
 		or die "can't open $json: $!";
 	local $/ = undef;
 	my $cnt = <JSONDATA>;
 	close JSONDATA or die "can't close $json: $!";
-	$SolarSystemDump = KSP::SolarSystem->new(decode_json($cnt));
+	$self->set_json(decode_json($cnt));
+	$self
+}
+
+sub _load_system {
+	$SolarSystemDump ||= KSP::SolarSystem->new("SolarSystemDump");
 }
 
 sub secs_per_year {
@@ -44,7 +44,7 @@ sub secs_per_day {
 sub bodies {
 	wantarray or croak __PACKAGE__, "->bodies() wants list context";
 	_load_system();
-	map { KSP::Body->new($_) } values %{$SolarSystemDump->json->{bodies}}
+	map { KSP::Body->new($_, $SolarSystemDump) } values %{$SolarSystemDump->json->{bodies}}
 }
 
 sub body($$) {
@@ -52,7 +52,7 @@ sub body($$) {
 	_load_system();
 	my $json = $SolarSystemDump->json->{bodies}{$name}
 		or die "can't find body \"$name\"";
-	KSP::Body->new($json);
+	KSP::Body->new($json, $SolarSystemDump);
 }
 
 sub root {
@@ -61,6 +61,7 @@ sub root {
 }
 
 sub body_names {
+	wantarray or croak __PACKAGE__, "->body_names() wants list context";
 	_load_system();
 	keys %{$SolarSystemDump->json->{bodies}}
 }
