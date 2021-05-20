@@ -43,16 +43,21 @@ find {
 	}
 }, "RSSKopernicus";
 
-print KSP::ConfigNode->new("bodies", @bodies)->asString, "\n";
+# print KSP::ConfigNode->new("bodies", @bodies)->asString, "\n";
 
-my @bodiesJson = ();
+my %rename = (Sun => "Sol");
+my %bodiesJson = ();
 foreach my $b (@bodies) {
 	my $name = $b->get("name") or die "NO NAME: ", $b->asString, "\n";
+	$rename{$name} ||= $b->get("cbNameLater") || $name;
 	my $j = { };
-	$j->{info}{name} = $name;
+	# $j->{info}{name} = $rename{$name};
+	$j->{info}{orbitingBodies} = [ ];
 	$b->visit(sub {
 		my $n = $_->name;
-		if ($n eq "Orbit") {
+		my $p = $_->parent ? $_->parent->name : "";
+		# warn "NODE $name $p $n\n";
+		if ($p eq "Body" && $n eq "Orbit") {
 			$j->{orbit}{referenceBody} = $_->get("referenceBody");
 			$j->{orbit}{semiMajorAxis} = 0 + $_->get("semiMajorAxis");
 			$j->{orbit}{eccentricity} = 0 + $_->get("eccentricity");
@@ -63,11 +68,32 @@ foreach my $b (@bodies) {
 			foreach (keys %{$j->{orbit}}) {
 				/^(.*)Deg$/ and $j->{orbit}{"${1}Rad"} = deg2rad $j->{orbit}{$_};
 			}
-		} elsif ($n eq "Properties") {
+		} elsif ($p eq "Body" && $n eq "Properties") {
+			$_->get("radius") and $j->{size}{radius} = 0 + $_->get("radius");
+			$_->get("mass") and $j->{size}{mass} = 0 + $_->get("mass");
+			$_->get("gravParameter") and $j->{size}{mu} = 0 + $_->get("gravParameter");
+			$_->get("timewarpAltitudeLimits") and $j->{info}{timeWarpAltitudeLimits} = [
+				map { 0 + $_ }
+				split(/\s+/, $_->get("timewarpAltitudeLimits"))
+			];
+		} elsif ($p eq "Body" && $n eq "Atmosphere") {
+			$j->{atmosphere}{atmosphereDepth} = 0 + $_->get("maxAltitude");
+			$j->{atmosphere}{atmosphereContainsOxygen} = $_->get("oxygen") =~ /true/i ?
+				JSON::true : JSON::false;
 		}
 	});
-	warn "BODY ", to_json($j, { pretty => 1 }), "\n";
-	push @bodiesJson, $j;
+	# warn "BODY ", to_json($j, { pretty => 1 }), "\n";
+	$bodiesJson{$rename{$name}} = $j;
+}
+
+foreach my $j (values %bodiesJson) {
+	$j->{orbit} or next;
+	$j->{orbit}{referenceBody} = $rename{$j->{orbit}{referenceBody}};
+}
+
+foreach my $j (values %bodiesJson) {
+	my $p = $j->{orbit}{referenceBody} or next;
+	push @{$bodiesJson{$p}{info}{orbitingBodies}}, $j->{info}{name};
 }
 
 my $system = {
@@ -77,7 +103,9 @@ my $system = {
 		Hour => 3600,
 		Minute => 60
 	},
-	bodies => \@bodiesJson
+	bodies => \%bodiesJson,
+	rename => \%rename
+
 };
 
 print to_json($system, { indent => 1, space_after => 1, canonical => 1 });
