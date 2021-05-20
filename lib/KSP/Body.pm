@@ -18,6 +18,14 @@ use KSP::Util qw(U proxy);
 proxy("KSP::Orbit2D" => sub { $_->orbit }, qw(pe ap e));
 proxy("KSP::Course" => sub { KSP::Course->new($_->lowOrbit) });
 
+use KSP::TinyStruct qw(json);
+
+sub BUILD {
+	my ($self, $json) = @_;
+	$self->set_json($json);
+	$self
+}
+
 use overload
 	fallback => 1,
 	'==' => sub { $_[0]->name eq ($_[1] ? $_[1]->name : "") },
@@ -29,8 +37,8 @@ sub G {
 	defined $G and return $G;
 	my ($M, $mu) = (0, 0);
 	foreach my $b (all()) {
-		$M += $b->{size}{mass};
-		$mu += $b->{size}{mu};
+		$M += $b->json->{size}{mass};
+		$mu += $b->json->{size}{mu};
 	}
 	$G = $mu / $M
 }
@@ -50,30 +58,30 @@ sub root($) {
 }
 
 sub name {
-	$_[0]{info}{name}
+	$_[0]->json->{info}{name}
 }
 
 sub radius {
-	$_[0]{size}{radius}
+	$_[0]->json->{size}{radius}
 }
 
 sub SOI {
-	$_[0]{size}{sphereOfInfluence}
+	$_[0]->json->{size}{sphereOfInfluence}
 }
 
 sub mu {
-	$_[0]{size}{mu}
+	$_[0]->json->{size}{mu}
 }
 
 sub parent {
-	my $o = $_[0]->{orbit} or return undef;
+	my $o = $_[0]->json->{orbit} or return undef;
 	my $p = $o->{referenceBody} or return undef;
 	__PACKAGE__->get($p)
 }
 
 sub children {
 	wantarray or croak __PACKAGE__ . "::children() wants list context";
-	my $c = $_[0]->{info}{orbitingBodies} or return ();
+	my $c = $_[0]->json->{info}{orbitingBodies} or return ();
 	_sort(map { __PACKAGE__->get($_) } @$c)
 }
 
@@ -136,7 +144,7 @@ sub hasDescendant {
 
 sub orbitNormal {
 	my ($self) = @_;
-	my $o = $self->{orbit} or return;
+	my $o = $self->json->{orbit} or return;
 	# https://en.wikipedia.org/wiki/Orbital_elements#Euler_angle_transformations
 	my $incl = $o->{inclinationRad};
 	my $longOfAN = $o->{longitudeOfAscendingNodeRad};
@@ -163,19 +171,19 @@ sub normalDiag {
 }
 
 sub rotationPeriod {
-	$_[0]{rotation}{rotationPeriod}
+	$_[0]->json->{rotation}{rotationPeriod}
 }
 
 sub solarDayLength {
-	$_[0]{rotation}{solarDayLength}
+	$_[0]->json->{rotation}{solarDayLength}
 }
 
 sub lowHeight {
 	my ($self) = @_;
 	my $safety = 10e3;
-	$self->{atmosphere} ?
-		($self->{atmosphere}{atmosphereDepth} || $safety) + $safety :
-		($self->{size}{maxHeight} || $safety) + $safety;
+	$self->json->{atmosphere} ?
+		($self->json->{atmosphere}{atmosphereDepth} || $safety) + $safety :
+		($self->json->{size}{maxHeight} || $safety) + $safety;
 }
 
 sub highHeight {
@@ -189,9 +197,9 @@ sub orbit {
 	my ($self, @rest) = @_;
 	@rest and return KSP::Orbit2D->new($self, @rest);
 	my $p = $self->parent or return undef;
-	$self->{_orbit_} ||= KSP::Orbit2D->new($p,
-		p => $self->{orbit}{semiLatusRectum},
-		e => $self->{orbit}{eccentricity})
+	$self->json->{_orbit_} ||= KSP::Orbit2D->new($p,
+		p => $self->json->{orbit}{semiLatusRectum},
+		e => $self->json->{orbit}{eccentricity})
 }
 
 sub lowOrbit {
@@ -226,7 +234,7 @@ sub _sort {
 
 sub _sortkey {
 	my ($self) = @_;
-	$self->{_sortkey_} ||= do {
+	$self->json->{_sortkey_} ||= do {
 		my $a = 1;
 		for (my $o = $self->orbit; $o; $o = $o->body->orbit) {
 			$a += $o->a;

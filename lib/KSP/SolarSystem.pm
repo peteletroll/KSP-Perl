@@ -4,6 +4,7 @@ use strict;
 use warnings;
 
 use KSP;
+use KSP::Body;
 
 use Carp;
 
@@ -21,7 +22,6 @@ sub _load_system {
 	my $cnt = <JSON>;
 	close JSON or die "can't close $json: $!";
 	$SolarSystemDump = decode_json($cnt);
-	bless $_, "KSP::Body" foreach values %{$SolarSystemDump->{bodies}};
 }
 
 sub secs_per_year {
@@ -35,17 +35,17 @@ sub secs_per_day {
 }
 
 sub bodies {
-	wantarray or croak __PACKAGE__, "->all() wants list context";
+	wantarray or croak __PACKAGE__, "->bodies() wants list context";
 	_load_system();
-	values %{$SolarSystemDump->{bodies}}
+	map { KSP::Body->new($_) } values %{$SolarSystemDump->{bodies}}
 }
 
 sub body($$) {
 	my ($pkg, $name) = @_;
 	_load_system();
-	my $ret = $SolarSystemDump->{bodies}{$name}
+	my $json = $SolarSystemDump->{bodies}{$name}
 		or die "can't find body \"$name\"";
-	$ret
+	KSP::Body->new($json);
 }
 
 sub root {
@@ -54,19 +54,23 @@ sub root {
 }
 
 sub body_names {
-	map { $_->{info}{name} } bodies()
+	_load_system();
+	keys %{$SolarSystemDump->{bodies}}
 }
 
 sub import_bodies {
 	my $tgt = (caller(0))[0];
 	defined $tgt or return;
 	# warn "BODIES INTO $tgt\n";
+	my $ret = 0;
 	foreach (body_names()) {
 		/^\w+$/ or die "bad name \"$_\"";
 		my $name = $_;
+		$ret++;
 		no strict "refs";
 		*{"${tgt}::${name}"} = sub { KSP::SolarSystem->body($name) };
 	}
+	$ret
 }
 
 1;
