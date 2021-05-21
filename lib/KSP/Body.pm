@@ -195,7 +195,7 @@ sub highHeight {
 	my ($self) = @_;
 	my $soi = $self->SOI;
 	$soi and return $soi - $self->radius;
-	1e6 * $self->lowHeight
+	1e9 * $self->lowHeight
 }
 
 sub orbit {
