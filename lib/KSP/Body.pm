@@ -176,7 +176,12 @@ sub normalDiag {
 }
 
 sub rotationPeriod {
-	$_[0]->json->{rotation}{rotationPeriod}
+	my ($self) = @_;
+	my $ret = $self->json->{rotation}{rotationPeriod};
+	if (!$ret && $self->json->{rotation}{tidallyLocked}) {
+		$ret = $self->orbit->T;
+	}
+	$ret
 }
 
 sub solarDayLength {

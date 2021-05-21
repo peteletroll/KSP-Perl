@@ -28,6 +28,9 @@
             "referenceBody": "Uranus",
             "semiMajorAxis": 190944364.477622
          },
+         "rotation": {
+            "tidallyLocked": true
+         },
          "size": {
             "mass": 1.29e+21,
             "radius": 578900
@@ -50,6 +53,9 @@
             "meanAnomalyAtEpochRad": 0.276043722404042,
             "referenceBody": "Jupiter",
             "semiMajorAxis": 1883812366.57352
+         },
+         "rotation": {
+            "tidallyLocked": true
          },
          "size": {
             "mass": 1.075938e+23,
@@ -296,6 +302,9 @@
             "referenceBody": "Jupiter",
             "semiMajorAxis": 671253637.541717
          },
+         "rotation": {
+            "tidallyLocked": true
+         },
          "size": {
             "mass": 4.7998e+22,
             "radius": 1550800
@@ -318,6 +327,9 @@
             "meanAnomalyAtEpochRad": 4.06095047237648,
             "referenceBody": "Jupiter",
             "semiMajorAxis": 1070823468.89452
+         },
+         "rotation": {
+            "tidallyLocked": true
          },
          "size": {
             "mass": 1.4819e+23,
@@ -378,6 +390,9 @@
             "referenceBody": "Jupiter",
             "semiMajorAxis": 422018294.523695
          },
+         "rotation": {
+            "tidallyLocked": true
+         },
          "size": {
             "mass": 8.9319e+22,
             "radius": 1811300
@@ -392,9 +407,9 @@
             "name": "Jupiter",
             "orbitingBodies": [
                "Callisto",
-               "Io",
+               "Europa",
                "Ganymede",
-               "Europa"
+               "Io"
             ]
          },
          "orbit": {
@@ -561,6 +576,9 @@
             "referenceBody": "Uranus",
             "semiMajorAxis": 129880047.634175
          },
+         "rotation": {
+            "tidallyLocked": true
+         },
          "size": {
             "mass": 6.6e+19,
             "radius": 235700
@@ -671,6 +689,9 @@
             "meanAnomalyAtEpochRad": 4.65156320242666,
             "referenceBody": "Uranus",
             "semiMajorAxis": 583435328.340603
+         },
+         "rotation": {
+            "tidallyLocked": true
          },
          "size": {
             "mass": 2.88e+21,
@@ -799,13 +820,13 @@
          "info": {
             "name": "Saturn",
             "orbitingBodies": [
-               "Tethys",
-               "Titan",
-               "Rhea",
                "Dione",
                "Enceladus",
                "Iapetus",
-               "Mimas"
+               "Mimas",
+               "Rhea",
+               "Tethys",
+               "Titan"
             ],
             "timeWarpAltitudeLimits": [
                0,
@@ -843,17 +864,17 @@
          "info": {
             "name": "Sol",
             "orbitingBodies": [
+               "Ceres",
+               "Earth",
+               "Jupiter",
                "Mars",
+               "Mercury",
+               "Neptune",
+               "Pluto",
+               "Saturn",
                "Uranus",
                "Venus",
-               "Ceres",
-               "Jupiter",
-               "Earth",
-               "Pluto",
-               "Neptune",
-               "Saturn",
-               "Vesta",
-               "Mercury"
+               "Vesta"
             ]
          },
          "orbit": {},
@@ -966,6 +987,9 @@
             "referenceBody": "Uranus",
             "semiMajorAxis": 436292682.967703
          },
+         "rotation": {
+            "tidallyLocked": true
+         },
          "size": {
             "mass": 3.42e+21,
             "radius": 788900
@@ -1038,6 +1062,9 @@
             "meanAnomalyAtEpochRad": 1.99535022252562,
             "referenceBody": "Uranus",
             "semiMajorAxis": 265992360.127656
+         },
+         "rotation": {
+            "tidallyLocked": true
          },
          "size": {
             "mass": 1.22e+21,
