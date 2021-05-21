@@ -82,6 +82,7 @@ foreach my $b (@bodies) {
 				map { 0 + $_ }
 				split(/\s+/, $_->get("timewarpAltitudeLimits"))
 			];
+			$_->get("rotationPeriod") and $j->{rotation}{rotationPeriod} = 0 + $_->get("rotationPeriod");
 		} elsif ($p eq "Body" && $n eq "Atmosphere") {
 			$j->{atmosphere}{atmosphereDepth} = 0 + $_->get("maxAltitude");
 			$j->{atmosphere}{atmosphereContainsOxygen} = $_->get("oxygen") =~ /true/i ?
