@@ -1,0 +1,1178 @@
+{
+   "bodies": {
+      "Ariel": {
+         "info": {
+            "name": "Ariel",
+            "orbitingBodies": [],
+            "timeWarpAltitudeLimits": [
+               0,
+               200,
+               400,
+               700,
+               2000,
+               3000,
+               6000,
+               10000
+            ]
+         },
+         "orbit": {
+            "argumentOfPeriapsisDeg": 169.996640499191,
+            "argumentOfPeriapsisRad": 2.96700109404002,
+            "eccentricity": 0.00190951361476287,
+            "inclinationDeg": 74.8989043025419,
+            "inclinationRad": 1.3072324862155,
+            "longitudeOfAscendingNodeDeg": 166.567108471408,
+            "longitudeOfAscendingNodeRad": 2.90714446835261,
+            "meanAnomalyAtEpochDeg": 46.4636795465421,
+            "meanAnomalyAtEpochRad": 0.810944190678705,
+            "referenceBody": "Uranus",
+            "semiMajorAxis": 190944364.477622
+         },
+         "size": {
+            "mass": 1.29e+21,
+            "radius": 578900
+         }
+      },
+      "Callisto": {
+         "info": {
+            "name": "Callisto",
+            "orbitingBodies": []
+         },
+         "orbit": {
+            "argumentOfPeriapsisDeg": 320.735968349266,
+            "argumentOfPeriapsisRad": 5.59789867726701,
+            "eccentricity": 0.00797331979689661,
+            "inclinationDeg": 25.4408001982213,
+            "inclinationRad": 0.444025727800988,
+            "longitudeOfAscendingNodeDeg": 358.50225633727,
+            "longitudeOfAscendingNodeRad": 6.25704474891408,
+            "meanAnomalyAtEpochDeg": 15.8161402548325,
+            "meanAnomalyAtEpochRad": 0.276043722404042,
+            "referenceBody": "Jupiter",
+            "semiMajorAxis": 1883812366.57352
+         },
+         "size": {
+            "mass": 1.075938e+23,
+            "radius": 2409300
+         }
+      },
+      "Ceres": {
+         "info": {
+            "name": "Ceres",
+            "orbitingBodies": [],
+            "timeWarpAltitudeLimits": [
+               0,
+               10000,
+               30000,
+               75000,
+               150000,
+               200000,
+               300000,
+               600000
+            ]
+         },
+         "orbit": {
+            "argumentOfPeriapsisDeg": 129.19102663711,
+            "argumentOfPeriapsisRad": 2.25480877884927,
+            "eccentricity": 0.079363494880566,
+            "inclinationDeg": 27.1273394923134,
+            "inclinationRad": 0.473461391447156,
+            "longitudeOfAscendingNodeDeg": 23.4501727740666,
+            "longitudeOfAscendingNodeRad": 0.409282725068995,
+            "meanAnomalyAtEpochDeg": 60.1624710451615,
+            "meanAnomalyAtEpochRad": 1.05003320587382,
+            "referenceBody": "Sol",
+            "semiMajorAxis": 413738762313.173
+         },
+         "rotation": {
+            "rotationPeriod": 32666.4
+         },
+         "size": {
+            "mass": 9.39e+20,
+            "radius": 473000
+         }
+      },
+      "Charon": {
+         "info": {
+            "name": "Charon",
+            "orbitingBodies": [],
+            "timeWarpAltitudeLimits": [
+               0,
+               1000,
+               5000,
+               10000,
+               20000,
+               50000,
+               60000,
+               100000
+            ]
+         },
+         "orbit": {
+            "argumentOfPeriapsisDeg": 188.473864685245,
+            "argumentOfPeriapsisRad": 3.28948949271579,
+            "eccentricity": 5.08222565944895e-05,
+            "inclinationDeg": 0.001,
+            "inclinationRad": 1.74532925199433e-05,
+            "longitudeOfAscendingNodeDeg": 222.405373557001,
+            "longitudeOfAscendingNodeRad": 3.8817060426976,
+            "meanAnomalyAtEpochDeg": 30.8998924006088,
+            "meanAnomalyAtEpochRad": 0.539304860902598,
+            "referenceBody": "Pluto",
+            "semiMajorAxis": 19596193.835404
+         },
+         "rotation": {
+            "rotationPeriod": 551856.70656
+         },
+         "size": {
+            "mass": 1.52e+21,
+            "radius": 603500
+         }
+      },
+      "Deimos": {
+         "info": {
+            "name": "Deimos",
+            "orbitingBodies": [],
+            "timeWarpAltitudeLimits": [
+               0,
+               200,
+               1500,
+               2500,
+               20000,
+               50000,
+               60000,
+               100000
+            ]
+         },
+         "orbit": {
+            "argumentOfPeriapsisDeg": 263.896386878409,
+            "argumentOfPeriapsisRad": 4.605860835145,
+            "eccentricity": 0.00032946807986617,
+            "inclinationDeg": 38.2773701383231,
+            "inclinationRad": 0.668066137918295,
+            "longitudeOfAscendingNodeDeg": 47.5189357079976,
+            "longitudeOfAscendingNodeRad": 0.829361885148061,
+            "meanAnomalyAtEpochDeg": 323.504033648967,
+            "meanAnomalyAtEpochRad": 5.64621053065701,
+            "referenceBody": "Mars",
+            "semiMajorAxis": 23458112.0175939
+         },
+         "rotation": {
+            "rotationPeriod": 109123.2
+         },
+         "size": {
+            "mass": 1480000000000000,
+            "radius": 5456
+         }
+      },
+      "Dione": {
+         "info": {
+            "name": "Dione",
+            "orbitingBodies": [],
+            "timeWarpAltitudeLimits": [
+               0,
+               2000,
+               5000,
+               10000,
+               20000,
+               50000,
+               80000,
+               100000
+            ]
+         },
+         "orbit": {
+            "argumentOfPeriapsisDeg": 123.671715604926,
+            "argumentOfPeriapsisRad": 2.15847862889601,
+            "eccentricity": 0.00167923090550277,
+            "inclinationDeg": 0.028,
+            "inclinationRad": 0.000488692190558412,
+            "longitudeOfAscendingNodeDeg": 128.560607112982,
+            "longitudeOfAscendingNodeRad": 2.24380588248437,
+            "meanAnomalyAtEpochDeg": 167.927278483023,
+            "meanAnomalyAtEpochRad": 2.93088391344217,
+            "referenceBody": "Saturn",
+            "semiMajorAxis": 377650651.501709
+         },
+         "rotation": {
+            "rotationPeriod": 236469.456
+         },
+         "size": {
+            "mass": 1.095452e+21,
+            "radius": 561400
+         }
+      },
+      "Earth": {
+         "atmosphere": {
+            "atmosphereContainsOxygen": true,
+            "atmosphereDepth": 140000
+         },
+         "info": {
+            "name": "Earth",
+            "orbitingBodies": [
+               "Moon"
+            ],
+            "timeWarpAltitudeLimits": [
+               0,
+               140000,
+               140000,
+               140000,
+               140000,
+               2000000,
+               35000000,
+               35000000
+            ]
+         },
+         "orbit": {
+            "argumentOfPeriapsisDeg": 102.972068329613,
+            "argumentOfPeriapsisRad": 1.79720162994033,
+            "eccentricity": 0.0160963616050568,
+            "inclinationDeg": 23.4460379546977,
+            "inclinationRad": 0.409210558857033,
+            "longitudeOfAscendingNodeDeg": 359.996500416876,
+            "longitudeOfAscendingNodeRad": 6.28312422793162,
+            "meanAnomalyAtEpochDeg": 357.060746412094,
+            "meanAnomalyAtEpochRad": 6.23188565451958,
+            "referenceBody": "Sol",
+            "semiMajorAxis": 149598261150.443
+         },
+         "rotation": {
+            "rotationPeriod": 86164.098903691
+         },
+         "size": {
+            "mu": 398600441800000,
+            "radius": 6371000
+         }
+      },
+      "Enceladus": {
+         "info": {
+            "name": "Enceladus",
+            "orbitingBodies": [],
+            "timeWarpAltitudeLimits": [
+               0,
+               1000,
+               1500,
+               2000,
+               5000,
+               10000,
+               20000,
+               30000
+            ]
+         },
+         "orbit": {
+            "argumentOfPeriapsisDeg": 115.561588606246,
+            "argumentOfPeriapsisRad": 2.01693021001415,
+            "eccentricity": 0.00622789799995746,
+            "inclinationDeg": 0.009,
+            "inclinationRad": 0.00015707963267949,
+            "longitudeOfAscendingNodeDeg": 128.424416160145,
+            "longitudeOfAscendingNodeRad": 2.24142890194594,
+            "meanAnomalyAtEpochDeg": 346.630147657321,
+            "meanAnomalyAtEpochRad": 6.04983736329436,
+            "referenceBody": "Saturn",
+            "semiMajorAxis": 238413699.483873
+         },
+         "rotation": {
+            "rotationPeriod": 118386.8352
+         },
+         "size": {
+            "mass": 1.08022e+20,
+            "radius": 252100
+         }
+      },
+      "Europa": {
+         "info": {
+            "name": "Europa",
+            "orbitingBodies": []
+         },
+         "orbit": {
+            "argumentOfPeriapsisDeg": 53.1321073753963,
+            "argumentOfPeriapsisRad": 0.927330212223828,
+            "eccentricity": 0.00951172711992618,
+            "inclinationDeg": 25.7036427647199,
+            "inclinationRad": 0.448613196000781,
+            "longitudeOfAscendingNodeDeg": 358.93600818475,
+            "longitudeOfAscendingNodeRad": 6.26461514678921,
+            "meanAnomalyAtEpochDeg": 276.265203828465,
+            "meanAnomalyAtEpochRad": 4.82173741549996,
+            "referenceBody": "Jupiter",
+            "semiMajorAxis": 671253637.541717
+         },
+         "size": {
+            "mass": 4.7998e+22,
+            "radius": 1550800
+         }
+      },
+      "Ganymede": {
+         "info": {
+            "name": "Ganymede",
+            "orbitingBodies": []
+         },
+         "orbit": {
+            "argumentOfPeriapsisDeg": 139.299257134206,
+            "argumentOfPeriapsisRad": 2.4312306825741,
+            "eccentricity": 0.00119008641836184,
+            "inclinationDeg": 25.2707136696205,
+            "inclinationRad": 0.441057157863616,
+            "longitudeOfAscendingNodeDeg": 358.012521924811,
+            "longitudeOfAscendingNodeRad": 6.24849727095634,
+            "meanAnomalyAtEpochDeg": 232.67532287883,
+            "meanAnomalyAtEpochRad": 4.06095047237648,
+            "referenceBody": "Jupiter",
+            "semiMajorAxis": 1070823468.89452
+         },
+         "size": {
+            "mass": 1.4819e+23,
+            "radius": 2624100
+         }
+      },
+      "Iapetus": {
+         "info": {
+            "name": "Iapetus",
+            "orbitingBodies": [],
+            "timeWarpAltitudeLimits": [
+               0,
+               1000,
+               2500,
+               5000,
+               10000,
+               25000,
+               30000,
+               50000
+            ]
+         },
+         "orbit": {
+            "argumentOfPeriapsisDeg": 314.381908136669,
+            "argumentOfPeriapsisRad": 5.48699940568722,
+            "eccentricity": 0.0288028628196961,
+            "inclinationDeg": 7.489,
+            "inclinationRad": 0.130707707681855,
+            "longitudeOfAscendingNodeDeg": 50.2939288024019,
+            "longitudeOfAscendingNodeRad": 0.877794651365521,
+            "meanAnomalyAtEpochDeg": 139.568332489433,
+            "meanAnomalyAtEpochRad": 2.43592693345879,
+            "referenceBody": "Saturn",
+            "semiMajorAxis": 3560162593.02297
+         },
+         "rotation": {
+            "rotationPeriod": 6853377.6
+         },
+         "size": {
+            "mass": 1.805e+21,
+            "radius": 734500
+         }
+      },
+      "Io": {
+         "info": {
+            "name": "Io",
+            "orbitingBodies": []
+         },
+         "orbit": {
+            "argumentOfPeriapsisDeg": 231.270346097779,
+            "argumentOfPeriapsisRad": 4.03642900163306,
+            "eccentricity": 0.00354585842621698,
+            "inclinationDeg": 25.4640953866487,
+            "inclinationRad": 0.444432305538919,
+            "longitudeOfAscendingNodeDeg": 358.046643167846,
+            "longitudeOfAscendingNodeRad": 6.24909279899217,
+            "meanAnomalyAtEpochDeg": 195.327408985525,
+            "meanAnomalyAtEpochRad": 3.40910640618697,
+            "referenceBody": "Jupiter",
+            "semiMajorAxis": 422018294.523695
+         },
+         "size": {
+            "mass": 8.9319e+22,
+            "radius": 1811300
+         }
+      },
+      "Jupiter": {
+         "atmosphere": {
+            "atmosphereContainsOxygen": false,
+            "atmosphereDepth": 1550000
+         },
+         "info": {
+            "name": "Jupiter",
+            "orbitingBodies": [
+               "Callisto",
+               "Io",
+               "Ganymede",
+               "Europa"
+            ]
+         },
+         "orbit": {
+            "argumentOfPeriapsisDeg": 10.7564275120288,
+            "argumentOfPeriapsisRad": 0.187735075837004,
+            "eccentricity": 0.0487266065470219,
+            "inclinationDeg": 23.2531330694788,
+            "inclinationRad": 0.405843733466781,
+            "longitudeOfAscendingNodeDeg": 3.26207728992335,
+            "longitudeOfAscendingNodeRad": 0.0569339891636962,
+            "meanAnomalyAtEpochDeg": 302.581239609665,
+            "meanAnomalyAtEpochRad": 5.28103888595453,
+            "referenceBody": "Sol",
+            "semiMajorAxis": 778188938659.755
+         },
+         "rotation": {
+            "rotationPeriod": 35730
+         },
+         "size": {
+            "mu": 126686534000000000,
+            "radius": 69373000
+         }
+      },
+      "Mars": {
+         "atmosphere": {
+            "atmosphereContainsOxygen": false,
+            "atmosphereDepth": 125000
+         },
+         "info": {
+            "name": "Mars",
+            "orbitingBodies": [
+               "Deimos",
+               "Phobos"
+            ],
+            "timeWarpAltitudeLimits": [
+               0,
+               5000,
+               30000,
+               30000,
+               100000,
+               300000,
+               600000,
+               1000000
+            ]
+         },
+         "orbit": {
+            "argumentOfPeriapsisDeg": 332.102265529541,
+            "argumentOfPeriapsisRad": 5.79627798682297,
+            "eccentricity": 0.0932611027832356,
+            "inclinationDeg": 24.6927242691006,
+            "inclinationRad": 0.430969339782915,
+            "longitudeOfAscendingNodeDeg": 3.35191106308912,
+            "longitudeOfAscendingNodeRad": 0.0585018842849285,
+            "meanAnomalyAtEpochDeg": 169.391312794238,
+            "meanAnomalyAtEpochRad": 2.95643613253505,
+            "referenceBody": "Sol",
+            "semiMajorAxis": 227949699961.976
+         },
+         "rotation": {
+            "rotationPeriod": 88642.6848
+         },
+         "size": {
+            "mu": 42828310000000,
+            "radius": 3375800
+         }
+      },
+      "Mercury": {
+         "info": {
+            "name": "Mercury",
+            "orbitingBodies": [],
+            "timeWarpAltitudeLimits": [
+               0,
+               5000,
+               30000,
+               30000,
+               100000,
+               300000,
+               600000,
+               1000000
+            ]
+         },
+         "orbit": {
+            "argumentOfPeriapsisDeg": 66.9037104415155,
+            "argumentOfPeriapsisRad": 1.16769002900535,
+            "eccentricity": 0.205618726631921,
+            "inclinationDeg": 28.6025210885505,
+            "inclinationRad": 0.499208167366318,
+            "longitudeOfAscendingNodeDeg": 10.8654116756473,
+            "longitudeOfAscendingNodeRad": 0.189637208324679,
+            "meanAnomalyAtEpochDeg": 318.216207781409,
+            "meanAnomalyAtEpochRad": 5.55392055899599,
+            "referenceBody": "Sol",
+            "semiMajorAxis": 57908973645.888
+         },
+         "rotation": {
+            "rotationPeriod": 5067031.68
+         },
+         "size": {
+            "mass": 3.3022e+23,
+            "radius": 2439700
+         }
+      },
+      "Mimas": {
+         "info": {
+            "name": "Mimas",
+            "orbitingBodies": [],
+            "timeWarpAltitudeLimits": [
+               0,
+               1000,
+               1500,
+               2000,
+               5000,
+               10000,
+               20000,
+               30000
+            ]
+         },
+         "orbit": {
+            "argumentOfPeriapsisDeg": 222.217278939672,
+            "argumentOfPeriapsisRad": 3.87842317231992,
+            "eccentricity": 0.0177627522314774,
+            "inclinationDeg": 1.572,
+            "inclinationRad": 0.0274365758413509,
+            "longitudeOfAscendingNodeDeg": 139.760472249029,
+            "longitudeOfAscendingNodeRad": 2.43928040488772,
+            "meanAnomalyAtEpochDeg": 125.59097816649,
+            "meanAnomalyAtEpochRad": 2.19197607980555,
+            "referenceBody": "Saturn",
+            "semiMajorAxis": 186009285.922049
+         },
+         "rotation": {
+            "rotationPeriod": 81388.8
+         },
+         "size": {
+            "mass": 3.7493e+19,
+            "radius": 198200
+         }
+      },
+      "Miranda": {
+         "info": {
+            "name": "Miranda",
+            "orbitingBodies": [],
+            "timeWarpAltitudeLimits": [
+               0,
+               200,
+               400,
+               700,
+               2000,
+               3000,
+               6000,
+               10000
+            ]
+         },
+         "orbit": {
+            "argumentOfPeriapsisDeg": 326.757525653506,
+            "argumentOfPeriapsisRad": 5.70299467832352,
+            "eccentricity": 0.00118741261963413,
+            "inclinationDeg": 78.5887546839913,
+            "inclinationRad": 1.37163252427776,
+            "longitudeOfAscendingNodeDeg": 169.064212054828,
+            "longitudeOfAscendingNodeRad": 2.95072714764664,
+            "meanAnomalyAtEpochDeg": 253.000629023242,
+            "meanAnomalyAtEpochRad": 4.4156939860723,
+            "referenceBody": "Uranus",
+            "semiMajorAxis": 129880047.634175
+         },
+         "size": {
+            "mass": 6.6e+19,
+            "radius": 235700
+         }
+      },
+      "Moon": {
+         "info": {
+            "name": "Moon",
+            "orbitingBodies": [],
+            "timeWarpAltitudeLimits": [
+               0,
+               5000,
+               30000,
+               30000,
+               100000,
+               300000,
+               600000,
+               1000000
+            ]
+         },
+         "orbit": {
+            "argumentOfPeriapsisDeg": 199.764093016082,
+            "argumentOfPeriapsisRad": 3.48654115039085,
+            "eccentricity": 0.0532814935368257,
+            "inclinationDeg": 28.3626779079849,
+            "inclinationRad": 0.495022114176994,
+            "longitudeOfAscendingNodeDeg": 2.29661616112602,
+            "longitudeOfAscendingNodeRad": 0.0400835136661616,
+            "meanAnomalyAtEpochDeg": 222.701235093095,
+            "meanAnomalyAtEpochRad": 3.88686980063246,
+            "referenceBody": "Earth",
+            "semiMajorAxis": 384308437.770707
+         },
+         "rotation": {
+            "rotationPeriod": 2360584.68479999
+         },
+         "size": {
+            "mass": 7.34767309e+22,
+            "radius": 1737100
+         }
+      },
+      "Neptune": {
+         "atmosphere": {
+            "atmosphereContainsOxygen": false,
+            "atmosphereDepth": 1250000
+         },
+         "info": {
+            "name": "Neptune",
+            "orbitingBodies": [
+               "Triton"
+            ],
+            "timeWarpAltitudeLimits": [
+               0,
+               5000,
+               30000,
+               30000,
+               100000,
+               300000,
+               600000,
+               1000000
+            ]
+         },
+         "orbit": {
+            "argumentOfPeriapsisDeg": 29.8148540299132,
+            "argumentOfPeriapsisRad": 0.520367368823486,
+            "eccentricity": 0.00809039768836406,
+            "inclinationDeg": 22.307359429649,
+            "inclinationRad": 0.38933686947318,
+            "longitudeOfAscendingNodeDeg": 3.51261071180118,
+            "longitudeOfAscendingNodeRad": 0.0613066222617522,
+            "meanAnomalyAtEpochDeg": 162.099548188828,
+            "meanAnomalyAtEpochRad": 2.82917083189027,
+            "referenceBody": "Sol",
+            "semiMajorAxis": 4497455832811.74
+         },
+         "rotation": {
+            "rotationPeriod": 58000.32
+         },
+         "size": {
+            "mu": 6836529000000000,
+            "radius": 24085000
+         }
+      },
+      "Oberon": {
+         "info": {
+            "name": "Oberon",
+            "orbitingBodies": [],
+            "timeWarpAltitudeLimits": [
+               0,
+               200,
+               400,
+               700,
+               2000,
+               3000,
+               6000,
+               10000
+            ]
+         },
+         "orbit": {
+            "argumentOfPeriapsisDeg": 274.459957054232,
+            "argumentOfPeriapsisRad": 4.79022991547858,
+            "eccentricity": 0.00110558297330948,
+            "inclinationDeg": 74.9349049752716,
+            "inclinationRad": 1.30786081648757,
+            "longitudeOfAscendingNodeDeg": 166.688732890348,
+            "longitudeOfAscendingNodeRad": 2.90926721491393,
+            "meanAnomalyAtEpochDeg": 266.514939637405,
+            "meanAnomalyAtEpochRad": 4.65156320242666,
+            "referenceBody": "Uranus",
+            "semiMajorAxis": 583435328.340603
+         },
+         "size": {
+            "mass": 2.88e+21,
+            "radius": 761400
+         }
+      },
+      "Phobos": {
+         "info": {
+            "name": "Phobos",
+            "orbitingBodies": [],
+            "timeWarpAltitudeLimits": [
+               0,
+               200,
+               1500,
+               2500,
+               20000,
+               50000,
+               60000,
+               100000
+            ]
+         },
+         "orbit": {
+            "argumentOfPeriapsisDeg": 357.775924302191,
+            "argumentOfPeriapsisRad": 6.24436786343924,
+            "eccentricity": 0.0153993815558398,
+            "inclinationDeg": 36.3243341047187,
+            "inclinationRad": 0.633979228721808,
+            "longitudeOfAscendingNodeDeg": 46.4821255346492,
+            "longitudeOfAscendingNodeRad": 0.811266133904959,
+            "meanAnomalyAtEpochDeg": 7.18512083559889,
+            "meanAnomalyAtEpochRad": 0.125404015734847,
+            "referenceBody": "Mars",
+            "semiMajorAxis": 9378492.20908831
+         },
+         "rotation": {
+            "rotationPeriod": 27553.843872
+         },
+         "size": {
+            "mass": 10720000000000000,
+            "radius": 7250
+         }
+      },
+      "Pluto": {
+         "atmosphere": {
+            "atmosphereContainsOxygen": false,
+            "atmosphereDepth": 110000
+         },
+         "info": {
+            "name": "Pluto",
+            "orbitingBodies": [
+               "Charon"
+            ],
+            "timeWarpAltitudeLimits": [
+               0,
+               5000,
+               30000,
+               30000,
+               100000,
+               300000,
+               600000,
+               1000000
+            ]
+         },
+         "orbit": {
+            "argumentOfPeriapsisDeg": 184.494535216391,
+            "argumentOfPeriapsisRad": 3.22003709146265,
+            "eccentricity": 0.246277248842598,
+            "inclinationDeg": 23.6123640575284,
+            "inclinationRad": 0.412113496983439,
+            "longitudeOfAscendingNodeDeg": 44.3609983699497,
+            "longitudeOfAscendingNodeRad": 0.774245481027461,
+            "meanAnomalyAtEpochDeg": 300.129730481281,
+            "meanAnomalyAtEpochRad": 5.23825198002154,
+            "referenceBody": "Sol",
+            "semiMajorAxis": 5845670624078.22
+         },
+         "rotation": {
+            "rotationPeriod": 551856.672
+         },
+         "size": {
+            "mass": 1.305e+22,
+            "radius": 1187000
+         }
+      },
+      "Rhea": {
+         "info": {
+            "name": "Rhea",
+            "orbitingBodies": [],
+            "timeWarpAltitudeLimits": [
+               0,
+               2000,
+               5000,
+               10000,
+               20000,
+               50000,
+               80000,
+               100000
+            ]
+         },
+         "orbit": {
+            "argumentOfPeriapsisDeg": 172.736708988964,
+            "argumentOfPeriapsisRad": 3.01482431091672,
+            "eccentricity": 0.00116826951575633,
+            "inclinationDeg": 0.331,
+            "inclinationRad": 0.00577703982410123,
+            "longitudeOfAscendingNodeDeg": 130.367057482043,
+            "longitudeOfAscendingNodeRad": 2.27533438919836,
+            "meanAnomalyAtEpochDeg": 13.4888771895641,
+            "meanAnomalyAtEpochRad": 0.235425319355052,
+            "referenceBody": "Saturn",
+            "semiMajorAxis": 527212645.707199
+         },
+         "rotation": {
+            "rotationPeriod": 390373.5168
+         },
+         "size": {
+            "mass": 2.306518e+21,
+            "radius": 763800
+         }
+      },
+      "Saturn": {
+         "atmosphere": {
+            "atmosphereContainsOxygen": false,
+            "atmosphereDepth": 2000000
+         },
+         "info": {
+            "name": "Saturn",
+            "orbitingBodies": [
+               "Tethys",
+               "Titan",
+               "Rhea",
+               "Dione",
+               "Enceladus",
+               "Iapetus",
+               "Mimas"
+            ],
+            "timeWarpAltitudeLimits": [
+               0,
+               5000,
+               30000,
+               30000,
+               100000,
+               300000,
+               600000,
+               1000000
+            ]
+         },
+         "orbit": {
+            "argumentOfPeriapsisDeg": 85.0466120283427,
+            "argumentOfPeriapsisRad": 1.48434339756079,
+            "eccentricity": 0.0534716650674987,
+            "inclinationDeg": 22.5699228113234,
+            "inclinationRad": 0.393919464978567,
+            "longitudeOfAscendingNodeDeg": 5.97084534383223,
+            "longitudeOfAscendingNodeRad": 0.104210910377245,
+            "meanAnomalyAtEpochDeg": 67.4688522648736,
+            "meanAnomalyAtEpochRad": 1.17755361456368,
+            "referenceBody": "Sol",
+            "semiMajorAxis": 1424838758613.27
+         },
+         "rotation": {
+            "rotationPeriod": 38052
+         },
+         "size": {
+            "mu": 37931187000000000,
+            "radius": 57216000
+         }
+      },
+      "Sol": {
+         "info": {
+            "name": "Sol",
+            "orbitingBodies": [
+               "Mars",
+               "Uranus",
+               "Venus",
+               "Ceres",
+               "Jupiter",
+               "Earth",
+               "Pluto",
+               "Neptune",
+               "Saturn",
+               "Vesta",
+               "Mercury"
+            ]
+         },
+         "orbit": {},
+         "size": {
+            "mu": 1.32712e+20,
+            "radius": 696342000
+         }
+      },
+      "Tethys": {
+         "info": {
+            "name": "Tethys",
+            "orbitingBodies": [],
+            "timeWarpAltitudeLimits": [
+               0,
+               2000,
+               5000,
+               10000,
+               20000,
+               50000,
+               80000,
+               100000
+            ]
+         },
+         "orbit": {
+            "argumentOfPeriapsisDeg": 215.91968925238,
+            "argumentOfPeriapsisRad": 3.76850949733705,
+            "eccentricity": 0.00106486886808357,
+            "inclinationDeg": 1.091,
+            "inclinationRad": 0.0190415421392581,
+            "longitudeOfAscendingNodeDeg": 119.25183883329,
+            "longitudeOfAscendingNodeRad": 2.08133722669854,
+            "meanAnomalyAtEpochDeg": 349.823121722044,
+            "meanAnomalyAtEpochRad": 6.10556527365456,
+            "referenceBody": "Saturn",
+            "semiMajorAxis": 294973462.380443
+         },
+         "rotation": {
+            "rotationPeriod": 163106.0928
+         },
+         "size": {
+            "mass": 6.17449e+20,
+            "radius": 531100
+         }
+      },
+      "Titan": {
+         "atmosphere": {
+            "atmosphereContainsOxygen": false,
+            "atmosphereDepth": 600000
+         },
+         "info": {
+            "name": "Titan",
+            "orbitingBodies": [],
+            "timeWarpAltitudeLimits": [
+               0,
+               130000,
+               130000,
+               130000,
+               2000000,
+               35000000,
+               35000000,
+               35000000
+            ]
+         },
+         "orbit": {
+            "argumentOfPeriapsisDeg": 182.088676502148,
+            "argumentOfPeriapsisRad": 3.17804693556132,
+            "eccentricity": 0.0289193656155536,
+            "inclinationDeg": 6.46049267977553,
+            "inclinationRad": 0.112756868563075,
+            "longitudeOfAscendingNodeDeg": 126.494523370291,
+            "longitudeOfAscendingNodeRad": 2.2077459185525,
+            "meanAnomalyAtEpochDeg": 75.1611735881568,
+            "meanAnomalyAtEpochRad": 1.31180994877634,
+            "referenceBody": "Saturn",
+            "semiMajorAxis": 1221966238.51143
+         },
+         "rotation": {
+            "rotationPeriod": 1377648
+         },
+         "size": {
+            "mu": 8978133000000,
+            "radius": 2573300
+         }
+      },
+      "Titania": {
+         "info": {
+            "name": "Titania",
+            "orbitingBodies": [],
+            "timeWarpAltitudeLimits": [
+               0,
+               200,
+               400,
+               700,
+               2000,
+               3000,
+               6000,
+               10000
+            ]
+         },
+         "orbit": {
+            "argumentOfPeriapsisDeg": 165.745542403084,
+            "argumentOfPeriapsisRad": 2.89280543543769,
+            "eccentricity": 0.002486916,
+            "inclinationDeg": 75.045766393,
+            "inclinationRad": 1.30979571324036,
+            "longitudeOfAscendingNodeDeg": 166.655521491012,
+            "longitudeOfAscendingNodeRad": 2.90868756664633,
+            "meanAnomalyAtEpochDeg": 212.655282183534,
+            "meanAnomalyAtEpochRad": 3.71153484586031,
+            "referenceBody": "Uranus",
+            "semiMajorAxis": 436292682.967703
+         },
+         "size": {
+            "mass": 3.42e+21,
+            "radius": 788900
+         }
+      },
+      "Triton": {
+         "atmosphere": {
+            "atmosphereContainsOxygen": false,
+            "atmosphereDepth": 110000
+         },
+         "info": {
+            "name": "Triton",
+            "orbitingBodies": [],
+            "timeWarpAltitudeLimits": [
+               0,
+               1000,
+               5000,
+               10000,
+               20000,
+               50000,
+               60000,
+               100000
+            ]
+         },
+         "orbit": {
+            "argumentOfPeriapsisDeg": 220.452328689517,
+            "argumentOfPeriapsisRad": 3.84761897932083,
+            "eccentricity": 0.000168801435976369,
+            "inclinationDeg": 156.834,
+            "inclinationRad": 2.73726967907279,
+            "longitudeOfAscendingNodeDeg": 197.195323978807,
+            "longitudeOfAscendingNodeRad": 3.44170767296711,
+            "meanAnomalyAtEpochDeg": 358.656187762677,
+            "meanAnomalyAtEpochRad": 6.25973135910971,
+            "referenceBody": "Neptune",
+            "semiMajorAxis": 354767243.540665
+         },
+         "rotation": {
+            "rotationPeriod": 507773
+         },
+         "size": {
+            "mu": 1427900000000,
+            "radius": 1353400
+         }
+      },
+      "Umbriel": {
+         "info": {
+            "name": "Umbriel",
+            "orbitingBodies": [],
+            "timeWarpAltitudeLimits": [
+               0,
+               200,
+               400,
+               700,
+               2000,
+               3000,
+               6000,
+               10000
+            ]
+         },
+         "orbit": {
+            "argumentOfPeriapsisDeg": 207.725922215736,
+            "argumentOfPeriapsisRad": 3.62550128440623,
+            "eccentricity": 0.0038334454580725,
+            "inclinationDeg": 74.9939984108702,
+            "inclinationRad": 1.30889219150508,
+            "longitudeOfAscendingNodeDeg": 166.560107519371,
+            "longitudeOfAscendingNodeRad": 2.90702227868879,
+            "meanAnomalyAtEpochDeg": 114.325146401208,
+            "meanAnomalyAtEpochRad": 1.99535022252562,
+            "referenceBody": "Uranus",
+            "semiMajorAxis": 265992360.127656
+         },
+         "size": {
+            "mass": 1.22e+21,
+            "radius": 584700
+         }
+      },
+      "Uranus": {
+         "atmosphere": {
+            "atmosphereContainsOxygen": false,
+            "atmosphereDepth": 1400000
+         },
+         "info": {
+            "name": "Uranus",
+            "orbitingBodies": [
+               "Ariel",
+               "Miranda",
+               "Oberon",
+               "Titania",
+               "Umbriel"
+            ],
+            "timeWarpAltitudeLimits": [
+               0,
+               5000,
+               30000,
+               30000,
+               100000,
+               300000,
+               600000,
+               1000000
+            ]
+         },
+         "orbit": {
+            "argumentOfPeriapsisDeg": 169.687679052225,
+            "argumentOfPeriapsisRad": 2.96160869952874,
+            "eccentricity": 0.0462065315871843,
+            "inclinationDeg": 23.6725699334368,
+            "inclinationRad": 0.413164287747086,
+            "longitudeOfAscendingNodeDeg": 1.84608966922394,
+            "longitudeOfAscendingNodeRad": 0.0322203430150108,
+            "meanAnomalyAtEpochDeg": 286.826735994449,
+            "meanAnomalyAtEpochRad": 5.00607092585167,
+            "referenceBody": "Sol",
+            "semiMajorAxis": 2866832853163.98
+         },
+         "rotation": {
+            "rotationPeriod": 62063.712
+         },
+         "size": {
+            "mu": 5793939000000000,
+            "radius": 24702000
+         }
+      },
+      "Venus": {
+         "atmosphere": {
+            "atmosphereContainsOxygen": false,
+            "atmosphereDepth": 145000
+         },
+         "info": {
+            "name": "Venus",
+            "orbitingBodies": [],
+            "timeWarpAltitudeLimits": [
+               0,
+               145000,
+               145000,
+               145000,
+               1000000,
+               10000000,
+               25000000,
+               35000000
+            ]
+         },
+         "orbit": {
+            "argumentOfPeriapsisDeg": 123.712129428233,
+            "argumentOfPeriapsisRad": 2.15918398317603,
+            "eccentricity": 0.00681033965084203,
+            "inclinationDeg": 24.4639763355644,
+            "inclinationRad": 0.426976935185575,
+            "longitudeOfAscendingNodeDeg": 7.98160337878164,
+            "longitudeOfAscendingNodeRad": 0.139305258548044,
+            "meanAnomalyAtEpochDeg": 311.245994755312,
+            "meanAnomalyAtEpochRad": 5.4322673921252,
+            "referenceBody": "Sol",
+            "semiMajorAxis": 108209548790.467
+         },
+         "rotation": {
+            "rotationPeriod": -20996797.016381
+         },
+         "size": {
+            "mass": 4.8676e+24,
+            "mu": 324859000000000,
+            "radius": 6049000
+         }
+      },
+      "Vesta": {
+         "info": {
+            "name": "Vesta",
+            "orbitingBodies": [],
+            "timeWarpAltitudeLimits": [
+               0,
+               20000,
+               75000,
+               150000,
+               200000,
+               300000,
+               600000,
+               1000000
+            ]
+         },
+         "orbit": {
+            "argumentOfPeriapsisDeg": 236.445369158826,
+            "argumentOfPeriapsisRad": 4.12675019291497,
+            "eccentricity": 0.0902068412255369,
+            "inclinationDeg": 22.7696439720361,
+            "inclinationRad": 0.39740525681891,
+            "longitudeOfAscendingNodeDeg": 18.1671232653234,
+            "longitudeOfAscendingNodeRad": 0.317076116595557,
+            "meanAnomalyAtEpochDeg": 61.0607001442198,
+            "meanAnomalyAtEpochRad": 1.06571026108961,
+            "referenceBody": "Sol",
+            "semiMajorAxis": 353346223803.158
+         },
+         "rotation": {
+            "rotationPeriod": 19231.2
+         },
+         "size": {
+            "mass": 2.59e+20,
+            "radius": 262700
+         }
+      }
+   },
+   "rootBody": "Sol",
+   "timeUnits": {
+      "Day": 86400,
+      "Hour": 3600,
+      "Minute": 60,
+      "Year": 31556925.216
+   }
+}

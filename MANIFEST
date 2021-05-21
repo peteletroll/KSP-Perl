@@ -5,6 +5,7 @@ lib/KSP/ConfigNode.pm
 lib/KSP/ConfigValue.pm
 lib/KSP/SolarSystem.pm
 lib/KSP/SolarSystemDump.json
+lib/KSP/RealSolarSystem.json
 lib/KSP/Orbit2D.pm
 lib/KSP/Course.pm
 lib/KSP/Util.pm
