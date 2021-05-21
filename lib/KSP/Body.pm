@@ -225,7 +225,7 @@ sub desc {
 	push @d, "r " . U($self->radius) . "m";
 	push @d, "g₀ " . U($self->mu / $self->radius ** 2) . "m/s²";
 	push @d, "soi " . U($self->SOI) . "m" if $self->SOI;
-	push @d, "rot " . KSP::Time->new($self->rotationPeriod)->pretty_interval;
+	push @d, "rot " . $self->system->pretty_interval($self->rotationPeriod);
 	$self->name . "[ " . join("; ", @d) . " ]"
 }
 

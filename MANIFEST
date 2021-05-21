@@ -3,7 +3,6 @@ lib/KSP.pm
 lib/KSP/Body.pm
 lib/KSP/ConfigNode.pm
 lib/KSP/ConfigValue.pm
-lib/KSP/Time.pm
 lib/KSP/SolarSystem.pm
 lib/KSP/SolarSystemDump.json
 lib/KSP/Orbit2D.pm

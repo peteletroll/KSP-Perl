@@ -17,7 +17,7 @@ sub BUILD {
 	defined $name or $name = "SolarSystemDump";
 	my $json = "$KSP::KSP_DIR/$name.json";
 	open JSONDATA, "<:utf8", $json
-		or die "can't open $json: $!";
+		or confess "can't open $json: $!";
 	local $/ = undef;
 	my $cnt = <JSONDATA>;
 	close JSONDATA or die "can't close $json: $!";

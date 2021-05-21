@@ -37,7 +37,6 @@ $SYSTEM->import_bodies();
 
 use KSP::Body;
 use KSP::ConfigNode;
-use KSP::Time;
 use KSP::Orbit2D;
 use KSP::Course;
 use KSP::Util qw(U);
