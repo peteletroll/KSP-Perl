@@ -47,8 +47,19 @@ sub SOI {
 	$_[0]->json->{size}{sphereOfInfluence}
 }
 
+sub mass {
+	$_[0]->json->{size}{mass}
+}
+
 sub mu {
 	$_[0]->json->{size}{mu}
+}
+
+sub estimated_G {
+	my ($self) = @_;
+	my $mu = $self->json->{size}{mu};
+	my $mass = $self->json->{size}{mass};
+	$mu && $mass ? $mu / $mass : undef
 }
 
 sub parent {
