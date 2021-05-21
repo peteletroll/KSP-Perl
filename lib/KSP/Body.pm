@@ -44,7 +44,11 @@ sub radius {
 }
 
 sub SOI {
-	$_[0]->json->{size}{sphereOfInfluence}
+	my ($self) = @_;
+	$self->json->{size}{sphereOfInfluence} ||= do {
+		my $parent = $self->parent;
+		$parent ? $self->orbit->a * ($self->mass / $parent->mass) ** (2 / 5) : undef
+	}
 }
 
 sub mass {
