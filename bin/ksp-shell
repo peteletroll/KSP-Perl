@@ -11,6 +11,7 @@ use utf8;
 use Math::Trig;
 use Math::Vector::Real;
 use KSP qw(:all);
+KSP::SolarSystem->new("RealSolarSystem")->import_bodies();
 ENDRC
 
 re.pl --rcfile "$rc"
