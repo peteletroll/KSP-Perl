@@ -40,7 +40,7 @@ sub G {
 	my $G = $self->systemG;
 	unless ($G) {
 		my ($sum, $count) = (0, 0);
-		foreach my $b ($self->bodies) {
+		foreach my $b ($self->bodies(1)) {
 			my $G = $b->estimated_G;
 			$G and $sum += $G, $count++;
 		}
@@ -51,9 +51,10 @@ sub G {
 }
 
 sub bodies {
-	my ($self) = @_;
+	my ($self, $unsorted) = @_;
 	wantarray or croak __PACKAGE__, "->bodies() wants list context";
-	sort { $a->_sortkey <=> $b->_sortkey } map { KSP::Body->new($_, $self) } values %{$self->json->{bodies}}
+	my @ret = map { KSP::Body->new($_, $self) } values %{$self->json->{bodies}};
+	$unsorted ? @ret : sort { $a->_sortkey <=> $b->_sortkey } @ret
 }
 
 sub body($$) {

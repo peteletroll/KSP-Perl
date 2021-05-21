@@ -200,6 +200,7 @@ sub orbit {
 	my $p = $self->parent or return undef;
 	$self->json->{_orbit_} ||= KSP::Orbit2D->new($p,
 		p => $self->json->{orbit}{semiLatusRectum},
+		a => $self->json->{orbit}{semiMajorAxis},
 		e => $self->json->{orbit}{eccentricity})
 }
 
@@ -225,7 +226,8 @@ sub desc {
 	push @d, "r " . U($self->radius) . "m";
 	push @d, "g₀ " . U($self->mu / $self->radius ** 2) . "m/s²";
 	push @d, "soi " . U($self->SOI) . "m" if $self->SOI;
-	push @d, "rot " . $self->system->pretty_interval($self->rotationPeriod);
+	push @d, "rot " . $self->system->pretty_interval($self->rotationPeriod)
+		if $self->rotationPeriod;
 	$self->name . "[ " . join("; ", @d) . " ]"
 }
 
