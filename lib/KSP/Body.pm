@@ -229,6 +229,17 @@ sub highOrbit {
 	KSP::Orbit2D->new($self, pe => $self->lowHeight, ap => $self->highHeight)
 }
 
+sub tree {
+	my ($self, $indent) = @_;
+	defined $indent or $indent = "";
+	my $ret = "$indent$self";
+	$indent .= "\t";
+	foreach ($self->children) {
+		$ret .= "\n" . $_->tree($indent);
+	}
+	$ret
+}
+
 sub desc {
 	my ($self) = @_;
 	my @d = ();

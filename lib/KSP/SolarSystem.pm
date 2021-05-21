@@ -25,6 +25,9 @@ sub BUILD {
 	$self
 }
 
+use overload
+	'""' => \&desc;
+
 sub secs_per_year {
 	my ($self) = @_;
 	$self->json->{timeUnits}{Year}
@@ -147,6 +150,11 @@ sub pretty_interval($) {
 	$t[0] ? sprintf '%1$dy %2$dd %3$d:%4$02d', @t :
 	$t[1] ? sprintf '%2$dd %3$d:%4$02d:%5$02.0f', @t :
 	sprintf '%3$d:%4$02d:%5$06.3f', @t
+}
+
+sub desc {
+	my ($self) = @_;
+	$self->root->tree
 }
 
 1;
