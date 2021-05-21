@@ -10,7 +10,7 @@ use Carp;
 
 use JSON;
 
-use KSP::TinyStruct qw(json);
+use KSP::TinyStruct qw(json systemG);
 
 sub BUILD {
 	my ($self, $name) = @_;
@@ -33,6 +33,21 @@ sub secs_per_year {
 sub secs_per_day {
 	my ($self) = @_;
 	$self->json->{timeUnits}{Day}
+}
+
+sub G {
+	my ($self) = @_;
+	my $G = $self->systemG;
+	unless ($G) {
+		my ($sum, $count) = (0, 0);
+		foreach my $b ($self->bodies) {
+			my $G = $b->estimated_G;
+			$G and $sum += $G, $count++;
+		}
+		$G = $count ? $sum / $count : 6.67408e-11;
+		$self->set_systemG($G);
+	}
+	$G
 }
 
 sub bodies {
