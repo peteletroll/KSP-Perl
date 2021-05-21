@@ -14,6 +14,9 @@ use KSP;
 
 binmode \*STDOUT, ":utf8";
 
+@ARGV == 1 && -d $ARGV[0] or die "usage: $0 <directory>";
+my $DIR = $ARGV[0];
+
 my @bodies = ();
 my %delete = map { $_ => 1 } qw(
 	ScaledVersion
@@ -32,6 +35,8 @@ find {
 		my $node = KSP::ConfigNode->load($_) or return;
 		$node->visit(sub {
 			$_->name eq "Body" or return;
+			$_->parent or return;
+			$_->parent->name =~ /kopernicus/i or return;
 			$_->get("name") or return;
 			push @bodies, $_;
 			$_->visit(sub {
@@ -41,7 +46,7 @@ find {
 			});
 		});
 	}
-}, "RSSKopernicus";
+}, $DIR;
 
 # print KSP::ConfigNode->new("bodies", @bodies)->asString, "\n";
 

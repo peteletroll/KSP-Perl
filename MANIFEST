@@ -25,4 +25,4 @@ t/07-course.t
 bin/ksp-parse
 bin/ksp-delta-v
 bin/ksp-shell
-generate-rss-data.pl
+kopernicus-to-json.pl
