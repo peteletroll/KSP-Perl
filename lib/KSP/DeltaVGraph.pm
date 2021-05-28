@@ -138,18 +138,19 @@ sub path {
 	my $self = shift;
 	my $graph = $self->graph;
 	my $scale = $self->scale;
+	$scale = ($scale && $scale > 0) ? sqrt($scale) : 1;
 	if (@_ >= 2) {
 		my ($from, @to) = @_;
 		my $carry = 0;
 		while (@to) {
 			my $to = shift @to;
 			exists $graph->{$to} or die "$0: unknown node $to\n";
-			my $res = dijkstra_graph($from);
+			my $res = $self->dijkstra_graph($from);
 			my $at = $to;
 			my @path = ();
 			while (my $prev = $res->{$at}[1]) {
 				my $dist = $res->{$at}[0] - $res->{$prev}[0];
-				push @path, sprintf "%7d %7d %12s \x{2192} %s", $dist, $res->{$at}[0] + $carry, $prev, $at;
+				push @path, sprintf "%7d %7d %12s \x{2192} %s", $dist, $scale * ($res->{$at}[0] + $carry), $prev, $at;
 				$at = $prev;
 			}
 			print "$_\n" foreach reverse @path;
@@ -159,7 +160,7 @@ sub path {
 		}
 	} elsif (@_ == 1) {
 		my ($from) = @_;
-		my $res = dijkstra_graph($from);
+		my $res = $self->dijkstra_graph($from);
 		# print "dijkstra_graph($from) = ", dump($res), "\n";
 		foreach my $to (sort { $res->{$a}[0] <=> $res->{$b}[0] } keys %$res) {
 			printf "%7d %12s \x{2192} %s\n", $scale * $res->{$to}[0], $from, $to
@@ -168,6 +169,7 @@ sub path {
 	} elsif (@_ == 0) {
 		print "$_\n" foreach sort keys %$graph;
 	}
+	return;
 }
 
 1;
