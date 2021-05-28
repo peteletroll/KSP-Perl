@@ -39,6 +39,7 @@ use KSP::Body;
 use KSP::ConfigNode;
 use KSP::Orbit2D;
 use KSP::Course;
+use KSP::DeltaVGraph;
 use KSP::Util qw(U);
 
 1;
