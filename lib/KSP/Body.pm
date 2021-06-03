@@ -18,7 +18,7 @@ use KSP::Util qw(U proxy);
 proxy("KSP::Orbit2D" => sub { $_->orbit }, qw(pe ap e));
 proxy("KSP::Course" => sub { KSP::Course->new($_->lowOrbit) });
 
-use KSP::TinyStruct qw(json system);
+use KSP::TinyStruct qw(json system cache);
 
 sub BUILD {
 	my ($self, $json, $system) = @_;
@@ -26,6 +26,7 @@ sub BUILD {
 	ref $system eq "KSP::SolarSystem" or croak "KSP::SolarSystem needed here";
 	$self->set_json($json);
 	$self->set_system($system);
+	$self->set_cache({ });
 	$self
 }
 
@@ -34,6 +35,14 @@ use overload
 	'==' => sub { $_[0]->name eq ($_[1] ? $_[1]->name : "") },
 	'!=' => sub { $_[0]->name ne ($_[1] ? $_[1]->name : "") },
 	'""' => \&desc;
+
+sub cached {
+	my ($self, $key, $sub) = @_;
+	my $c = $self->cache;
+	exists $c->{$key} and return $c->{$key};
+	# warn "CACHEING ", $self->name, " $key\n";
+	$c->{$key} = $sub->($self)
+}
 
 sub name {
 	$_[0]->json->{info}{name}
@@ -216,11 +225,16 @@ sub highHeight {
 sub orbit {
 	my ($self, @rest) = @_;
 	@rest and return KSP::Orbit2D->new($self, @rest);
-	my $p = $self->parent or return undef;
-	$self->json->{_orbit_} ||= KSP::Orbit2D->new($p,
-		p => $self->json->{orbit}{semiLatusRectum},
-		a => $self->json->{orbit}{semiMajorAxis},
-		e => $self->json->{orbit}{eccentricity})
+
+	return $self->cached("orbit", sub {
+		my ($b) = @_;
+		my $p = $b->parent or return undef;
+		KSP::Orbit2D->new($p,
+			p => $b->json->{orbit}{semiLatusRectum},
+			a => $b->json->{orbit}{semiMajorAxis},
+			e => $b->json->{orbit}{eccentricity})
+	});
+
 }
 
 sub lowOrbit {
@@ -267,14 +281,15 @@ sub _sort {
 
 sub _sortkey {
 	my ($self) = @_;
-	$self->json->{_sortkey_} ||= do {
+	$self->cached("sortkey", sub {
+		my ($b) = @_;
 		my $a = 1;
-		for (my $o = $self->orbit; $o; $o = $o->body->orbit) {
+		for (my $o = $b->orbit; $o; $o = $o->body->orbit) {
 			$a += $o->a;
 		}
 		# warn "SORT\t", $self->name, "\t$a\n";
 		$a
-	}
+	})
 }
 
 1;
