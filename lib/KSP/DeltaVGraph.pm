@@ -149,7 +149,8 @@ sub path {
 			my $at = $to;
 			my @path = ();
 			while (my $prev = $res->{$at}[1]) {
-				my $dist = $res->{$at}[0] - $res->{$prev}[0];
+				my $dist = $scale * ($res->{$at}[0] - $res->{$prev}[0]);
+				# warn "DIST $dist\n";
 				push @path, sprintf "%7d %7d %12s \x{2192} %s", $dist, $scale * ($res->{$at}[0] + $carry), $prev, $at;
 				$at = $prev;
 			}
