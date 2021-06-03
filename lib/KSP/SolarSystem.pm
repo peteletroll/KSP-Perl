@@ -91,7 +91,8 @@ sub import_bodies {
 		my $name = $_;
 		$ret++;
 		no strict "refs";
-		*{"${tgt}::${name}"} = sub { $self->body($name) };
+		my $ret = undef;
+		*{"${tgt}::${name}"} = sub { $ret ||= $self->body($name) };
 	}
 	$ret
 }
