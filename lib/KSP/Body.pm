@@ -225,16 +225,14 @@ sub highHeight {
 sub orbit {
 	my ($self, @rest) = @_;
 	@rest and return KSP::Orbit2D->new($self, @rest);
-
-	return $self->cached("orbit", sub {
+	$self->cached("orbit", sub {
 		my ($b) = @_;
 		my $p = $b->parent or return undef;
 		KSP::Orbit2D->new($p,
 			p => $b->json->{orbit}{semiLatusRectum},
 			a => $b->json->{orbit}{semiMajorAxis},
 			e => $b->json->{orbit}{eccentricity})
-	});
-
+	})
 }
 
 sub lowOrbit {
