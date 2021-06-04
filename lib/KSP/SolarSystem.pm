@@ -56,16 +56,19 @@ sub G {
 sub bodies {
 	my ($self, $unsorted) = @_;
 	wantarray or croak __PACKAGE__, "->bodies() wants list context";
-	my @ret = map { KSP::Body->new($_, $self) } values %{$self->json->{bodies}};
+	my @ret = map { $self->body($_) } keys %{$self->json->{bodies}};
 	$unsorted ? @ret : sort { $a->_sortkey <=> $b->_sortkey } @ret
 }
 
+our %bodycache = ();
+
 sub body($$) {
 	my ($self, $name) = @_;
+	exists $bodycache{$name} and return $bodycache{$name};
 	ref $self or Carp::confess "no ref here";
 	my $json = $self->json->{bodies}{$name}
 		or die "can't find body \"$name\"";
-	KSP::Body->new($json, $self)
+	$bodycache{$name} = KSP::Body->new($json, $self)
 }
 
 sub root {
