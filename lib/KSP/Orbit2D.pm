@@ -190,6 +190,12 @@ sub inv_a { # 1 / major semiaxis
 	(1 - $self->e ** 2) / $self->p
 }
 
+sub b { # minor semiaxis
+	my ($self) = @_;
+	$self->_need_ellipse;
+	$self->a * (1 - $self->e ** 2)
+}
+
 sub th_inf { # true anomaly at infinity
 	my ($self) = @_;
 	my $e = $self->e;
