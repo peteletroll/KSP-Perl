@@ -292,13 +292,9 @@ sub hohmannTo {
 	$self->body == $other->body
 		or croak "different bodies (" . $self->body->name . ", " . $other->body->name . ")";
 
-	my $inner = $self;
-	my $outer = $other;
-	my $innerAp = $fromAp;
-	my $outerAp = $toAp;
-	my $swap = 0;
-	$inner->a < $outer->a
-		or ($inner, $outer, $innerAp, $outerAp, $swap) = ($outer, $inner, $outerAp, $innerAp, 1);
+	my ($inner, $outer, $innerAp, $outerAp, $swap) = $self->a < $other->a ?
+		($self, $other, $fromAp, $toAp, 0) :
+		($other, $self, $toAp, $fromAp, 1);
 	# warn "\tINNER $inner\n\tOUTER $outer\n\tSWAP $swap\n";
 
 	@_ > 2 or ($innerAp, $outerAp) = (0, 1);
