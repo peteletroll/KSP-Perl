@@ -196,11 +196,9 @@ sub g0 {
 
 sub rotationPeriod {
 	my ($self) = @_;
-	my $ret = $self->json->{rotation}{rotationPeriod};
-	if (!$ret && $self->json->{rotation}{tidallyLocked}) {
-		$ret = $self->orbit->T;
-	}
-	$ret
+	$self->json->{rotation}{tidallyLocked} ?
+		$self->orbit->T :
+		$self->json->{rotation}{rotationPeriod}
 }
 
 sub solarDayLength {
