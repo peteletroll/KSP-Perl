@@ -279,12 +279,8 @@ sub _sortkey {
 	my ($self) = @_;
 	$self->cached("sortkey", sub {
 		my ($b) = @_;
-		my $a = 1;
-		for (my $o = $b->orbit; $o; $o = $o->body->orbit) {
-			$a += $o->a;
-		}
-		# warn "SORT\t", $self->name, "\t$a\n";
-		$a
+		my $o = $b->orbit;
+		$o ? $o->a + $o->body->_sortkey : 1
 	})
 }
 
