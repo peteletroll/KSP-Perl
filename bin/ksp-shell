@@ -6,12 +6,13 @@ trap "rm -f '$rc'" EXIT
 baserc="$HOME/.re.pl/repl.rc"
 
 [ -f "$baserc" ] && cp "$baserc" "$rc"
-cat <<ENDRC >> $rc
+cat <<'ENDRC' >> $rc
 use utf8;
 use Math::Trig;
 use Math::Vector::Real;
 use KSP qw(:all);
 KSP::SolarSystem->new("RealSolarSystem")->import_bodies();
+$_REPL->prompt("KSP> ");
 ENDRC
 
 re.pl --rcfile "$rc"
