@@ -184,6 +184,12 @@ sub normalDiag {
 	warn "ATANXY ", rad2deg(atan2($n1xy, $n2xy)), "\n";
 }
 
+sub density {
+	my ($self) = @_;
+	my $volume = 4 / 3 * pi * $self->radius ** 3;
+	$self->mass / $volume
+}
+
 sub veq {
 	my ($self) = @_;
 	2 * pi * $self->radius / $self->rotationPeriod
