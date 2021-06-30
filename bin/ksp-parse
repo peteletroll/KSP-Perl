@@ -32,7 +32,7 @@ foreach my $arg (@lst) {
 	find({
 		no_chdir => 1,
 		wanted => sub {
-			-f $_ && ($anyextension || /\.(cfg|sfs|craft|loadmeta)$/i)
+			-f $_ && ($anyextension || /\.(cfg|sfs|craft|mission|loadmeta)$/i)
 				or return;
 			push @queue, [ dirname($_), $_ ];
 			$totfiles++, $totbytes += -s $_;
