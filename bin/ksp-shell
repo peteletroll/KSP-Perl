@@ -12,6 +12,7 @@ use Math::Trig;
 use Math::Vector::Real;
 use KSP qw(:all);
 KSP::SolarSystem->new("RealSolarSystem")->import_bodies();
+binmode $_REPL->out_fh, ":utf8";
 $_REPL->prompt("KSP> ");
 ENDRC
 
