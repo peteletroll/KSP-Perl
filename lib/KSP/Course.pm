@@ -45,9 +45,15 @@ sub at {
 }
 
 sub dv {
-	my ($self) = @_;
+	my ($self, $at) = @_;
+	my $l = $self->length;
+	defined $at or $at = $l - 1;
+	$at >= 0 or $at = 0;
+	$at < $l or $at = $l - 1;
 	my $dv = 0;
-	$dv += abs($_->{dv} || 0) foreach @{$self->step};
+	for (my $i = 0; $i <= $at; $i++) {
+		$dv += abs($self->step->[$i]->{dv} || 0);
+	}
 	$dv
 }
 
