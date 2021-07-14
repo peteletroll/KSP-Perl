@@ -190,6 +190,12 @@ sub density {
 	$self->mass / $volume
 }
 
+sub biomes {
+	my ($self) = @_;
+	my $b = $self->json->{science} && $self->json->{science}{biomes};
+	ref $b eq "ARRAY" ? @$b : ()
+}
+
 sub veq {
 	my ($self) = @_;
 	2 * pi * $self->radius / $self->rotationPeriod
