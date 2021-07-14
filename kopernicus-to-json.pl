@@ -18,6 +18,7 @@ binmode \*STDOUT, ":utf8";
 my $DIR = $ARGV[0];
 
 my @bodies = ();
+my %bodies = ();
 my %delete = map { $_ => 1 } qw(
 	ScaledVersion
 	PQS
@@ -37,8 +38,9 @@ find {
 			$_->name eq "Body" or return;
 			$_->parent or return;
 			$_->parent->name =~ /kopernicus/i or return;
-			$_->get("name") or return;
+			my $name = $_->get("name") or return;
 			push @bodies, $_;
+			$bodies{$name} = $_;
 			$_->visit(sub {
 				my $n = $_->name or return;
 				$delete{$n} || $n =~ /^temperature.*Curve$/
