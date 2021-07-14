@@ -36,15 +36,15 @@ sub BUILD {
 
 	$trace and warn "START: ", _pardesc($par), "\n";
 
+	if (_defined($par, qw(h !r))) {
+		$par{r} = $par{h} + $r;
+		$trace and warn "\tCMP r:\t", _pardesc($par), "\n";
+	}
+
 	if (_defined($par, qw(v_soi !v !r))) {
 		$par{v} = $par{v_soi};
 		$par{r} = $body->SOI;
 		$trace and warn "\tCMP v:\t", _pardesc($par), "\n";
-	}
-
-	if (_defined($par, qw(h !r))) {
-		$par{r} = $par{h} + $r;
-		$trace and warn "\tCMP r:\t", _pardesc($par), "\n";
 	}
 
 	if (_defined($par, qw(v r !E))) {
