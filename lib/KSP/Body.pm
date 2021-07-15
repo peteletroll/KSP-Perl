@@ -13,6 +13,7 @@ use Math::Trig;
 use KSP::SolarSystem;
 use KSP::Orbit2D;
 use KSP::Course;
+use KSP::Anomaly;
 
 use KSP::Util qw(U proxy);
 proxy("KSP::Orbit2D" => sub { $_->orbit }, qw(pe ap e a b));
@@ -194,6 +195,14 @@ sub biomes {
 	my ($self) = @_;
 	my $b = $self->json->{science} && $self->json->{science}{biomes};
 	ref $b eq "ARRAY" ? @$b : ()
+}
+
+sub anomalies {
+	my ($self) = @_;
+	wantarray or croak __PACKAGE__ . "::anomalies() wants list context";
+	sort { $b->lat <=> $a->lat }
+		map { KSP::Anomaly->new($self, $_) }
+		@{$self->json->{anomalies}}
 }
 
 sub veq {
