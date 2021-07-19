@@ -243,6 +243,7 @@ sub highHeight {
 
 sub orbit {
 	my ($self, @rest) = @_;
+	@rest == 1 and return KSP::Orbit2D->new($self, pe => $rest[0], e => 0);
 	@rest and return KSP::Orbit2D->new($self, @rest);
 	$self->cached("orbit", sub {
 		my ($b) = @_;
