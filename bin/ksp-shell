@@ -1,6 +1,6 @@
 #!/bin/bash
 
-rc=`tempfile -p kspsh`
+rc=`mktemp`
 trap "rm -f '$rc'" EXIT
 
 baserc="$HOME/.re.pl/repl.rc"
