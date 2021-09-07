@@ -276,7 +276,7 @@ sub _print($$$;$) {
 		length $newprefix and $newprefix .= ":";
 		foreach (@$n) {
 			my $c = $_->_comment();
-			if (defined $c) {
+			if (defined $c && $c =~ /\S/) {
 				$c =~ s/^/$indent\t\/\/ /gm;
 				$c .= "\n\n";
 			} else {
