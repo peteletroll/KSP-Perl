@@ -238,7 +238,7 @@ sub print($$;$) {
 	my $start = $self;
 	if ($rootflag) {
 		my $root = KSP::ConfigNode->new("printroot");
-		$root->set_nodes([ $self ]);
+		$root->set_nodes([ $self ]); # don't mess with parent
 		$start = $root;
 	}
 	$stream ||= \*STDOUT;
