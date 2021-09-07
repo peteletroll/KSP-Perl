@@ -76,6 +76,40 @@ sub visit($$) {
 	$_->visit($sub) foreach @$n;
 }
 
+sub _matcher($) {
+	my ($v) = @_;
+	defined $v or return undef;
+	my $r = ref $v;
+	if (!$r) {
+		$v = qr/^\Q$v\E$/;
+	} elsif ($r ne "Regexp") {
+		croak "got $r, string or Regexp required";
+	}
+	$v
+}
+
+sub find($$;$) {
+	my ($self, $name, $valname, $value) = @_;
+	$_ = _matcher($_) foreach $name, $valname, $value;
+	my @ret = ();
+	$self->visit(sub {
+		$_->name =~ $name
+			or return;
+		if ($valname) {
+			my $found = undef;
+			foreach my $v (@{$_->values}) {
+				$v->name =~ $valname or next;
+				$value and ($v->value =~ $value or next);
+				$found = $v;
+				last;
+			}
+			$found or return;
+		}
+		push @ret, $_;
+	});
+	wantarray ? @ret : $ret[0]
+}
+
 sub delete($) {
 	my ($self) = @_;
 	my $parent = $self->parent;
@@ -190,27 +224,31 @@ sub _decode($) {
 	$_
 }
 
-sub asString($) {
-	my ($self) = @_;
+sub asString($;$) {
+	my ($self, $rootflag) = @_;
 	my $ret = "";
 	open OUT, ">:utf8", \$ret or die;
-	my $prev = select OUT;
-	$self->_print("", "");
-	select $prev;
+	$self->print(\*OUT, $rootflag);
 	close OUT or die;
 	$ret
 }
 
-sub print($$) {
-	my ($self, $stream) = @_;
+sub print($$;$) {
+	my ($self, $stream, $rootflag) = @_;
+	my $start = $self;
+	if ($rootflag) {
+		my $root = KSP::ConfigNode->new("printroot");
+		$root->set_nodes([ $self ]);
+		$start = $root;
+	}
 	$stream ||= \*STDOUT;
 	my $prev = select $stream;
-	$self->_print("", "");
+	$start->_print("", "", $rootflag);
 	select $prev;
 	$self
 }
 
-sub _print($$$) {
+sub _print($$$;$) {
 	my ($self, $indent, $prefix) = @_;
 
 	my $v = $self->values();
