@@ -250,12 +250,13 @@ sub otherApsis {
 sub checkHeight {
 	my ($self, $h, $die) = @_;
 	@_ > 2 or $die = 1;
+	my $r = $self->body->radius;
 	my $tol = 1e-4;
 	my $err = undef;
-	if ($h < $self->pe * (1 - $tol)) {
-		$err = U($h) . "m is lower than periapsis";
-	} elsif ($self->e < 1 && $h > $self->ap * (1 + $tol)) {
-		$err = U($h) . "m is higher than apoapsis";
+	if (($h + $r) < ($self->pe  + $r) * (1 - $tol)) {
+		$err = U($h) . "m is lower than periapsis (" . U($self->pe) . "m)";
+	} elsif ($self->e < 1 && ($h + $r) > ($self->ap + $r) * (1 + $tol)) {
+		$err = U($h) . "m is higher than apoapsis (" . U($self->ap) . "m)";
 	}
 	$err && $die and confess $err;
 	!$err
