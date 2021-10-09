@@ -262,7 +262,7 @@ sub checkHeight {
 	!$err
 }
 
-sub v_from_vis_viva {
+sub v { # v from h via vis viva equation
 	my ($self, $h) = @_;
 	$self->checkHeight($h);
 	my $r = $h + $self->body->radius;
@@ -273,13 +273,13 @@ sub v_from_vis_viva {
 
 sub vmax {
 	my ($self) = @_;
-	$self->v_from_vis_viva($self->pe)
+	$self->v($self->pe)
 }
 
 sub vmin {
 	my ($self) = @_;
 	$self->e < 1 ?
-		$self->v_from_vis_viva($self->ap) :
+		$self->v($self->ap) :
 		sqrt(-$self->body->mu * $self->inv_a)
 }
 

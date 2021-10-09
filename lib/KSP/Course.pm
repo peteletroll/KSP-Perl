@@ -143,7 +143,7 @@ sub burn {
 	my ($self, $dv) = @_;
 	my $cur = $self->current;
 	my $hcur = $self->nextBurnHeight;
-	my $dst = $cur->body->orbit(pe => $hcur, h => $hcur, v => $cur->v_from_vis_viva($hcur) + $dv);
+	my $dst = $cur->body->orbit(pe => $hcur, h => $hcur, v => $cur->v($hcur) + $dv);
 	$self->_add_burn($cur, $dst, $hcur)
 }
 
@@ -172,7 +172,7 @@ sub burnIncl {
 	my ($self, $incl, $h) = @_;
 	my $cur = $self->current;
 	defined $h or $h = $cur->pe;
-	my $vincl = $cur->v_from_vis_viva($h);
+	my $vincl = $cur->v($h);
 	my $dvincl = 2 * sin($incl / 2) * $vincl;
 	$dvincl > 1e-10 or return $self;
 	my $deg = rad2deg($incl);
@@ -199,7 +199,7 @@ sub enterTo {
 		my $hb1 = $b2->orbit->commonApsis($cur);
 		defined $hb1 or croak "apses mismatched for enter";
 
-		my $vb2 = $cur->v_from_vis_viva($hb1) - $b2->orbit->v_from_vis_viva($hb1);
+		my $vb2 = $cur->v($hb1) - $b2->orbit->v($hb1);
 		# warn "VDST ", U($vb2), "m/s AT ", U($hb1), "m\n";
 		$cur = $b2->orbit(v_soi => $vb2, pe => $b2 == $bdst ? $hdst : $b2->nextTo($bdst)->pe);
 		$self->_add(do => "enter", then => $cur, h => $hb1);
@@ -331,7 +331,7 @@ sub _hohmann_pair {
 
 sub _add_burn {
 	my ($self, $from, $to, $h) = @_;
-	my $dv = $to->v_from_vis_viva($h) - $from->v_from_vis_viva($h);
+	my $dv = $to->v($h) - $from->v($h);
 	# warn "BURN ", U($dv), "m/s AT ", U($h), "m TO $to\n";
 	abs($dv) > 1e-10 and $self->_add(do => "burn", dv => $dv, h => $h, then => $to);
 	$self

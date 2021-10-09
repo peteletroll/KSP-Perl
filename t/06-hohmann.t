@@ -36,11 +36,11 @@ my ($tr, $htr1, $htr2) = $b1->orbit->hohmannTo($b2->orbit);
 
 my $e1 = KSP::Orbit2D->new($b1,
 	pe => $b1->lowHeight(),
-	v_soi => $tr->v_from_vis_viva($htr1) - $b1->orbit->vmax());
+	v_soi => $tr->v($htr1) - $b1->orbit->vmax());
 
 my $e2 = KSP::Orbit2D->new($b2,
 	pe => $b2->lowHeight(),
-	v_soi => $tr->v_from_vis_viva($htr2) - $b2->orbit->vmin());
+	v_soi => $tr->v($htr2) - $b2->orbit->vmin());
 
 my $delta_v = 0;
 print "START\t", $l1->desc(), "\n";
