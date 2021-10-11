@@ -293,6 +293,14 @@ sub hohmannTo {
 	$self->body == $other->body
 		or croak "different bodies (" . $self->body->name . ", " . $other->body->name . ")";
 
+	my $com = $self->commonApsis($other);
+	if (defined $com) {
+		# warn "common apsis in hohmannTo()\n";
+		my $oth = $other->otherApsis($com);
+		my $trans = $other;
+		return ($other, $com, $oth);
+	}
+
 	my ($inner, $outer, $innerAp, $outerAp, $swap) = $self->a < $other->a ?
 		($self, $other, $fromAp, $toAp, 0) :
 		($other, $self, $toAp, $fromAp, 1);

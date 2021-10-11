@@ -22,6 +22,7 @@ my @b = $system->bodies();
 foreach my $b1 (@b) {
 	foreach my $b2 (@b) {
 		$b1 == $b2 and next;
+		warn $b1->name, " -> ", $b2->name, "\n";
 		warn $b1->goTo($b2), "\n\n";
 	}
 }
