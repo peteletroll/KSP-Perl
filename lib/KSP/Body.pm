@@ -171,20 +171,6 @@ sub orbitNormal {
 	)
 }
 
-sub normalDiag {
-	my ($self) = @_;
-	my $n1 = $self->orbitNormal;
-	my $n2 = $self->orbitNormal2;
-	# warn "N1 $n1\n";
-	# warn "N2 $n2\n";
-	# warn "N2-N1 ", ($n2 - $n1), "\n";
-	my $n1xy = V($n1->[0], $n1->[1]);
-	my $n2xy = V($n2->[0], $n2->[1]);
-	# warn "N1XY $n1xy\n";
-	# warn "N2XY $n2xy\n";
-	warn "ATANXY ", rad2deg(atan2($n1xy, $n2xy)), "\n";
-}
-
 sub density {
 	my ($self) = @_;
 	my $volume = 4 / 3 * pi * $self->radius ** 3;
