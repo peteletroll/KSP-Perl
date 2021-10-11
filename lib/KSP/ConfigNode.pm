@@ -393,7 +393,9 @@ sub _comment($$) {
 			$k->_val("type", "") eq "Crew" or next;
 			my $key = join ", ", map { $k->_val($_, "UNK") } qw(trait);
 			$stat{$key}++;
-			$key = join ", ", map { $k->_val($_, "UNK") } qw(trait gender);
+			$key = join ", ", map { $k->_val($_, "UNK") } qw(trait state);
+			$stat{$key}++;
+			$key = join ", ", map { $k->_val($_, "UNK") } qw(trait state gender);
 			$stat{$key}++;
 		}
 		join "\n", "Active kerbals:",
