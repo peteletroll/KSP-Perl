@@ -97,11 +97,14 @@ sub find($$;$) {
 			or return;
 		if ($valname) {
 			my $found = undef;
-			foreach my $v (@{$_->values}) {
-				$v->name =~ $valname or next;
-				$value and ($v->value =~ $value or next);
-				$found = $v;
-				last;
+			my $values = $_->values;
+			if ($values) {
+				foreach my $v (@$values) {
+					$v->name =~ $valname or next;
+					$value and ($v->value =~ $value or next);
+					$found = $v;
+					last;
+				}
 			}
 			$found or return;
 		}
