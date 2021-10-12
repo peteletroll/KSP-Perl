@@ -212,6 +212,11 @@ sub solarDayLength {
 	$_[0]->json->{rotation}{solarDayLength}
 }
 
+sub maxGroundHeight {
+	my ($self) = @_;
+	$self->json->{size}{maxHeight} || 0
+}
+
 sub lowHeight {
 	my ($self) = @_;
 	my $safety = 10e3;
