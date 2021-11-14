@@ -47,7 +47,7 @@ warn Minmus->lowOrbit->goTo(Mun), "\n";
 
 warn "\n";
 warn "MOHO ", Moho->orbit, "\n";
-warn "JOOL ", Moho->orbit, "\n";
+warn "JOOL ", Jool->orbit, "\n";
 warn "\n";
 
 warn "MOHO/PE TO JOOL/PE\n";
