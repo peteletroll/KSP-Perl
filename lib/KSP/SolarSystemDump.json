@@ -482,57 +482,57 @@
           "Lowlands",
           "Midlands",
           "Highlands",
-          "East Crater",
-          "Northwest Crater",
-          "Northern Basin",
-          "Farside Crater",
-          "Southwest Crater",
+          "EastCrater",
+          "NorthwestCrater",
+          "NorthernBasin",
+          "FarsideCrater",
+          "SouthwestCrater",
           "Canyons",
-          "Polar Crater",
-          "Polar Lowlands",
-          "Highland Craters",
-          "Midland Craters",
-          "East Farside Crater",
-          "Twin Craters",
-          "Farside Basin"
+          "PolarCrater",
+          "PolarLowlands",
+          "HighlandCraters",
+          "MidlandCraters",
+          "EastFarsideCrater",
+          "TwinCraters",
+          "FarsideBasin"
         ],
         "MunCrater": [
           "Poles",
           "Lowlands",
           "Midlands",
           "Highlands",
-          "East Crater",
-          "Northwest Crater",
-          "Northern Basin",
-          "Farside Crater",
-          "Southwest Crater",
+          "EastCrater",
+          "NorthwestCrater",
+          "NorthernBasin",
+          "FarsideCrater",
+          "SouthwestCrater",
           "Canyons",
-          "Polar Crater",
-          "Polar Lowlands",
-          "Highland Craters",
-          "Midland Craters",
-          "East Farside Crater",
-          "Twin Craters",
-          "Farside Basin"
+          "PolarCrater",
+          "PolarLowlands",
+          "HighlandCraters",
+          "MidlandCraters",
+          "EastFarsideCrater",
+          "TwinCraters",
+          "FarsideBasin"
         ],
         "MunLargeCrater": [
           "Poles",
           "Lowlands",
           "Midlands",
           "Highlands",
-          "East Crater",
-          "Northwest Crater",
-          "Northern Basin",
-          "Farside Crater",
-          "Southwest Crater",
+          "EastCrater",
+          "NorthwestCrater",
+          "NorthernBasin",
+          "FarsideCrater",
+          "SouthwestCrater",
           "Canyons",
-          "Polar Crater",
-          "Polar Lowlands",
-          "Highland Craters",
-          "Midland Craters",
-          "East Farside Crater",
-          "Twin Craters",
-          "Farside Basin"
+          "PolarCrater",
+          "PolarLowlands",
+          "HighlandCraters",
+          "MidlandCraters",
+          "EastFarsideCrater",
+          "TwinCraters",
+          "FarsideBasin"
         ]
       }
     },
@@ -639,9 +639,9 @@
         "MinmusGreenSandstone": [
           "Lowlands",
           "Flats",
-          "Great Flats",
-          "Greater Flats",
-          "Lesser Flats"
+          "GreatFlats",
+          "GreaterFlats",
+          "LesserFlats"
         ],
         "MinmusOlivineFormation": [
           "Lowlands",
@@ -756,32 +756,32 @@
       ],
       "roc": {
         "MohoStone": [
-          "North Pole",
-          "Northern Sinkhole Ridge",
-          "Northern Sinkhole",
+          "NorthPole",
+          "NorthernSinkholeRidge",
+          "NorthernSinkhole",
           "Midlands",
-          "Western Lowlands",
-          "Central Lowlands",
+          "WesternLowlands",
+          "CentralLowlands",
           "Highlands",
-          "Minor Craters",
-          "South Western Lowlands",
-          "South Eastern Lowlands",
+          "MinorCraters",
+          "SouthWesternLowlands",
+          "SouthEasternLowlands",
           "Canyon",
-          "South Pole"
+          "SouthPole"
         ],
         "MohoWrinkleRidge": [
-          "North Pole",
-          "Northern Sinkhole Ridge",
-          "Northern Sinkhole",
+          "NorthPole",
+          "NorthernSinkholeRidge",
+          "NorthernSinkhole",
           "Midlands",
-          "Western Lowlands",
-          "Central Lowlands",
+          "WesternLowlands",
+          "CentralLowlands",
           "Highlands",
-          "Minor Craters",
-          "South Western Lowlands",
-          "South Eastern Lowlands",
+          "MinorCraters",
+          "SouthWesternLowlands",
+          "SouthEasternLowlands",
           "Canyon",
-          "South Pole"
+          "SouthPole"
         ]
       }
     },
@@ -894,7 +894,7 @@
         "EveVolcanicRock": [
           "Poles",
           "Peaks",
-          "Impact Ejecta",
+          "ImpactEjecta",
           "Lowlands",
           "Midlands",
           "Highlands",
@@ -905,7 +905,7 @@
         ],
         "EveBasaltFormation": [
           "Peaks",
-          "Impact Ejecta",
+          "ImpactEjecta",
           "Highlands",
           "Olympus",
           "Craters",
@@ -914,7 +914,7 @@
         ],
         "EvePancakeDome": [
           "Peaks",
-          "Impact Ejecta",
+          "ImpactEjecta",
           "Olympus",
           "Craters",
           "Foothills",
@@ -1053,14 +1053,14 @@
           "Midlands",
           "Highlands",
           "Craters",
-          "Midland Sea",
-          "Northern Basin",
-          "Southern Basin",
-          "Northern Shelf",
-          "Midland Canyon",
-          "Eastern Canyon",
-          "Western Canyon",
-          "Polar Craters"
+          "MidlandSea",
+          "NorthernBasin",
+          "SouthernBasin",
+          "NorthernShelf",
+          "MidlandCanyon",
+          "EasternCanyon",
+          "WesternCanyon",
+          "PolarCraters"
         ],
         "DunaMeteorite": [
           "Poles",
@@ -1068,28 +1068,28 @@
           "Midlands",
           "Highlands",
           "Craters",
-          "Midland Sea",
-          "Northern Basin",
-          "Southern Basin",
-          "Northern Shelf",
-          "Midland Canyon",
-          "Eastern Canyon",
-          "Western Canyon",
-          "Polar Highlands",
-          "Polar Craters"
+          "MidlandSea",
+          "NorthernBasin",
+          "SouthernBasin",
+          "NorthernShelf",
+          "MidlandCanyon",
+          "EasternCanyon",
+          "WesternCanyon",
+          "PolarHighlands",
+          "PolarCraters"
         ],
         "DunaDune": [
           "Lowlands",
           "Midlands",
           "Craters",
-          "Midland Sea",
-          "Northern Basin",
-          "Southern Basin",
-          "Northern Shelf",
-          "Midland Canyon",
-          "Eastern Canyon",
-          "Western Canyon",
-          "Polar Craters"
+          "MidlandSea",
+          "NorthernBasin",
+          "SouthernBasin",
+          "NorthernShelf",
+          "MidlandCanyon",
+          "EasternCanyon",
+          "WesternCanyon",
+          "PolarCraters"
         ],
         "DunaBlueberries": [
           "Poles",
@@ -1097,15 +1097,15 @@
           "Midlands",
           "Highlands",
           "Craters",
-          "Midland Sea",
-          "Northern Basin",
-          "Southern Basin",
-          "Northern Shelf",
-          "Midland Canyon",
-          "Eastern Canyon",
-          "Western Canyon",
-          "Polar Highlands",
-          "Polar Craters"
+          "MidlandSea",
+          "NorthernBasin",
+          "SouthernBasin",
+          "NorthernShelf",
+          "MidlandCanyon",
+          "EasternCanyon",
+          "WesternCanyon",
+          "PolarHighlands",
+          "PolarCraters"
         ]
       }
     },
@@ -1209,14 +1209,14 @@
       ],
       "roc": {
         "DunaEjectaOnIke": [
-          "Polar Lowlands",
+          "PolarLowlands",
           "Midlands",
-          "Eastern Mountain Ridge",
-          "Western Mountain Ridge",
+          "EasternMountainRidge",
+          "WesternMountainRidge",
           "Lowlands",
-          "South Eastern Mountain Range",
-          "South Pole",
-          "Central Mountain Range"
+          "SouthEasternMountainRange",
+          "SouthPole",
+          "CentralMountainRange"
         ]
       }
     },
@@ -1424,20 +1424,20 @@
           "Poles",
           "Shores",
           "Dunes",
-          "Crater Island",
+          "CraterIsland",
           "Peaks"
         ],
         "LaytheBoulder": [
           "Poles",
           "Shores",
           "Dunes",
-          "Crater Island",
+          "CraterIsland",
           "Peaks"
         ],
         "LaytheGeyser": [
           "Shores",
           "Dunes",
-          "Crater Island"
+          "CraterIsland"
         ]
       }
     },
@@ -1546,10 +1546,10 @@
           "Midlands",
           "Highlands",
           "Lowlands",
-          "Northeast Basin",
-          "Northwest Basin",
-          "Southern Basin",
-          "Southern Valleys",
+          "NortheastBasin",
+          "NorthwestBasin",
+          "SouthernBasin",
+          "SouthernValleys",
           "Mountains"
         ],
         "VallStone": [
@@ -1557,20 +1557,20 @@
           "Midlands",
           "Highlands",
           "Lowlands",
-          "Northeast Basin",
-          "Northwest Basin",
-          "Southern Basin",
-          "Southern Valleys",
+          "NortheastBasin",
+          "NorthwestBasin",
+          "SouthernBasin",
+          "SouthernValleys",
           "Mountains"
         ],
         "VallCryovolcano": [
           "Midlands",
           "Highlands",
           "Lowlands",
-          "Northeast Basin",
-          "Northwest Basin",
-          "Southern Basin",
-          "Southern Valleys"
+          "NortheastBasin",
+          "NorthwestBasin",
+          "SouthernBasin",
+          "SouthernValleys"
         ]
       }
     },
@@ -1782,33 +1782,33 @@
           "Midlands",
           "Highlands",
           "Lowlands",
-          "Minor Craters",
-          "Tycho Crater",
-          "Galileio Crater",
-          "Grissom Crater",
-          "Gagarin Crater"
+          "MinorCraters",
+          "TychoCrater",
+          "GalileioCrater",
+          "GrissomCrater",
+          "GagarinCrater"
         ],
         "TyloDarkBoulder": [
           "Mara",
           "Midlands",
           "Highlands",
           "Lowlands",
-          "Minor Craters",
-          "Tycho Crater",
-          "Galileio Crater",
-          "Grissom Crater",
-          "Gagarin Crater"
+          "MinorCraters",
+          "TychoCrater",
+          "GalileioCrater",
+          "GrissomCrater",
+          "GagarinCrater"
         ],
         "TyloCheckerboard": [
           "Mara",
           "Midlands",
           "Highlands",
           "Lowlands",
-          "Minor Craters",
-          "Tycho Crater",
-          "Galileio Crater",
-          "Grissom Crater",
-          "Gagarin Crater"
+          "MinorCraters",
+          "TychoCrater",
+          "GalileioCrater",
+          "GrissomCrater",
+          "GagarinCrater"
         ]
       }
     },
@@ -2109,8 +2109,8 @@
           "Midlands",
           "Highlands",
           "Ridges",
-          "Impact Craters",
-          "Impact Ejecta",
+          "ImpactCraters",
+          "ImpactEjecta",
           "Canyons"
         ],
         "DresCrater": [
@@ -2118,8 +2118,8 @@
           "Lowlands",
           "Midlands",
           "Highlands",
-          "Impact Craters",
-          "Impact Ejecta"
+          "ImpactCraters",
+          "ImpactEjecta"
         ]
       }
     },
@@ -2231,12 +2231,12 @@
           "Highlands",
           "Lowlands",
           "Craters",
-          "Northern Glaciers",
-          "Ice Canyons",
+          "NorthernGlaciers",
+          "IceCanyons",
           "Fragipan",
-          "Babbage Patch",
-          "Southern Glaciers",
-          "Mu Glacier"
+          "BabbagePatch",
+          "SouthernGlaciers",
+          "MuGlacier"
         ],
         "EelooBrownBoulder": [
           "Poles",
@@ -2244,10 +2244,10 @@
           "Highlands",
           "Lowlands",
           "Craters",
-          "Northern Glaciers",
+          "NorthernGlaciers",
           "Fragipan",
-          "Southern Glaciers",
-          "Mu Glacier"
+          "SouthernGlaciers",
+          "MuGlacier"
         ],
         "EelooBerg": [
           "Poles",
@@ -2255,10 +2255,10 @@
           "Highlands",
           "Lowlands",
           "Craters",
-          "Northern Glaciers",
+          "NorthernGlaciers",
           "Fragipan",
-          "Southern Glaciers",
-          "Mu Glacier"
+          "SouthernGlaciers",
+          "MuGlacier"
         ]
       }
     }
