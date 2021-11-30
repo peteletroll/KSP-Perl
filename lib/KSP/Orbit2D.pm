@@ -227,10 +227,11 @@ sub apses {
 sub commonApsis {
 	my ($self, $other) = @_;
 	$self->body == $other->body or return;
+	my $r = $self->body->radius;
 	my @pair = ();
 	foreach my $v1 ($self->apses) {
 		foreach my $v2 ($other->apses) {
-			my $e = error($v1, $v2);
+			my $e = error($v1 + $r, $v2 + $r);
 			# warn "ERROR ", U($v1), " ", U($v2), " $e\n";
 			!@pair || $pair[1] > $e
 				and @pair = ($v1, $e);

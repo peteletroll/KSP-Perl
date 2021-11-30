@@ -191,6 +191,11 @@ sub anomalies {
 		@{$self->json->{anomalies}}
 }
 
+sub rocInfo {
+	my ($self) = @_;
+	$self->json->{science} && $self->json->{roc} || { };
+}
+
 sub veq {
 	my ($self) = @_;
 	2 * pi * $self->radius / $self->rotationPeriod
