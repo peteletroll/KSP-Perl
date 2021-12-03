@@ -206,6 +206,20 @@ sub g0 {
 	$self->mu / $self->radius ** 2
 }
 
+sub dvLiftoff {
+	my ($self) = @_;
+	my $dvGraph = $self->system->dvGraph or return undef;
+	my $name = $self->name;
+	$dvGraph->graph->{$name}->{"$name/LO"}
+}
+
+sub dvLanding {
+	my ($self) = @_;
+	my $dvGraph = $self->system->dvGraph or return undef;
+	my $name = $self->name;
+	$dvGraph->graph->{"$name/LO"}->{$name}
+}
+
 sub rotationPeriod {
 	my ($self) = @_;
 	$self->json->{rotation}{tidallyLocked} ?

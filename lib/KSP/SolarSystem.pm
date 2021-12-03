@@ -10,11 +10,12 @@ use Carp;
 
 use JSON;
 
-use KSP::TinyStruct qw(json systemG);
+use KSP::TinyStruct qw(name json systemG _graph);
 
 sub BUILD {
 	my ($self, $name) = @_;
 	defined $name or $name = "SolarSystemDump";
+	$self->set_name($name);
 	my $json = "$KSP::KSP_DIR/$name.json";
 	open JSONDATA, "<:utf8", $json
 		or confess "can't open $json: $!";
@@ -96,6 +97,16 @@ sub import_bodies {
 		no strict "refs";
 		my $ret = undef;
 		*{"${tgt}::${name}"} = sub { $ret ||= $self->body($name) };
+	}
+	$ret
+}
+
+sub dvGraph {
+	my ($self) = @_;
+	my $ret = $self->_graph;
+	unless ($ret) {
+		$ret = KSP::DeltaVGraph->new($self->name =~ /^real/i);
+		$self->set__graph($ret);
 	}
 	$ret
 }
