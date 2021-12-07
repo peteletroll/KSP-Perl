@@ -196,6 +196,19 @@ sub rocInfo {
 	$self->json->{science} && $self->json->{roc} || { };
 }
 
+sub rocInfoInv {
+	my ($self) = @_;
+	my $i = $self->rocInfo;
+	my %ret = map { $_ => [ ] } $self->biomes;
+	foreach my $r (sort keys %$i) {
+		my $b = $i->{$r};
+		if (ref $b eq "ARRAY") {
+			push @{$ret{$_}}, $r foreach sort @$b;
+		}
+	}
+	\%ret
+}
+
 sub veq {
 	my ($self) = @_;
 	2 * pi * $self->radius / $self->rotationPeriod
