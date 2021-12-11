@@ -1,6 +1,7 @@
 Changes
 lib/KSP.pm
 lib/KSP/Body.pm
+lib/KSP/Cache.pm
 lib/KSP/ConfigNode.pm
 lib/KSP/ConfigValue.pm
 lib/KSP/SolarSystem.pm

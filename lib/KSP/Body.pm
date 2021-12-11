@@ -10,6 +10,7 @@ use Math::Vector::Real;
 
 use Math::Trig;
 
+use KSP::Cache;
 use KSP::SolarSystem;
 use KSP::Orbit2D;
 use KSP::Course;
@@ -19,7 +20,7 @@ use KSP::Util qw(U proxy);
 proxy("KSP::Orbit2D" => sub { $_->orbit }, qw(pe ap e a b));
 proxy("KSP::Course" => sub { KSP::Course->new($_->lowOrbit) });
 
-use KSP::TinyStruct qw(json system cache);
+use KSP::TinyStruct qw(json system +KSP::Cache);
 
 sub BUILD {
 	my ($self, $json, $system) = @_;
@@ -27,7 +28,6 @@ sub BUILD {
 	ref $system eq "KSP::SolarSystem" or croak "KSP::SolarSystem needed here";
 	$self->set_json($json);
 	$self->set_system($system);
-	$self->set_cache({ });
 	$self
 }
 
@@ -36,14 +36,6 @@ use overload
 	'==' => sub { $_[0]->name eq ($_[1] ? $_[1]->name : "") },
 	'!=' => sub { $_[0]->name ne ($_[1] ? $_[1]->name : "") },
 	'""' => \&desc;
-
-sub cached {
-	my ($self, $key, $sub) = @_;
-	my $c = $self->cache;
-	exists $c->{$key} and return $c->{$key};
-	# warn "CACHEING ", $self->name, " $key\n";
-	$c->{$key} = $sub->($self)
-}
 
 sub name {
 	$_[0]->json->{info}{name}
@@ -191,10 +183,12 @@ sub miniBiomes {
 
 sub biomeSuffixMatchers {
 	my ($self) = @_;
-	wantarray or croak __PACKAGE__, "->bodyPrefixMatchers() wants list context";
-	map { qr/(.+)(\Q$_\E)$/ }
-		sort { length $b <=> length $a || $a cmp $b }
-		($self->biomes, $self->miniBiomes)
+	wantarray or croak __PACKAGE__, "->bodySuffixMatchers() wants list context";
+	$self->cache("biomeSuffixMatchers", sub {
+		map { qr/(.+)(\Q$_\E)$/ }
+			sort { length $b <=> length $a || $a cmp $b }
+			($self->biomes, $self->miniBiomes)
+	})
 }
 
 sub anomalies {
@@ -282,13 +276,12 @@ sub orbit {
 	my ($self, @rest) = @_;
 	@rest == 1 and return KSP::Orbit2D->new($self, pe => $rest[0], e => 0);
 	@rest and return KSP::Orbit2D->new($self, @rest);
-	$self->cached("orbit", sub {
-		my ($b) = @_;
-		my $p = $b->parent or return undef;
+	$self->cache("bodyOrbit", sub {
+		my $p = $self->parent or return undef;
 		KSP::Orbit2D->new($p,
-			p => $b->json->{orbit}{semiLatusRectum},
-			a => $b->json->{orbit}{semiMajorAxis},
-			e => $b->json->{orbit}{eccentricity})
+			p => $self->json->{orbit}{semiLatusRectum},
+			a => $self->json->{orbit}{semiMajorAxis},
+			e => $self->json->{orbit}{eccentricity})
 	})
 }
 
@@ -336,9 +329,8 @@ sub _sort {
 
 sub _sortkey {
 	my ($self) = @_;
-	$self->cached("sortkey", sub {
-		my ($b) = @_;
-		my $o = $b->orbit;
+	$self->cache("sortkey", sub {
+		my $o = $self->orbit;
 		$o ? $o->a + $o->body->_sortkey : 1
 	})
 }

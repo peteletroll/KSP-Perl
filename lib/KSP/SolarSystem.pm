@@ -5,12 +5,13 @@ use warnings;
 
 use KSP;
 use KSP::Body;
+use KSP::Cache;
 
 use Carp;
 
 use JSON;
 
-use KSP::TinyStruct qw(name json systemG _graph);
+use KSP::TinyStruct qw(name json systemG _graph +KSP::Cache);
 
 sub BUILD {
 	my ($self, $name) = @_;
@@ -64,10 +65,12 @@ sub bodies {
 sub bodyPrefixMatchers {
 	my ($self) = @_;
 	wantarray or croak __PACKAGE__, "->bodyPrefixMatchers() wants list context";
-	map { qr/^(\Q$_\E)(.+)/ }
-		sort { length $b <=> length $a || $a cmp $b }
-		map { $_->name }
-		$self->bodies
+	$self->cache("bodyPrefixMatchers", sub {
+		map { qr/^(\Q$_\E)(.+)/ }
+			sort { length $b <=> length $a || $a cmp $b }
+			map { $_->name }
+			$self->bodies
+	});
 }
 
 our %bodycache = ();

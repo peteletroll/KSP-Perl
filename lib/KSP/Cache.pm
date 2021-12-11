@@ -1,0 +1,35 @@
+package KSP::Cache;
+
+use utf8;
+use strict;
+use warnings;
+
+use KSP::TinyStruct qw(scalar_cache list_cache);
+
+sub cache {
+	my ($self, $key, $sub) = @_;
+	if (wantarray) {
+		my $c = $self->list_cache || $self->set_list_cache({ });
+		if (exists $c->{$key}) {
+			return @{$c->{$key}};
+		} else {
+			$key =~ /!/ and warn "GENERATE LIST $key\n";
+			my @ret = $sub->();
+			$c->{$key} = \@ret;
+			return @ret;
+		}
+	} else {
+		my $c = $self->scalar_cache || $self->set_scalar_cache({ });
+		if (exists $c->{$key}) {
+			return $c->{$key};
+		} else {
+			$key =~ /!/ and warn "GENERATE SCALAR $key\n";
+			my $ret = $sub->();
+			$c->{$key} = $ret;
+			return $ret;
+		}
+	}
+}
+
+1;
+
