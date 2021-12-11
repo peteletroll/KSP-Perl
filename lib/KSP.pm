@@ -5,6 +5,14 @@ use warnings;
 
 our $VERSION = '0.01';
 
+use KSP::Cache;
+use KSP::Body;
+use KSP::ConfigNode;
+use KSP::Orbit2D;
+use KSP::Course;
+use KSP::DeltaVGraph;
+use KSP::Util qw(U);
+
 our $KSP_DIR;
 BEGIN {
 	my $thisfile = __PACKAGE__ . ".pm";
@@ -34,13 +42,6 @@ BEGIN {
 	push @{$EXPORT_TAGS{all}}, @BODY_NAMES;
 }
 $SYSTEM->import_bodies();
-
-use KSP::Body;
-use KSP::ConfigNode;
-use KSP::Orbit2D;
-use KSP::Course;
-use KSP::DeltaVGraph;
-use KSP::Util qw(U);
 
 1;
 

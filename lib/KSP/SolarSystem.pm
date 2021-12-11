@@ -73,15 +73,14 @@ sub bodyPrefixMatchers {
 	});
 }
 
-our %bodycache = ();
-
 sub body($$) {
 	my ($self, $name) = @_;
-	exists $bodycache{$name} and return $bodycache{$name};
 	ref $self or Carp::confess "no ref here";
-	my $json = $self->json->{bodies}{$name}
-		or croak "can't find body \"$name\"";
-	$bodycache{$name} = KSP::Body->new($json, $self)
+	$self->cache("body$name", sub {
+		my $json = $self->json->{bodies}{$name}
+			or croak "can't find body \"$name\"";
+		KSP::Body->new($json, $self)
+	})
 }
 
 sub root {
