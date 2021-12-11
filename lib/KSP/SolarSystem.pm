@@ -76,7 +76,7 @@ sub bodyPrefixMatchers {
 sub body($$) {
 	my ($self, $name) = @_;
 	ref $self or Carp::confess "no ref here";
-	$self->cache("body$name", sub {
+	scalar $self->cache("body$name", sub {
 		my $json = $self->json->{bodies}{$name}
 			or croak "can't find body \"$name\"";
 		KSP::Body->new($json, $self)
@@ -114,7 +114,7 @@ sub import_bodies {
 
 sub dvGraph {
 	my ($self) = @_;
-	$self->cache("dvGraph", sub {
+	scalar $self->cache("dvGraph", sub {
 		KSP::DeltaVGraph->new($self->name =~ /^real/i);
 	})
 }

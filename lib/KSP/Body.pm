@@ -276,7 +276,7 @@ sub orbit {
 	my ($self, @rest) = @_;
 	@rest == 1 and return KSP::Orbit2D->new($self, pe => $rest[0], e => 0);
 	@rest and return KSP::Orbit2D->new($self, @rest);
-	$self->cache("bodyOrbit", sub {
+	scalar $self->cache("bodyOrbit", sub {
 		my $p = $self->parent or return undef;
 		KSP::Orbit2D->new($p,
 			p => $self->json->{orbit}{semiLatusRectum},
@@ -329,7 +329,7 @@ sub _sort {
 
 sub _sortkey {
 	my ($self) = @_;
-	$self->cache("sortkey", sub {
+	scalar $self->cache("sortkey", sub {
 		my $o = $self->orbit;
 		$o ? $o->a + $o->body->_sortkey : 1
 	})
