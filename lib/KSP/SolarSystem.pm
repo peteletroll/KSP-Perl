@@ -11,7 +11,7 @@ use Carp;
 
 use JSON;
 
-use KSP::TinyStruct qw(name json systemG _graph +KSP::Cache);
+use KSP::TinyStruct qw(name json systemG +KSP::Cache);
 
 sub BUILD {
 	my ($self, $name) = @_;
@@ -114,12 +114,9 @@ sub import_bodies {
 
 sub dvGraph {
 	my ($self) = @_;
-	my $ret = $self->_graph;
-	unless ($ret) {
-		$ret = KSP::DeltaVGraph->new($self->name =~ /^real/i);
-		$self->set__graph($ret);
-	}
-	$ret
+	$self->cache("dvGraph", sub {
+		KSP::DeltaVGraph->new($self->name =~ /^real/i);
+	})
 }
 
 # Time functions
