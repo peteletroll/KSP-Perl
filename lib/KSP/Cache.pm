@@ -24,9 +24,7 @@ sub cache {
 			return $c->{$key};
 		} else {
 			$key =~ /!/ and warn "GENERATE SCALAR $key\n";
-			my $ret = $sub->();
-			$c->{$key} = $ret;
-			return $ret;
+			return $c->{$key} = $sub->();
 		}
 	}
 }
