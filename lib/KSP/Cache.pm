@@ -14,9 +14,7 @@ sub cache {
 			return @{$c->{$key}};
 		} else {
 			$key =~ /!/ and warn "GENERATE LIST $key\n";
-			my @ret = $sub->();
-			$c->{$key} = \@ret;
-			return @ret;
+			return @{ $c->{$key} = [ $sub->() ] };
 		}
 	} else {
 		my $c = $self->scalar_cache || $self->set_scalar_cache({ });
