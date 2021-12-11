@@ -61,6 +61,15 @@ sub bodies {
 	$unsorted ? @ret : sort { $a->_sortkey <=> $b->_sortkey } @ret
 }
 
+sub bodyPrefixMatchers {
+	my ($self) = @_;
+	wantarray or croak __PACKAGE__, "->bodyPrefixMatchers() wants list context";
+	map { qr/^(\Q$_\E)(.+)/ }
+		sort { length $b <=> length $a || $a cmp $b }
+		map { $_->name }
+		$self->bodies
+}
+
 our %bodycache = ();
 
 sub body($$) {
@@ -68,7 +77,7 @@ sub body($$) {
 	exists $bodycache{$name} and return $bodycache{$name};
 	ref $self or Carp::confess "no ref here";
 	my $json = $self->json->{bodies}{$name}
-		or die "can't find body \"$name\"";
+		or croak "can't find body \"$name\"";
 	$bodycache{$name} = KSP::Body->new($json, $self)
 }
 

@@ -189,6 +189,14 @@ sub miniBiomes {
 	ref $b eq "ARRAY" ? @$b : ()
 }
 
+sub biomeSuffixMatchers {
+	my ($self) = @_;
+	wantarray or croak __PACKAGE__, "->bodyPrefixMatchers() wants list context";
+	map { qr/(.+)(\Q$_\E)$/ }
+		sort { length $b <=> length $a || $a cmp $b }
+		($self->biomes, $self->miniBiomes)
+}
+
 sub anomalies {
 	my ($self) = @_;
 	wantarray or croak __PACKAGE__ . "::anomalies() wants list context";
