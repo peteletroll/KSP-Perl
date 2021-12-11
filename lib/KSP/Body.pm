@@ -183,6 +183,12 @@ sub biomes {
 	ref $b eq "ARRAY" ? @$b : ()
 }
 
+sub miniBiomes {
+	my ($self) = @_;
+	my $b = $self->json->{science} && $self->json->{science}{miniBiomes};
+	ref $b eq "ARRAY" ? @$b : ()
+}
+
 sub anomalies {
 	my ($self) = @_;
 	wantarray or croak __PACKAGE__ . "::anomalies() wants list context";
