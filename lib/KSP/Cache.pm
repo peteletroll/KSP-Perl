@@ -6,6 +6,16 @@ use warnings;
 
 use KSP::TinyStruct qw(scalar_cache list_cache);
 
+use overload
+	'0+' => sub {
+		my ($self) = @_;
+		my $ref = ref $self;
+		bless $self, "ARRAY";
+		my $ret = 0 + $self;
+		bless $self, $ref;
+		$ret
+	};
+
 sub cache {
 	my ($self, $key, $sub) = @_;
 	if (wantarray) {
