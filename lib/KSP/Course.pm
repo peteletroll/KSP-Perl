@@ -27,7 +27,7 @@ sub proxable { qw(
 sub BUILD {
 	my ($self, $start) = @_;
 	$self->set_step([ ]);
-	ref $start && $start->isa("KSP::Orbit2D")
+	UNIVERSAL::isa($start, "KSP::Orbit2D")
 		or confess "KSP::Orbit2D needed";
 	$self->_add(do => "start", then => $start)
 }
@@ -348,9 +348,9 @@ sub _add($%) {
 
 sub _asorbit($;$) {
 	my ($o, $die) = @_;
-	ref $o && $o->isa("KSP::Body")
+	UNIVERSAL::isa($o, "KSP::Body")
 		and $o = $o->lowOrbit;
-	ref $o && $o->isa("KSP::Orbit2D")
+	UNIVERSAL::isa($o, "KSP::Orbit2D")
 		or ($die ? croak "KSP::Orbit2D or KSP::Body needed here" : ($o = undef));
 	$o
 }
