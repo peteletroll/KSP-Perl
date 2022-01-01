@@ -303,7 +303,7 @@ sub _go_hohmann {
 	my ($trb1, $trb2) = _hohmann_pair($cur->body, $dst->body);
 	$trb1 && $trb2
 		or return;
-	my ($tr, $htr1, $htr2) = $trb1->orbit->hohmannTo($trb2->orbit);
+	my ($tr, $htr1, $htr2) = $trb1->orbit->hohmannTo($trb2->orbit, @rest);
 	# warn "HOHMANN ", $trb1->name, " ", U($htr1), "m -> ", $trb2->name, " ", U($htr2), "m, $tr\n";
 
 	$self->leaveTo($tr);
