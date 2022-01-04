@@ -231,7 +231,7 @@ sub goTo {
 	my $cur = $self->current;
 	# warn "CUR $cur\n";
 	$dst = _asorbit($dst, 1);
-	$self->_go_samebody($dst)
+	$self->_go_samebody($dst, @rest)
 		or $self->_go_ancestor($cur, $dst, @rest)
 		or $self->_go_descendant($cur, $dst, @rest)
 		or $self->_go_hohmann($cur, $dst, @rest)
