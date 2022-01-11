@@ -218,7 +218,7 @@ sub rocInfoInv {
 	foreach my $r (sort keys %$i) {
 		my $b = $i->{$r};
 		if (ref $b eq "ARRAY") {
-			push @{$ret{$_}}, $r foreach sort @$b;
+			push @{$ret{$_}}, $r foreach @$b;
 		}
 	}
 	\%ret
