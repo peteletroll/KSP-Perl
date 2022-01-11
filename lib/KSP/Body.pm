@@ -28,6 +28,13 @@ sub BUILD {
 	ref $system eq "KSP::SolarSystem" or croak "KSP::SolarSystem needed here";
 	$self->set_json($json);
 	$self->set_system($system);
+	my $roc = $json->{roc};
+	if (UNIVERSAL::isa($roc, "HASH")) {
+		foreach my $biome (keys %$roc) {
+			my $l = $roc->{$biome};
+			UNIVERSAL::isa($l, "ARRAY") and $roc->{$biome} = [ sort { $a cmp $b } @$l ];
+		}
+	}
 	$self
 }
 
