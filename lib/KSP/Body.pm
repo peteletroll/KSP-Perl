@@ -179,13 +179,13 @@ sub density {
 sub biomes {
 	my ($self) = @_;
 	my $b = $self->json->{science} && $self->json->{science}{biomes};
-	ref $b eq "ARRAY" ? @$b : ()
+	ref $b eq "ARRAY" ? sort @$b : ()
 }
 
 sub miniBiomes {
 	my ($self) = @_;
 	my $b = $self->json->{science} && $self->json->{science}{miniBiomes};
-	ref $b eq "ARRAY" ? @$b : ()
+	ref $b eq "ARRAY" ? sort @$b : ()
 }
 
 sub biomeSuffixMatchers {
