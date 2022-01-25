@@ -230,8 +230,12 @@ sub veq {
 }
 
 sub g0 {
-	my ($self) = @_;
-	$self->mu / $self->radius ** 2
+	goto &g;
+}
+
+sub g {
+	my ($self, $height) = @_;
+	$self->mu / ($self->radius + ($height || 0)) ** 2
 }
 
 sub dvLiftoff {
