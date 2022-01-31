@@ -17,7 +17,7 @@ use KSP::Course;
 use KSP::Anomaly;
 
 use KSP::Util qw(U proxy);
-proxy("KSP::Orbit2D" => sub { $_->orbit }, qw(pe ap e a b));
+proxy("KSP::Orbit2D" => sub { $_->orbit }, qw(pe ap e a b vmin vmax));
 proxy("KSP::Course" => sub { KSP::Course->new($_->lowOrbit) });
 
 use KSP::TinyStruct qw(json system +KSP::Cache);
