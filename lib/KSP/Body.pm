@@ -176,6 +176,11 @@ sub density {
 	$self->mass / $volume
 }
 
+sub spaceThreshold {
+	my ($self) = @_;
+	$self->json->{science}{spaceAltitudeThreshold}
+}
+
 sub biomes {
 	my ($self) = @_;
 	my $b = $self->json->{science} && $self->json->{science}{biomes};
