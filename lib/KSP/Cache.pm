@@ -23,7 +23,10 @@ sub cache {
 		if (exists $c->{$key}) {
 			return @{$c->{$key}};
 		} else {
-			$key =~ /!/ and warn "GENERATE LIST $key\n";
+			if ($key =~ /!/) {
+				my $ptr = sprintf "%x", 1 * $self;
+				warn "GENERATE LIST [$ptr] $key\n";
+			}
 			return @{ $c->{$key} = [ $sub->() ] };
 		}
 	} else {
@@ -31,7 +34,10 @@ sub cache {
 		if (exists $c->{$key}) {
 			return $c->{$key};
 		} else {
-			$key =~ /!/ and warn "GENERATE SCALAR $key\n";
+			if ($key =~ /!/) {
+				my $ptr = sprintf "%x", 1 * $self;
+				warn "GENERATE SCALAR [$ptr] $key\n";
+			}
 			return $c->{$key} = $sub->();
 		}
 	}
