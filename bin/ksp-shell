@@ -1,20 +1,69 @@
-#!/bin/bash
+#!/usr/bin/perl
 
-rc=`mktemp`
-trap "rm -f '$rc'" EXIT
+use strict;
+use warnings;
 
-baserc="$HOME/.re.pl/repl.rc"
+use Reply;
 
-[ -f "$baserc" ] && cp "$baserc" "$rc"
-cat <<'ENDRC' >> $rc
-use utf8;
-use Math::Trig;
-use Math::Vector::Real;
-use KSP qw(:all);
-KSP::SolarSystem->new("RealSolarSystem")->import_bodies();
-binmode $_REPL->out_fh, ":utf8";
-$_REPL->prompt("KSP> ");
-ENDRC
+{
+	package Reply::Plugin::KSPShell;
 
-re.pl --rcfile "$rc"
+	use base 'Reply::Plugin';
+
+	sub prompt { return "KSP> " }
+
+	sub mangle_line($) {
+		my ($self, $line) = @_;
+		utf8::is_utf8($line) || utf8::decode($line) || utf8::upgrade($line);
+		$line
+	}
+
+	BEGIN { $INC{"Reply/Plugin/KSPShell.pm"} = $0; }
+}
+
+use vars qw($REPLY);
+$REPLY = Reply->new(plugins => [
+		"KSPShell",
+		"Interrupt",
+		# "FancyPrompt",
+		"DataDump",
+		# "DataDumper",
+		# "DataPrinter",
+		"Colors",
+		"ReadLine",
+		"Hints",
+		"Packages",
+		"LexicalPersistence",
+		# "ResultCache",
+		"Autocomplete::Packages",
+		"Autocomplete::Lexicals",
+		"Autocomplete::Functions",
+		"Autocomplete::Globals",
+		"Autocomplete::Methods",
+		"Autocomplete::Commands",
+	]);
+
+use vars qw($TERM);
+foreach my $p ($REPLY->_plugins) {
+	if (UNIVERSAL::isa($p, "Reply::Plugin::ReadLine")) {
+		$TERM = $p->{term};
+		$TERM->ornaments(0);
+	}
+}
+
+$REPLY->step(q{
+	use strict;
+	use warnings;
+	use utf8;
+	use Math::Trig;
+	use Math::Vector::Real;
+	use KSP qw(:all);
+	KSP::SolarSystem->new("RealSolarSystem")->import_bodies();
+	binmode $_, ":utf8" foreach \*STDOUT, \*STDERR;
+	()
+});
+
+$REPLY->run();
+
+undef $REPLY;
 
