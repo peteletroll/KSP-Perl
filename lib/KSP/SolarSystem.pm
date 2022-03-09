@@ -172,7 +172,8 @@ sub pretty_interval($) {
 	# full spec is '%1$dy %2$dd %3$d:%4$02d:%5$06.3f'
 	$t[0] ? sprintf '%1$dy %2$dd %3$d:%4$02d', @t :
 	$t[1] ? sprintf '%2$dd %3$d:%4$02d:%5$02.0f', @t :
-	sprintf '%3$d:%4$02d:%5$06.3f', @t
+	$t[2] ? sprintf '%3$d:%4$02d:%5$02d', @t :
+	sprintf '%4$02d:%5$06.3f', @t
 }
 
 sub desc {
