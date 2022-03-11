@@ -87,6 +87,14 @@ sub dryMass {
 	});
 }
 
+sub modules {
+	my ($self) = @_;
+	wantarray or croak __PACKAGE__ . "::resources() wants list context";
+	$self->cache("resource", sub {
+		sort map { $_->get("name") } $self->node->find("MODULE");
+	})
+}
+
 sub resources {
 	my ($self) = @_;
 	wantarray or croak __PACKAGE__ . "::resources() wants list context";
@@ -98,7 +106,7 @@ sub resources {
 sub resourceMass {
 	my ($self, $resource) = @_;
 	my $res = $self->node->find("RESOURCE", name => $resource);
-	my $amount = $res ? $res->get("maxAmount") : 0;
+	my $amount = $res ? $res->get("maxAmount") || 0 : 0;
 	$amount * KSP::Resource->get($resource)->unitMass
 }
 
