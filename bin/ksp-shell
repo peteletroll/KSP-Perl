@@ -8,6 +8,8 @@ use Reply;
 {
 	package Reply::Plugin::KSPShell;
 
+	BEGIN { $INC{"Reply/Plugin/KSPShell.pm"} = $0 }
+
 	use base 'Reply::Plugin';
 
 	sub prompt { return "KSP> " }
@@ -17,37 +19,31 @@ use Reply;
 		utf8::is_utf8($line) || utf8::decode($line) || utf8::upgrade($line);
 		$line
 	}
-
-	BEGIN { $INC{"Reply/Plugin/KSPShell.pm"} = $0; }
 }
 
 use vars qw($REPLY);
 $REPLY = Reply->new(plugins => [
-		"KSPShell",
-		"Interrupt",
-		# "FancyPrompt",
-		"DataDump",
-		# "DataDumper",
-		# "DataPrinter",
-		"Colors",
-		"ReadLine",
-		"Hints",
-		"Packages",
-		"LexicalPersistence",
-		# "ResultCache",
-		"Autocomplete::Packages",
-		"Autocomplete::Lexicals",
-		"Autocomplete::Functions",
-		"Autocomplete::Globals",
-		"Autocomplete::Methods",
-		"Autocomplete::Commands",
-	]);
+	"KSPShell",
+	"Interrupt",
+	"DataDump",
+	"Colors",
+	"ReadLine",
+	"Hints",
+	"Packages",
+	"LexicalPersistence",
+	"Autocomplete::Packages",
+	"Autocomplete::Lexicals",
+	"Autocomplete::Functions",
+	"Autocomplete::Globals",
+	"Autocomplete::Methods",
+	"Autocomplete::Commands",
+]);
 
 use vars qw($TERM);
 foreach my $p ($REPLY->_plugins) {
 	if (UNIVERSAL::isa($p, "Reply::Plugin::ReadLine")) {
 		$TERM = $p->{term};
-		$TERM->ornaments(0);
+		$TERM->ornaments(0) if UNIVERSAL::can($TERM, "ornaments");
 	}
 }
 
