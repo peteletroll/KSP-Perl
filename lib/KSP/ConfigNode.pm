@@ -33,6 +33,25 @@ sub addTo($$) {
 	$self
 }
 
+sub gulp($@) {
+	my $self = shift;
+	# warn "GULP INTO " . $self->name . "\n";
+	foreach my $node (@_) {
+		ref $node or next;
+		my $v = $node->values;
+		if ($v) {
+			# warn "GULP VALUES " . scalar(@$v) . "\n";
+			$_->addTo($self) foreach @$v;
+		}
+		my $n = $node->nodes;
+		if ($n) {
+			# warn "GULP NODES " . join(" ", map { $_->name } @$n) . "\n";
+			$_->addTo($self) foreach @$n;
+		}
+	}
+	$self
+}
+
 sub load($$) {
 	my ($pkg, $file) = @_;
 	my $stdin = 0;
@@ -337,9 +356,10 @@ sub _getvalue($$) {
 sub _elt($$) {
 	my ($list, $name) = @_;
 	$list or return;
+	ref $name eq "Regexp" or $name = qr/^\Q$name\E$/;
 	my @ret = grep {
 		# warn "CHECK $name ", $_->name(), "\n";
-		($_->name() || "") eq $name
+		($_->name() || "") =~ $name
 	} @$list;
 	# warn "FOUND ", scalar(@ret), "\n";
 	wantarray ? @ret : $ret[0]

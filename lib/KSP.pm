@@ -11,6 +11,7 @@ use KSP::ConfigNode;
 use KSP::Orbit2D;
 use KSP::Course;
 use KSP::DeltaVGraph;
+use KSP::DB;
 use KSP::Util qw(U);
 
 our $KSP_DIR;

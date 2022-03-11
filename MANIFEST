@@ -10,6 +10,7 @@ lib/KSP/RealSolarSystem.json
 lib/KSP/Orbit2D.pm
 lib/KSP/Course.pm
 lib/KSP/Anomaly.pm
+lib/KSP/DB.pm
 lib/KSP/Util.pm
 lib/KSP/DeltaVGraph.pm
 lib/KSP/TinyParser.pm
