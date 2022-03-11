@@ -6,10 +6,9 @@ use warnings;
 
 use Carp;
 
-use File::Find ();
-
 use KSP::ConfigNode;
 use KSP::DB;
+use KSP::Resource;
 use KSP::Util qw(U);
 
 use KSP::TinyStruct qw(name node +KSP::Cache);
@@ -51,7 +50,14 @@ sub _load() {
 
 sub desc {
 	my ($self) = @_;
-	$self->name . "[" . U(1000 * $self->dryMass) . "g]"
+	scalar $self->cache("desc", sub {
+		my $wm = $self->wetMass;
+		my $dm = $self->dryMass;
+		my $ret = $self->name . "[";
+		$ret .= U(1000 * $wm) . "g / " if $wm > $dm;
+		$ret .= U(1000 * $dm) . "g]";
+		$ret
+	})
 }
 
 sub all {
@@ -89,10 +95,20 @@ sub resources {
 	})
 }
 
-sub resource {
+sub resourceMass {
 	my ($self, $resource) = @_;
 	my $res = $self->node->find("RESOURCE", name => $resource);
-	$res ? $res->get("maxAmount") : 0
+	my $amount = $res ? $res->get("maxAmount") : 0;
+	$amount * KSP::Resource->get($resource)->unitMass
+}
+
+sub wetMass {
+	my ($self) = @_;
+	my $ret = $self->dryMass;
+	foreach ($self->resources) {
+		$ret += $self->resourceMass($_);
+	}
+	$ret
 }
 
 1;

@@ -12,6 +12,7 @@ lib/KSP/Course.pm
 lib/KSP/Anomaly.pm
 lib/KSP/DB.pm
 lib/KSP/Part.pm
+lib/KSP/Resource.pm
 lib/KSP/Util.pm
 lib/KSP/DeltaVGraph.pm
 lib/KSP/TinyParser.pm
