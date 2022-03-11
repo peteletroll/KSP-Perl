@@ -8,6 +8,8 @@ require Exporter;
 our @ISA = qw(Exporter);
 our @EXPORT_OK = qw(U error proxy);
 
+use Carp;
+
 our @U = (
 	[ undef, 1e27 ],
 	[ "Y", 1e24 ],
@@ -31,6 +33,7 @@ our @U = (
 
 sub U($;$) {
 	my ($x, $d) = @_;
+	ref $x and croak "can't U() a reference";
 	defined $d or $d = 3;
 
 	my $a = abs($x);
