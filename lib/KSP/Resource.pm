@@ -25,13 +25,13 @@ sub _load() {
 		push @RES, __PACKAGE__->new($name, $n);
 	}
 
-	@RES = sort { $a->name cmp $b->name } @RES;
+	@RES = sort { $a->unitMass <=> $b->unitMass } @RES;
 	$RES = \@RES;
 }
 
 sub desc {
 	my ($self) = @_;
-	$self->name . "[" . "g]"
+	$self->name . "[" . U(1000 * $self->unitMass) . "g/unit]"
 }
 
 sub all {
