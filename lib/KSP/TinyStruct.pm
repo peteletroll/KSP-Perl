@@ -194,7 +194,8 @@ sub install_and_run_constructor {
 	my $struct = ref($_[0]) || $_[0];
 	no strict 'refs';
 	no warnings 'redefine';
-	*{"${struct}::new"} = defined &{"${struct}::BUILD"} ?
+	my $canBUILD = UNIVERSAL::can($struct, "BUILD") ? 1 : 0;
+	*{"${struct}::new"} = $canBUILD ?
 		\&{"${struct}::_new_with_BUILD"} :
 		\&{"${struct}::_new_simple"};
 	goto &{"${struct}::new"};
