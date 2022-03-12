@@ -41,7 +41,7 @@ sub desc {
 	scalar $self->cache("desc", sub {
 		my $wm = $self->wetMass;
 		my $dm = $self->dryMass;
-		my $ret = $self->name . "[";
+		my $ret = $self->name . "[" . $self->title . "; ";
 		$ret .= U(1000 * $wm) . "g / " if $wm > $dm;
 		$ret .= U(1000 * $dm) . "g]";
 		$ret
@@ -62,10 +62,15 @@ sub get {
 	my @ret = ();
 
 	foreach my $p (@PART) {
-		$p->name =~ $matcher and push @ret, $p;
+		$p->name =~ $matcher || ($p->title || "") =~ $matcher and push @ret, $p;
 	}
 
 	wantarray ? @ret : $ret[0]
+}
+
+sub title {
+	my ($self) = @_;
+	scalar $self->node->get("title");
 }
 
 sub dryMass {
@@ -83,18 +88,29 @@ sub modules {
 	})
 }
 
+sub module {
+	my ($self, $name) = @_;
+	my @ret =
+		map { KSP::DBNode->new($name, $_) }
+		$self->node->find("MODULE", name => $name);
+	wantarray ? @ret : $ret[0]
+}
+
 sub resources {
 	my ($self) = @_;
 	wantarray or croak __PACKAGE__ . "::resources() wants list context";
 	$self->cache("resources", sub {
-		sort map { $_->get("name") } $self->node->find("RESOURCE");
+		sort map { $_->get("name") } $self->node->find("RESOURCE", maxAmount => qr/./);
 	})
 }
 
 sub resourceMass {
 	my ($self, $resource) = @_;
-	my $res = $self->node->find("RESOURCE", name => $resource);
-	my $amount = $res ? $res->get("maxAmount") || 0 : 0;
+	ref $resource and croak "no reference allowed for resourceMass()";
+	my $amount = 0;
+	foreach ($self->node->find("RESOURCE", name => $resource)) {
+		$amount += $_->get("maxAmount") || 0
+	}
 	$amount * KSP::Resource->get($resource)->unitMass
 }
 

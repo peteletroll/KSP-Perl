@@ -20,7 +20,21 @@ sub BUILD {
 	my ($self, $name, $node) = @_;
 	$self->set_name($name);
 	$self->set_node($node);
+	$self->localize;
 	$self
+}
+
+sub localize {
+	my ($self, $loc) = @_;
+	my $tab = KSP::DB->locTable($loc);
+	$self->node->visit(sub {
+		my $v = $_->values or return;
+		foreach (@$v) {
+			my $t = $_->value;
+			my $lt = $tab->{$t};
+			$_->set_value($lt) if defined $lt;
+		}
+	});
 }
 
 sub desc {

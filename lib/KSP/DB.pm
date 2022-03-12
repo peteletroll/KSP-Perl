@@ -35,5 +35,26 @@ sub root {
 	$DB = $db
 }
 
+our $LOC;
+
+sub locTable {
+	unless ($LOC) {
+		$LOC = { };
+		foreach (root->find("Localization")) {
+			my $n = $_->nodes or next;
+			foreach (@$n) {
+				my $loc = $_->name or next;
+				my $v = $_->values or next;
+				foreach (@$v) {
+					$LOC->{$loc}->{$_->name} = $_->value;
+				}
+			}
+		}
+	}
+	my $loc = $_[1] || "en-us";
+	my $ret = $LOC->{$loc} || { };
+	wantarray ? %$ret : $ret
+}
+
 1;
 
