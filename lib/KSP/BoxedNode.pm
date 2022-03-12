@@ -14,7 +14,7 @@ use overload
 	fallback => 1,
 	'==' => sub { $_[0]->name eq ($_[1] ? $_[1]->name : "") },
 	'!=' => sub { $_[0]->name ne ($_[1] ? $_[1]->name : "") },
-	'""' => \&desc;
+	'""' => "desc";
 
 sub BUILD {
 	my ($self, $name, $node) = @_;
