@@ -8,10 +8,10 @@ use Carp;
 
 use KSP::ConfigNode;
 use KSP::DB;
-use KSP::BoxedNode;
+use KSP::DBNode;
 use KSP::Util qw(U);
 
-use KSP::TinyStruct qw(+KSP::BoxedNode);
+use KSP::TinyStruct qw(+KSP::DBNode);
 
 our $RES;
 our @RES = ();

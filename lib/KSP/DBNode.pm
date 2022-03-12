@@ -1,4 +1,4 @@
-package KSP::BoxedNode;
+package KSP::DBNode;
 
 use utf8;
 use strict;

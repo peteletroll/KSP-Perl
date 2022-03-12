@@ -11,6 +11,7 @@ lib/KSP/Orbit2D.pm
 lib/KSP/Course.pm
 lib/KSP/Anomaly.pm
 lib/KSP/DB.pm
+lib/KSP/DBNode.pm
 lib/KSP/Part.pm
 lib/KSP/Resource.pm
 lib/KSP/Util.pm

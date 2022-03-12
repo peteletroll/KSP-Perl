@@ -8,10 +8,11 @@ use Carp;
 
 use KSP::ConfigNode;
 use KSP::DB;
+use KSP::DBNode;
 use KSP::Resource;
 use KSP::Util qw(U);
 
-use KSP::TinyStruct qw(+KSP::BoxedNode);
+use KSP::TinyStruct qw(+KSP::DBNode);
 
 our $PART;
 our @PART = ();
@@ -76,7 +77,7 @@ sub dryMass {
 
 sub modules {
 	my ($self) = @_;
-	wantarray or croak __PACKAGE__ . "::resources() wants list context";
+	wantarray or croak __PACKAGE__ . "::modules() wants list context";
 	$self->cache("resource", sub {
 		sort map { $_->get("name") } $self->node->find("MODULE");
 	})
