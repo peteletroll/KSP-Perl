@@ -22,6 +22,7 @@ sub _load() {
 
 	my %n = ();
 	foreach my $n (KSP::DB->root->find("PART")) {
+		($n->get("TechHidden") || "") =~ /true/i and next;
 		my $name = $n->get("name");
 		defined $name or next;
 		my $prev = $n{$name};
@@ -41,7 +42,9 @@ sub desc {
 	scalar $self->cache("desc", sub {
 		my $wm = $self->wetMass;
 		my $dm = $self->dryMass;
-		my $ret = $self->name . "[" . $self->title . "; ";
+		my $ret = $self->name . "[";
+		my $t = $self->title;
+		$ret .= "$t; " if defined $t;
 		$ret .= U(1000 * $wm) . "g / " if $wm > $dm;
 		$ret .= U(1000 * $dm) . "g]";
 		$ret
