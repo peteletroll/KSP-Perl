@@ -76,6 +76,11 @@ sub title {
 	scalar $self->node->get("title");
 }
 
+sub category {
+	my ($self) = @_;
+	scalar $self->node->get("category") || "none";
+}
+
 sub dryMass {
 	my ($self) = @_;
 	scalar $self->cache("dryMass", sub {
