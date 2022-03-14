@@ -7,6 +7,10 @@ use warnings;
 use Carp;
 
 use File::Find;
+use File::Spec;
+use Cwd;
+
+use Time::HiRes qw(time);
 
 use KSP::ConfigNode;
 
@@ -15,22 +19,31 @@ our $DB;
 sub root {
 	$DB and return $DB;
 
+	my $time = time;
+
 	my $KSPHOME = $ENV{KSPHOME};
 	defined $KSPHOME or croak "no \$KSPHOME environment variable";
+	$KSPHOME = Cwd::realpath($KSPHOME);
+	$KSPHOME =~ s{(\/*|\/+\.)$}{/.};
 	-d $KSPHOME or croak "$KSPHOME is not a directory";
 
 	my $db = KSP::ConfigNode->new(__PACKAGE__);
 	find({
-		no_chdir => 1,
-		follow => 1,
+		no_chdir => 0,
+		follow => 0,
 		wanted => sub {
-			-d $_ && /\/zDeprecated\/?$/ and $File::Find::prune = 1;
+			-d $_ && $_ eq "zDeprecated" and $File::Find::prune = 1;
 			-f $_ && (/\.cfg$/i)
 				or return;
 			my $cfg = KSP::ConfigNode->load($_);
+			my $src = File::Spec->abs2rel($_, $KSPHOME);
+			$cfg->visit(sub { $_->set_src($src) });
 			$db->gulp($cfg);
 		}
-	}, $KSPHOME);
+	}, "$KSPHOME/.");
+
+	$time = time - $time;
+	printf "# %s loaded in %1.3f s\n", __PACKAGE__, $time;
 
 	$DB = $db
 }

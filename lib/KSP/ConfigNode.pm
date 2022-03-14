@@ -5,7 +5,7 @@ use warnings;
 
 use Carp;
 
-use KSP::TinyStruct qw(name parent values nodes);
+use KSP::TinyStruct qw(src name parent values nodes);
 
 use KSP::TinyParser;
 
