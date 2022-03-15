@@ -43,7 +43,7 @@ sub root {
 	}, "$KSPHOME/.");
 
 	$time = time - $time;
-	printf "# %s loaded in %1.3f s\n", __PACKAGE__, $time;
+	warn sprintf "# %s loaded in %1.3f s\n", __PACKAGE__, $time;
 
 	$DB = $db
 }
