@@ -87,6 +87,16 @@ sub get($$) {
 	wantarray ? @ret : $ret[0]
 }
 
+sub set($$@) {
+	my ($self, $name, @values) = @_;
+	my $v = $self->values;
+	@$v = grep { $_->name ne $name } @$v if $v;
+	foreach $v (@values) {
+		KSP::ConfigValue->new("=", $name, $v)->addTo($self);
+	}
+	$self
+}
+
 sub visit($$) {
 	my ($self, $sub) = @_;
 	local $_ = $self;
