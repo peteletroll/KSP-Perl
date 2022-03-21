@@ -96,6 +96,22 @@ sub modules {
 	})
 }
 
+sub propellant {
+	my ($self, $name) = @_;
+	my @ret =
+		map { KSP::DBNode->new($name, $_) }
+		$self->node->find("PROPELLANT", name => $name);
+	wantarray ? @ret : $ret[0]
+}
+
+sub propellants {
+	my ($self) = @_;
+	wantarray or croak __PACKAGE__ . "::modules() wants list context";
+	$self->cache("propellant", sub {
+		sort map { $_->get("name") } $self->node->find("PROPELLANT");
+	})
+}
+
 sub module {
 	my ($self, $name) = @_;
 	my @ret =
@@ -129,6 +145,11 @@ sub wetMass {
 		$ret += $self->resourceMass($_);
 	}
 	$ret
+}
+
+sub massRatio {
+	my ($self) = @_;
+	$self->dryMass ? $self->wetMass / $self->dryMass : 1
 }
 
 1;
