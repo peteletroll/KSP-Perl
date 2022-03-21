@@ -87,6 +87,20 @@ sub get($$) {
 	wantarray ? @ret : $ret[0]
 }
 
+sub allValues($) {
+	my ($self) = @_;
+	wantarray or croak "allValues() wants list context";
+	my $v = $self->values;
+	$v ? @$v : ()
+}
+
+sub allNodes($) {
+	my ($self) = @_;
+	wantarray or croak "allNodes() wants list context";
+	my $n = $self->nodes;
+	$n ? @$n : ()
+}
+
 sub set($$@) {
 	my ($self, $name, @values) = @_;
 	my $v = $self->values;
