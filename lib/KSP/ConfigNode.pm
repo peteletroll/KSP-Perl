@@ -162,12 +162,14 @@ sub parse_string($$) {
 }
 
 our $_parser;
+our $COMMENT = qr{//[^\n]*};
 sub _parser() {
 	$_parser ||= KSP::TinyParser->new(
 
-		_ => qr{([ \t\r\x{feff}]+|(//)[^\n]*)+},
+		_ => qr{(?:[ \t\r\x{feff}]+|$COMMENT)+},
 
-		cr_opt => REP("\n", 0, 999_999),
+		# cr_opt => REP("\n", 0, 999_999),
+		cr_opt => qr/(?:\s+|$COMMENT)*/s,
 
 		start => SEQ(
 			\"stmts",
