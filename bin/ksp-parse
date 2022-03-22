@@ -15,7 +15,7 @@ binmode STDERR, ":utf8";
 
 use Getopt::Std;
 my %opt = ();
-getopts("FlpqP", \%opt) or die "bad options";
+getopts("FlpPqtT", \%opt) or die "bad options";
 
 my @lst = @ARGV;
 @lst or push @lst, "$ENV{HOME}/KSP/KSP_linux/.";
@@ -75,6 +75,7 @@ sub parse_cfg($) {
 	local $@ = undef;
 	my $time = time;
 	local $KSP::ConfigNode::FIXENCODING = $opt{F} ? 1 : 0;
+	local $KSP::TinyParser::TRACE = $opt{T} ? 2 : $opt{t} ? 1 : 0;
 	my $c = eval { KSP::ConfigNode->load($file) };
 	$time = time - $time;
 	$seconds += $time;
