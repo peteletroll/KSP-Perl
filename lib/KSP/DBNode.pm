@@ -28,8 +28,7 @@ sub localize {
 	my ($self, $loc) = @_;
 	my $tab = KSP::DB->locTable($loc);
 	$self->node->visit(sub {
-		my $v = $_->values or return;
-		foreach (@$v) {
+		foreach ($_->values) {
 			my $t = $_->value;
 			my $lt = $tab->{$t};
 			$_->set_value($lt) if defined $lt;

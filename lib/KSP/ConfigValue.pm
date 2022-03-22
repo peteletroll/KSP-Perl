@@ -7,7 +7,7 @@ use KSP::TinyStruct qw(op name value);
 
 sub addTo($$) {
 	my ($self, $node) = @_;
-	my $l = $node->values() || $node->set_values([ ]);
+	my $l = $node->_values() || $node->set__values([ ]);
 	push @$l, $self;
 	$self
 }

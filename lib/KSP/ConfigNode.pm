@@ -5,7 +5,7 @@ use warnings;
 
 use Carp;
 
-use KSP::TinyStruct qw(src name parent values nodes);
+use KSP::TinyStruct qw(src name parent _values _nodes);
 
 use KSP::TinyParser;
 
@@ -24,7 +24,7 @@ sub BUILD($$) {
 
 sub addTo($$) {
 	my ($self, $node) = @_;
-	my $l = $node->nodes() || $node->set_nodes([ ]);
+	my $l = $node->_nodes() || $node->set__nodes([ ]);
 	push @$l, $self;
 	my $ws = $node;
 	$self->set_parent($node);
@@ -38,16 +38,7 @@ sub gulp($@) {
 	# warn "GULP INTO " . $self->name . "\n";
 	foreach my $node (@_) {
 		ref $node or next;
-		my $v = $node->values;
-		if ($v) {
-			# warn "GULP VALUES " . scalar(@$v) . "\n";
-			$_->addTo($self) foreach @$v;
-		}
-		my $n = $node->nodes;
-		if ($n) {
-			# warn "GULP NODES " . join(" ", map { $_->name } @$n) . "\n";
-			$_->addTo($self) foreach @$n;
-		}
+		$_->addTo($self) foreach $node->values, $node->nodes;
 	}
 	$self
 }
@@ -83,27 +74,27 @@ sub load($$) {
 
 sub get($$) {
 	my ($self, $name) = @_;
-	my @ret = map { $_->value } _elt($self->values(), $name);
+	my @ret = map { $_->value } _elt($self->_values(), $name);
 	wantarray ? @ret : $ret[0]
 }
 
-sub allValues($) {
+sub values($) {
 	my ($self) = @_;
-	wantarray or croak "allValues() wants list context";
-	my $v = $self->values;
+	wantarray or croak "values() wants list context";
+	my $v = $self->_values;
 	$v ? @$v : ()
 }
 
-sub allNodes($) {
+sub nodes($) {
 	my ($self) = @_;
-	wantarray or croak "allNodes() wants list context";
-	my $n = $self->nodes;
+	wantarray or croak "nodes() wants list context";
+	my $n = $self->_nodes;
 	$n ? @$n : ()
 }
 
 sub set($$@) {
 	my ($self, $name, @values) = @_;
-	my $v = $self->values;
+	my $v = $self->_values;
 	@$v = grep { $_->name ne $name } @$v if $v;
 	foreach $v (@values) {
 		KSP::ConfigValue->new("=", $name, $v)->addTo($self);
@@ -115,7 +106,7 @@ sub visit($$) {
 	my ($self, $sub) = @_;
 	local $_ = $self;
 	$sub->();
-	my $n = $self->nodes or return;
+	my $n = $self->_nodes or return;
 	$_->visit($sub) foreach @$n;
 }
 
@@ -140,14 +131,11 @@ sub find($$;$) {
 			or return;
 		if ($valname) {
 			my $found = undef;
-			my $values = $_->values;
-			if ($values) {
-				foreach my $v (@$values) {
-					$v->name =~ $valname or next;
-					$value and ($v->value =~ $value or next);
-					$found = $v;
-					last;
-				}
+			foreach my $v ($_->values) {
+				$v->name =~ $valname or next;
+				$value and ($v->value =~ $value or next);
+				$found = $v;
+				last;
 			}
 			$found or return;
 		}
@@ -160,10 +148,10 @@ sub delete($) {
 	my ($self) = @_;
 	my $parent = $self->parent;
 	$_ = undef foreach @$self;
-	if ($parent && $parent->nodes) {
-		$parent->set_nodes([
+	if ($parent && $parent->_nodes) {
+		$parent->set__nodes([
 			grep { $_ != $self }
-			@{$parent->nodes}
+			@{$parent->_nodes}
 		]);
 	}
 }
@@ -284,7 +272,7 @@ sub print($$;$) {
 	my $start = $self;
 	if ($rootflag) {
 		my $root = KSP::ConfigNode->new("printroot");
-		$root->set_nodes([ $self ]); # don't mess with parent
+		$root->set__nodes([ $self ]); # don't mess with parent
 		$start = $root;
 	}
 	$stream ||= \*STDOUT;
@@ -297,43 +285,37 @@ sub print($$;$) {
 sub _print($$$;$) {
 	my ($self, $indent, $prefix) = @_;
 
-	my $v = $self->values();
-	if ($v) {
-		foreach (@$v) {
-			my $s = $_->asString();
-			my $c = $_->_comment();
-			if (defined $c) {
-				if ($c =~ /\n/) {
-					my $i = " " x (length($s) + 1);
-					# die "value comment can't contain newline";
-					$c =~ s/\n/\n$indent$i\/\/ /gm;
-				}
-				$c = " // $c";
-			} else {
-				$c = "";
+	foreach ($self->values) {
+		my $s = $_->asString();
+		my $c = $_->_comment();
+		if (defined $c) {
+			if ($c =~ /\n/) {
+				my $i = " " x (length($s) + 1);
+				# die "value comment can't contain newline";
+				$c =~ s/\n/\n$indent$i\/\/ /gm;
 			}
-			print "$indent$s$c\n";
+			$c = " // $c";
+		} else {
+			$c = "";
 		}
+		print "$indent$s$c\n";
 	}
 
-	my $n = $self->nodes();
-	if ($n) {
-		my $newprefix = $prefix;
-		length $newprefix and $newprefix .= ":";
-		foreach (@$n) {
-			my $c = $_->_comment();
-			if (defined $c && $c =~ /\S/) {
-				$c =~ s/^/$indent\t\/\/ /gm;
-				$c .= "\n\n";
-			} else {
-				$c = "";
-			}
-			my $n = _encode($_->name());
-			my $p = $n . $_->_nodename();
-			print "$indent$n // $newprefix$p\n", $indent, "{\n$c";
-			$_->_print("$indent\t", "$newprefix$p");
-			print $indent, "}\n";
+	my $newprefix = $prefix;
+	length $newprefix and $newprefix .= ":";
+	foreach ($self->nodes) {
+		my $c = $_->_comment();
+		if (defined $c && $c =~ /\S/) {
+			$c =~ s/^/$indent\t\/\/ /gm;
+			$c .= "\n\n";
+		} else {
+			$c = "";
 		}
+		my $n = _encode($_->name());
+		my $p = $n . $_->_nodename();
+		print "$indent$n // $newprefix$p\n", $indent, "{\n$c";
+		$_->_print("$indent\t", "$newprefix$p");
+		print $indent, "}\n";
 	}
 }
 
@@ -349,32 +331,24 @@ sub list($$) {
 sub _list($$) {
 	my ($self, $prefix) = @_;
 
-	my $v = $self->values();
-	if ($v) {
-		foreach (@$v) {
-			print $prefix, $_->asString, "\n";
-		}
-	}
+	print $prefix, $_->asString, "\n" foreach $self->values;
 
-	my $n = $self->nodes();
-	if ($n) {
-		foreach (@$n) {
-			my $n = _encode($_->name());
-			my $p = $n . $_->_nodename();
-			print "$prefix$p\n";
-			$_->_list("$prefix$p:", "");
-		}
+	foreach ($self->nodes) {
+		my $n = _encode($_->name());
+		my $p = $n . $_->_nodename();
+		print "$prefix$p\n";
+		$_->_list("$prefix$p:", "");
 	}
 }
 
 sub _getnode($$) {
 	my ($self, $name) = @_;
-	_elt($self->nodes(), $name);
+	_elt($self->_nodes(), $name);
 }
 
 sub _getvalue($$) {
 	my ($self, $name) = @_;
-	_elt($self->values(), $name)
+	_elt($self->_values(), $name)
 }
 
 sub _elt($$) {

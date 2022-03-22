@@ -54,11 +54,9 @@ sub locTable {
 	unless ($LOC) {
 		$LOC = { };
 		foreach (root->find("Localization")) {
-			my $n = $_->nodes or next;
-			foreach (@$n) {
+			foreach ($_->nodes) {
 				my $loc = $_->name or next;
-				my $v = $_->values or next;
-				foreach (@$v) {
+				foreach ($_->values) {
 					$LOC->{$loc}->{$_->name} = $_->value;
 				}
 			}
