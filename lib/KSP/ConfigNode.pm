@@ -163,17 +163,16 @@ sub parse_string($$) {
 
 our $_parser;
 our $COMMENT = qr{//[^\n]*};
+our $CR_OPT = qr/(?:\s+|$COMMENT)*/s;
+
 sub _parser() {
 	$_parser ||= KSP::TinyParser->new(
 
 		_ => qr{(?:[ \t\r\x{feff}]+|$COMMENT)+},
 
-		# cr_opt => REP("\n", 0, 999_999),
-		cr_opt => qr/(?:\s+|$COMMENT)*/s,
-
 		start => SEQ(
 			\"stmts",
-			\"cr_opt",
+			$CR_OPT,
 			FIRST(EOS, ERR("end of file expected")),
 			EV{
 				KSP::ConfigNode->new("root", @{$_[2][0]})
@@ -181,7 +180,7 @@ sub _parser() {
 		),
 
 		stmts => SEQ(
-			REP(SEQ(\"cr_opt", \"stmt")),
+			REP(SEQ($CR_OPT, \"stmt")),
 			EV{
 				$_[2][0]
 			},
@@ -201,10 +200,10 @@ sub _parser() {
 		),
 
 		group => SEQ(
-			\"cr_opt",
+			$CR_OPT,
 			"{",
 			\"stmts",
-			\"cr_opt",
+			$CR_OPT,
 			FIRST("}", ERR("} expected")),
 			EV{ KSP::ConfigNode->new(undef, @{$_[2][2]}) }
 		),
