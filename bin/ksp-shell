@@ -3,6 +3,13 @@
 use strict;
 use warnings;
 
+BEGIN {
+	unless ($>) {
+		warn "$0: won't run as root\n";
+		exit 1;
+	}
+}
+
 use Reply;
 
 {
