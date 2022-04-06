@@ -60,6 +60,13 @@ $REPLY->step(q{
 	use utf8;
 	use Math::Trig;
 	use Math::Vector::Real;
+	use List::Util qw(
+		uniq
+		reduce reductions
+		any all none notall
+		sum product
+		head tail
+	);
 	use KSP qw(:all);
 	KSP::SolarSystem->new("RealSolarSystem")->import_bodies();
 	binmode $_, ":utf8" foreach \*STDOUT, \*STDERR;
