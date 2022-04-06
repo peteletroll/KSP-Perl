@@ -128,14 +128,20 @@ sub resources {
 	})
 }
 
-sub resourceMass {
+sub resourceAmount {
 	my ($self, $resource) = @_;
-	ref $resource and croak "no reference allowed for resourceMass()";
+	ref $resource and croak "no reference allowed for resourceAmount()";
 	my $amount = 0;
 	foreach ($self->node->find("RESOURCE", name => $resource)) {
 		$amount += $_->get("maxAmount") || 0
 	}
-	$amount * KSP::Resource->get($resource)->unitMass
+	$amount
+}
+
+sub resourceMass {
+	my ($self, $resource) = @_;
+	ref $resource and croak "no reference allowed for resourceMass()";
+	$self->resourceAmount($resource) * KSP::Resource->get($resource)->unitMass
 }
 
 sub wetMass {
