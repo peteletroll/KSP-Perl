@@ -230,96 +230,115 @@
       "anomalies": [
         {
           "name": "KSC",
+          "objectName": "KSC",
           "lat": -0.096909910440444946,
           "lon": -74.600389849599551
         },
         {
           "name": "KSC2",
+          "objectName": "KSC2",
           "lat": 20.582893371582031,
           "lon": -146.51159601366166
         },
         {
           "name": "Monolith00",
+          "objectName": "Monolith00",
           "lat": 35.570526123046875,
           "lon": -74.977304872222589
         },
         {
           "name": "Monolith01",
+          "objectName": "Monolith01",
           "lat": -0.64016741514205933,
           "lon": -80.766769175365454
         },
         {
           "name": "Monolith02",
+          "objectName": "Monolith02",
           "lat": -28.808313369750977,
           "lon": -13.440113401054271
         },
         {
           "name": "Pyramids",
+          "objectName": "Pyramids",
           "lat": -6.5056900978088379,
           "lon": -141.68559284500958
         },
         {
           "name": "UFO",
+          "objectName": "UFO",
           "lat": 81.95513916015625,
           "lon": -128.51795124202758
         },
         {
           "name": "IslandAirfield",
+          "objectName": "IslandAirfield",
           "lat": -1.5409176349639893,
           "lon": -71.909889224128563
         },
         {
           "name": "CommNetDish",
+          "objectName": "Harvester Massif",
           "lat": -11.949999809265137,
           "lon": 33.740000049626531
         },
         {
           "name": "CommNetDish",
+          "objectName": "Nye Island",
           "lat": 5.3600001335144043,
           "lon": 108.55000226352415
         },
         {
           "name": "CommNetDish",
+          "objectName": "Mesa South",
           "lat": -59.590000152587891,
           "lon": -25.869998523538584
         },
         {
           "name": "CommNetDish",
+          "objectName": "Crater Rim",
           "lat": 9.4500007629394531,
           "lon": -172.11000180735249
         },
         {
           "name": "CommNetDish",
+          "objectName": "North Station One",
           "lat": 63.095001220703125,
           "lon": -90.080001044266126
         },
         {
           "name": "Crater_Launch_Site",
+          "objectName": "Crater_Launch_Site",
           "lat": 8.3862085342407227,
           "lon": -179.69777465017037
         },
         {
           "name": "MahiMahi_Launch_Site",
+          "objectName": "MahiMahi_Launch_Site",
           "lat": -49.802360534667969,
           "lon": -120.76559788339817
         },
         {
           "name": "Cove_Launch_Site",
+          "objectName": "Cove_Launch_Site",
           "lat": 3.7474768161773682,
           "lon": -72.213099606331383
         },
         {
           "name": "GlacierLake_Launch_Site",
+          "objectName": "GlacierLake_Launch_Site",
           "lat": 73.5615234375,
           "lon": 84.246620390868145
         },
         {
           "name": "Anniversary2",
+          "objectName": "Anniversary2",
           "lat": -17.534202575683594,
           "lon": 61.062003437735918
         },
         {
           "name": "Anniversary1",
+          "objectName": "Anniversary1",
           "lat": -6.518000602722168,
           "lon": -144.01599683058549
         }
@@ -437,41 +456,49 @@
       "anomalies": [
         {
           "name": "Monolith00",
+          "objectName": "Monolith00",
           "lat": -9.8313722610473633,
           "lon": 25.917721500924937
         },
         {
           "name": "Monolith02",
+          "objectName": "Monolith02",
           "lat": -82.2062759399414,
           "lon": 102.92873523563547
         },
         {
           "name": "Monolith01",
+          "objectName": "Monolith01",
           "lat": 57.660232543945313,
           "lon": 9.1423166473373865
         },
         {
           "name": "RockArch02",
+          "objectName": "RockArch02",
           "lat": 2.4694588184356689,
           "lon": 81.513231814764268
         },
         {
           "name": "RockArch00",
+          "objectName": "RockArch00",
           "lat": 12.443114280700684,
           "lon": 39.178013085282181
         },
         {
           "name": "RockArch01",
+          "objectName": "RockArch01",
           "lat": -12.443114280700684,
           "lon": -140.82198684309216
         },
         {
           "name": "ArmstrongMemorial",
+          "objectName": "ArmstrongMemorial",
           "lat": 0.70273619890213013,
           "lon": 22.746955241632836
         },
         {
           "name": "UFO",
+          "objectName": "UFO",
           "lat": -70.955635070800781,
           "lon": -68.1371543827651
         }
@@ -631,6 +658,7 @@
       "anomalies": [
         {
           "name": "Monolith00",
+          "objectName": "Monolith00",
           "lat": 23.776256561279297,
           "lon": 60.046393401082476
         }
@@ -750,6 +778,7 @@
       "anomalies": [
         {
           "name": "Mohole",
+          "objectName": "Mohole",
           "lat": 90,
           "lon": 0
         }
@@ -1028,21 +1057,25 @@
       "anomalies": [
         {
           "name": "Face",
+          "objectName": "Face",
           "lat": 17.058536529541016,
           "lon": -85.459296618411074
         },
         {
           "name": "MSL",
+          "objectName": "MSL",
           "lat": -30.341999053955078,
           "lon": -28.81034486229612
         },
         {
           "name": "Pyramid",
+          "objectName": "Pyramid",
           "lat": -66.0483169555664,
           "lon": -160.88162835341529
         },
         {
           "name": "Anniversary4",
+          "objectName": "Anniversary4",
           "lat": -2.4140005111694336,
           "lon": -5.3230000550631287
         }
@@ -1203,6 +1236,7 @@
       "anomalies": [
         {
           "name": "Anniversary5",
+          "objectName": "Anniversary5",
           "lat": -11.378998756408691,
           "lon": 27.3079980099998
         }
@@ -1415,6 +1449,7 @@
       "anomalies": [
         {
           "name": "Anniversary7",
+          "objectName": "Anniversary7",
           "lat": 0.074000023305416107,
           "lon": -162.52499910431033
         }
@@ -1536,6 +1571,7 @@
       "anomalies": [
         {
           "name": "Icehenge",
+          "objectName": "Icehenge",
           "lat": -60.089035034179688,
           "lon": 83.779592850071211
         }
@@ -1665,6 +1701,7 @@
       "anomalies": [
         {
           "name": "DeadKraken",
+          "objectName": "DeadKraken",
           "lat": 68.429290771484375,
           "lon": 116.99019869562092
         }
@@ -1772,6 +1809,7 @@
       "anomalies": [
         {
           "name": "Cave",
+          "objectName": "Cave",
           "lat": 40.203742980957031,
           "lon": 173.99762394174837
         }
@@ -2098,6 +2136,7 @@
       "anomalies": [
         {
           "name": "Anniversary6",
+          "objectName": "Anniversary6",
           "lat": 1.9545198678970337,
           "lon": 64.139515147831347
         }
@@ -2220,6 +2259,7 @@
       "anomalies": [
         {
           "name": "Anniversary3",
+          "objectName": "Anniversary3",
           "lat": 25.99799919128418,
           "lon": 110.5919989569834
         }
