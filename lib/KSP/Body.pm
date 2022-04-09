@@ -198,9 +198,12 @@ sub biomeSuffixMatchers {
 	my ($self) = @_;
 	wantarray or croak __PACKAGE__, "->bodySuffixMatchers() wants list context";
 	$self->cache("biomeSuffixMatchers", sub {
-		map { qr/(.+)(\Q$_\E)$/ }
+		(map { qr/(.+)(\Q$_\E)$/ }
 			sort { length $b <=> length $a || $a cmp $b }
-			($self->biomes, $self->miniBiomes)
+			$self->biomes),
+		(map { qr/(.+)(\Q$_\E.*)$/ }
+			sort { length $b <=> length $a || $a cmp $b }
+			$self->miniBiomes)
 	})
 }
 
