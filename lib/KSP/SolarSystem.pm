@@ -70,7 +70,7 @@ sub bodyPrefixMatchers {
 			sort { length $b <=> length $a || $a cmp $b }
 			map { $_->name }
 			$self->bodies
-	});
+	})
 }
 
 sub body($$) {
