@@ -209,7 +209,13 @@ sub biomeSuffixMatchers {
 
 sub anomalies {
 	my ($self) = @_;
-	wantarray or croak __PACKAGE__ . "::anomalies() wants list context";
+	my @ret = $self->_anomalies_list;
+	wantarray ? @ret : scalar @ret
+}
+
+sub _anomalies_list {
+	my ($self) = @_;
+	wantarray or croak __PACKAGE__ . "::_anomalies_list() wants list context";
 	sort { $b->lat <=> $a->lat }
 		map { KSP::Anomaly->new($self, $_) }
 		@{$self->json->{anomalies}}
