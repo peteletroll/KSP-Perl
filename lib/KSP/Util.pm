@@ -6,7 +6,7 @@ use warnings;
 
 require Exporter;
 our @ISA = qw(Exporter);
-our @EXPORT_OK = qw(U error proxy);
+our @EXPORT_OK = qw(U error matcher proxy);
 
 use Carp;
 
@@ -63,6 +63,18 @@ sub error($$) {
 	my ($x1, $x2) = @_;
 	$x1 == $x2 and return 0;
 	2 * abs($x1 - $x2) / (abs($x1) + abs($x2))
+}
+
+sub matcher($) {
+	my ($v) = @_;
+	defined $v or return undef;
+	my $r = ref $v;
+	if (!$r) {
+		$v = qr/^\Q$v\E$/;
+	} elsif ($r ne "Regexp") {
+		croak "got $r, string or Regexp required";
+	}
+	$v
 }
 
 sub proxy($$@) {

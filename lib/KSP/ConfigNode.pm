@@ -11,6 +11,8 @@ use KSP::TinyParser;
 
 use KSP::ConfigValue;
 
+use KSP::Util qw(matcher);
+
 use Scalar::Util qw(weaken isweak);
 
 our $FIXENCODING = 0;
@@ -110,21 +112,9 @@ sub visit($$) {
 	$_->visit($sub) foreach @$n;
 }
 
-sub _matcher($) {
-	my ($v) = @_;
-	defined $v or return undef;
-	my $r = ref $v;
-	if (!$r) {
-		$v = qr/^\Q$v\E$/;
-	} elsif ($r ne "Regexp") {
-		croak "got $r, string or Regexp required";
-	}
-	$v
-}
-
 sub find($$;$) {
 	my ($self, $name, $valname, $value) = @_;
-	$_ = _matcher($_) foreach $name, $valname, $value;
+	$_ = matcher($_) foreach $name, $valname, $value;
 	my @ret = ();
 	$self->visit(sub {
 		$_->name =~ $name
