@@ -6,7 +6,7 @@ use warnings;
 
 require Exporter;
 our @ISA = qw(Exporter);
-our @EXPORT_OK = qw(U error matcher proxy);
+our @EXPORT_OK = qw(U error matcher proxy deparse);
 
 use Carp;
 
@@ -96,6 +96,12 @@ sub proxy($$@) {
 			$method->($adj->(), @rest)
 		};
 	}
+}
+
+sub deparse($) {
+	require B::Deparse;
+	print "sub ", B::Deparse->new->coderef2text($_[0]), "\n";
+	()
 }
 
 1
