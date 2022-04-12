@@ -21,7 +21,7 @@ sub _load() {
 	$PART and return $PART;
 
 	my %n = ();
-	foreach my $n (KSP::DB->root->find("PART")) {
+	foreach my $n (KSP::DB->root->getnodes("PART")) {
 		($n->get("TechHidden") || "") =~ /true/i and next;
 		my $name = $n->get("name");
 		defined $name or next;
@@ -92,7 +92,7 @@ sub modules {
 	my ($self) = @_;
 	wantarray or croak __PACKAGE__ . "::modules() wants list context";
 	$self->cache("modules", sub {
-		sort map { $_->get("name") } $self->node->find("MODULE");
+		sort map { $_->get("name") } $self->node->getnodes("MODULE");
 	})
 }
 
@@ -100,7 +100,8 @@ sub propellant {
 	my ($self, $name) = @_;
 	my @ret =
 		map { KSP::DBNode->new($name, $_) }
-		$self->node->find("PROPELLANT", name => $name);
+		map { $_->getnodes("PROPELLANT", name => $name) }
+		$self->node->getnodes("MODULE");
 	wantarray ? @ret : $ret[0]
 }
 
@@ -108,7 +109,9 @@ sub propellants {
 	my ($self) = @_;
 	wantarray or croak __PACKAGE__ . "::modules() wants list context";
 	$self->cache("propellants", sub {
-		sort map { $_->get("name") } $self->node->find("PROPELLANT");
+		sort map { $_->get("name") }
+			map { $_->getnodes("PROPELLANT") }
+			$self->node->getnodes("MODULE");
 	})
 }
 
@@ -116,7 +119,7 @@ sub module {
 	my ($self, $name) = @_;
 	my @ret =
 		map { KSP::DBNode->new($name, $_) }
-		$self->node->find("MODULE", name => $name);
+		$self->node->getnodes("MODULE", name => $name);
 	wantarray ? @ret : $ret[0]
 }
 
@@ -124,7 +127,7 @@ sub resources {
 	my ($self) = @_;
 	wantarray or croak __PACKAGE__ . "::resources() wants list context";
 	$self->cache("resources", sub {
-		sort map { $_->get("name") } $self->node->find("RESOURCE", maxAmount => qr/./);
+		sort map { $_->get("name") } $self->node->getnodes("RESOURCE", maxAmount => qr/./);
 	})
 }
 
@@ -132,7 +135,7 @@ sub resourceAmount {
 	my ($self, $resource) = @_;
 	ref $resource and croak "no reference allowed for resourceAmount()";
 	my $amount = 0;
-	foreach ($self->node->find("RESOURCE", name => $resource)) {
+	foreach ($self->node->getnodes("RESOURCE", name => $resource)) {
 		$amount += $_->get("maxAmount") || 0
 	}
 	$amount

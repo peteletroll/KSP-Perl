@@ -19,7 +19,7 @@ our @RES = ();
 sub _load() {
 	$RES and return $RES;
 
-	foreach my $n (KSP::DB->root->find("RESOURCE_DEFINITION")) {
+	foreach my $n (KSP::DB->root->getnodes("RESOURCE_DEFINITION")) {
 		my $name = $n->get("name");
 		defined $name or next;
 		push @RES, __PACKAGE__->new($name, $n);
