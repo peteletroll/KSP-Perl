@@ -76,7 +76,7 @@ sub SEQ(@) {
 				defined (my $ret = $first->($_[0], $_[1], $st))
 					or return undef;
 				foreach my $matcher (@seq) {
-					ref($ret) and $ret == $st and $ret = [ @$ret ];
+					ref($ret) eq "ARRAY" and $ret == $st and $ret = [ @$ret ];
 					push @$st, $ret;
 
 					$ret = $matcher->($_[0], $_[1], $st);
