@@ -91,7 +91,7 @@ sub dryMass {
 sub modules {
 	my ($self) = @_;
 	wantarray or croak __PACKAGE__ . "::modules() wants list context";
-	$self->cache("resource", sub {
+	$self->cache("modules", sub {
 		sort map { $_->get("name") } $self->node->find("MODULE");
 	})
 }
@@ -107,7 +107,7 @@ sub propellant {
 sub propellants {
 	my ($self) = @_;
 	wantarray or croak __PACKAGE__ . "::modules() wants list context";
-	$self->cache("propellant", sub {
+	$self->cache("propellants", sub {
 		sort map { $_->get("name") } $self->node->find("PROPELLANT");
 	})
 }
@@ -146,11 +146,13 @@ sub resourceMass {
 
 sub wetMass {
 	my ($self) = @_;
-	my $ret = $self->dryMass;
-	foreach ($self->resources) {
-		$ret += $self->resourceMass($_);
-	}
-	$ret
+	scalar $self->cache("wetMass", sub {
+		my $ret = $self->dryMass;
+		foreach ($self->resources) {
+			$ret += $self->resourceMass($_);
+		}
+		$ret
+	})
 }
 
 sub massRatio {
