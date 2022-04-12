@@ -131,6 +131,14 @@ sub resources {
 	})
 }
 
+sub resource {
+	my ($self, $name) = @_;
+	my @ret =
+		map { KSP::DBNode->new($name, $_) }
+		$self->node->getnodes("RESOURCE", name => $name);
+	wantarray ? @ret : $ret[0]
+}
+
 sub resourceAmount {
 	my ($self, $resource) = @_;
 	ref $resource and croak "no reference allowed for resourceAmount()";
