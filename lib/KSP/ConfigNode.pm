@@ -15,6 +15,11 @@ use KSP::Util qw(matcher);
 
 use Scalar::Util qw(weaken isweak);
 
+use overload
+	fallback => 0,
+	bool => sub { $_[0] },
+	'""' => sub { $_[0]->asString(1) };
+
 our $FIXENCODING = 0;
 
 sub BUILD($$) {

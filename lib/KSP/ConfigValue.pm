@@ -5,6 +5,11 @@ use warnings;
 
 use KSP::TinyStruct qw(op name value);
 
+use overload
+	fallback => 0,
+	bool => sub { $_[0] },
+	'""' => \&asString;
+
 sub addTo($$) {
 	my ($self, $node) = @_;
 	my $l = $node->_values() || $node->set__values([ ]);
