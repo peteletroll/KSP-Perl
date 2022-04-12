@@ -43,5 +43,13 @@ sub cache {
 	}
 }
 
+sub cached {
+	my ($self) = @_;
+	{
+		LIST => $self->list_cache,
+		SCALAR => $self->scalar_cache
+	}
+}
+
 1;
 
