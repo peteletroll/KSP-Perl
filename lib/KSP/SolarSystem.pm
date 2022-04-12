@@ -76,7 +76,7 @@ sub bodyPrefixMatchers {
 sub body($$) {
 	my ($self, $name) = @_;
 	ref $self or Carp::confess "no ref here";
-	scalar $self->cache("body$name", sub {
+	scalar $self->cache("body($name)", sub {
 		my $json = $self->json->{bodies}{$name}
 			or croak "can't find body \"$name\"";
 		KSP::Body->new($json, $self)
