@@ -33,7 +33,7 @@ BEGIN {
 }
 
 use KSP::SolarSystem;
-my $SYSTEM;
+our $SYSTEM;
 our @BODY_NAMES = ();
 BEGIN {
 	$SYSTEM = KSP::SolarSystem->new();

@@ -24,7 +24,7 @@ sub asString($) {
 		. _encode($_->value())
 }
 
-my @ATTACH;
+our @ATTACH;
 BEGIN { @ATTACH = qw(stack SrfAttach allowStack allowSrfAttach allowCollision) }
 
 sub _comment($$) {
