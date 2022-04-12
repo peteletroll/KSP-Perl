@@ -117,6 +117,30 @@ sub visit($$) {
 	$_->visit($sub) foreach @$n;
 }
 
+sub getnodes($$;$) {
+	my ($self, $name, $valname, $value) = @_;
+	$_ = matcher($_) foreach $name, $valname, $value;
+	my @ret = ();
+	foreach ($self->nodes) {
+		if ($name) {
+			defined $_->name && $_->name =~ $name
+				or next;
+		}
+		if ($valname) {
+			my $found = undef;
+			foreach my $v ($_->values) {
+				$v->name =~ $valname or next;
+				$value and ($v->value =~ $value or next);
+				$found = $v;
+				last;
+			}
+			$found or next;
+		}
+		push @ret, $_;
+	}
+	wantarray ? @ret : $ret[0]
+}
+
 sub find($$;$) {
 	my ($self, $name, $valname, $value) = @_;
 	$_ = matcher($_) foreach $name, $valname, $value;
