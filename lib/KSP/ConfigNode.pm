@@ -100,6 +100,17 @@ sub nodes($) {
 	$n ? @$n : ()
 }
 
+sub stat($) {
+	my ($self) = @_;
+	my ($nodes, $values) = (0, 0);
+	$self->visit(sub {
+		$nodes++;
+		my $v = $_->_values;
+		$v and $values += scalar @$v;
+	});
+	+{ nodes => $nodes, values => $values }
+}
+
 sub set($$@) {
 	my ($self, $name, @values) = @_;
 	my $v = $self->_values;
