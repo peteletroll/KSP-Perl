@@ -225,7 +225,7 @@ sub _parser() {
 			),
 			EV{
 				my ($n, $v) = ($_[2][0], $_[2][1]);
-				eval { $v->set_name($n) };
+				$v->set_name($n);
 				$v
 			},
 		),
