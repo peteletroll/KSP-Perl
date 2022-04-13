@@ -13,11 +13,12 @@ use KSP::ConfigValue;
 
 use KSP::Util qw(matcher);
 
-use Scalar::Util qw(weaken isweak);
+use Scalar::Util qw(weaken isweak refaddr);
 
 use overload
 	fallback => 0,
 	bool => sub { $_[0] },
+	'==' => sub { refaddr($_[0]) == (refaddr($_[1]) || 0) },
 	'""' => sub { $_[0]->asString(1) };
 
 our $FIXENCODING = 0;
@@ -229,8 +230,18 @@ sub _parser() {
 
 		assign => SEQ(
 			qr{([\+\-\*\/\!\^]?=)}, # this must be coherent with "lstring" regexp
-			\"rstring",
-			EV{ KSP::ConfigValue->new($_[2][0], undef, $_[2][1]) },
+			qr{(
+				(?:
+					[^\n\{\}\/]+
+					|
+					\/(?!\/)
+				)*
+			)}x,
+			EV{
+				my $s = $_[2][1];
+				$s =~ s/\s+$//;
+				KSP::ConfigValue->new($_[2][0], undef, _decode($s))
+			}
 		),
 
 		lstring => SEQ(
@@ -241,20 +252,6 @@ sub _parser() {
 					\/(?![\/=])
 					|
 					[\+\-\*\!\^](?!=) # this must be coherent with "assign" regexp
-				)*
-			)}x,
-			EV{
-				my $s = $_[2][0];
-				$s =~ s/\s+$//;
-				_decode($s)
-			}
-		),
-		rstring => SEQ(
-			qr{(
-				(?:
-					[^\n\{\}\/]+
-					|
-					\/(?!\/)
 				)*
 			)}x,
 			EV{
