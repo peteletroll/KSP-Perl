@@ -93,7 +93,7 @@ foreach my $b (@bodies) {
 			$_->get("rotationPeriod") and $j->{rotation}{rotationPeriod} = 0 + $_->get("rotationPeriod")
 				or ($_->get("tidallyLocked") || "") =~ /true/i and $j->{rotation}{tidallyLocked} = JSON::true;
 		} elsif ($p eq "Body" && $n eq "Atmosphere") {
-			$j->{atmosphere}{atmosphereDepth} = 0 + ($_->get("maxAltitude") || 0);
+			$j->{atmosphere}{atmosphereDepth} = 0 + ($_->get("maxAltitude") || $_->get("altitude") || 0);
 			$j->{atmosphere}{atmosphereContainsOxygen} = ($_->get("oxygen") || "") =~ /true/i ?
 				JSON::true : JSON::false;
 		}
