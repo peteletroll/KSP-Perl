@@ -80,6 +80,7 @@ foreach my $b (@bodies) {
 			$_->get("radius") and $j->{size}{radius} = 0 + $_->get("radius");
 			$_->get("mass") and $j->{size}{mass} = 0 + $_->get("mass");
 			$_->get("gravParameter") and $j->{size}{mu} = 0 + $_->get("gravParameter");
+			$_->get("geeASL") and $j->{size}{g0} = 9.81 * $_->get("geeASL");
 			$_->get("timewarpAltitudeLimits") and $j->{info}{timeWarpAltitudeLimits} = [
 				map { 0 + $_ }
 				split(/\s+/, $_->get("timewarpAltitudeLimits"))
