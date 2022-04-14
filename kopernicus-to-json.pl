@@ -14,6 +14,12 @@ use KSP;
 
 binmode \*STDOUT, ":utf8";
 
+my %rename = ();
+while (@ARGV > 1 && $ARGV[0] =~ /^(\w+)=(\w+)$/) {
+	$rename{$1} = $2;
+	shift;
+}
+
 @ARGV == 1 && -d $ARGV[0] or die "usage: $0 <directory>";
 my $DIR = $ARGV[0];
 
@@ -53,7 +59,6 @@ find {
 # print KSP::ConfigNode->new("bodies", @bodies)->asString, "\n";
 
 my $rootBody = undef;
-my %rename = (Sun => "Sol");
 my %bodiesJson = ();
 foreach my $b (@bodies) {
 	my $name = $b->get("name") or die "NO NAME: ", $b->asString, "\n";
@@ -72,7 +77,7 @@ foreach my $b (@bodies) {
 			$j->{orbit}{inclinationDeg} = 0 + $_->get("inclination");
 			$j->{orbit}{longitudeOfAscendingNodeDeg} = 0 + $_->get("longitudeOfAscendingNode");
 			$j->{orbit}{argumentOfPeriapsisDeg} = 0 + $_->get("argumentOfPeriapsis");
-			$j->{orbit}{meanAnomalyAtEpochDeg} = 0 + $_->get("meanAnomalyAtEpochD");
+			$j->{orbit}{meanAnomalyAtEpochDeg} = 0 + ($_->get("meanAnomalyAtEpochD") || 0);
 			foreach (keys %{$j->{orbit}}) {
 				/^(.*)Deg$/ and $j->{orbit}{"${1}Rad"} = deg2rad $j->{orbit}{$_};
 			}
@@ -80,6 +85,7 @@ foreach my $b (@bodies) {
 			$_->get("radius") and $j->{size}{radius} = 0 + $_->get("radius");
 			$_->get("mass") and $j->{size}{mass} = 0 + $_->get("mass");
 			$_->get("gravParameter") and $j->{size}{mu} = 0 + $_->get("gravParameter");
+			$_->get("geeASL") and $j->{size}{g0} = 9.81 * $_->get("geeASL");
 			$_->get("timewarpAltitudeLimits") and $j->{info}{timeWarpAltitudeLimits} = [
 				map { 0 + $_ }
 				split(/\s+/, $_->get("timewarpAltitudeLimits"))
@@ -87,8 +93,8 @@ foreach my $b (@bodies) {
 			$_->get("rotationPeriod") and $j->{rotation}{rotationPeriod} = 0 + $_->get("rotationPeriod")
 				or ($_->get("tidallyLocked") || "") =~ /true/i and $j->{rotation}{tidallyLocked} = JSON::true;
 		} elsif ($p eq "Body" && $n eq "Atmosphere") {
-			$j->{atmosphere}{atmosphereDepth} = 0 + $_->get("maxAltitude");
-			$j->{atmosphere}{atmosphereContainsOxygen} = $_->get("oxygen") =~ /true/i ?
+			$j->{atmosphere}{atmosphereDepth} = 0 + ($_->get("maxAltitude") || $_->get("altitude") || 0);
+			$j->{atmosphere}{atmosphereContainsOxygen} = ($_->get("oxygen") || "") =~ /true/i ?
 				JSON::true : JSON::false;
 		}
 	});
