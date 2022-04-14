@@ -14,6 +14,12 @@ use KSP;
 
 binmode \*STDOUT, ":utf8";
 
+my %rename = ();
+while (@ARGV > 1 && $ARGV[0] =~ /^(\w+)=(\w+)$/) {
+	$rename{$1} = $2;
+	shift;
+}
+
 @ARGV == 1 && -d $ARGV[0] or die "usage: $0 <directory>";
 my $DIR = $ARGV[0];
 
@@ -53,7 +59,6 @@ find {
 # print KSP::ConfigNode->new("bodies", @bodies)->asString, "\n";
 
 my $rootBody = undef;
-my %rename = (Sun => "Sol");
 my %bodiesJson = ();
 foreach my $b (@bodies) {
 	my $name = $b->get("name") or die "NO NAME: ", $b->asString, "\n";
