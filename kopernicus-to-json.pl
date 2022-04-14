@@ -72,7 +72,7 @@ foreach my $b (@bodies) {
 			$j->{orbit}{inclinationDeg} = 0 + $_->get("inclination");
 			$j->{orbit}{longitudeOfAscendingNodeDeg} = 0 + $_->get("longitudeOfAscendingNode");
 			$j->{orbit}{argumentOfPeriapsisDeg} = 0 + $_->get("argumentOfPeriapsis");
-			$j->{orbit}{meanAnomalyAtEpochDeg} = 0 + $_->get("meanAnomalyAtEpochD");
+			$j->{orbit}{meanAnomalyAtEpochDeg} = 0 + ($_->get("meanAnomalyAtEpochD") || 0);
 			foreach (keys %{$j->{orbit}}) {
 				/^(.*)Deg$/ and $j->{orbit}{"${1}Rad"} = deg2rad $j->{orbit}{$_};
 			}
@@ -87,8 +87,8 @@ foreach my $b (@bodies) {
 			$_->get("rotationPeriod") and $j->{rotation}{rotationPeriod} = 0 + $_->get("rotationPeriod")
 				or ($_->get("tidallyLocked") || "") =~ /true/i and $j->{rotation}{tidallyLocked} = JSON::true;
 		} elsif ($p eq "Body" && $n eq "Atmosphere") {
-			$j->{atmosphere}{atmosphereDepth} = 0 + $_->get("maxAltitude");
-			$j->{atmosphere}{atmosphereContainsOxygen} = $_->get("oxygen") =~ /true/i ?
+			$j->{atmosphere}{atmosphereDepth} = 0 + ($_->get("maxAltitude") || 0);
+			$j->{atmosphere}{atmosphereContainsOxygen} = ($_->get("oxygen") || "") =~ /true/i ?
 				JSON::true : JSON::false;
 		}
 	});

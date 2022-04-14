@@ -19,6 +19,7 @@ use overload
 	fallback => 0,
 	bool => sub { $_[0] },
 	'==' => sub { refaddr($_[0]) == (refaddr($_[1]) || 0) },
+	'!=' => sub { refaddr($_[0]) != (refaddr($_[1]) || 0) },
 	'""' => sub { $_[0]->asString(1) };
 
 our $FIXENCODING = 0;
