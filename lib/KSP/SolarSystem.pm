@@ -136,7 +136,6 @@ sub _mod($$) {
 
 sub _unpack($) {
 	my ($self, $ut) = @_;
-	$ut >= 0 or die "can't _unpack() negative values";
 
 	my $y = _mod($ut, $self->secs_per_year);
 
