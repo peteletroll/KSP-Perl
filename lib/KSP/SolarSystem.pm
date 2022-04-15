@@ -166,14 +166,41 @@ sub pretty_date {
 	sprintf "Year %d, Day %d, %d:%02d:%06.3f", @t
 }
 
-sub pretty_interval($) {
-	my ($self, $ut) = @_;
-	my @t = $self->_unpack($ut);
-	# full spec is '%1$dy %2$dd %3$d:%4$02d:%5$06.3f'
-	$t[0] ? sprintf '%1$dy %2$dd %3$d:%4$02d', @t :
-	$t[1] ? sprintf '%2$dd %3$d:%4$02d:%5$02.0f', @t :
-	$t[2] ? sprintf '%3$d:%4$02d:%5$02d', @t :
-	sprintf '%4$02d:%5$06.3f', @t
+sub pretty_interval {
+	my ($self, $ut, $items) = @_;
+	$items ||= 2;
+	my ($y, $d, $h, $m, $s) = $self->_unpack($ut);
+	my @ret = ();
+
+	if ($y) {
+		push @ret, sprintf '%dy', $y;
+		@ret < $items or goto end;
+	}
+
+	if (@ret || $d) {
+		@ret and $ret[-1] .= " ";
+		push @ret, sprintf '%dd', $d;
+		@ret < $items or goto end;
+	}
+
+	if (@ret || $h || $m) {
+		@ret and $ret[-1] .= " ";
+		push @ret, sprintf '%dh%02d', $h, $m;
+		@ret < $items or goto end;
+	}
+
+	if (@ret || $s) {
+		$s = sprintf(($items - @ret > 1 ? '%5.3fs' : '%ds'), $s);
+		if (@ret) {
+			push @ret, sprintf ' %s', $s;
+		} else {
+			push @ret, sprintf '%s', $s;
+		}
+		@ret < $items or goto end;
+	}
+
+	end:
+	join("", @ret);
 }
 
 sub desc {
