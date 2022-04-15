@@ -136,6 +136,7 @@ sub _mod($$) {
 
 sub _unpack($) {
 	my ($self, $ut) = @_;
+	$ut >= 0 or die "can't _unpack() negative values";
 
 	my $y = _mod($ut, $self->secs_per_year);
 
@@ -169,6 +170,10 @@ sub pretty_date {
 sub pretty_interval {
 	my ($self, $ut, $items) = @_;
 	$items ||= 2;
+
+	my $sign = "";
+	$ut >= 0 or ($ut, $sign) = (-$ut, "-");
+
 	my ($y, $d, $h, $m, $s) = $self->_unpack($ut);
 	my @ret = ();
 
@@ -200,7 +205,7 @@ sub pretty_interval {
 	}
 
 	end:
-	join("", @ret);
+	join("", $sign, @ret)
 }
 
 sub desc {
