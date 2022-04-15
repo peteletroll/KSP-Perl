@@ -244,7 +244,7 @@ sub rocInfoInv {
 
 sub veq {
 	my ($self) = @_;
-	2 * pi * $self->radius / $self->rotationPeriod
+	2 * pi * $self->radius / $self->siderealDay
 }
 
 sub g0 {
@@ -270,7 +270,7 @@ sub dvLanding {
 	$dvGraph->graph->{"$name/LO"}->{$name}
 }
 
-sub rotationPeriod {
+sub siderealDay {
 	my ($self) = @_;
 	$self->json->{rotation}{tidallyLocked} ?
 		$self->orbit->T :
@@ -322,7 +322,7 @@ sub lowOrbit {
 
 sub syncOrbit {
 	my ($self) = @_;
-	KSP::Orbit2D->new($self, T => $self->rotationPeriod, e => 0)
+	KSP::Orbit2D->new($self, T => $self->siderealDay, e => 0)
 }
 
 sub highOrbit {
@@ -347,8 +347,8 @@ sub desc {
 	push @d, "r " . U($self->radius) . "m";
 	push @d, "g₀ " . U($self->g0) . "m/s²";
 	push @d, "soi " . U($self->SOI) . "m" if $self->SOI;
-	push @d, "rot " . $self->system->pretty_interval($self->rotationPeriod)
-		if $self->rotationPeriod;
+	push @d, "rot " . $self->system->pretty_interval($self->siderealDay)
+		if $self->siderealDay;
 	$self->name . "[ " . join("; ", @d) . " ]"
 }
 
