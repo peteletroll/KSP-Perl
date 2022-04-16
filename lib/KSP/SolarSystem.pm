@@ -189,17 +189,15 @@ sub pretty_interval {
 
 	if (@ret || $h || $m) {
 		@ret and $ret[-1] .= " ";
-		push @ret, sprintf '%dh%02d', $h, $m;
+		push @ret, sprintf '%d:%02d', $h, $m;
 		@ret < $items or goto end;
 	}
 
 	if (@ret || $s) {
-		$s = sprintf(($items - @ret > 1 ? '%5.3fs' : '%ds'), $s);
-		if (@ret) {
-			push @ret, sprintf ' %s', $s;
-		} else {
-			push @ret, sprintf '%s', $s;
-		}
+		@ret and $ret[-1] .= ":";
+		$s = sprintf(($items - @ret > 1 ? '%5.3f' : '%d'), $s);
+		@ret or $s .= "s";
+		push @ret, $s;
 		@ret < $items or goto end;
 	}
 
