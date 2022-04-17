@@ -18,6 +18,7 @@ lib/KSP/Util.pm
 lib/KSP/DeltaVGraph.pm
 lib/KSP/TinyParser.pm
 lib/KSP/TinyStruct.pm
+lib/KSP/Timer.pm
 Makefile.PL
 MANIFEST
 README
