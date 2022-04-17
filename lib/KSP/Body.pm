@@ -219,9 +219,11 @@ sub anomalies {
 sub _anomalies_list {
 	my ($self) = @_;
 	wantarray or croak __PACKAGE__ . "::_anomalies_list() wants list context";
-	sort { $b->lat <=> $a->lat }
+	$self->cache("anomalies", sub {
+		sort { $b->lat <=> $a->lat }
 		map { KSP::Anomaly->new($self, $_) }
 		@{$self->json->{anomalies}}
+	})
 }
 
 sub rocInfo {
