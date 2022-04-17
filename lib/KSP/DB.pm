@@ -10,7 +10,7 @@ use File::Find;
 use File::Spec;
 use Cwd;
 
-use Time::HiRes qw(time);
+use KSP::Timer qw(timer);
 
 use KSP::ConfigNode;
 
@@ -19,13 +19,13 @@ our $DB;
 sub root {
 	$DB and return $DB;
 
-	my $time = time;
-
 	my $KSPHOME = $ENV{KSPHOME};
 	defined $KSPHOME or croak "no \$KSPHOME environment variable";
 	$KSPHOME = Cwd::realpath($KSPHOME);
 	$KSPHOME =~ s{(\/*|\/+\.)$}{/.};
 	-d $KSPHOME or croak "$KSPHOME is not a directory";
+
+	my $timer = timer->start;
 
 	my $db = KSP::ConfigNode->new(__PACKAGE__);
 	find({
@@ -42,8 +42,7 @@ sub root {
 		}
 	}, "$KSPHOME/.");
 
-	$time = time - $time;
-	warn sprintf "# %s loaded in %1.3f s\n", __PACKAGE__, $time;
+	warn sprintf "# %s loaded in %1.3f s\n", __PACKAGE__, $timer->read;
 
 	$DB = $db
 }
