@@ -10,14 +10,14 @@ use overload
 	bool => sub { $_[0] },
 	'""' => \&asString;
 
-sub addTo($$) {
+sub addTo {
 	my ($self, $node) = @_;
 	my $l = $node->_values() || $node->set__values([ ]);
 	push @$l, $self;
 	$self
 }
 
-sub asString($) {
+sub asString {
 	my ($self) = @_;
 	_encode($_->name()) . " "
 		. $_->op() . " "
@@ -27,7 +27,7 @@ sub asString($) {
 our @ATTACH;
 BEGIN { @ATTACH = qw(stack SrfAttach allowStack allowSrfAttach allowCollision) }
 
-sub _comment($$) {
+sub _comment {
 	my ($self) = @_;
 	my $name = $self->name();
 	my $value = $self->value();

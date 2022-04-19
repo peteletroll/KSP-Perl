@@ -31,7 +31,7 @@ sub BUILD($$) {
 	$self
 }
 
-sub addTo($$) {
+sub addTo {
 	my ($self, $node) = @_;
 	my $l = $node->_nodes() || $node->set__nodes([ ]);
 	push @$l, $self;
@@ -42,7 +42,7 @@ sub addTo($$) {
 	$self
 }
 
-sub gulp($@) {
+sub gulp {
 	my $self = shift;
 	# warn "GULP INTO " . $self->name . "\n";
 	foreach my $node (@_) {
@@ -52,7 +52,7 @@ sub gulp($@) {
 	$self
 }
 
-sub load($$) {
+sub load {
 	my ($pkg, $file) = @_;
 	my $stdin = 0;
 	if ($file eq "-") {
@@ -81,27 +81,27 @@ sub load($$) {
 	$ret
 }
 
-sub get($$) {
+sub get {
 	my ($self, $name) = @_;
 	my @ret = map { $_->value } _elt($self->_values(), $name);
 	wantarray ? @ret : $ret[0]
 }
 
-sub values($) {
+sub values {
 	my ($self) = @_;
 	wantarray or croak "values() wants list context";
 	my $v = $self->_values;
 	$v ? @$v : ()
 }
 
-sub nodes($) {
+sub nodes {
 	my ($self) = @_;
 	wantarray or croak "nodes() wants list context";
 	my $n = $self->_nodes;
 	$n ? @$n : ()
 }
 
-sub stat($) {
+sub stat {
 	my ($self) = @_;
 	my ($nodes, $values) = (0, 0);
 	$self->visit(sub {
@@ -112,7 +112,7 @@ sub stat($) {
 	+{ nodes => $nodes, values => $values }
 }
 
-sub set($$@) {
+sub set {
 	my ($self, $name, @values) = @_;
 	my $v = $self->_values;
 	@$v = grep { $_->name ne $name } @$v if $v;
@@ -122,7 +122,7 @@ sub set($$@) {
 	$self
 }
 
-sub visit($$) {
+sub visit {
 	my ($self, $sub) = @_;
 	local $_ = $self;
 	$sub->();
@@ -130,7 +130,7 @@ sub visit($$) {
 	$_->visit($sub) foreach @$n;
 }
 
-sub getnodes($$;$) {
+sub getnodes {
 	my ($self, $name, $valname, $value) = @_;
 	$_ = matcher($_) foreach $name, $valname, $value;
 	my @ret = ();
@@ -154,7 +154,7 @@ sub getnodes($$;$) {
 	wantarray ? @ret : $ret[0]
 }
 
-sub find($$;$) {
+sub find {
 	my ($self, $name, $valname, $value) = @_;
 	$_ = matcher($_) foreach $name, $valname, $value;
 	my @ret = ();
@@ -176,7 +176,7 @@ sub find($$;$) {
 	wantarray ? @ret : $ret[0]
 }
 
-sub delete($) {
+sub delete {
 	my ($self) = @_;
 	my $parent = $self->parent;
 	$_ = undef foreach @$self;
@@ -188,7 +188,7 @@ sub delete($) {
 	}
 }
 
-sub parse_string($$) {
+sub parse_string {
 	my ($pkg, $str) = @_;
 	_parser()->parse(start => $str)
 }

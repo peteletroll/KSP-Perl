@@ -73,7 +73,7 @@ sub bodyPrefixMatchers {
 	})
 }
 
-sub body($$) {
+sub body {
 	my ($self, $name) = @_;
 	ref $self or Carp::confess "no ref here";
 	scalar $self->cache("body($name)", sub {
@@ -134,7 +134,7 @@ sub _mod($$) {
 	$ret
 }
 
-sub _unpack($) {
+sub _unpack {
 	my ($self, $ut) = @_;
 
 	my $y = _mod($ut, $self->secs_per_year);
@@ -148,7 +148,7 @@ sub _unpack($) {
 	($y, $d, $h, $m, $s)
 }
 
-sub _pack(@) {
+sub _pack {
 	my ($self, $y, $d, $h, $m, $s) = @_;
 
 	$y * $self->secs_per_year

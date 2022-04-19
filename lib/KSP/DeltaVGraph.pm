@@ -77,7 +77,7 @@ sub BUILD {
 	$self
 }
 
-sub add_path($@) {
+sub add_path {
 	my $self = shift;
 	my $node = shift;
 	my $graph = $self->graph;
@@ -96,7 +96,7 @@ sub add_aerobrake_path {
 	$self->add_path($node, map { ($_ => 1) } @nodes)
 }
 
-sub fill_graph() {
+sub fill_graph {
 	my ($self) = @_;
 	my $graph = $self->graph;
 	foreach my $body1 (keys %$graph) {
@@ -107,7 +107,7 @@ sub fill_graph() {
 	}
 }
 
-sub dijkstra_graph($) {
+sub dijkstra_graph {
 	my ($self, $from) = @_;
 	my $graph = $self->graph;
 	exists $graph->{$from} or die "$0: unknown node $from\n";

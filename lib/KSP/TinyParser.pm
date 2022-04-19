@@ -26,7 +26,7 @@ sub _tag($;$);
 our $TRACE = 0;
 our $LEVEL = 0;
 
-sub new($@) {
+sub new {
 	my $pkg = shift;
 	my $ret = (@_ == 1 && ref $_[0] eq "HASH") ? { %{$_[0]} } : { @_ };
 
@@ -269,7 +269,7 @@ sub _tag($;$) {
 	$sub
 }
 
-sub parse($$$) {
+sub parse {
 	my $self = shift;
 
 	my $startrule = shift;
