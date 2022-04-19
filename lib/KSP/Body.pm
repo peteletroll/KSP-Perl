@@ -284,8 +284,7 @@ sub solarDayLength {
 }
 
 sub maxGroundHeight {
-	my ($self) = @_;
-	$self->json->{size}{maxHeight} || 0
+	$_[0]->json->{size}{maxHeight} || 0
 }
 
 sub lowHeight {
