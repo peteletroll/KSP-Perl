@@ -10,6 +10,7 @@ use File::Find;
 use File::Spec;
 use Cwd;
 
+use KSP::Util qw(U);
 use KSP::StopWatch qw(stopwatch);
 
 use KSP::ConfigNode;
@@ -25,6 +26,7 @@ sub root {
 	$KSPHOME =~ s{(\/*|\/+\.)$}{/.};
 	-d $KSPHOME or croak "$KSPHOME is not a directory";
 
+	my $bytes = 0;
 	my $stopwatch = stopwatch->start;
 
 	my $db = KSP::ConfigNode->new(__PACKAGE__);
@@ -35,6 +37,7 @@ sub root {
 			-d $_ && $_ eq "zDeprecated" and $File::Find::prune = 1;
 			-f $_ && (/\.cfg$/i)
 				or return;
+			$bytes += -s $_;
 			my $cfg = KSP::ConfigNode->load($_);
 			my $src = File::Spec->abs2rel($_, $KSPHOME);
 			$cfg->visit(sub { $_->set_src($src) });
@@ -42,7 +45,12 @@ sub root {
 		}
 	}, "$KSPHOME/.");
 
-	warn sprintf "# %s loaded in %1.3f s\n", __PACKAGE__, $stopwatch->read;
+	my $time = $stopwatch->stop->read;
+	warn sprintf "# %s loaded %sB in %ss, %sB/s\n",
+		__PACKAGE__,
+		U($bytes),
+		U($time),
+		($time ? U($bytes / $time) : "∞");
 
 	$DB = $db
 }
