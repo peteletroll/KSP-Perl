@@ -42,11 +42,11 @@ sub desc {
 	scalar $self->cache("desc", sub {
 		my $wm = $self->wetMass;
 		my $dm = $self->dryMass;
-		my $ret = $self->name . "[";
+		my $ret = $self->name . "[ ";
 		my $t = $self->title;
 		$ret .= "$t; " if defined $t;
 		$ret .= U(1000 * $wm) . "g / " if $wm > $dm;
-		$ret .= U(1000 * $dm) . "g]";
+		$ret .= U(1000 * $dm) . "g ]";
 		$ret
 	})
 }

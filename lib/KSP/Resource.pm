@@ -31,7 +31,7 @@ sub _load() {
 
 sub desc {
 	my ($self) = @_;
-	$self->name . "[" . U(1000 * $self->unitMass) . "g/unit]"
+	$self->name . "[ " . U(1000 * $self->unitMass) . "g/u ]"
 }
 
 sub all {
