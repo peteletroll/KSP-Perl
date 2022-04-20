@@ -18,7 +18,6 @@ sub BUILD {
 }
 
 use overload
-	fallback => 1,
 	'""' => \&desc;
 
 sub name {

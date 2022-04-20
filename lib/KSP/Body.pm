@@ -22,6 +22,9 @@ proxy("KSP::Course" => sub { KSP::Course->new($_->lowOrbit) });
 
 use KSP::TinyStruct qw(json system +KSP::Cache);
 
+use overload
+	'""' => \&desc;
+
 sub BUILD {
 	my ($self, $json, $system) = @_;
 	ref $json eq "HASH" or croak "hash needed here";
@@ -37,12 +40,6 @@ sub BUILD {
 	}
 	$self
 }
-
-use overload
-	fallback => 1,
-	'==' => sub { $_[0]->name eq ($_[1] ? $_[1]->name : "") },
-	'!=' => sub { $_[0]->name ne ($_[1] ? $_[1]->name : "") },
-	'""' => \&desc;
 
 sub name {
 	$_[0]->json->{info}{name}

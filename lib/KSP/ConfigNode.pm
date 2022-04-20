@@ -16,7 +16,6 @@ use KSP::Util qw(matcher);
 use Scalar::Util qw(weaken isweak refaddr);
 
 use overload
-	fallback => 0,
 	bool => sub { $_[0] },
 	'==' => sub { refaddr($_[0]) == (refaddr($_[1]) || 0) },
 	'!=' => sub { refaddr($_[0]) != (refaddr($_[1]) || 0) },

@@ -11,9 +11,6 @@ use KSP::ConfigNode;
 use KSP::TinyStruct qw(name node +KSP::Cache);
 
 use overload
-	fallback => 1,
-	'==' => sub { $_[0]->name eq ($_[1] ? $_[1]->name : "") },
-	'!=' => sub { $_[0]->name ne ($_[1] ? $_[1]->name : "") },
 	'""' => "desc";
 
 sub BUILD {

@@ -6,7 +6,6 @@ use warnings;
 use KSP::TinyStruct qw(op name value);
 
 use overload
-	fallback => 0,
 	bool => sub { $_[0] },
 	'""' => \&asString;
 

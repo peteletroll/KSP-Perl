@@ -20,8 +20,7 @@ BEGIN {
 }
 
 use overload
-	fallback => 1,
-	bool => sub { 1 },
+	bool => sub { $_[0] },
 	'0+' => \&read,
 	'""' => sub {
 		my ($t) = @_;

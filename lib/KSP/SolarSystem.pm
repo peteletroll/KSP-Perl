@@ -13,6 +13,9 @@ use JSON;
 
 use KSP::TinyStruct qw(name json systemG +KSP::Cache);
 
+use overload
+	'""' => \&desc;
+
 sub BUILD {
 	my ($self, $name) = @_;
 	defined $name or $name = "SolarSystemDump";
@@ -26,9 +29,6 @@ sub BUILD {
 	$self->set_json(decode_json($cnt));
 	$self
 }
-
-use overload
-	'""' => \&desc;
 
 sub secs_per_year {
 	my ($self) = @_;
