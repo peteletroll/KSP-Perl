@@ -100,16 +100,12 @@ sub import_bodies {
 	my $tgt = (caller(0))[0];
 	defined $tgt or return;
 	# warn "BODIES INTO $tgt\n";
-	my $ret = 0;
 	foreach ($self->body_names()) {
 		/^\w+$/ or die "bad name \"$_\"";
-		my $name = $_;
-		$ret++;
+		my $body = $self->body($_);
 		no strict "refs";
-		my $ret = undef;
-		*{"${tgt}::${name}"} = sub { $ret ||= $self->body($name) };
+		*{"${tgt}::$_"} = sub { $body };
 	}
-	$ret
 }
 
 sub dvGraph {
