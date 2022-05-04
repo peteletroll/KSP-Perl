@@ -99,8 +99,18 @@ sub proxy($$@) {
 }
 
 sub deparse($) {
-	require B::Deparse;
-	print "sub ", B::Deparse->new->coderef2text($_[0]), "\n";
+	my ($sub) = @_;
+	my $out = undef;
+	if (eval { require Data::Dump::Streamer; 1 }) {
+		my $dds = Data::Dump::Streamer->new;
+		$dds->Freezer(sub { "$_[0]" });
+		$dds->Data($sub);
+		$out = $dds->Out;
+	} else {
+		require B::Deparse;
+		$out = "sub " . B::Deparse->new->coderef2text($_[0]) . "\n";
+	}
+	print $out;
 	()
 }
 
