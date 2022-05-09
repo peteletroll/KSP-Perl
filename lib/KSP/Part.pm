@@ -52,7 +52,7 @@ sub desc {
 }
 
 sub all {
-	wantarray or croak __PACKAGE__ . "::all() wants list context";
+	wantarray or croak __PACKAGE__, "::all() wants list context";
 	_load();
 	@PART
 
@@ -90,7 +90,7 @@ sub dryMass {
 
 sub modules {
 	my ($self) = @_;
-	wantarray or croak __PACKAGE__ . "::modules() wants list context";
+	wantarray or croak __PACKAGE__, "::modules() wants list context";
 	$self->cache("modules", sub {
 		sort map { $_->get("name") } $self->node->getnodes("MODULE");
 	})
@@ -107,7 +107,7 @@ sub propellant {
 
 sub propellants {
 	my ($self) = @_;
-	wantarray or croak __PACKAGE__ . "::modules() wants list context";
+	wantarray or croak __PACKAGE__, "::modules() wants list context";
 	$self->cache("propellants", sub {
 		sort map { $_->get("name") }
 			map { $_->getnodes("PROPELLANT") }
@@ -125,7 +125,7 @@ sub module {
 
 sub resources {
 	my ($self) = @_;
-	wantarray or croak __PACKAGE__ . "::resources() wants list context";
+	wantarray or croak __PACKAGE__, "::resources() wants list context";
 	$self->cache("resources", sub {
 		sort map { $_->get("name") } $self->node->getnodes("RESOURCE", maxAmount => qr/./);
 	})

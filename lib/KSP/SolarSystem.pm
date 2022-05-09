@@ -57,14 +57,14 @@ sub G {
 
 sub bodies {
 	my ($self, $unsorted) = @_;
-	wantarray or croak __PACKAGE__, "->bodies() wants list context";
+	wantarray or croak __PACKAGE__, "::bodies() wants list context";
 	my @ret = map { $self->body($_) } keys %{$self->json->{bodies}};
 	$unsorted ? @ret : sort { $a->_sortkey <=> $b->_sortkey } @ret
 }
 
 sub bodyPrefixMatchers {
 	my ($self) = @_;
-	wantarray or croak __PACKAGE__, "->bodyPrefixMatchers() wants list context";
+	wantarray or croak __PACKAGE__, "::bodyPrefixMatchers() wants list context";
 	$self->cache("bodyPrefixMatchers", sub {
 		map { qr/^(\Q$_\E)(.+)/ }
 			sort { length $b <=> length $a || $a cmp $b }
@@ -91,7 +91,7 @@ sub root {
 sub body_names {
 	my ($self) = @_;
 	ref $self eq __PACKAGE__ or Carp::confess __PACKAGE__, " needed here";
-	wantarray or croak __PACKAGE__, "->body_names() wants list context";
+	wantarray or croak __PACKAGE__, "::body_names() wants list context";
 	keys %{$self->json->{bodies}}
 }
 

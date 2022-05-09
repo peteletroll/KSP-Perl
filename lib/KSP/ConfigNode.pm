@@ -88,14 +88,14 @@ sub get {
 
 sub values {
 	my ($self) = @_;
-	wantarray or croak "values() wants list context";
+	wantarray or croak __PACKAGE__, "::values() wants list context";
 	my $v = $self->_values;
 	$v ? @$v : ()
 }
 
 sub nodes {
 	my ($self) = @_;
-	wantarray or croak "nodes() wants list context";
+	wantarray or croak __PACKAGE__, "::nodes() wants list context";
 	my $n = $self->_nodes;
 	$n ? @$n : ()
 }

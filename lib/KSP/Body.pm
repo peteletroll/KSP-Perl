@@ -94,7 +94,7 @@ sub parent {
 
 sub children {
 	my ($self) = @_;
-	wantarray or croak __PACKAGE__ . "::children() wants list context";
+	wantarray or croak __PACKAGE__, "::children() wants list context";
 	my $c = $self->json->{info}{orbitingBodies} or return ();
 	_sort(map { $self->system->body($_) } @$c)
 }
@@ -115,7 +115,7 @@ sub commonAncestor {
 
 sub pathToRoot {
 	my ($self) = @_;
-	wantarray or croak "pathToRoot() wants list context";
+	wantarray or croak __PACKAGE__, "::pathToRoot() wants list context";
 	my @ret = ();
 	while ($self) {
 		push @ret, $self;
@@ -196,7 +196,7 @@ sub miniBiomes {
 
 sub biomeSuffixMatchers {
 	my ($self) = @_;
-	wantarray or croak __PACKAGE__, "->bodySuffixMatchers() wants list context";
+	wantarray or croak __PACKAGE__, "::bodySuffixMatchers() wants list context";
 	$self->cache("biomeSuffixMatchers", sub {
 		(map { qr/(.+)(\Q$_\E)$/ }
 			sort { length $b <=> length $a || $a cmp $b }
@@ -215,7 +215,7 @@ sub anomalies {
 
 sub _anomalies_list {
 	my ($self) = @_;
-	wantarray or croak __PACKAGE__ . "::_anomalies_list() wants list context";
+	wantarray or croak __PACKAGE__, "::_anomalies_list() wants list context";
 	$self->cache("anomalies", sub {
 		sort { $b->lat <=> $a->lat }
 		map { KSP::Anomaly->new($self, $_) }
