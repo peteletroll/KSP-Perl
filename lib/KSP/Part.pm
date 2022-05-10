@@ -52,9 +52,8 @@ sub desc {
 }
 
 sub all {
-	wantarray or croak __PACKAGE__, "::all() wants list context";
 	_load();
-	@PART
+	wantarray ? @PART : scalar @PART
 
 }
 
