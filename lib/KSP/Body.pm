@@ -200,7 +200,8 @@ sub biomes {
 sub miniBiomes {
 	my ($self) = @_;
 	my $b = $self->json->{science} && $self->json->{science}{miniBiomes};
-	ref $b eq "ARRAY" ? sort @$b : ()
+	ref $b eq "ARRAY" or return wantarray ? () : 0;
+	wantarray ? sort @$b : scalar @$b
 }
 
 sub biomeSuffixMatchers {
