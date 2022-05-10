@@ -88,23 +88,16 @@ sub root {
 	$self->body($self->json->{rootBody})
 }
 
-sub body_names {
-	my ($self) = @_;
-	ref $self eq __PACKAGE__ or Carp::confess __PACKAGE__, " needed here";
-	wantarray or croak __PACKAGE__, "::body_names() wants list context";
-	keys %{$self->json->{bodies}}
-}
-
 sub import_bodies {
 	my ($self) = @_;
 	my $tgt = (caller(0))[0];
 	defined $tgt or return;
 	# warn "BODIES INTO $tgt\n";
-	foreach ($self->body_names()) {
-		/^\w+$/ or die "bad name \"$_\"";
-		my $body = $self->body($_);
+	foreach my $body ($self->bodies) {
+		my $name = $body->name;
+		$name =~ /^\w+$/ or die "bad name \"$name\"";
 		no strict "refs";
-		*{"${tgt}::$_"} = sub { $body };
+		*{"${tgt}::$name"} = sub { $body };
 	}
 }
 

@@ -37,7 +37,7 @@ our $SYSTEM;
 our @BODY_NAMES = ();
 BEGIN {
 	$SYSTEM = KSP::SolarSystem->new();
-	@BODY_NAMES = $SYSTEM->body_names();
+	@BODY_NAMES = map { $_->name } $SYSTEM->bodies;
 	$EXPORT_TAGS{bodies} = [ @BODY_NAMES ];
 	push @EXPORT_OK, @BODY_NAMES;
 	push @{$EXPORT_TAGS{all}}, @BODY_NAMES;
