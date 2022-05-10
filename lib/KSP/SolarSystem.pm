@@ -45,7 +45,7 @@ sub G {
 	my $G = $self->systemG;
 	unless ($G) {
 		my ($sum, $count) = (0, 0);
-		foreach my $b ($self->bodies) {
+		foreach my $b ($self->bodies(1)) {
 			my $G = $b->estimated_G;
 			$G and $sum += $G, $count++;
 		}
@@ -56,10 +56,13 @@ sub G {
 }
 
 sub bodies {
-	my ($self) = @_;
+	my ($self, $unsorted) = @_;
+	# $unsorted prevents an infinite recursion in G()
 	my @lst = keys %{$self->json->{bodies}};
 	wantarray or return scalar @lst;
-	sort { $a->_sortkey <=> $b->_sortkey } map { $self->body($_) } @lst
+	@lst = map { $self->body($_) } @lst;
+	$unsorted and return @lst;
+	sort { $a->_sortkey <=> $b->_sortkey } @lst
 }
 
 sub bodyPrefixMatchers {
