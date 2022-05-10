@@ -107,7 +107,7 @@ sub propellant {
 
 sub propellants {
 	my ($self) = @_;
-	wantarray or croak __PACKAGE__, "::modules() wants list context";
+	wantarray or croak __PACKAGE__, "::propellants() wants list context";
 	$self->cache("propellants", sub {
 		sort map { $_->get("name") }
 			map { $_->getnodes("PROPELLANT") }
