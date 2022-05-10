@@ -68,14 +68,19 @@ sub mass {
 
 sub mu {
 	my ($self) = @_;
-	my $mu = $self->json->{size}{mu};
-	defined $mu and return $mu;
-	my $mass = $self->json->{size}{mass};
-	defined $mass and return $self->json->{size}{mu} = $mass * $self->system->G;
-	my $g0 = $self->json->{size}{g0};
-	my $radius = $self->json->{size}{radius};
-	$g0 && $radius and return $self->json->{size}{mu} = $g0 * $radius * $radius;
-	confess "can't compute ", $self->name, " mu";
+	scalar $self->cache("mu", sub {
+		my $mu = $self->json->{size}{mu};
+		defined $mu and return $mu;
+
+		my $g0 = $self->json->{size}{g0};
+		my $radius = $self->json->{size}{radius};
+		$g0 && $radius and return $self->json->{size}{mu} = $g0 * $radius * $radius;
+
+		my $mass = $self->json->{size}{mass};
+		defined $mass and return $self->json->{size}{mu} = $mass * $self->system->G;
+
+		confess "can't compute ", $self->name, " mu";
+	})
 }
 
 sub estimated_G {
