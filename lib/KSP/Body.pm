@@ -94,9 +94,9 @@ sub parent {
 
 sub children {
 	my ($self) = @_;
-	wantarray or croak __PACKAGE__, "::children() wants list context";
-	my $c = $self->json->{info}{orbitingBodies} or return ();
-	_sort(map { $self->system->body($_) } @$c)
+	my $c = $self->json->{info}{orbitingBodies}
+		or return wantarray ? () : 0;
+	wantarray ? _sort(map { $self->system->body($_) } @$c) : scalar @$c
 }
 
 sub commonAncestor {
