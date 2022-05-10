@@ -51,19 +51,21 @@ sub radius {
 
 sub SOI {
 	my ($self) = @_;
-	$self->json->{size}{sphereOfInfluence} ||= do {
+	scalar $self->cache("SOI", sub {
+		my $soi = $self->json->{size}{sphereOfInfluence};
+		defined $soi and return $soi;
 		my $parent = $self->parent;
 		$parent ? $self->orbit->a * ($self->mass / $parent->mass) ** (2 / 5) : undef
-	}
+	})
 }
 
 sub mass {
 	my ($self) = @_;
-	my $mass = $self->json->{size}{mass};
-	defined $mass and return $mass;
-	my $mu = $self->mu;
-	defined $mu or confess "can't compute ", $self->name, " mass";
-	$self->json->{size}{mass} = $mu / $self->system->G
+	scalar $self->cache("mass", sub {
+		my $mass = $self->json->{size}{mass};
+		defined $mass and return $mass;
+		$self->mu / $self->system->G
+	})
 }
 
 sub mu {
@@ -74,10 +76,10 @@ sub mu {
 
 		my $g0 = $self->json->{size}{g0};
 		my $radius = $self->json->{size}{radius};
-		$g0 && $radius and return $self->json->{size}{mu} = $g0 * $radius * $radius;
+		$g0 && $radius and return $g0 * $radius * $radius;
 
 		my $mass = $self->json->{size}{mass};
-		defined $mass and return $self->json->{size}{mu} = $mass * $self->system->G;
+		defined $mass and return $mass * $self->system->G;
 
 		confess "can't compute ", $self->name, " mu";
 	})
@@ -163,16 +165,18 @@ sub hasDescendant {
 
 sub orbitNormal {
 	my ($self) = @_;
-	my $o = $self->json->{orbit} or return;
-	# https://en.wikipedia.org/wiki/Orbital_elements#Euler_angle_transformations
-	my $incl = $o->{inclinationRad};
-	my $longOfAN = $o->{longitudeOfAscendingNodeRad};
-	my $argOfPE = $o->{argumentOfPeriapsisRad};
-	V(
-		sin($incl) * sin($longOfAN),
-		-sin($incl) * cos($longOfAN),
-		cos($incl)
-	)
+	scalar $self->cache("orbitNormal", sub {
+		my $o = $self->json->{orbit} or return;
+		# https://en.wikipedia.org/wiki/Orbital_elements#Euler_angle_transformations
+		my $incl = $o->{inclinationRad};
+		my $longOfAN = $o->{longitudeOfAscendingNodeRad};
+		my $argOfPE = $o->{argumentOfPeriapsisRad};
+		V(
+			sin($incl) * sin($longOfAN),
+			-sin($incl) * cos($longOfAN),
+			cos($incl)
+		)
+	})
 }
 
 sub density {
