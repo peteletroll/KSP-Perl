@@ -35,10 +35,8 @@ sub desc {
 }
 
 sub all {
-	wantarray or croak __PACKAGE__, "::all() wants list context";
 	_load();
-	@RES
-
+	wantarray ? @RES : scalar @RES
 }
 
 sub get {
