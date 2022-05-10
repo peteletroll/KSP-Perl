@@ -99,6 +99,7 @@ sub import_bodies {
 		no strict "refs";
 		*{"${tgt}::$name"} = sub { $body };
 	}
+	()
 }
 
 sub dvGraph {
