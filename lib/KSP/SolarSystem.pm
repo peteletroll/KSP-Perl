@@ -11,7 +11,7 @@ use Carp;
 
 use JSON;
 
-use KSP::TinyStruct qw(name json systemG +KSP::Cache);
+use KSP::TinyStruct qw(name json +KSP::Cache);
 
 use overload
 	'""' => \&desc;
@@ -42,17 +42,14 @@ sub secs_per_day {
 
 sub G {
 	my ($self) = @_;
-	my $G = $self->systemG;
-	unless ($G) {
+	scalar $self->cache("G", sub {
 		my ($sum, $count) = (0, 0);
 		foreach my $b ($self->bodies(1)) {
 			my $G = $b->estimated_G;
 			$G and $sum += $G, $count++;
 		}
-		$G = $count ? $sum / $count : 6.67408e-11;
-		$self->set_systemG($G);
-	}
-	$G
+		$count ? $sum / $count : 6.67408e-11;
+	});
 }
 
 sub bodies {
