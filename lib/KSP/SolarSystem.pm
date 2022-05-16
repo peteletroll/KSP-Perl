@@ -48,7 +48,7 @@ sub G {
 			my $G = $b->estimated_G;
 			$G and $sum += $G, $count++;
 		}
-		$count ? $sum / $count : 6.67408e-11;
+		$count ? $sum / $count : 6.67390500451968e-11
 	});
 }
 
