@@ -71,12 +71,12 @@ sub mass {
 sub mu {
 	my ($self) = @_;
 	scalar $self->cache("mu", sub {
-		my $mu = $self->json->{size}{mu};
-		defined $mu and return $mu;
-
 		my $g0 = $self->json->{size}{g0};
 		my $radius = $self->json->{size}{radius};
 		$g0 && $radius and return $g0 * $radius * $radius;
+
+		my $mu = $self->json->{size}{mu};
+		defined $mu and return $mu;
 
 		my $mass = $self->json->{size}{mass};
 		defined $mass and return $mass * $self->system->G;
