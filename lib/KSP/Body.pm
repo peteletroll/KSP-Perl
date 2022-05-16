@@ -85,13 +85,6 @@ sub mu {
 	})
 }
 
-sub estimated_G {
-	my ($self) = @_;
-	my $mu = $self->json->{size}{mu};
-	my $mass = $self->json->{size}{mass};
-	$mu && $mass ? $mu / $mass : undef
-}
-
 sub parent {
 	my ($self) = @_;
 	my $o = $self->json->{orbit} or return undef;

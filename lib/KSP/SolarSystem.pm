@@ -11,7 +11,7 @@ use Carp;
 
 use JSON;
 
-use KSP::TinyStruct qw(name json +KSP::Cache);
+use KSP::TinyStruct qw(name json grav_const +KSP::Cache);
 
 use overload
 	'""' => \&desc;
@@ -27,6 +27,7 @@ sub BUILD {
 	my $cnt = <JSONDATA>;
 	close JSONDATA or die "can't close $json: $!";
 	$self->set_json(decode_json($cnt));
+	$self->set_grav_const(6.67430e-11);
 	$self
 }
 
@@ -40,17 +41,7 @@ sub secs_per_day {
 	$self->json->{timeUnits}{Day}
 }
 
-sub G {
-	my ($self) = @_;
-	scalar $self->cache("G", sub {
-		my ($sum, $count) = (0, 0);
-		foreach my $b ($self->bodies(1)) {
-			my $G = $b->estimated_G;
-			$G and $sum += $G, $count++;
-		}
-		$count ? $sum / $count : 6.67430e-11
-	});
-}
+sub G { $_[0]->grav_const }
 
 sub bodies {
 	my ($self, $unsorted) = @_;
