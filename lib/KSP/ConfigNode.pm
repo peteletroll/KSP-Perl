@@ -195,7 +195,7 @@ sub parse_string {
 our $_parser;
 our $COMMENT = qr{//[^\n]*};
 our $CR_OPT = qr/(?:\s+|$COMMENT)*/s;
-our $LSTRING = qr{\s*(
+our $LSTRING = qr{$CR_OPT(
 	(?:
 		[^\n=\{\}\+\-\*\/]+
 		|
@@ -237,9 +237,9 @@ sub _parser() {
 		),
 
 		group => SEQ(
-			qr/\s*\{/,
+			qr/$CR_OPT\{/,
 			\"stmts",
-			FIRST(qr/\s*\}/, ERR("} expected")),
+			FIRST(qr/$CR_OPT\}/, ERR("} expected")),
 			EV{ KSP::ConfigNode->new(undef, @{$_[2][1]}) }
 		),
 
