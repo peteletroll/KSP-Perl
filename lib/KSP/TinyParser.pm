@@ -45,7 +45,7 @@ sub REX($) {
 
 	my $sre = "$re";
 	$sre =~ s/^\(\?\^:(.*)\)$/$1/;
-	$sre =~ s/\\\n/\\n/gs;
+	$sre =~ s/\s+/ /gs;
 
 	$re = qr{\G$re};
 
