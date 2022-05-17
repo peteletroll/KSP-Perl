@@ -237,12 +237,10 @@ sub _parser() {
 		),
 
 		group => SEQ(
-			$CR_OPT,
-			"{",
+			qr/\s*\{/,
 			\"stmts",
-			$CR_OPT,
-			FIRST("}", ERR("} expected")),
-			EV{ KSP::ConfigNode->new(undef, @{$_[2][2]}) }
+			FIRST(qr/\s*\}/, ERR("} expected")),
+			EV{ KSP::ConfigNode->new(undef, @{$_[2][1]}) }
 		),
 
 		assign => SEQ(
