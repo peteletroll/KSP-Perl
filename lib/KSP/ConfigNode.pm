@@ -195,7 +195,7 @@ sub parse_string {
 our $_parser;
 our $COMMENT = qr{//[^\n]*};
 our $CR_OPT = qr/(?:\s+|$COMMENT)*/s;
-our $LSTRING = qr{(
+our $LSTRING = qr{\s*(
 	(?:
 		[^\n=\{\}\+\-\*\/]+
 		|
@@ -219,12 +219,7 @@ sub _parser() {
 			},
 		),
 
-		stmts => SEQ(
-			REP(SEQ($CR_OPT, \"stmt")),
-			EV{
-				$_[2][0]
-			},
-		),
+		stmts => REP(\"stmt"),
 
 		stmt => SEQ(
 			$LSTRING,
