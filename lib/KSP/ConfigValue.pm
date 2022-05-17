@@ -18,9 +18,9 @@ sub addTo {
 
 sub asString {
 	my ($self) = @_;
-	_encode($_->name()) . " "
-		. $_->op() . " "
-		. _encode($_->value())
+	_encode($self->name()) . " "
+		. $self->op() . " "
+		. _encode($self->value())
 }
 
 our @ATTACH;
