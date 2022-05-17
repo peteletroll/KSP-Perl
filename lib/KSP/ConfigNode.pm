@@ -195,6 +195,15 @@ sub parse_string {
 our $_parser;
 our $COMMENT = qr{//[^\n]*};
 our $CR_OPT = qr/(?:\s+|$COMMENT)*/s;
+our $LSTRING = qr{(
+	(?:
+		[^\n=\{\}\+\-\*\/]+
+		|
+		\/(?![\/=])
+		|
+		[\+\-\*\!\^](?!=) # this must be coherent with "assign" regexp
+	)*
+)}x;
 
 sub _parser() {
 	$_parser ||= KSP::TinyParser->new(
@@ -218,13 +227,15 @@ sub _parser() {
 		),
 
 		stmt => SEQ(
-			\"lstring",
+			$LSTRING,
 			FIRST(
 				\"assign",
 				\"group",
 			),
 			EV{
 				my ($n, $v) = ($_[2][0], $_[2][1]);
+				$n =~ s/\s+$//;
+				_decode($n);
 				$v->set_name($n);
 				$v
 			},
@@ -240,7 +251,7 @@ sub _parser() {
 		),
 
 		assign => SEQ(
-			qr{([\+\-\*\/\!\^]?=)}, # this must be coherent with "lstring" regexp
+			qr{([\+\-\*\/\!\^]?=)}, # this must be coherent with $LSTRING regexp
 			qr{(
 				(?:
 					[^\n\{\}\/]+
@@ -252,23 +263,6 @@ sub _parser() {
 				my $s = $_[2][1];
 				$s =~ s/\s+$//;
 				KSP::ConfigValue->new($_[2][0], undef, _decode($s))
-			}
-		),
-
-		lstring => SEQ(
-			qr{(
-				(?:
-					[^\n=\{\}\+\-\*\/]+
-					|
-					\/(?![\/=])
-					|
-					[\+\-\*\!\^](?!=) # this must be coherent with "assign" regexp
-				)*
-			)}x,
-			EV{
-				my $s = $_[2][0];
-				$s =~ s/\s+$//;
-				_decode($s)
 			}
 		),
 	)
