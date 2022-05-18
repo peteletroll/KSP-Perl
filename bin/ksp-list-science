@@ -1,0 +1,76 @@
+#!/usr/bin/perl
+
+use strict;
+use warnings;
+
+use lib "lib";
+
+use Data::Dump qw(dump);
+use JSON;
+use KSP qw(:bodies);
+
+binmode \*STDOUT, ":utf8";
+
+sub gulp($) {
+	my ($in) = @_;
+	open IN, "<:utf8", $in or die "$0: can't open $in: $!";
+	local $/ = undef;
+	my $ret = <IN>;
+	close IN or die "$0: can't close $in: $!";
+	$ret
+}
+
+sub situationPrefixMatchers {
+	map { qr/^(\Q$_\E)(.*)/ }
+		sort { length $b <=> length $a || $a cmp $b }
+		qw(SrfLanded SrfSplashed FlyingLow FlyingHigh InSpaceLow InSpaceHigh)
+}
+
+sub extractPrefix($@) {
+	my ($str, @re) = @_;
+	foreach my $re (@re) {
+		$str =~ $re and return ($1, $2);
+	}
+	("", $str)
+}
+
+sub extractSuffix($@) {
+	my ($str, @re) = @_;
+	foreach my $re (@re) {
+		$str =~ $re and return ($1, $2);
+	}
+	($str, "")
+}
+
+sub parseScienceId($) {
+	my ($id) = @_;
+	my $tmp = $id;
+	my $experiment = $tmp =~ s/^(.*?)@// ? $1 : undef;
+	(my $body, $tmp) = extractPrefix($tmp, Sun->system->bodyPrefixMatchers);
+	(my $situation, $tmp) = extractPrefix($tmp, situationPrefixMatchers);
+	my $biome = $tmp;
+	if (0) {
+		if ($tmp =~ s/_([^_]+)$//) {
+			$biome = $1;
+		} elsif (length $body) {
+			($tmp, $biome) = extractSuffix($tmp, Sun->system->body($body)->biomeSuffixMatchers);
+		}
+		my $situation = $tmp;
+	}
+
+	my @ret = map { defined($_) && $_ ne "" ? $_ : "NULL" } ($experiment, $body, $situation, $biome);
+	wantarray ? @ret : \@ret
+}
+
+if (@ARGV != 1) {
+	die "usage: $0 <savefile>\n";
+}
+
+my $s = KSP::ConfigNode->load($ARGV[0]);
+foreach my $n ($s->find("Science", id => qr/\@/)) {
+	my $id = $n->get("id");
+	print join("\t", parseScienceId($id), $id), "\n";
+}
+
+exit 0;
+

@@ -33,4 +33,5 @@ t/07-course.t
 bin/ksp-parse
 bin/ksp-delta-v
 bin/ksp-shell
+bin/ksp-list-science
 kopernicus-to-json.pl
