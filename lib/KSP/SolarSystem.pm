@@ -176,7 +176,7 @@ sub pretty_interval {
 
 	if (@ret || $s) {
 		@ret and $ret[-1] .= ":";
-		$s = sprintf(($items - @ret > 1 ? '%5.3f' : '%02d'), $s);
+		$s = sprintf(($items - @ret > 1 ? '%5.3f' : @ret ? '%02d' : '%d'), $s);
 		@ret or $s .= "s";
 		push @ret, $s;
 		@ret < $items or goto end;
