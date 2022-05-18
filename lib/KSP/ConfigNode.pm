@@ -263,13 +263,8 @@ sub _parser() {
 
 sub _decode($) {
 	local $_ = $_[0];
-	if (/[\x{0}-\x{8}\x{a}-\x{1f}]/) {
-		my $s = $_;
-		$s =~ s{([\x{0}-\x{1f}])}{ sprintf "\\x{%x}", ord($1) }ges;
-		warn "BUGGED \"$s\"\n";
-	}
 	s/\^\^|\x{a8}\x{a8}/\n/gs;
-	s/\\u([0-9a-f]{4})/ chr(hex($1)) /geis;
+	s/\\u([0-9A-Fa-f]{4})/ chr(hex($1)) /geis;
 	$_
 }
 
