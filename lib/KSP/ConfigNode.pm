@@ -230,8 +230,7 @@ sub _parser() {
 			EV{
 				my ($n, $v) = ($_[2][0], $_[2][1]);
 				$n =~ s/\s+$//;
-				_decode($n);
-				$v->set_name($n);
+				$v->set_name(_decode($n));
 				$v
 			},
 		),
