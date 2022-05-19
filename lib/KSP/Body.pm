@@ -345,13 +345,15 @@ sub tree {
 
 sub desc {
 	my ($self) = @_;
-	my @d = ();
-	push @d, "r " . U($self->radius) . "m";
-	push @d, "g₀ " . U($self->g0) . "m/s²";
-	push @d, "soi " . U($self->SOI) . "m" if $self->SOI;
-	push @d, "rot " . $self->system->pretty_interval($self->siderealDay)
-		if $self->siderealDay;
-	$self->name . "[ " . join("; ", @d) . " ]"
+	scalar $self->cache("desc", sub {
+		my @d = ();
+		push @d, "r " . U($self->radius) . "m";
+		push @d, "g₀ " . U($self->g0) . "m/s²";
+		push @d, "soi " . U($self->SOI) . "m" if $self->SOI;
+		push @d, "rot " . $self->system->pretty_interval($self->siderealDay)
+			if $self->siderealDay;
+		$self->name . "[ " . join("; ", @d) . " ]"
+	})
 }
 
 sub _sort {
