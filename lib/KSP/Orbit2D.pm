@@ -52,6 +52,11 @@ sub BUILD {
 		$trace and warn "\tCMP E:\t", _pardesc($par), "\n";
 	}
 
+	if (_defined($par, qw(e v !a)) && $par{v} && !$par{e}) {
+		$par{a} = $mu / $par{v} ** 2;
+		$trace and warn "\tCMP a:\t", _pardesc($par), "\n";
+	}
+
 	if (_defined($par, qw(v_inf !a))) {
 		$par{a} = -$mu / $par{v_inf} ** 2;
 		$trace and warn "\tCMP a:\t", _pardesc($par), "\n";
