@@ -67,6 +67,17 @@ sub bodyPrefixMatchers {
 sub body {
 	my ($self, $name) = @_;
 	ref $self or Carp::confess "no ref here";
+	if ($name =~ /^[-+]?\d+$/) {
+		my $found = 0;
+		foreach my $b ($self->bodies) {
+			my $i = $b->json->{info}{index};
+			defined $i && $i == $name or next;
+			$name = $b->name;
+			$found = 1;
+			last;
+		}
+		$found or croak "can't find body $name";
+	}
 	scalar $self->cache("body($name)", sub {
 		my $json = $self->json->{bodies}{$name}
 			or croak "can't find body \"$name\"";
