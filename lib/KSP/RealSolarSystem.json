@@ -1,6 +1,7 @@
 {
    "bodies": {
       "Ariel": {
+         "index": "92",
          "info": {
             "name": "Ariel",
             "orbitingBodies": [],
@@ -37,6 +38,7 @@
          }
       },
       "Callisto": {
+         "index": "4",
          "info": {
             "name": "Callisto",
             "orbitingBodies": []
@@ -63,6 +65,7 @@
          }
       },
       "Ceres": {
+         "index": "50",
          "info": {
             "name": "Ceres",
             "orbitingBodies": [],
@@ -99,6 +102,7 @@
          }
       },
       "Charon": {
+         "index": "25",
          "info": {
             "name": "Charon",
             "orbitingBodies": [],
@@ -135,6 +139,7 @@
          }
       },
       "Deimos": {
+         "index": "12",
          "info": {
             "name": "Deimos",
             "orbitingBodies": [],
@@ -171,6 +176,7 @@
          }
       },
       "Dione": {
+         "index": "18",
          "info": {
             "name": "Dione",
             "orbitingBodies": [],
@@ -211,6 +217,7 @@
             "atmosphereContainsOxygen": true,
             "atmosphereDepth": 140000
          },
+         "index": "1",
          "info": {
             "name": "Earth",
             "orbitingBodies": [
@@ -249,6 +256,7 @@
          }
       },
       "Enceladus": {
+         "index": "16",
          "info": {
             "name": "Enceladus",
             "orbitingBodies": [],
@@ -285,6 +293,7 @@
          }
       },
       "Europa": {
+         "index": "9",
          "info": {
             "name": "Europa",
             "orbitingBodies": []
@@ -311,6 +320,7 @@
          }
       },
       "Ganymede": {
+         "index": "13",
          "info": {
             "name": "Ganymede",
             "orbitingBodies": []
@@ -337,6 +347,7 @@
          }
       },
       "Iapetus": {
+         "index": "20",
          "info": {
             "name": "Iapetus",
             "orbitingBodies": [],
@@ -373,6 +384,7 @@
          }
       },
       "Io": {
+         "index": "8",
          "info": {
             "name": "Io",
             "orbitingBodies": []
@@ -403,6 +415,7 @@
             "atmosphereContainsOxygen": false,
             "atmosphereDepth": 1550000
          },
+         "index": "5",
          "info": {
             "name": "Jupiter",
             "orbitingBodies": [
@@ -438,6 +451,7 @@
             "atmosphereContainsOxygen": false,
             "atmosphereDepth": 125000
          },
+         "index": "11",
          "info": {
             "name": "Mars",
             "orbitingBodies": [
@@ -477,6 +491,7 @@
          }
       },
       "Mercury": {
+         "index": "2",
          "info": {
             "name": "Mercury",
             "orbitingBodies": [],
@@ -513,6 +528,7 @@
          }
       },
       "Mimas": {
+         "index": "15",
          "info": {
             "name": "Mimas",
             "orbitingBodies": [],
@@ -549,6 +565,7 @@
          }
       },
       "Miranda": {
+         "index": "91",
          "info": {
             "name": "Miranda",
             "orbitingBodies": [],
@@ -585,6 +602,7 @@
          }
       },
       "Moon": {
+         "index": "10",
          "info": {
             "name": "Moon",
             "orbitingBodies": [],
@@ -625,6 +643,7 @@
             "atmosphereContainsOxygen": false,
             "atmosphereDepth": 1250000
          },
+         "index": "22",
          "info": {
             "name": "Neptune",
             "orbitingBodies": [
@@ -663,6 +682,7 @@
          }
       },
       "Oberon": {
+         "index": "95",
          "info": {
             "name": "Oberon",
             "orbitingBodies": [],
@@ -699,6 +719,7 @@
          }
       },
       "Phobos": {
+         "index": "7",
          "info": {
             "name": "Phobos",
             "orbitingBodies": [],
@@ -739,6 +760,7 @@
             "atmosphereContainsOxygen": false,
             "atmosphereDepth": 110000
          },
+         "index": "24",
          "info": {
             "name": "Pluto",
             "orbitingBodies": [
@@ -777,6 +799,7 @@
          }
       },
       "Rhea": {
+         "index": "19",
          "info": {
             "name": "Rhea",
             "orbitingBodies": [],
@@ -817,6 +840,7 @@
             "atmosphereContainsOxygen": false,
             "atmosphereDepth": 2000000
          },
+         "index": "14",
          "info": {
             "name": "Saturn",
             "orbitingBodies": [
@@ -861,6 +885,7 @@
          }
       },
       "Sol": {
+         "index": null,
          "info": {
             "name": "Sol",
             "orbitingBodies": [
@@ -884,6 +909,7 @@
          }
       },
       "Tethys": {
+         "index": "17",
          "info": {
             "name": "Tethys",
             "orbitingBodies": [],
@@ -924,6 +950,7 @@
             "atmosphereContainsOxygen": false,
             "atmosphereDepth": 600000
          },
+         "index": "6",
          "info": {
             "name": "Titan",
             "orbitingBodies": [],
@@ -960,6 +987,7 @@
          }
       },
       "Titania": {
+         "index": "94",
          "info": {
             "name": "Titania",
             "orbitingBodies": [],
@@ -1000,6 +1028,7 @@
             "atmosphereContainsOxygen": false,
             "atmosphereDepth": 110000
          },
+         "index": "23",
          "info": {
             "name": "Triton",
             "orbitingBodies": [],
@@ -1036,6 +1065,7 @@
          }
       },
       "Umbriel": {
+         "index": "93",
          "info": {
             "name": "Umbriel",
             "orbitingBodies": [],
@@ -1076,6 +1106,7 @@
             "atmosphereContainsOxygen": false,
             "atmosphereDepth": 1400000
          },
+         "index": "21",
          "info": {
             "name": "Uranus",
             "orbitingBodies": [
@@ -1103,7 +1134,7 @@
             "inclinationDeg": 23.6725699334368,
             "inclinationRad": 0.413164287747086,
             "longitudeOfAscendingNodeDeg": 1.84608966922394,
-            "longitudeOfAscendingNodeRad": 0.0322203430150108,
+            "longitudeOfAscendingNodeRad": 0.0322203430150107,
             "meanAnomalyAtEpochDeg": 286.826735994449,
             "meanAnomalyAtEpochRad": 5.00607092585167,
             "referenceBody": "Sol",
@@ -1122,6 +1153,7 @@
             "atmosphereContainsOxygen": false,
             "atmosphereDepth": 145000
          },
+         "index": "3",
          "info": {
             "name": "Venus",
             "orbitingBodies": [],
@@ -1159,6 +1191,7 @@
          }
       },
       "Vesta": {
+         "index": "60",
          "info": {
             "name": "Vesta",
             "orbitingBodies": [],
