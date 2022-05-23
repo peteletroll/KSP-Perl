@@ -65,7 +65,7 @@ foreach my $b (@bodies) {
 	$rename{$name} ||= $b->get("cbNameLater") || $name;
 	my $j = { };
 	$j->{info}{name} = $rename{$name};
-	$j->{index} = $b->get("flightGlobalsIndex");
+	$j->{info}{index} = 0 + ($b->get("flightGlobalsIndex") || 0);
 	$j->{info}{orbitingBodies} = [ ];
 	$b->visit(sub {
 		my $n = $_->name;

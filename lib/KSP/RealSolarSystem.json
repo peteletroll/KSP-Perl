@@ -1,8 +1,8 @@
 {
    "bodies": {
       "Ariel": {
-         "index": "92",
          "info": {
+            "index": 92,
             "name": "Ariel",
             "orbitingBodies": [],
             "timeWarpAltitudeLimits": [
@@ -38,8 +38,8 @@
          }
       },
       "Callisto": {
-         "index": "4",
          "info": {
+            "index": 4,
             "name": "Callisto",
             "orbitingBodies": []
          },
@@ -65,8 +65,8 @@
          }
       },
       "Ceres": {
-         "index": "50",
          "info": {
+            "index": 50,
             "name": "Ceres",
             "orbitingBodies": [],
             "timeWarpAltitudeLimits": [
@@ -102,8 +102,8 @@
          }
       },
       "Charon": {
-         "index": "25",
          "info": {
+            "index": 25,
             "name": "Charon",
             "orbitingBodies": [],
             "timeWarpAltitudeLimits": [
@@ -139,8 +139,8 @@
          }
       },
       "Deimos": {
-         "index": "12",
          "info": {
+            "index": 12,
             "name": "Deimos",
             "orbitingBodies": [],
             "timeWarpAltitudeLimits": [
@@ -176,8 +176,8 @@
          }
       },
       "Dione": {
-         "index": "18",
          "info": {
+            "index": 18,
             "name": "Dione",
             "orbitingBodies": [],
             "timeWarpAltitudeLimits": [
@@ -217,8 +217,8 @@
             "atmosphereContainsOxygen": true,
             "atmosphereDepth": 140000
          },
-         "index": "1",
          "info": {
+            "index": 1,
             "name": "Earth",
             "orbitingBodies": [
                "Moon"
@@ -256,8 +256,8 @@
          }
       },
       "Enceladus": {
-         "index": "16",
          "info": {
+            "index": 16,
             "name": "Enceladus",
             "orbitingBodies": [],
             "timeWarpAltitudeLimits": [
@@ -293,8 +293,8 @@
          }
       },
       "Europa": {
-         "index": "9",
          "info": {
+            "index": 9,
             "name": "Europa",
             "orbitingBodies": []
          },
@@ -320,8 +320,8 @@
          }
       },
       "Ganymede": {
-         "index": "13",
          "info": {
+            "index": 13,
             "name": "Ganymede",
             "orbitingBodies": []
          },
@@ -347,8 +347,8 @@
          }
       },
       "Iapetus": {
-         "index": "20",
          "info": {
+            "index": 20,
             "name": "Iapetus",
             "orbitingBodies": [],
             "timeWarpAltitudeLimits": [
@@ -384,8 +384,8 @@
          }
       },
       "Io": {
-         "index": "8",
          "info": {
+            "index": 8,
             "name": "Io",
             "orbitingBodies": []
          },
@@ -415,8 +415,8 @@
             "atmosphereContainsOxygen": false,
             "atmosphereDepth": 1550000
          },
-         "index": "5",
          "info": {
+            "index": 5,
             "name": "Jupiter",
             "orbitingBodies": [
                "Callisto",
@@ -451,8 +451,8 @@
             "atmosphereContainsOxygen": false,
             "atmosphereDepth": 125000
          },
-         "index": "11",
          "info": {
+            "index": 11,
             "name": "Mars",
             "orbitingBodies": [
                "Deimos",
@@ -491,8 +491,8 @@
          }
       },
       "Mercury": {
-         "index": "2",
          "info": {
+            "index": 2,
             "name": "Mercury",
             "orbitingBodies": [],
             "timeWarpAltitudeLimits": [
@@ -528,8 +528,8 @@
          }
       },
       "Mimas": {
-         "index": "15",
          "info": {
+            "index": 15,
             "name": "Mimas",
             "orbitingBodies": [],
             "timeWarpAltitudeLimits": [
@@ -565,8 +565,8 @@
          }
       },
       "Miranda": {
-         "index": "91",
          "info": {
+            "index": 91,
             "name": "Miranda",
             "orbitingBodies": [],
             "timeWarpAltitudeLimits": [
@@ -602,8 +602,8 @@
          }
       },
       "Moon": {
-         "index": "10",
          "info": {
+            "index": 10,
             "name": "Moon",
             "orbitingBodies": [],
             "timeWarpAltitudeLimits": [
@@ -643,8 +643,8 @@
             "atmosphereContainsOxygen": false,
             "atmosphereDepth": 1250000
          },
-         "index": "22",
          "info": {
+            "index": 22,
             "name": "Neptune",
             "orbitingBodies": [
                "Triton"
@@ -682,8 +682,8 @@
          }
       },
       "Oberon": {
-         "index": "95",
          "info": {
+            "index": 95,
             "name": "Oberon",
             "orbitingBodies": [],
             "timeWarpAltitudeLimits": [
@@ -719,8 +719,8 @@
          }
       },
       "Phobos": {
-         "index": "7",
          "info": {
+            "index": 7,
             "name": "Phobos",
             "orbitingBodies": [],
             "timeWarpAltitudeLimits": [
@@ -760,8 +760,8 @@
             "atmosphereContainsOxygen": false,
             "atmosphereDepth": 110000
          },
-         "index": "24",
          "info": {
+            "index": 24,
             "name": "Pluto",
             "orbitingBodies": [
                "Charon"
@@ -799,8 +799,8 @@
          }
       },
       "Rhea": {
-         "index": "19",
          "info": {
+            "index": 19,
             "name": "Rhea",
             "orbitingBodies": [],
             "timeWarpAltitudeLimits": [
@@ -840,8 +840,8 @@
             "atmosphereContainsOxygen": false,
             "atmosphereDepth": 2000000
          },
-         "index": "14",
          "info": {
+            "index": 14,
             "name": "Saturn",
             "orbitingBodies": [
                "Dione",
@@ -885,8 +885,8 @@
          }
       },
       "Sol": {
-         "index": null,
          "info": {
+            "index": 0,
             "name": "Sol",
             "orbitingBodies": [
                "Ceres",
@@ -909,8 +909,8 @@
          }
       },
       "Tethys": {
-         "index": "17",
          "info": {
+            "index": 17,
             "name": "Tethys",
             "orbitingBodies": [],
             "timeWarpAltitudeLimits": [
@@ -950,8 +950,8 @@
             "atmosphereContainsOxygen": false,
             "atmosphereDepth": 600000
          },
-         "index": "6",
          "info": {
+            "index": 6,
             "name": "Titan",
             "orbitingBodies": [],
             "timeWarpAltitudeLimits": [
@@ -987,8 +987,8 @@
          }
       },
       "Titania": {
-         "index": "94",
          "info": {
+            "index": 94,
             "name": "Titania",
             "orbitingBodies": [],
             "timeWarpAltitudeLimits": [
@@ -1028,8 +1028,8 @@
             "atmosphereContainsOxygen": false,
             "atmosphereDepth": 110000
          },
-         "index": "23",
          "info": {
+            "index": 23,
             "name": "Triton",
             "orbitingBodies": [],
             "timeWarpAltitudeLimits": [
@@ -1065,8 +1065,8 @@
          }
       },
       "Umbriel": {
-         "index": "93",
          "info": {
+            "index": 93,
             "name": "Umbriel",
             "orbitingBodies": [],
             "timeWarpAltitudeLimits": [
@@ -1106,8 +1106,8 @@
             "atmosphereContainsOxygen": false,
             "atmosphereDepth": 1400000
          },
-         "index": "21",
          "info": {
+            "index": 21,
             "name": "Uranus",
             "orbitingBodies": [
                "Ariel",
@@ -1153,8 +1153,8 @@
             "atmosphereContainsOxygen": false,
             "atmosphereDepth": 145000
          },
-         "index": "3",
          "info": {
+            "index": 3,
             "name": "Venus",
             "orbitingBodies": [],
             "timeWarpAltitudeLimits": [
@@ -1191,8 +1191,8 @@
          }
       },
       "Vesta": {
-         "index": "60",
          "info": {
+            "index": 60,
             "name": "Vesta",
             "orbitingBodies": [],
             "timeWarpAltitudeLimits": [
