@@ -356,6 +356,10 @@ sub desc {
 	})
 }
 
+sub index {
+	$_[0]->json->{info}{index}
+}
+
 sub _sort {
 	sort { $a->_sortkey <=> $b->_sortkey } @_
 }

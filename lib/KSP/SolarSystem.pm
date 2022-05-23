@@ -45,7 +45,6 @@ sub G { $_[0]->grav_const }
 
 sub bodies {
 	my ($self, $unsorted) = @_;
-	# $unsorted prevents an infinite recursion in G()
 	my @lst = keys %{$self->json->{bodies}};
 	wantarray or return scalar @lst;
 	@lst = map { $self->body($_) } @lst;
@@ -70,7 +69,7 @@ sub body {
 	if ($name =~ /^[-+]?\d+$/) {
 		my $found = 0;
 		foreach my $b ($self->bodies) {
-			my $i = $b->json->{info}{index};
+			my $i = $b->index;
 			defined $i && $i == $name or next;
 			$name = $b->name;
 			$found = 1;
