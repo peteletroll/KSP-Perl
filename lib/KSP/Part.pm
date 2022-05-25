@@ -95,12 +95,11 @@ sub modules {
 	})
 }
 
-sub propellant {
+sub module {
 	my ($self, $name) = @_;
 	my @ret =
 		map { KSP::DBNode->new($name, $_) }
-		map { $_->getnodes("PROPELLANT", name => $name) }
-		$self->node->getnodes("MODULE");
+		$self->node->getnodes("MODULE", name => $name);
 	wantarray ? @ret : $ret[0]
 }
 
@@ -114,11 +113,12 @@ sub propellants {
 	})
 }
 
-sub module {
+sub propellant {
 	my ($self, $name) = @_;
 	my @ret =
 		map { KSP::DBNode->new($name, $_) }
-		$self->node->getnodes("MODULE", name => $name);
+		map { $_->getnodes("PROPELLANT", name => $name) }
+		$self->node->getnodes("MODULE");
 	wantarray ? @ret : $ret[0]
 }
 
