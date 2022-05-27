@@ -81,8 +81,9 @@ sub load {
 }
 
 sub get {
-	my ($self, $name) = @_;
+	my ($self, $name, $default) = @_;
 	my @ret = map { $_->value } _elt($self->_values(), $name);
+	defined $default && !@ret and push @ret, $default;
 	wantarray ? @ret : $ret[0]
 }
 
