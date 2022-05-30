@@ -104,13 +104,20 @@ sub module {
 	wantarray ? @ret : $ret[0]
 }
 
-sub engines {
+sub engine {
 	my ($self, $name) = @_;
 	if (defined $name) {
 		ref $name eq "Regexp" or $name = qr/^\Q$name\E$/;
 	}
 	my @ret = grep { !defined($name) || $_->id =~ $name }
-		$self->allEngines
+		$self->allEngines;
+	wantarray ? @ret : $ret[0]
+}
+
+sub engines {
+	my ($self) = @_;
+	wantarray or croak __PACKAGE__, "::engines() wants list context";
+	map { $_->id } $self->allEngines
 }
 
 sub allEngines {
