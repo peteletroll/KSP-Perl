@@ -9,6 +9,7 @@ use Carp;
 use KSP::ConfigNode;
 use KSP::DB;
 use KSP::DBNode;
+use KSP::Engine;
 use KSP::Resource;
 use KSP::Util qw(U);
 
@@ -101,6 +102,25 @@ sub module {
 		map { KSP::DBNode->new($name, $_) }
 		$self->node->getnodes("MODULE", name => $name);
 	wantarray ? @ret : $ret[0]
+}
+
+sub engines {
+	my ($self, $name) = @_;
+	if (defined $name) {
+		ref $name eq "Regexp" or $name = qr/^\Q$name\E$/;
+	}
+	my @ret = grep { !defined($name) || $_->id =~ $name }
+		$self->allEngines
+}
+
+sub allEngines {
+	my ($self) = @_;
+	wantarray or croak __PACKAGE__, "::allEngines() wants list context";
+	$self->cache("allEngines", sub {
+		sort { $b->maxThrust <=> $a->maxThrust }
+		map { KSP::Engine->new($self->name, $_) }
+		$self->node->getnodes("MODULE", name => qr/^ModuleEngines(?:FX)?$/)
+	})
 }
 
 sub propellants {
