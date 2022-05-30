@@ -20,12 +20,15 @@ sub id {
 
 sub maxThrust {
 	my ($self) = @_;
-	$self->node->get("maxThrust", 0)
+	1000 * $self->node->get("maxThrust", 0)
 }
 
 sub desc {
 	my ($self) = @_;
-	$self->id . "[ " . $self->name . " ]"
+	$self->id . "[ "
+		. $self->name . "; "
+		. U($self->maxThrust) . "N"
+		. " ]"
 }
 
 1;
