@@ -30,9 +30,8 @@ sub maxIsp {
 	scalar $self->cache("maxIsp", sub {
 		my $curve = $self->node->getnodes("atmosphereCurve")
 			or return 0;
-		my @key = $curve->get("key");
 		my $isp = 0;
-		foreach (@key) {
+		foreach ($curve->get("key")) {
 			my @k = split;
 			my $k = 0 + $k[1];
 			$isp > $k or $isp = $k;
