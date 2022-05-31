@@ -25,6 +25,22 @@ sub maxThrust {
 	})
 }
 
+sub maxIsp {
+	my ($self) = @_;
+	scalar $self->cache("maxIsp", sub {
+		my $curve = $self->node->getnodes("atmosphereCurve")
+			or return 0;
+		my @key = $curve->get("key");
+		my $isp = 0;
+		foreach (@key) {
+			my @k = split;
+			my $k = 0 + $k[1];
+			$isp > $k or $isp = $k;
+		}
+		$isp
+	})
+}
+
 sub desc {
 	my ($self) = @_;
 	$self->cache("desc", sub {
