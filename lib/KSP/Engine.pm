@@ -13,9 +13,14 @@ use KSP::Util qw(U);
 
 use KSP::TinyStruct qw(+KSP::DBNode);
 
+sub type {
+	my ($self) = @_;
+	scalar $self->node->get("EngineType", "UNK")
+}
+
 sub id {
 	my ($self) = @_;
-	$self->node->get("engineID", "Engine")
+	scalar $self->node->get("engineID", "Engine")
 }
 
 sub maxThrust {
@@ -44,6 +49,7 @@ sub desc {
 	my ($self) = @_;
 	$self->cache("desc", sub {
 		$self->id . "[ "
+		. $self->type . "@"
 		. $self->name . "; "
 		. U($self->maxIsp) . "m/s; "
 		. U($self->maxThrust) . "N"
