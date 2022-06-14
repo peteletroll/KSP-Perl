@@ -45,6 +45,23 @@ sub maxIsp {
 	})
 }
 
+sub propellants {
+	my ($self) = @_;
+	wantarray or croak __PACKAGE__, "::propellants() wants list context";
+	$self->cache("propellants", sub {
+		sort map { $_->get("name") }
+			$self->node->getnodes("PROPELLANT")
+	})
+}
+
+sub propellant {
+	my ($self, $name) = @_;
+	my @ret =
+		map { KSP::DBNode->new($name, $_) }
+		$self->node->getnodes("PROPELLANT", name => $name);
+	wantarray ? @ret : $ret[0]
+}
+
 sub desc {
 	my ($self) = @_;
 	$self->cache("desc", sub {
