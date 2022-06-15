@@ -130,25 +130,6 @@ sub allEngines {
 	})
 }
 
-sub propellants {
-	my ($self) = @_;
-	wantarray or croak __PACKAGE__, "::propellants() wants list context";
-	$self->cache("propellants", sub {
-		sort map { $_->get("name") }
-			map { $_->getnodes("PROPELLANT") }
-			$self->node->getnodes("MODULE");
-	})
-}
-
-sub propellant {
-	my ($self, $name) = @_;
-	my @ret =
-		map { KSP::DBNode->new($name, $_) }
-		map { $_->getnodes("PROPELLANT", name => $name) }
-		$self->node->getnodes("MODULE");
-	wantarray ? @ret : $ret[0]
-}
-
 sub resources {
 	my ($self) = @_;
 	wantarray or croak __PACKAGE__, "::resources() wants list context";
