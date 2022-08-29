@@ -22,6 +22,8 @@ proxy("KSP::Course" => sub { KSP::Course->new($_->lowOrbit) });
 
 use KSP::TinyStruct qw(json system +KSP::Cache);
 
+use Scalar::Util qw(looks_like_number);
+
 use overload
 	'""' => \&desc;
 
@@ -304,8 +306,10 @@ sub highHeight {
 
 sub orbit {
 	my ($self, @rest) = @_;
-	@rest == 1 and return KSP::Orbit2D->new($self, pe => $rest[0], e => 0);
-	@rest == 2 and return KSP::Orbit2D->new($self, pe => $rest[0], ap => $rest[1]);
+	if (!grep { !looks_like_number($_) } @rest) {
+		@rest == 1 and return KSP::Orbit2D->new($self, pe => $rest[0], e => 0);
+		@rest == 2 and return KSP::Orbit2D->new($self, pe => $rest[0], ap => $rest[1]);
+	}
 	@rest and return KSP::Orbit2D->new($self, @rest);
 	scalar $self->cache("bodyOrbit", sub {
 		my $p = $self->parent or return undef;
