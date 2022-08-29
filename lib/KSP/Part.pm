@@ -126,7 +126,7 @@ sub allEngines {
 	$self->cache("allEngines", sub {
 		sort { $b->maxThrust <=> $a->maxThrust }
 		map { KSP::Engine->new($self->name, $_) }
-		$self->node->getnodes("MODULE", name => qr/^ModuleEngines(?:FX)?$/)
+		$self->node->getnodes("MODULE", name => qr/^(?:ModuleEngines|ModuleRCS)(?:FX)?$/)
 	})
 }
 
