@@ -306,18 +306,18 @@ sub highHeight {
 
 sub orbit {
 	my ($self, @rest) = @_;
-	if (!grep { !looks_like_number($_) } @rest) {
-		@rest == 1 and return KSP::Orbit2D->new($self, pe => $rest[0], e => 0);
-		@rest == 2 and return KSP::Orbit2D->new($self, pe => $rest[0], ap => $rest[1]);
-	}
-	@rest and return KSP::Orbit2D->new($self, @rest);
-	scalar $self->cache("bodyOrbit", sub {
+	@rest or return scalar $self->cache("bodyOrbit", sub {
 		my $p = $self->parent or return undef;
 		KSP::Orbit2D->new($p,
 			p => $self->json->{orbit}{semiLatusRectum},
 			a => $self->json->{orbit}{semiMajorAxis},
 			e => $self->json->{orbit}{eccentricity})
-	})
+	});
+	if (!grep { !looks_like_number($_) } @rest) {
+		@rest == 1 and return KSP::Orbit2D->new($self, pe => $rest[0], e => 0);
+		@rest == 2 and return KSP::Orbit2D->new($self, pe => $rest[0], ap => $rest[1]);
+	}
+	KSP::Orbit2D->new($self, @rest)
 }
 
 sub lowOrbit {
