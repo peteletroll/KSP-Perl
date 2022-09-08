@@ -17,15 +17,23 @@ use overload
 	'""' => \&desc;
 
 sub BUILD {
-	my ($self, $name) = @_;
-	defined $name or $name = "SolarSystemDump";
-	$self->set_name($name);
-	my $json = "$KSP::KSP_DIR/$name.json";
+	my ($self, $json) = @_;
+
+	defined $json or $json = "SolarSystemDump";
+	$json =~ /\.\w+$/ or $json = "$json.json";
+	$json =~ /\// or $json = "$KSP::KSP_DIR/$json";
+
+	my $name = $json;
+	$name =~ s/.*\///;
+	$name =~ s/\.\w+$//;
+
 	open JSONDATA, "<:utf8", $json
 		or confess "can't open $json: $!";
 	local $/ = undef;
 	my $cnt = <JSONDATA>;
 	close JSONDATA or die "can't close $json: $!";
+
+	$self->set_name($name);
 	$self->set_json(decode_json($cnt));
 	$self->set_grav_const(6.67430e-11);
 	$self
