@@ -3,6 +3,8 @@
 use strict;
 use warnings;
 
+use Scalar::Util qw(looks_like_number);
+
 use Math::Trig;
 
 use File::Find;
@@ -71,7 +73,24 @@ foreach my $b (@bodies) {
 		my $tbody = $stockSystem->body($tmpl)
 			or die "NO TEMPLATE: $tmpl\n";
 		my $tjson = $tbody->json;
-		$j->{info}{isStar} = $tjson->{info}{isStar}
+		# warn "TEMPLATE $name <- $tmpl\n";
+		foreach my $i (sort keys %$tjson) {
+			my $k = $tjson->{$i};
+			ref $k eq "HASH" or next;
+			# warn "\tI $i = $k\n";
+			foreach my $n (sort keys %$k) {
+				my $v = $k->{$n};
+				if (JSON::is_bool($v)) {
+					# nothing
+				} elsif (ref $v) {
+					next;
+				} elsif (looks_like_number($v)) {
+					$v = $v + 0;
+				}
+				# warn "\t\tN $n = ", to_json($v), "\n";
+				$j->{$i}{$n} = $v;
+			}
+		}
 	}
 
 	$j->{info}{name} = $rename{$name};
