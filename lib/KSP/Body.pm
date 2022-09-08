@@ -51,6 +51,10 @@ sub isStar {
 	!! $_[0]->json->{info}{isStar}
 }
 
+sub isHomeWorld {
+	!! $_[0]->json->{info}{isHomeWorld}
+}
+
 sub radius {
 	$_[0]->json->{size}{radius}
 }
@@ -361,6 +365,7 @@ sub desc {
 		push @d, "rot " . $self->system->pretty_interval($self->siderealDay)
 			if $self->siderealDay;
 		$self->name
+			. ($self->isHomeWorld ? "@" : "")
 			. ($self->isStar ? "*" : "")
 			. "[ " . join("; ", @d) . " ]"
 	})
