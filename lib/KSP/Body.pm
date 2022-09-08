@@ -47,6 +47,10 @@ sub name {
 	$_[0]->json->{info}{name}
 }
 
+sub isStar {
+	!! $_[0]->json->{info}{isStar}
+}
+
 sub radius {
 	$_[0]->json->{size}{radius}
 }
@@ -356,7 +360,9 @@ sub desc {
 		push @d, "soi " . U($self->SOI) . "m" if $self->SOI;
 		push @d, "rot " . $self->system->pretty_interval($self->siderealDay)
 			if $self->siderealDay;
-		$self->name . "[ " . join("; ", @d) . " ]"
+		$self->name
+			. ($self->isStar ? "*" : "")
+			. "[ " . join("; ", @d) . " ]"
 	})
 }
 
