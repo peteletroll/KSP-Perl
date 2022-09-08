@@ -11,6 +11,7 @@ use JSON;
 
 use lib "lib";
 use KSP;
+my $stockSystem = KSP::SolarSystem->new();
 
 binmode \*STDOUT, ":utf8";
 
@@ -29,7 +30,6 @@ my %delete = map { $_ => 1 } qw(
 	ScaledVersion
 	PQS
 	Mods
-	Template
 	pressureCurve
 	AtmosphereFromGround
 	Biomes
@@ -64,6 +64,16 @@ foreach my $b (@bodies) {
 	my $name = $b->get("name") or die "NO NAME: ", $b->asString, "\n";
 	$rename{$name} ||= $b->get("cbNameLater") || $name;
 	my $j = { };
+
+	my $tmpl = $b->find("Template");
+	$tmpl &&= $tmpl->get("name");
+	if ($tmpl) {
+		my $tbody = $stockSystem->body($tmpl)
+			or die "NO TEMPLATE: $tmpl\n";
+		my $tjson = $tbody->json;
+		$j->{info}{isStar} = $tjson->{info}{isStar}
+	}
+
 	$j->{info}{name} = $rename{$name};
 	$j->{info}{index} = 0 + ($b->get("flightGlobalsIndex") || 0);
 	$j->{info}{orbitingBodies} = [ ];
