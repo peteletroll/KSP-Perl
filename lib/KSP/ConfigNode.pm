@@ -13,7 +13,7 @@ use KSP::ConfigValue;
 
 use KSP::Util qw(matcher);
 
-use Scalar::Util qw(weaken isweak refaddr);
+use Scalar::Util qw(weaken isweak refaddr looks_like_number);
 
 use overload
 	bool => sub { $_[0] },
@@ -253,9 +253,11 @@ sub _parser() {
 				)*
 			)}x,
 			EV{
-				my $s = $_[2][1];
-				$s =~ s/\s+$//;
-				KSP::ConfigValue->new($_[2][0], undef, _decode($s))
+				my $v = $_[2][1];
+				$v =~ s/\s+$//;
+				$v = _decode($v);
+				looks_like_number($v) and $v = $v + 0;
+				KSP::ConfigValue->new($_[2][0], undef, $v)
 			}
 		),
 	)

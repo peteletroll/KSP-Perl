@@ -3,8 +3,6 @@
 use strict;
 use warnings;
 
-use Scalar::Util qw(looks_like_number);
-
 use Math::Trig;
 
 use File::Find;
@@ -74,6 +72,7 @@ foreach my $b (@bodies) {
 			or die "NO TEMPLATE: $tmpl\n";
 		my $tjson = $tbody->json;
 		# warn "TEMPLATE $name <- $tmpl\n";
+		$j->{KopernicusTemplate} = $tmpl if $tmpl;
 		foreach my $i (sort keys %$tjson) {
 			my $k = $tjson->{$i};
 			ref $k eq "HASH" or next;
@@ -84,8 +83,6 @@ foreach my $b (@bodies) {
 					# nothing
 				} elsif (ref $v) {
 					next;
-				} elsif (looks_like_number($v)) {
-					$v = $v + 0;
 				}
 				# warn "\t\tN $n = ", to_json($v), "\n";
 				$j->{$i}{$n} = $v;
@@ -101,6 +98,7 @@ foreach my $b (@bodies) {
 		my $p = $_->parent ? $_->parent->name : "";
 		# warn "NODE $name $p $n\n";
 		if ($p eq "Body" && $n eq "Orbit") {
+			$j->{orbit} = { };
 			$j->{orbit}{referenceBody} = $_->get("referenceBody");
 			$j->{orbit}{semiMajorAxis} = 0 + $_->get("semiMajorAxis");
 			$j->{orbit}{eccentricity} = 0 + $_->get("eccentricity");
@@ -112,10 +110,12 @@ foreach my $b (@bodies) {
 				/^(.*)Deg$/ and $j->{orbit}{"${1}Rad"} = deg2rad $j->{orbit}{$_};
 			}
 		} elsif ($p eq "Body" && $n eq "Properties") {
+			$j->{size} = { };
 			$_->get("radius") and $j->{size}{radius} = 0 + $_->get("radius");
 			$_->get("mass") and $j->{size}{mass} = 0 + $_->get("mass");
 			$_->get("gravParameter") and $j->{size}{mu} = 0 + $_->get("gravParameter");
 			$_->get("geeASL") and $j->{size}{g0} = 9.81 * $_->get("geeASL");
+
 			$_->get("timewarpAltitudeLimits") and $j->{info}{timeWarpAltitudeLimits} = [
 				map { 0 + $_ }
 				split(/\s+/, $_->get("timewarpAltitudeLimits"))
