@@ -39,7 +39,8 @@ sub _comment {
 		my @f = split /,/, $value;
 		my @a = ();
 		foreach my $i (0..$#ATTACH) {
-			$f[$i] and push @a, $ATTACH[$i];
+			my $a = $ATTACH[$i];
+			push @a, ($f[$i] ? $a : "no $a");
 		}
 		join(", ", @a)
 	} elsif ($name =~ /UT$/ && $value =~ /^-?\d/) {
