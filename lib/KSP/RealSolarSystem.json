@@ -1,8 +1,11 @@
 {
    "bodies": {
       "Ariel": {
+         "KopernicusTemplate": "Eeloo",
          "info": {
             "index": 92,
+            "isHomeWorld": false,
+            "isStar": false,
             "name": "Ariel",
             "orbitingBodies": [],
             "timeWarpAltitudeLimits": [
@@ -30,16 +33,42 @@
             "semiMajorAxis": 190944364.477622
          },
          "rotation": {
+            "initialRotationDeg": 25,
+            "initialRotationRad": 0.436332312998582,
+            "rotates": true,
+            "rotationPeriod": 19460,
+            "solarDayLength": 19462.4124696157,
+            "solarRotationPeriod": false,
             "tidallyLocked": true
+         },
+         "science": {
+            "FlyingHighDataValue": 1,
+            "FlyingLowDataValue": 1,
+            "InSpaceHighDataValue": 10,
+            "InSpaceLowDataValue": 12,
+            "LandedDataValue": 15,
+            "RecoveryValue": 10,
+            "SplashedDataValue": 1,
+            "flyingAltitudeThreshold": 18000,
+            "spaceAltitudeThreshold": 60000
          },
          "size": {
             "mass": 1.29e+21,
             "radius": 578900
+         },
+         "surface": {
+            "albedo": 0.5,
+            "emissivity": 0.5,
+            "hasSolidSurface": true,
+            "ocean": false
          }
       },
       "Callisto": {
+         "KopernicusTemplate": "Moho",
          "info": {
             "index": 4,
+            "isHomeWorld": false,
+            "isStar": false,
             "name": "Callisto",
             "orbitingBodies": []
          },
@@ -57,16 +86,42 @@
             "semiMajorAxis": 1883812366.57352
          },
          "rotation": {
+            "initialRotationDeg": 190,
+            "initialRotationRad": 3.31612557878923,
+            "rotates": true,
+            "rotationPeriod": 1210000,
+            "solarDayLength": 2665723.44748356,
+            "solarRotationPeriod": false,
             "tidallyLocked": true
+         },
+         "science": {
+            "FlyingHighDataValue": 1,
+            "FlyingLowDataValue": 1,
+            "InSpaceHighDataValue": 7,
+            "InSpaceLowDataValue": 8,
+            "LandedDataValue": 10,
+            "RecoveryValue": 7,
+            "SplashedDataValue": 1,
+            "flyingAltitudeThreshold": 18000,
+            "spaceAltitudeThreshold": 80000
          },
          "size": {
             "mass": 1.075938e+23,
             "radius": 2409300
+         },
+         "surface": {
+            "albedo": 0.1,
+            "emissivity": 0.9,
+            "hasSolidSurface": true,
+            "ocean": false
          }
       },
       "Ceres": {
+         "KopernicusTemplate": "Eeloo",
          "info": {
             "index": 50,
+            "isHomeWorld": false,
+            "isStar": false,
             "name": "Ceres",
             "orbitingBodies": [],
             "timeWarpAltitudeLimits": [
@@ -94,16 +149,42 @@
             "semiMajorAxis": 413738762313.173
          },
          "rotation": {
-            "rotationPeriod": 32666.4
+            "initialRotationDeg": 25,
+            "initialRotationRad": 0.436332312998582,
+            "rotates": true,
+            "rotationPeriod": 32666.4,
+            "solarDayLength": 19462.4124696157,
+            "solarRotationPeriod": false,
+            "tidallyLocked": false
+         },
+         "science": {
+            "FlyingHighDataValue": 1,
+            "FlyingLowDataValue": 1,
+            "InSpaceHighDataValue": 10,
+            "InSpaceLowDataValue": 12,
+            "LandedDataValue": 15,
+            "RecoveryValue": 10,
+            "SplashedDataValue": 1,
+            "flyingAltitudeThreshold": 18000,
+            "spaceAltitudeThreshold": 60000
          },
          "size": {
             "mass": 9.39e+20,
             "radius": 473000
+         },
+         "surface": {
+            "albedo": 0.5,
+            "emissivity": 0.5,
+            "hasSolidSurface": true,
+            "ocean": false
          }
       },
       "Charon": {
+         "KopernicusTemplate": "Mun",
          "info": {
             "index": 25,
+            "isHomeWorld": false,
+            "isStar": false,
             "name": "Charon",
             "orbitingBodies": [],
             "timeWarpAltitudeLimits": [
@@ -131,16 +212,42 @@
             "semiMajorAxis": 19596193.835404
          },
          "rotation": {
-            "rotationPeriod": 551856.70656
+            "initialRotationDeg": 230,
+            "initialRotationRad": 4.01425727958696,
+            "rotates": true,
+            "rotationPeriod": 551856.70656,
+            "solarDayLength": 141115.385296176,
+            "solarRotationPeriod": false,
+            "tidallyLocked": true
+         },
+         "science": {
+            "FlyingHighDataValue": 1,
+            "FlyingLowDataValue": 1,
+            "InSpaceHighDataValue": 2,
+            "InSpaceLowDataValue": 3,
+            "LandedDataValue": 4,
+            "RecoveryValue": 2,
+            "SplashedDataValue": 1,
+            "flyingAltitudeThreshold": 18000,
+            "spaceAltitudeThreshold": 60000
          },
          "size": {
             "mass": 1.52e+21,
             "radius": 603500
+         },
+         "surface": {
+            "albedo": 0.1,
+            "emissivity": 0.9,
+            "hasSolidSurface": true,
+            "ocean": false
          }
       },
       "Deimos": {
+         "KopernicusTemplate": "Bop",
          "info": {
             "index": 12,
+            "isHomeWorld": false,
+            "isStar": false,
             "name": "Deimos",
             "orbitingBodies": [],
             "timeWarpAltitudeLimits": [
@@ -168,16 +275,42 @@
             "semiMajorAxis": 23458112.0175939
          },
          "rotation": {
-            "rotationPeriod": 109123.2
+            "initialRotationDeg": 230,
+            "initialRotationRad": 4.01425727958696,
+            "rotates": true,
+            "rotationPeriod": 109123.2,
+            "solarDayLength": 547355.076395446,
+            "solarRotationPeriod": false,
+            "tidallyLocked": true
+         },
+         "science": {
+            "FlyingHighDataValue": 1,
+            "FlyingLowDataValue": 1,
+            "InSpaceHighDataValue": 8,
+            "InSpaceLowDataValue": 9,
+            "LandedDataValue": 12,
+            "RecoveryValue": 8,
+            "SplashedDataValue": 1,
+            "flyingAltitudeThreshold": 18000,
+            "spaceAltitudeThreshold": 25000
          },
          "size": {
             "mass": 1480000000000000,
             "radius": 5456
+         },
+         "surface": {
+            "albedo": 0.200000002980232,
+            "emissivity": 0.800000011920929,
+            "hasSolidSurface": true,
+            "ocean": false
          }
       },
       "Dione": {
+         "KopernicusTemplate": "Mun",
          "info": {
             "index": 18,
+            "isHomeWorld": false,
+            "isStar": false,
             "name": "Dione",
             "orbitingBodies": [],
             "timeWarpAltitudeLimits": [
@@ -205,20 +338,46 @@
             "semiMajorAxis": 377650651.501709
          },
          "rotation": {
-            "rotationPeriod": 236469.456
+            "initialRotationDeg": 230,
+            "initialRotationRad": 4.01425727958696,
+            "rotates": true,
+            "rotationPeriod": 236469.456,
+            "solarDayLength": 141115.385296176,
+            "solarRotationPeriod": false,
+            "tidallyLocked": true
+         },
+         "science": {
+            "FlyingHighDataValue": 1,
+            "FlyingLowDataValue": 1,
+            "InSpaceHighDataValue": 2,
+            "InSpaceLowDataValue": 3,
+            "LandedDataValue": 4,
+            "RecoveryValue": 2,
+            "SplashedDataValue": 1,
+            "flyingAltitudeThreshold": 18000,
+            "spaceAltitudeThreshold": 60000
          },
          "size": {
             "mass": 1.095452e+21,
             "radius": 561400
+         },
+         "surface": {
+            "albedo": 0.1,
+            "emissivity": 0.9,
+            "hasSolidSurface": true,
+            "ocean": false
          }
       },
       "Earth": {
+         "KopernicusTemplate": "Kerbin",
          "atmosphere": {
             "atmosphereContainsOxygen": true,
             "atmosphereDepth": 140000
          },
          "info": {
             "index": 1,
+            "isHomeWorld": true,
+            "isStar": false,
             "name": "Earth",
             "orbitingBodies": [
                "Moon"
@@ -248,16 +407,42 @@
             "semiMajorAxis": 149598261150.443
          },
          "rotation": {
-            "rotationPeriod": 86164.098903691
+            "initialRotationDeg": 90,
+            "initialRotationRad": 1.5707963267949,
+            "rotates": true,
+            "rotationPeriod": 86164.098903691,
+            "solarDayLength": 21600,
+            "solarRotationPeriod": true,
+            "tidallyLocked": false
+         },
+         "science": {
+            "FlyingHighDataValue": 0.899999976158142,
+            "FlyingLowDataValue": 0.699999988079071,
+            "InSpaceHighDataValue": 1.5,
+            "InSpaceLowDataValue": 1,
+            "LandedDataValue": 0.300000011920929,
+            "RecoveryValue": 1,
+            "SplashedDataValue": 0.400000005960465,
+            "flyingAltitudeThreshold": 18000,
+            "spaceAltitudeThreshold": 250000
          },
          "size": {
             "mu": 398600441800000,
             "radius": 6371000
+         },
+         "surface": {
+            "albedo": 0.35,
+            "emissivity": 0.65,
+            "hasSolidSurface": true,
+            "ocean": true
          }
       },
       "Enceladus": {
+         "KopernicusTemplate": "Mun",
          "info": {
             "index": 16,
+            "isHomeWorld": false,
+            "isStar": false,
             "name": "Enceladus",
             "orbitingBodies": [],
             "timeWarpAltitudeLimits": [
@@ -285,16 +470,42 @@
             "semiMajorAxis": 238413699.483873
          },
          "rotation": {
-            "rotationPeriod": 118386.8352
+            "initialRotationDeg": 230,
+            "initialRotationRad": 4.01425727958696,
+            "rotates": true,
+            "rotationPeriod": 118386.8352,
+            "solarDayLength": 141115.385296176,
+            "solarRotationPeriod": false,
+            "tidallyLocked": true
+         },
+         "science": {
+            "FlyingHighDataValue": 1,
+            "FlyingLowDataValue": 1,
+            "InSpaceHighDataValue": 2,
+            "InSpaceLowDataValue": 3,
+            "LandedDataValue": 4,
+            "RecoveryValue": 2,
+            "SplashedDataValue": 1,
+            "flyingAltitudeThreshold": 18000,
+            "spaceAltitudeThreshold": 60000
          },
          "size": {
             "mass": 1.08022e+20,
             "radius": 252100
+         },
+         "surface": {
+            "albedo": 0.1,
+            "emissivity": 0.9,
+            "hasSolidSurface": true,
+            "ocean": false
          }
       },
       "Europa": {
+         "KopernicusTemplate": "Mun",
          "info": {
             "index": 9,
+            "isHomeWorld": false,
+            "isStar": false,
             "name": "Europa",
             "orbitingBodies": []
          },
@@ -312,16 +523,42 @@
             "semiMajorAxis": 671253637.541717
          },
          "rotation": {
+            "initialRotationDeg": 230,
+            "initialRotationRad": 4.01425727958696,
+            "rotates": true,
+            "rotationPeriod": 138984.376574476,
+            "solarDayLength": 141115.385296176,
+            "solarRotationPeriod": false,
             "tidallyLocked": true
+         },
+         "science": {
+            "FlyingHighDataValue": 1,
+            "FlyingLowDataValue": 1,
+            "InSpaceHighDataValue": 2,
+            "InSpaceLowDataValue": 3,
+            "LandedDataValue": 4,
+            "RecoveryValue": 2,
+            "SplashedDataValue": 1,
+            "flyingAltitudeThreshold": 18000,
+            "spaceAltitudeThreshold": 60000
          },
          "size": {
             "mass": 4.7998e+22,
             "radius": 1550800
+         },
+         "surface": {
+            "albedo": 0.1,
+            "emissivity": 0.9,
+            "hasSolidSurface": true,
+            "ocean": false
          }
       },
       "Ganymede": {
+         "KopernicusTemplate": "Mun",
          "info": {
             "index": 13,
+            "isHomeWorld": false,
+            "isStar": false,
             "name": "Ganymede",
             "orbitingBodies": []
          },
@@ -339,16 +576,42 @@
             "semiMajorAxis": 1070823468.89452
          },
          "rotation": {
+            "initialRotationDeg": 230,
+            "initialRotationRad": 4.01425727958696,
+            "rotates": true,
+            "rotationPeriod": 138984.376574476,
+            "solarDayLength": 141115.385296176,
+            "solarRotationPeriod": false,
             "tidallyLocked": true
+         },
+         "science": {
+            "FlyingHighDataValue": 1,
+            "FlyingLowDataValue": 1,
+            "InSpaceHighDataValue": 2,
+            "InSpaceLowDataValue": 3,
+            "LandedDataValue": 4,
+            "RecoveryValue": 2,
+            "SplashedDataValue": 1,
+            "flyingAltitudeThreshold": 18000,
+            "spaceAltitudeThreshold": 60000
          },
          "size": {
             "mass": 1.4819e+23,
             "radius": 2624100
+         },
+         "surface": {
+            "albedo": 0.1,
+            "emissivity": 0.9,
+            "hasSolidSurface": true,
+            "ocean": false
          }
       },
       "Iapetus": {
+         "KopernicusTemplate": "Mun",
          "info": {
             "index": 20,
+            "isHomeWorld": false,
+            "isStar": false,
             "name": "Iapetus",
             "orbitingBodies": [],
             "timeWarpAltitudeLimits": [
@@ -376,16 +639,42 @@
             "semiMajorAxis": 3560162593.02297
          },
          "rotation": {
-            "rotationPeriod": 6853377.6
+            "initialRotationDeg": 230,
+            "initialRotationRad": 4.01425727958696,
+            "rotates": true,
+            "rotationPeriod": 6853377.6,
+            "solarDayLength": 141115.385296176,
+            "solarRotationPeriod": false,
+            "tidallyLocked": true
+         },
+         "science": {
+            "FlyingHighDataValue": 1,
+            "FlyingLowDataValue": 1,
+            "InSpaceHighDataValue": 2,
+            "InSpaceLowDataValue": 3,
+            "LandedDataValue": 4,
+            "RecoveryValue": 2,
+            "SplashedDataValue": 1,
+            "flyingAltitudeThreshold": 18000,
+            "spaceAltitudeThreshold": 60000
          },
          "size": {
             "mass": 1.805e+21,
             "radius": 734500
+         },
+         "surface": {
+            "albedo": 0.1,
+            "emissivity": 0.9,
+            "hasSolidSurface": true,
+            "ocean": false
          }
       },
       "Io": {
+         "KopernicusTemplate": "Moho",
          "info": {
             "index": 8,
+            "isHomeWorld": false,
+            "isStar": false,
             "name": "Io",
             "orbitingBodies": []
          },
@@ -403,20 +692,46 @@
             "semiMajorAxis": 422018294.523695
          },
          "rotation": {
+            "initialRotationDeg": 190,
+            "initialRotationRad": 3.31612557878923,
+            "rotates": true,
+            "rotationPeriod": 1210000,
+            "solarDayLength": 2665723.44748356,
+            "solarRotationPeriod": false,
             "tidallyLocked": true
+         },
+         "science": {
+            "FlyingHighDataValue": 1,
+            "FlyingLowDataValue": 1,
+            "InSpaceHighDataValue": 7,
+            "InSpaceLowDataValue": 8,
+            "LandedDataValue": 10,
+            "RecoveryValue": 7,
+            "SplashedDataValue": 1,
+            "flyingAltitudeThreshold": 18000,
+            "spaceAltitudeThreshold": 80000
          },
          "size": {
             "mass": 8.9319e+22,
             "radius": 1811300
+         },
+         "surface": {
+            "albedo": 0.1,
+            "emissivity": 0.9,
+            "hasSolidSurface": true,
+            "ocean": false
          }
       },
       "Jupiter": {
+         "KopernicusTemplate": "Jool",
          "atmosphere": {
             "atmosphereContainsOxygen": false,
             "atmosphereDepth": 1550000
          },
          "info": {
             "index": 5,
+            "isHomeWorld": false,
+            "isStar": false,
             "name": "Jupiter",
             "orbitingBodies": [
                "Callisto",
@@ -439,20 +754,46 @@
             "semiMajorAxis": 778188938659.755
          },
          "rotation": {
-            "rotationPeriod": 35730
+            "initialRotationDeg": 0,
+            "initialRotationRad": 0,
+            "rotates": true,
+            "rotationPeriod": 35730,
+            "solarDayLength": 36012.3870456149,
+            "solarRotationPeriod": false,
+            "tidallyLocked": false
+         },
+         "science": {
+            "FlyingHighDataValue": 9,
+            "FlyingLowDataValue": 12,
+            "InSpaceHighDataValue": 6,
+            "InSpaceLowDataValue": 7,
+            "LandedDataValue": 30,
+            "RecoveryValue": 6,
+            "SplashedDataValue": 1,
+            "flyingAltitudeThreshold": 120000,
+            "spaceAltitudeThreshold": 4000000
          },
          "size": {
             "mu": 126686534000000000,
             "radius": 69373000
+         },
+         "surface": {
+            "albedo": 0.52,
+            "emissivity": 0.48,
+            "hasSolidSurface": false,
+            "ocean": false
          }
       },
       "Mars": {
+         "KopernicusTemplate": "Duna",
          "atmosphere": {
             "atmosphereContainsOxygen": false,
             "atmosphereDepth": 125000
          },
          "info": {
             "index": 11,
+            "isHomeWorld": false,
+            "isStar": false,
             "name": "Mars",
             "orbitingBodies": [
                "Deimos",
@@ -483,16 +824,42 @@
             "semiMajorAxis": 227949699961.976
          },
          "rotation": {
-            "rotationPeriod": 88642.6848
+            "initialRotationDeg": 90,
+            "initialRotationRad": 1.5707963267949,
+            "rotates": true,
+            "rotationPeriod": 88642.6848,
+            "solarDayLength": 65766.7068643109,
+            "solarRotationPeriod": false,
+            "tidallyLocked": false
+         },
+         "science": {
+            "FlyingHighDataValue": 5,
+            "FlyingLowDataValue": 5,
+            "InSpaceHighDataValue": 5,
+            "InSpaceLowDataValue": 7,
+            "LandedDataValue": 8,
+            "RecoveryValue": 5,
+            "SplashedDataValue": 1,
+            "flyingAltitudeThreshold": 12000,
+            "spaceAltitudeThreshold": 140000
          },
          "size": {
             "mu": 42828310000000,
             "radius": 3375800
+         },
+         "surface": {
+            "albedo": 0.170000001788139,
+            "emissivity": 0.8299999833107,
+            "hasSolidSurface": true,
+            "ocean": false
          }
       },
       "Mercury": {
+         "KopernicusTemplate": "Mun",
          "info": {
             "index": 2,
+            "isHomeWorld": false,
+            "isStar": false,
             "name": "Mercury",
             "orbitingBodies": [],
             "timeWarpAltitudeLimits": [
@@ -520,16 +887,42 @@
             "semiMajorAxis": 57908973645.888
          },
          "rotation": {
-            "rotationPeriod": 5067031.68
+            "initialRotationDeg": 230,
+            "initialRotationRad": 4.01425727958696,
+            "rotates": true,
+            "rotationPeriod": 5067031.68,
+            "solarDayLength": 141115.385296176,
+            "solarRotationPeriod": false,
+            "tidallyLocked": true
+         },
+         "science": {
+            "FlyingHighDataValue": 1,
+            "FlyingLowDataValue": 1,
+            "InSpaceHighDataValue": 2,
+            "InSpaceLowDataValue": 3,
+            "LandedDataValue": 4,
+            "RecoveryValue": 2,
+            "SplashedDataValue": 1,
+            "flyingAltitudeThreshold": 18000,
+            "spaceAltitudeThreshold": 60000
          },
          "size": {
             "mass": 3.3022e+23,
             "radius": 2439700
+         },
+         "surface": {
+            "albedo": 0.1,
+            "emissivity": 0.9,
+            "hasSolidSurface": true,
+            "ocean": false
          }
       },
       "Mimas": {
+         "KopernicusTemplate": "Mun",
          "info": {
             "index": 15,
+            "isHomeWorld": false,
+            "isStar": false,
             "name": "Mimas",
             "orbitingBodies": [],
             "timeWarpAltitudeLimits": [
@@ -557,16 +950,42 @@
             "semiMajorAxis": 186009285.922049
          },
          "rotation": {
-            "rotationPeriod": 81388.8
+            "initialRotationDeg": 230,
+            "initialRotationRad": 4.01425727958696,
+            "rotates": true,
+            "rotationPeriod": 81388.8,
+            "solarDayLength": 141115.385296176,
+            "solarRotationPeriod": false,
+            "tidallyLocked": true
+         },
+         "science": {
+            "FlyingHighDataValue": 1,
+            "FlyingLowDataValue": 1,
+            "InSpaceHighDataValue": 2,
+            "InSpaceLowDataValue": 3,
+            "LandedDataValue": 4,
+            "RecoveryValue": 2,
+            "SplashedDataValue": 1,
+            "flyingAltitudeThreshold": 18000,
+            "spaceAltitudeThreshold": 60000
          },
          "size": {
             "mass": 3.7493e+19,
             "radius": 198200
+         },
+         "surface": {
+            "albedo": 0.1,
+            "emissivity": 0.9,
+            "hasSolidSurface": true,
+            "ocean": false
          }
       },
       "Miranda": {
+         "KopernicusTemplate": "Eeloo",
          "info": {
             "index": 91,
+            "isHomeWorld": false,
+            "isStar": false,
             "name": "Miranda",
             "orbitingBodies": [],
             "timeWarpAltitudeLimits": [
@@ -594,16 +1013,42 @@
             "semiMajorAxis": 129880047.634175
          },
          "rotation": {
+            "initialRotationDeg": 25,
+            "initialRotationRad": 0.436332312998582,
+            "rotates": true,
+            "rotationPeriod": 19460,
+            "solarDayLength": 19462.4124696157,
+            "solarRotationPeriod": false,
             "tidallyLocked": true
+         },
+         "science": {
+            "FlyingHighDataValue": 1,
+            "FlyingLowDataValue": 1,
+            "InSpaceHighDataValue": 10,
+            "InSpaceLowDataValue": 12,
+            "LandedDataValue": 15,
+            "RecoveryValue": 10,
+            "SplashedDataValue": 1,
+            "flyingAltitudeThreshold": 18000,
+            "spaceAltitudeThreshold": 60000
          },
          "size": {
             "mass": 6.6e+19,
             "radius": 235700
+         },
+         "surface": {
+            "albedo": 0.5,
+            "emissivity": 0.5,
+            "hasSolidSurface": true,
+            "ocean": false
          }
       },
       "Moon": {
+         "KopernicusTemplate": "Mun",
          "info": {
             "index": 10,
+            "isHomeWorld": false,
+            "isStar": false,
             "name": "Moon",
             "orbitingBodies": [],
             "timeWarpAltitudeLimits": [
@@ -631,20 +1076,46 @@
             "semiMajorAxis": 384308437.770707
          },
          "rotation": {
-            "rotationPeriod": 2360584.68479999
+            "initialRotationDeg": 230,
+            "initialRotationRad": 4.01425727958696,
+            "rotates": true,
+            "rotationPeriod": 2360584.68479999,
+            "solarDayLength": 141115.385296176,
+            "solarRotationPeriod": false,
+            "tidallyLocked": true
+         },
+         "science": {
+            "FlyingHighDataValue": 1,
+            "FlyingLowDataValue": 1,
+            "InSpaceHighDataValue": 2,
+            "InSpaceLowDataValue": 3,
+            "LandedDataValue": 4,
+            "RecoveryValue": 2,
+            "SplashedDataValue": 1,
+            "flyingAltitudeThreshold": 18000,
+            "spaceAltitudeThreshold": 60000
          },
          "size": {
             "mass": 7.34767309e+22,
             "radius": 1737100
+         },
+         "surface": {
+            "albedo": 0.1,
+            "emissivity": 0.9,
+            "hasSolidSurface": true,
+            "ocean": false
          }
       },
       "Neptune": {
+         "KopernicusTemplate": "Jool",
          "atmosphere": {
             "atmosphereContainsOxygen": false,
             "atmosphereDepth": 1250000
          },
          "info": {
             "index": 22,
+            "isHomeWorld": false,
+            "isStar": false,
             "name": "Neptune",
             "orbitingBodies": [
                "Triton"
@@ -674,16 +1145,42 @@
             "semiMajorAxis": 4497455832811.74
          },
          "rotation": {
-            "rotationPeriod": 58000.32
+            "initialRotationDeg": 0,
+            "initialRotationRad": 0,
+            "rotates": true,
+            "rotationPeriod": 58000.32,
+            "solarDayLength": 36012.3870456149,
+            "solarRotationPeriod": false,
+            "tidallyLocked": false
+         },
+         "science": {
+            "FlyingHighDataValue": 9,
+            "FlyingLowDataValue": 12,
+            "InSpaceHighDataValue": 6,
+            "InSpaceLowDataValue": 7,
+            "LandedDataValue": 30,
+            "RecoveryValue": 6,
+            "SplashedDataValue": 1,
+            "flyingAltitudeThreshold": 120000,
+            "spaceAltitudeThreshold": 4000000
          },
          "size": {
             "mu": 6836529000000000,
             "radius": 24085000
+         },
+         "surface": {
+            "albedo": 0.52,
+            "emissivity": 0.48,
+            "hasSolidSurface": false,
+            "ocean": false
          }
       },
       "Oberon": {
+         "KopernicusTemplate": "Eeloo",
          "info": {
             "index": 95,
+            "isHomeWorld": false,
+            "isStar": false,
             "name": "Oberon",
             "orbitingBodies": [],
             "timeWarpAltitudeLimits": [
@@ -711,16 +1208,42 @@
             "semiMajorAxis": 583435328.340603
          },
          "rotation": {
+            "initialRotationDeg": 25,
+            "initialRotationRad": 0.436332312998582,
+            "rotates": true,
+            "rotationPeriod": 19460,
+            "solarDayLength": 19462.4124696157,
+            "solarRotationPeriod": false,
             "tidallyLocked": true
+         },
+         "science": {
+            "FlyingHighDataValue": 1,
+            "FlyingLowDataValue": 1,
+            "InSpaceHighDataValue": 10,
+            "InSpaceLowDataValue": 12,
+            "LandedDataValue": 15,
+            "RecoveryValue": 10,
+            "SplashedDataValue": 1,
+            "flyingAltitudeThreshold": 18000,
+            "spaceAltitudeThreshold": 60000
          },
          "size": {
             "mass": 2.88e+21,
             "radius": 761400
+         },
+         "surface": {
+            "albedo": 0.5,
+            "emissivity": 0.5,
+            "hasSolidSurface": true,
+            "ocean": false
          }
       },
       "Phobos": {
+         "KopernicusTemplate": "Bop",
          "info": {
             "index": 7,
+            "isHomeWorld": false,
+            "isStar": false,
             "name": "Phobos",
             "orbitingBodies": [],
             "timeWarpAltitudeLimits": [
@@ -748,20 +1271,46 @@
             "semiMajorAxis": 9378492.20908831
          },
          "rotation": {
-            "rotationPeriod": 27553.843872
+            "initialRotationDeg": 230,
+            "initialRotationRad": 4.01425727958696,
+            "rotates": true,
+            "rotationPeriod": 27553.843872,
+            "solarDayLength": 547355.076395446,
+            "solarRotationPeriod": false,
+            "tidallyLocked": true
+         },
+         "science": {
+            "FlyingHighDataValue": 1,
+            "FlyingLowDataValue": 1,
+            "InSpaceHighDataValue": 8,
+            "InSpaceLowDataValue": 9,
+            "LandedDataValue": 12,
+            "RecoveryValue": 8,
+            "SplashedDataValue": 1,
+            "flyingAltitudeThreshold": 18000,
+            "spaceAltitudeThreshold": 25000
          },
          "size": {
             "mass": 10720000000000000,
             "radius": 7250
+         },
+         "surface": {
+            "albedo": 0.200000002980232,
+            "emissivity": 0.800000011920929,
+            "hasSolidSurface": true,
+            "ocean": false
          }
       },
       "Pluto": {
+         "KopernicusTemplate": "Mun",
          "atmosphere": {
             "atmosphereContainsOxygen": false,
             "atmosphereDepth": 110000
          },
          "info": {
             "index": 24,
+            "isHomeWorld": false,
+            "isStar": false,
             "name": "Pluto",
             "orbitingBodies": [
                "Charon"
@@ -791,16 +1340,42 @@
             "semiMajorAxis": 5845670624078.22
          },
          "rotation": {
-            "rotationPeriod": 551856.672
+            "initialRotationDeg": 230,
+            "initialRotationRad": 4.01425727958696,
+            "rotates": true,
+            "rotationPeriod": 551856.672,
+            "solarDayLength": 141115.385296176,
+            "solarRotationPeriod": false,
+            "tidallyLocked": true
+         },
+         "science": {
+            "FlyingHighDataValue": 1,
+            "FlyingLowDataValue": 1,
+            "InSpaceHighDataValue": 2,
+            "InSpaceLowDataValue": 3,
+            "LandedDataValue": 4,
+            "RecoveryValue": 2,
+            "SplashedDataValue": 1,
+            "flyingAltitudeThreshold": 18000,
+            "spaceAltitudeThreshold": 60000
          },
          "size": {
             "mass": 1.305e+22,
             "radius": 1187000
+         },
+         "surface": {
+            "albedo": 0.1,
+            "emissivity": 0.9,
+            "hasSolidSurface": true,
+            "ocean": false
          }
       },
       "Rhea": {
+         "KopernicusTemplate": "Mun",
          "info": {
             "index": 19,
+            "isHomeWorld": false,
+            "isStar": false,
             "name": "Rhea",
             "orbitingBodies": [],
             "timeWarpAltitudeLimits": [
@@ -828,20 +1403,46 @@
             "semiMajorAxis": 527212645.707199
          },
          "rotation": {
-            "rotationPeriod": 390373.5168
+            "initialRotationDeg": 230,
+            "initialRotationRad": 4.01425727958696,
+            "rotates": true,
+            "rotationPeriod": 390373.5168,
+            "solarDayLength": 141115.385296176,
+            "solarRotationPeriod": false,
+            "tidallyLocked": true
+         },
+         "science": {
+            "FlyingHighDataValue": 1,
+            "FlyingLowDataValue": 1,
+            "InSpaceHighDataValue": 2,
+            "InSpaceLowDataValue": 3,
+            "LandedDataValue": 4,
+            "RecoveryValue": 2,
+            "SplashedDataValue": 1,
+            "flyingAltitudeThreshold": 18000,
+            "spaceAltitudeThreshold": 60000
          },
          "size": {
             "mass": 2.306518e+21,
             "radius": 763800
+         },
+         "surface": {
+            "albedo": 0.1,
+            "emissivity": 0.9,
+            "hasSolidSurface": true,
+            "ocean": false
          }
       },
       "Saturn": {
+         "KopernicusTemplate": "Jool",
          "atmosphere": {
             "atmosphereContainsOxygen": false,
             "atmosphereDepth": 2000000
          },
          "info": {
             "index": 14,
+            "isHomeWorld": false,
+            "isStar": false,
             "name": "Saturn",
             "orbitingBodies": [
                "Dione",
@@ -877,16 +1478,46 @@
             "semiMajorAxis": 1424838758613.27
          },
          "rotation": {
-            "rotationPeriod": 38052
+            "initialRotationDeg": 0,
+            "initialRotationRad": 0,
+            "rotates": true,
+            "rotationPeriod": 38052,
+            "solarDayLength": 36012.3870456149,
+            "solarRotationPeriod": false,
+            "tidallyLocked": false
+         },
+         "science": {
+            "FlyingHighDataValue": 9,
+            "FlyingLowDataValue": 12,
+            "InSpaceHighDataValue": 6,
+            "InSpaceLowDataValue": 7,
+            "LandedDataValue": 30,
+            "RecoveryValue": 6,
+            "SplashedDataValue": 1,
+            "flyingAltitudeThreshold": 120000,
+            "spaceAltitudeThreshold": 4000000
          },
          "size": {
             "mu": 37931187000000000,
             "radius": 57216000
+         },
+         "surface": {
+            "albedo": 0.52,
+            "emissivity": 0.48,
+            "hasSolidSurface": false,
+            "ocean": false
          }
       },
       "Sol": {
+         "KopernicusTemplate": "Sun",
+         "atmosphere": {
+            "atmosphereContainsOxygen": false,
+            "atmosphereDepth": 600000
+         },
          "info": {
             "index": 0,
+            "isHomeWorld": false,
+            "isStar": true,
             "name": "Sol",
             "orbitingBodies": [
                "Ceres",
@@ -903,14 +1534,43 @@
             ]
          },
          "orbit": {},
+         "rotation": {
+            "initialRotationDeg": 0,
+            "initialRotationRad": 0,
+            "rotates": true,
+            "rotationPeriod": 432000,
+            "solarDayLength": 1,
+            "solarRotationPeriod": false,
+            "tidallyLocked": false
+         },
+         "science": {
+            "FlyingHighDataValue": 1,
+            "FlyingLowDataValue": 1,
+            "InSpaceHighDataValue": 2,
+            "InSpaceLowDataValue": 11,
+            "LandedDataValue": 1,
+            "RecoveryValue": 4,
+            "SplashedDataValue": 1,
+            "flyingAltitudeThreshold": 18000,
+            "spaceAltitudeThreshold": 1000000000
+         },
          "size": {
             "mu": 1.32712e+20,
             "radius": 696342000
+         },
+         "surface": {
+            "albedo": 0,
+            "emissivity": 0,
+            "hasSolidSurface": false,
+            "ocean": false
          }
       },
       "Tethys": {
+         "KopernicusTemplate": "Mun",
          "info": {
             "index": 17,
+            "isHomeWorld": false,
+            "isStar": false,
             "name": "Tethys",
             "orbitingBodies": [],
             "timeWarpAltitudeLimits": [
@@ -938,20 +1598,46 @@
             "semiMajorAxis": 294973462.380443
          },
          "rotation": {
-            "rotationPeriod": 163106.0928
+            "initialRotationDeg": 230,
+            "initialRotationRad": 4.01425727958696,
+            "rotates": true,
+            "rotationPeriod": 163106.0928,
+            "solarDayLength": 141115.385296176,
+            "solarRotationPeriod": false,
+            "tidallyLocked": true
+         },
+         "science": {
+            "FlyingHighDataValue": 1,
+            "FlyingLowDataValue": 1,
+            "InSpaceHighDataValue": 2,
+            "InSpaceLowDataValue": 3,
+            "LandedDataValue": 4,
+            "RecoveryValue": 2,
+            "SplashedDataValue": 1,
+            "flyingAltitudeThreshold": 18000,
+            "spaceAltitudeThreshold": 60000
          },
          "size": {
             "mass": 6.17449e+20,
             "radius": 531100
+         },
+         "surface": {
+            "albedo": 0.1,
+            "emissivity": 0.9,
+            "hasSolidSurface": true,
+            "ocean": false
          }
       },
       "Titan": {
+         "KopernicusTemplate": "Laythe",
          "atmosphere": {
             "atmosphereContainsOxygen": false,
             "atmosphereDepth": 600000
          },
          "info": {
             "index": 6,
+            "isHomeWorld": false,
+            "isStar": false,
             "name": "Titan",
             "orbitingBodies": [],
             "timeWarpAltitudeLimits": [
@@ -979,16 +1665,42 @@
             "semiMajorAxis": 1221966238.51143
          },
          "rotation": {
-            "rotationPeriod": 1377648
+            "initialRotationDeg": 90,
+            "initialRotationRad": 1.5707963267949,
+            "rotates": true,
+            "rotationPeriod": 1377648,
+            "solarDayLength": 53007.7122025236,
+            "solarRotationPeriod": false,
+            "tidallyLocked": true
+         },
+         "science": {
+            "FlyingHighDataValue": 10,
+            "FlyingLowDataValue": 11,
+            "InSpaceHighDataValue": 8,
+            "InSpaceLowDataValue": 9,
+            "LandedDataValue": 14,
+            "RecoveryValue": 8,
+            "SplashedDataValue": 12,
+            "flyingAltitudeThreshold": 10000,
+            "spaceAltitudeThreshold": 200000
          },
          "size": {
             "mu": 8978133000000,
             "radius": 2573300
+         },
+         "surface": {
+            "albedo": 0.3,
+            "emissivity": 0.7,
+            "hasSolidSurface": true,
+            "ocean": true
          }
       },
       "Titania": {
+         "KopernicusTemplate": "Eeloo",
          "info": {
             "index": 94,
+            "isHomeWorld": false,
+            "isStar": false,
             "name": "Titania",
             "orbitingBodies": [],
             "timeWarpAltitudeLimits": [
@@ -1016,20 +1728,46 @@
             "semiMajorAxis": 436292682.967703
          },
          "rotation": {
+            "initialRotationDeg": 25,
+            "initialRotationRad": 0.436332312998582,
+            "rotates": true,
+            "rotationPeriod": 19460,
+            "solarDayLength": 19462.4124696157,
+            "solarRotationPeriod": false,
             "tidallyLocked": true
+         },
+         "science": {
+            "FlyingHighDataValue": 1,
+            "FlyingLowDataValue": 1,
+            "InSpaceHighDataValue": 10,
+            "InSpaceLowDataValue": 12,
+            "LandedDataValue": 15,
+            "RecoveryValue": 10,
+            "SplashedDataValue": 1,
+            "flyingAltitudeThreshold": 18000,
+            "spaceAltitudeThreshold": 60000
          },
          "size": {
             "mass": 3.42e+21,
             "radius": 788900
+         },
+         "surface": {
+            "albedo": 0.5,
+            "emissivity": 0.5,
+            "hasSolidSurface": true,
+            "ocean": false
          }
       },
       "Triton": {
+         "KopernicusTemplate": "Mun",
          "atmosphere": {
             "atmosphereContainsOxygen": false,
             "atmosphereDepth": 110000
          },
          "info": {
             "index": 23,
+            "isHomeWorld": false,
+            "isStar": false,
             "name": "Triton",
             "orbitingBodies": [],
             "timeWarpAltitudeLimits": [
@@ -1057,16 +1795,42 @@
             "semiMajorAxis": 354767243.540665
          },
          "rotation": {
-            "rotationPeriod": 507773
+            "initialRotationDeg": 230,
+            "initialRotationRad": 4.01425727958696,
+            "rotates": true,
+            "rotationPeriod": 507773,
+            "solarDayLength": 141115.385296176,
+            "solarRotationPeriod": false,
+            "tidallyLocked": true
+         },
+         "science": {
+            "FlyingHighDataValue": 1,
+            "FlyingLowDataValue": 1,
+            "InSpaceHighDataValue": 2,
+            "InSpaceLowDataValue": 3,
+            "LandedDataValue": 4,
+            "RecoveryValue": 2,
+            "SplashedDataValue": 1,
+            "flyingAltitudeThreshold": 18000,
+            "spaceAltitudeThreshold": 60000
          },
          "size": {
             "mu": 1427900000000,
             "radius": 1353400
+         },
+         "surface": {
+            "albedo": 0.1,
+            "emissivity": 0.9,
+            "hasSolidSurface": true,
+            "ocean": false
          }
       },
       "Umbriel": {
+         "KopernicusTemplate": "Eeloo",
          "info": {
             "index": 93,
+            "isHomeWorld": false,
+            "isStar": false,
             "name": "Umbriel",
             "orbitingBodies": [],
             "timeWarpAltitudeLimits": [
@@ -1094,20 +1858,46 @@
             "semiMajorAxis": 265992360.127656
          },
          "rotation": {
+            "initialRotationDeg": 25,
+            "initialRotationRad": 0.436332312998582,
+            "rotates": true,
+            "rotationPeriod": 19460,
+            "solarDayLength": 19462.4124696157,
+            "solarRotationPeriod": false,
             "tidallyLocked": true
+         },
+         "science": {
+            "FlyingHighDataValue": 1,
+            "FlyingLowDataValue": 1,
+            "InSpaceHighDataValue": 10,
+            "InSpaceLowDataValue": 12,
+            "LandedDataValue": 15,
+            "RecoveryValue": 10,
+            "SplashedDataValue": 1,
+            "flyingAltitudeThreshold": 18000,
+            "spaceAltitudeThreshold": 60000
          },
          "size": {
             "mass": 1.22e+21,
             "radius": 584700
+         },
+         "surface": {
+            "albedo": 0.5,
+            "emissivity": 0.5,
+            "hasSolidSurface": true,
+            "ocean": false
          }
       },
       "Uranus": {
+         "KopernicusTemplate": "Jool",
          "atmosphere": {
             "atmosphereContainsOxygen": false,
             "atmosphereDepth": 1400000
          },
          "info": {
             "index": 21,
+            "isHomeWorld": false,
+            "isStar": false,
             "name": "Uranus",
             "orbitingBodies": [
                "Ariel",
@@ -1141,20 +1931,46 @@
             "semiMajorAxis": 2866832853163.98
          },
          "rotation": {
-            "rotationPeriod": 62063.712
+            "initialRotationDeg": 0,
+            "initialRotationRad": 0,
+            "rotates": true,
+            "rotationPeriod": 62063.712,
+            "solarDayLength": 36012.3870456149,
+            "solarRotationPeriod": false,
+            "tidallyLocked": false
+         },
+         "science": {
+            "FlyingHighDataValue": 9,
+            "FlyingLowDataValue": 12,
+            "InSpaceHighDataValue": 6,
+            "InSpaceLowDataValue": 7,
+            "LandedDataValue": 30,
+            "RecoveryValue": 6,
+            "SplashedDataValue": 1,
+            "flyingAltitudeThreshold": 120000,
+            "spaceAltitudeThreshold": 4000000
          },
          "size": {
             "mu": 5793939000000000,
             "radius": 24702000
+         },
+         "surface": {
+            "albedo": 0.52,
+            "emissivity": 0.48,
+            "hasSolidSurface": false,
+            "ocean": false
          }
       },
       "Venus": {
+         "KopernicusTemplate": "Duna",
          "atmosphere": {
             "atmosphereContainsOxygen": false,
             "atmosphereDepth": 145000
          },
          "info": {
             "index": 3,
+            "isHomeWorld": false,
+            "isStar": false,
             "name": "Venus",
             "orbitingBodies": [],
             "timeWarpAltitudeLimits": [
@@ -1182,17 +1998,43 @@
             "semiMajorAxis": 108209548790.467
          },
          "rotation": {
-            "rotationPeriod": -20996797.016381
+            "initialRotationDeg": 90,
+            "initialRotationRad": 1.5707963267949,
+            "rotates": true,
+            "rotationPeriod": -20996797.016381,
+            "solarDayLength": 65766.7068643109,
+            "solarRotationPeriod": false,
+            "tidallyLocked": false
+         },
+         "science": {
+            "FlyingHighDataValue": 5,
+            "FlyingLowDataValue": 5,
+            "InSpaceHighDataValue": 5,
+            "InSpaceLowDataValue": 7,
+            "LandedDataValue": 8,
+            "RecoveryValue": 5,
+            "SplashedDataValue": 1,
+            "flyingAltitudeThreshold": 12000,
+            "spaceAltitudeThreshold": 140000
          },
          "size": {
             "mass": 4.8676e+24,
             "mu": 324859000000000,
             "radius": 6049000
+         },
+         "surface": {
+            "albedo": 0.170000001788139,
+            "emissivity": 0.8299999833107,
+            "hasSolidSurface": true,
+            "ocean": false
          }
       },
       "Vesta": {
+         "KopernicusTemplate": "Eeloo",
          "info": {
             "index": 60,
+            "isHomeWorld": false,
+            "isStar": false,
             "name": "Vesta",
             "orbitingBodies": [],
             "timeWarpAltitudeLimits": [
@@ -1220,11 +2062,34 @@
             "semiMajorAxis": 353346223803.158
          },
          "rotation": {
-            "rotationPeriod": 19231.2
+            "initialRotationDeg": 25,
+            "initialRotationRad": 0.436332312998582,
+            "rotates": true,
+            "rotationPeriod": 19231.2,
+            "solarDayLength": 19462.4124696157,
+            "solarRotationPeriod": false,
+            "tidallyLocked": false
+         },
+         "science": {
+            "FlyingHighDataValue": 1,
+            "FlyingLowDataValue": 1,
+            "InSpaceHighDataValue": 10,
+            "InSpaceLowDataValue": 12,
+            "LandedDataValue": 15,
+            "RecoveryValue": 10,
+            "SplashedDataValue": 1,
+            "flyingAltitudeThreshold": 18000,
+            "spaceAltitudeThreshold": 60000
          },
          "size": {
             "mass": 2.59e+20,
             "radius": 262700
+         },
+         "surface": {
+            "albedo": 0.5,
+            "emissivity": 0.5,
+            "hasSolidSurface": true,
+            "ocean": false
          }
       }
    },
