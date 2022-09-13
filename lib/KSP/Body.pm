@@ -297,12 +297,18 @@ sub maxGroundHeight {
 	$_[0]->json->{size}{maxHeight} || 0
 }
 
+sub atmosphereDepth {
+	my ($self) = @_;
+	$self->json->{atmosphere} ?
+		($self->json->{atmosphere}{atmosphereDepth} || 0) : 0
+}
+
 sub lowHeight {
 	my ($self) = @_;
 	my $safety = 10e3;
-	$self->json->{atmosphere} ?
-		($self->json->{atmosphere}{atmosphereDepth} || $safety) + $safety :
-		($self->json->{size}{maxHeight} || $safety) + $safety;
+	my $a = $self->atmosphereDepth;
+	my $g = $self->maxGroundHeight;
+	($a > $g ? $a : $g) + $safety
 }
 
 sub highHeight {
