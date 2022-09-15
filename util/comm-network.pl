@@ -25,7 +25,9 @@ print "hmin = ", U($hmin), "m\n";
 my $omin = $body->orbit($hmin);
 print "omin: $omin\n";
 
-my $M = 3600 * $N;
+my $M = 30 * 60;
+print "module: ", $body->system->pretty_interval($M), "\n";
+
 my $T = $M * (int($omin->T / $M) + 1);
 
 my ($of, $ot);
@@ -36,7 +38,7 @@ for (;; $T += $M) {
 	$h > $hmin or next;
 	$ot = $body->orbit(ap => $h, T => (($N - 1) / $N) * $T);
 	print "trying ot = $ot\n";
-	$ot->pe > $hmin or next;
+	$ot->pe >= $body->lowHeight or next;
 	last;
 }
 
