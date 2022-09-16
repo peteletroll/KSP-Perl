@@ -6,6 +6,7 @@ binmode \*STDOUT, ":utf8";
 use strict;
 use warnings;
 
+use POSIX qw(floor ceil);
 use Math::Trig;
 use KSP qw(:all);
 
@@ -19,7 +20,7 @@ print "N = $N\n";
 my $r = $body->radius;
 print "r = ", U($r), "m\n";
 
-my $hmin = 1 / cos(pi / $N) * ($body->lowHeight + $r) - $r;
+my $hmin = ($body->lowHeight + $r) / cos(pi / $N) - $r;
 print "hmin = ", U($hmin), "m\n";
 
 my $omin = $body->orbit($hmin);
@@ -28,7 +29,7 @@ print "omin: $omin\n";
 my $M = 30 * 60;
 print "module: ", $body->system->pretty_interval($M), "\n";
 
-my $T = $M * (int($omin->T / $M) + 1);
+my $T = $M * ceil($omin->T / $M);
 
 my ($of, $ot);
 for (;; $T += $M) {
