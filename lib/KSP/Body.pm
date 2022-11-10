@@ -350,6 +350,21 @@ sub highOrbit {
 	KSP::Orbit2D->new($self, pe => $self->lowHeight, ap => $self->highHeight)
 }
 
+sub intersectOrbit {
+	my ($self) = @_;
+	scalar $self->cache("intersectOrbit", sub {
+		$self->parent or return undef;
+		my $soi = $self->SOI;
+		$self->parent->orbit(pe => $self->pe - $soi, ap => $self->ap + $soi)
+	})
+}
+
+sub intersects {
+	my ($self, $other) = @_;
+	my $io = $self->intersectOrbit or return undef;
+	$io->intersects($other)
+}
+
 sub tree {
 	my ($self, $indent) = @_;
 	defined $indent or $indent = "";

@@ -268,6 +268,17 @@ sub checkHeight {
 	!$err
 }
 
+sub intersects {
+	my ($self, $other) = @_;
+	UNIVERSAL::isa($other, "KSP::Body") and $other = $other->intersectOrbit;
+	$other or return undef;
+	$self->body == $other->body or return undef;
+	$self->pe < $other->pe ?
+		$self->ap >= $other->pe :
+		$other->ap >= $self->pe
+
+}
+
 sub v { # v from h via vis viva equation
 	my ($self, $h) = @_;
 	$self->checkHeight($h);
