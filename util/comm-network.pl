@@ -10,7 +10,7 @@ use POSIX qw(floor ceil);
 use Math::Trig;
 use KSP qw(:all);
 
-@ARGV == 1 or die "usage: $0 <body>\n";
+@ARGV >= 1 && @ARGV <= 2 or die "usage: $0 <body> [ <time module> ]\n";
 
 my $body = Kerbin->system->body($ARGV[0]);
 
@@ -26,7 +26,14 @@ print "hmin = ", U($hmin), "m\n";
 my $omin = $body->orbit($hmin);
 print "omin: $omin\n";
 
-my $M = 30 * 60;
+my $M = $ARGV[1] || 30 * 60;
+if ($M =~ /^(\d+)([smhd])$/) {
+	$M = $2 eq "s" ? $1 :
+		$2 eq "m" ? 60 * $1 :
+		$2 eq "h" ? 60 * 60 * $1 :
+		$2 eq "d" ? 6 * 60 * 60 * $1 :
+		$M;
+}
 print "module: ", $body->system->pretty_interval($M), "\n";
 
 my $T = $M * ceil($omin->T / $M);
