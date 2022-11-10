@@ -13,6 +13,7 @@ use KSP qw(:all);
 @ARGV >= 1 && @ARGV <= 2 or die "usage: $0 <body> [ <time module> ]\n";
 
 my $body = Kerbin->system->body($ARGV[0]);
+my $system = $body->system;
 
 my $N = 3;
 print "N = $N\n";
@@ -27,11 +28,12 @@ my $omin = $body->orbit($hmin);
 print "omin: $omin\n";
 
 my $M = $ARGV[1] || 30 * 60;
-if ($M =~ /^(\d+)([smhd])$/) {
+if ($M =~ /^(\d+)([smhdy])$/) {
 	$M = $2 eq "s" ? $1 :
 		$2 eq "m" ? 60 * $1 :
 		$2 eq "h" ? 60 * 60 * $1 :
-		$2 eq "d" ? 6 * 60 * 60 * $1 :
+		$2 eq "d" ? $system->secs_per_day * $1 :
+		$2 eq "y" ? $system->secs_per_year * $1 :
 		$M;
 }
 print "module: ", $body->system->pretty_interval($M), "\n";
