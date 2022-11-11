@@ -41,7 +41,7 @@ my $omin = $body->orbit($hmin);
 print "omin: $omin\n";
 
 my $M = $ARGV[1] || 30 * 60;
-if ($M =~ /^(\d+)([smhdy])$/) {
+if ($M =~ /^(.+)([smhdy])$/) {
 	$M = $2 eq "s" ? $1 :
 		$2 eq "m" ? 60 * $1 :
 		$2 eq "h" ? 60 * 60 * $1 :
