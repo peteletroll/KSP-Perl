@@ -67,5 +67,8 @@ for (;; $T += $M) {
 
 print "\nflight plan:\n", $body->lowOrbit->burnTo($of->ap)->goAp->burnTo($ot->pe)->goAp->burnCirc;
 
+my @int = map { $_->name } grep { $of->intersects($_) } $body->children;
+print "\nintersects: ", join(" ", @int), "\n" if @int;
+
 print "\ndeorbit:\n", $of->burnTo(0), "\n";
 
