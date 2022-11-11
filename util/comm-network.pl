@@ -12,7 +12,20 @@ use KSP qw(:all);
 
 @ARGV >= 1 && @ARGV <= 2 or die "usage: $0 <body> [ <time module> ]\n";
 
-my $body = Kerbin->system->body($ARGV[0]);
+my @systems = (Kerbin->system, KSP::SolarSystem->new("RealSolarSystem"));
+my $bodyname = $ARGV[0];
+my $body = undef;
+
+foreach my $s (@systems) {
+	my $b = eval { $s->body($bodyname) };
+	if ($b) {
+		$body = $b;
+		last;
+	}
+}
+
+$body or die "$0: can't find body \"$bodyname\"\n";
+
 my $system = $body->system;
 
 my $N = 3;
@@ -36,7 +49,7 @@ if ($M =~ /^(\d+)([smhdy])$/) {
 		$2 eq "y" ? $system->secs_per_year * $1 :
 		$M;
 }
-print "module: ", $body->system->pretty_interval($M), "\n";
+printf "module: %s (%g sec)\n", $body->system->pretty_interval($M), $M;
 
 my $T = $M * ceil($omin->T / $M);
 
