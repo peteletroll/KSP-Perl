@@ -134,7 +134,8 @@ foreach my $b (@bodies) {
 
 foreach my $j (values %bodiesJson) {
 	if ($j->{orbit}) {
-		$j->{orbit}{referenceBody} = $rename{$j->{orbit}{referenceBody}};
+		my $r = $rename{$j->{orbit}{referenceBody}};
+		$j->{orbit}{referenceBody} = $r if $r;
 	} else {
 		$rootBody = $j->{info}{name};
 	}
