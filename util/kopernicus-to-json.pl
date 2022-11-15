@@ -26,7 +26,8 @@ my $DIR = $ARGV[0];
 
 my @bodies = ();
 my %bodies = ();
-my %delete = map { $_ => 1 } qw(
+my %bodies_to_delete = ();
+my %nodes_to_delete = map { $_ => 1 } qw(
 	ScaledVersion
 	PQS
 	Mods
@@ -41,6 +42,11 @@ find {
 		/\.cfg$/i && -f $_ or return;
 		my $node = KSP::ConfigNode->load($_) or return;
 		$node->visit(sub {
+			if ($_->name =~ /^!Body\[(\w+)\]/) {
+				warn "DELETE $1 ", $_->name, "\n";
+				$bodies_to_delete{$1} = 1;
+				return;
+			}
 			$_->name eq "Body" or return;
 			$_->parent or return;
 			$_->parent->name =~ /kopernicus/i or return;
@@ -49,7 +55,7 @@ find {
 			$bodies{$name} = $_;
 			$_->visit(sub {
 				my $n = $_->name or return;
-				$delete{$n} || $n =~ /^temperature.*Curve$/
+				$nodes_to_delete{$n} || $n =~ /^temperature.*Curve$/
 					and $_->delete;
 			});
 		});
@@ -65,14 +71,12 @@ foreach my $b (@bodies) {
 	$rename{$name} ||= $b->get("cbNameLater") || $name;
 	my $j = { };
 
-	my $tmpl = $b->find("Template");
-	$tmpl &&= $tmpl->get("name");
-	if ($tmpl) {
+	sub import_stock_body($) {
+		my ($tmpl) = @_;
 		my $tbody = $stockSystem->body($tmpl)
 			or die "NO TEMPLATE: $tmpl\n";
 		my $tjson = $tbody->json;
 		# warn "TEMPLATE $name <- $tmpl\n";
-		$j->{KopernicusTemplate} = $tmpl if $tmpl;
 		foreach my $i (sort keys %$tjson) {
 			my $k = $tjson->{$i};
 			ref $k eq "HASH" or next;
@@ -88,6 +92,13 @@ foreach my $b (@bodies) {
 				$j->{$i}{$n} = $v;
 			}
 		}
+	}
+
+	my $tmpl = $b->find("Template");
+	$tmpl &&= $tmpl->get("name");
+	if ($tmpl) {
+		import_stock_body($tmpl);
+		$j->{KopernicusTemplate} = $tmpl;
 	}
 
 	$j->{info}{name} = $rename{$name};
