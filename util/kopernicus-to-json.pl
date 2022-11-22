@@ -43,7 +43,7 @@ find {
 		my $node = KSP::ConfigNode->load($_) or return;
 		$node->visit(sub {
 			if ($_->name =~ /^!Body\[(\w+)\]/) {
-				warn "DELETE $1 ", $_->name, "\n";
+				warn "DELETE\t$1\t", $_->name, "\n";
 				$bodies_to_delete{$1} = 1;
 				return;
 			}
