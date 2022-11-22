@@ -182,10 +182,14 @@ sub orbitNormal {
 	})
 }
 
+sub volume {
+	my ($self) = @_;
+	4 / 3 * pi * $self->radius ** 3
+}
+
 sub density {
 	my ($self) = @_;
-	my $volume = 4 / 3 * pi * $self->radius ** 3;
-	$self->mass / $volume
+	$self->mass / $self->volume
 }
 
 sub spaceThreshold {
