@@ -211,7 +211,7 @@ sub th_inf { # true anomaly at infinite distance
 	$e > 1 ? acos(-1 / $e) : pi
 }
 
-sub devAngle { # gravity assist deviation
+sub th_dev { # gravity assist deviation
 	my ($self) = @_;
 	$self->_need_open;
 	2 * (pi - $self->th_inf)
