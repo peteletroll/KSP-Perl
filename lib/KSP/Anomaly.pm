@@ -22,7 +22,11 @@ use overload
 
 sub name {
 	my ($self) = @_;
-	$self->json->{name}
+	my $name = $self->json->{name};
+	my $objectName = $self->json->{objectName};
+	$objectName && $objectName ne $name ?
+		"$name:$objectName" :
+		$name
 }
 
 sub lat {
