@@ -18,7 +18,9 @@ proxy("KSP::Course" => sub { KSP::Course->new($_) });
 use overload
 	'""' => \&desc;
 
-our %newpar = map { $_ => 1 } qw(p e a pe ap E r h v v_soi v_inf T th_inf th_dev trace);
+our @newpar = qw(p e a pe ap E r h v v_soi v_inf T th_inf th_dev trace);
+our %newpar = map { $_ => 1 } @newpar;
+our $newpar = join ", ", @newpar;
 
 our $TRACE = 0;
 
@@ -26,7 +28,7 @@ sub BUILD {
 	my ($self, $body, %par) = @_;
 	defined $body or croak "missing body";
 	ref $body or Carp::confess "body needed here";
-	$newpar{$_} or croak "unknown orbit parameter $_" foreach keys %par;
+	$newpar{$_} or croak "unknown orbit parameter $_ (allowed: $newpar)" foreach keys %par;
 
 	my $trace = delete $par{trace} || $TRACE;
 	my $par = \%par;
