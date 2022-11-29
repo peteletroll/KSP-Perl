@@ -184,6 +184,10 @@ sub _need_ellipse {
 	$_[0]->e < 1 or croak "not allowed for open orbit";
 }
 
+sub _need_open {
+	$_[0]->e >= 1 or croak "not allowed for closed orbit";
+}
+
 sub a { # major semiaxis
 	my ($self, $noerr) = @_;
 	$noerr or $self->_need_ellipse;
@@ -205,6 +209,12 @@ sub th_inf { # true anomaly at infinite distance
 	my ($self) = @_;
 	my $e = $self->e;
 	$e > 1 ? acos(-1 / $e) : pi
+}
+
+sub devAngle { # gravity assist deviation
+	my ($self) = @_;
+	$self->_need_open;
+	2 * (pi - $self->th_inf)
 }
 
 sub T { # orbital period
