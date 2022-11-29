@@ -201,7 +201,7 @@ sub b { # minor semiaxis
 	$self->a * (1 - $self->e ** 2)
 }
 
-sub th_inf { # true anomaly at infinity
+sub th_inf { # true anomaly at infinite distance
 	my ($self) = @_;
 	my $e = $self->e;
 	$e > 1 ? acos(-1 / $e) : pi
