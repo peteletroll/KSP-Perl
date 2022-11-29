@@ -27,11 +27,11 @@ my $vOut = $vminTrans - $vKerbin;
 print "vOut = $vOut\n";
 print "|vOut| = ", abs($vOut), "\n";
 
-print "eject:\n",
-	my $ej = Kerbin->goTo(Kerbin->orbit(pe => Kerbin->lowHeight, v_soi => abs($vOut))), "\n";
+my $ej = Kerbin->goTo(Kerbin->orbit(pe => Kerbin->lowHeight, v_soi => abs($vOut)));
+print "eject:\n", $ej, "\n";
 
-print "enter:\n",
-	my $en = $trans->enterTo(Moho)->burnCirc, "\n";
+my $en = $trans->enterTo(Moho)->burnCirc;
+print "enter:\n", $en, "\n";
 
 print "total ", U($ej->dv + $en->dv), "m/s\n\n";
 
