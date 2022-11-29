@@ -18,7 +18,7 @@ proxy("KSP::Course" => sub { KSP::Course->new($_) });
 use overload
 	'""' => \&desc;
 
-our %newpar = map { $_ => 1 } qw(p e a pe ap E r h v v_soi v_inf T th_inf trace);
+our %newpar = map { $_ => 1 } qw(p e a pe ap E r h v v_soi v_inf T th_inf th_dev trace);
 
 our $TRACE = 0;
 
@@ -125,6 +125,11 @@ sub BUILD {
 	if (_defined($par, qw(E)) && !$par{E}) {
 		$par{e} = 1;
 		$trace and warn "\tCMP e:\t", _pardesc($par), "\n";
+	}
+
+	if (_defined($par, qw(th_dev !th_inf))) {
+		$par{th_inf} = pi - $par{th_dev} / 2;
+		$trace and warn "\tCMP th_inf\t", _pardesc($par), "\n";
 	}
 
 	if (_defined($par, qw(th_inf !e))) {
@@ -366,7 +371,7 @@ sub desc {
 	push @d, sprintf("$tpe %sm$wpe, %sm/s", U($self->pe), U($self->vmax));
 
 	push @d, $open ?
-		sprintf("$tap ∞$wap, %sm/s, θ∞ %.0f°", U($self->vmin), 180 / pi * $self->th_inf) :
+		sprintf("$tap ∞$wap, %sm/s, ∡ %.0f°", U($self->vmin), 180 / pi * $self->th_dev) :
 		sprintf("$tap %sm$wap, %sm/s", U($self->ap), U($self->vmin));
 
 	$open or push @d, $self->body->system->pretty_interval($self->T);
