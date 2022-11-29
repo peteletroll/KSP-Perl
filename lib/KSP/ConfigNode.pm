@@ -366,7 +366,7 @@ sub _getvalue($$) {
 sub _elt($$) {
 	my ($list, $name) = @_;
 	$list or return;
-	ref $name eq "Regexp" or $name = qr/^\Q$name\E$/;
+	$name = matcher($name);
 	my @ret = grep {
 		# warn "CHECK $name ", $_->name(), "\n";
 		($_->name() || "") =~ $name

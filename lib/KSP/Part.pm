@@ -11,7 +11,7 @@ use KSP::DB;
 use KSP::DBNode;
 use KSP::Engine;
 use KSP::Resource;
-use KSP::Util qw(U);
+use KSP::Util qw(U matcher);
 
 use KSP::TinyStruct qw(+KSP::DBNode);
 
@@ -59,9 +59,8 @@ sub all {
 }
 
 sub get {
-	my $matcher = $_[-1];
+	my $matcher = matcher($_[-1]);
 	_load();
-	ref $matcher eq "Regexp" or $matcher = qr/^\Q$matcher\E$/;
 	my @ret = ();
 
 	foreach my $p (@PART) {
@@ -106,9 +105,7 @@ sub module {
 
 sub engine {
 	my ($self, $name) = @_;
-	if (defined $name) {
-		ref $name eq "Regexp" or $name = qr/^\Q$name\E$/;
-	}
+	$name = matcher($name);
 	my @ret = grep { !defined($name) || $_->id =~ $name }
 		$self->allEngines;
 	wantarray ? @ret : $ret[0]

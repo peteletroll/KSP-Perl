@@ -9,7 +9,7 @@ use Carp;
 use KSP::ConfigNode;
 use KSP::DB;
 use KSP::DBNode;
-use KSP::Util qw(U);
+use KSP::Util qw(U matcher);
 
 use KSP::TinyStruct qw(+KSP::DBNode);
 
@@ -40,9 +40,8 @@ sub all {
 }
 
 sub get {
-	my $matcher = $_[-1];
+	my $matcher = matcher($_[-1]);
 	_load();
-	ref $matcher eq "Regexp" or $matcher = qr/^\Q$matcher\E$/;
 	my @ret = ();
 	foreach my $p (@RES) {
 		$p->name =~ $matcher and push @ret, $p;
