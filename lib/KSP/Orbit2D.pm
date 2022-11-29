@@ -128,7 +128,7 @@ sub BUILD {
 	}
 
 	if (_defined($par, qw(th_dev !th_inf))) {
-		$par{th_inf} = pi - $par{th_dev} / 2;
+		$par{th_inf} = ($par{th_dev} + pi) / 2;
 		$trace and warn "\tCMP th_inf\t", _pardesc($par), "\n";
 	}
 
@@ -219,7 +219,7 @@ sub th_inf { # true anomaly at infinite distance
 sub th_dev { # gravity assist deviation
 	my ($self) = @_;
 	$self->_need_open;
-	2 * (pi - $self->th_inf)
+	2 * $self->th_inf - pi
 }
 
 sub T { # orbital period
@@ -371,7 +371,7 @@ sub desc {
 	push @d, sprintf("$tpe %sm$wpe, %sm/s", U($self->pe), U($self->vmax));
 
 	push @d, $open ?
-		sprintf("$tap ∞$wap, %sm/s, ∡ %.0f°", U($self->vmin), 180 / pi * $self->th_dev) :
+		sprintf("$tap ∞$wap, %sm/s, ∡ %.0f°", U($self->vmin), rad2deg($self->th_dev)) :
 		sprintf("$tap %sm$wap, %sm/s", U($self->ap), U($self->vmin));
 
 	$open or push @d, $self->body->system->pretty_interval($self->T);
