@@ -303,6 +303,7 @@ sub intersects {
 
 sub v { # v from h via vis viva equation
 	my ($self, $h) = @_;
+	$self->isLanded and return 0;
 	$self->checkHeight($h);
 	my $r = $h + $self->body->radius;
 	my $vsq = $self->body->mu * (2 / $r - $self->inv_a);
