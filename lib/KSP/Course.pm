@@ -229,9 +229,13 @@ sub leaveTo {
 
 sub goTo {
 	my ($self, $dst, @rest) = @_;
-	my $cur = $self->current;
-	# warn "CUR $cur\n";
 	$dst = _asorbit($dst, 1);
+	my $cur = $self->current;
+	if ($cur->body != $dst->body) {
+		$cur->isLanded and return $self->goTo($cur->body->lowOrbit)->goTo($dst, @rest);
+		$dst->isLanded and return $self->goTo($dst->body->lowOrbit, @rest)->goTo($dst);
+	}
+	# warn "CUR $cur\n";
 	$self->_go_samebody($dst, @rest)
 		or $self->_go_ancestor($cur, $dst, @rest)
 		or $self->_go_descendant($cur, $dst, @rest)

@@ -328,6 +328,9 @@ sub hohmannTo {
 
 	UNIVERSAL::isa($other, "KSP::Body") and $other = $other->orbit;
 
+	$self->isLanded and $fromAp = 1;
+	$other->isLanded and $toAp = 1;
+
 	# warn "HOHMANN ", __PACKAGE__, "\n";
 	# warn "\tSELF $self\n\tOTHER $other\n";
 	$self->body == $other->body
