@@ -287,7 +287,7 @@ sub checkHeight {
 
 sub isLanded {
 	my ($self) = @_;
-	$self->e < 1 && $self->e > 0.95 && abs($self->ap) < 10
+	$self->e < 1 && $self->e > 0.95 && abs($self->ap) < 100
 }
 
 sub intersects {

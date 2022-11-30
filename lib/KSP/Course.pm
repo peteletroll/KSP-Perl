@@ -60,6 +60,7 @@ sub dv {
 sub nextBurnHeight {
 	my ($self, $hdefault) = @_;
 	my $cur = $self->current;
+	$cur->isLanded and return 0;
 	$hdefault and $self->checkHeight($hdefault);
 	$self->step->[-1]{hburn} || $hdefault || $cur->pe
 }
@@ -112,15 +113,15 @@ sub _row {
 	}
 
 	my $h = $c->{h};
-	my $hflag = "";
-	if ($h && $ref) {
+	my $hflag = " ";
+	if (defined $h && $ref) {
 		if (error($h, $ref->pe) < 1e-3) {
 			$hflag = "↓";
 		} elsif (error($h, $ref->ap(1)) < 1e-3) {
 			$hflag = "↑";
 		}
 	}
-	$h = $h ? U($h) . "m" : "";
+	$h = defined $h ? U($h) . "m" : "";
 
 	("$i:", $type, $dv, "$h$hflag", $prep, $cur->desc($p && $p->{then}))
 }
@@ -241,6 +242,7 @@ sub goTo {
 
 sub _go_height {
 	my ($self, $hdst) = @_;
+	$self->current->isLanded and $hdst = 0;
 	$self->current->checkHeight($hdst);
 	$self->step->[-1]{hburn} = 0 + $hdst;
 	$self
@@ -251,6 +253,18 @@ sub _go_samebody {
 	my $cur = $self->current;
 	$cur->body == $dst->body
 		or return;
+
+	if ($cur->isLanded && !$dst->isLanded) {
+		# warn "LIFTOFF\n";
+		$self->goAp->burnTo($dst->pe)->goAp->burnTo($dst->ap);
+		return 1;
+	}
+
+	if (!$cur->isLanded && $dst->isLanded) {
+		# warn "LANDING\n";
+		$self->goPe->burnTo($dst->ap)->goPe->burnTo($dst->pe);
+		return 1;
+	}
 
 	my $common = $cur->commonApsis($dst);
 	if ($common) {

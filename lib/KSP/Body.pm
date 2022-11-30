@@ -340,7 +340,7 @@ sub orbit {
 
 sub landed {
 	my ($self) = @_;
-	$self->orbit(ap => 0, h => 0, v => 1)
+	$self->orbit(ap => 0, h => 1e-4, v => 1)
 }
 
 sub lowOrbit {
