@@ -338,6 +338,11 @@ sub orbit {
 	KSP::Orbit2D->new($self, @rest)
 }
 
+sub landed {
+	my ($self) = @_;
+	$self->orbit(ap => 0, h => 0, v => 1)
+}
+
 sub lowOrbit {
 	my ($self) = @_;
 	my $h = $self->lowHeight;

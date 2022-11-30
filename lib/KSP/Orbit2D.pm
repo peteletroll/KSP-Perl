@@ -285,6 +285,11 @@ sub checkHeight {
 	!$err
 }
 
+sub isLanded {
+	my ($self) = @_;
+	$self->e < 1 && $self->e > 0.95 && abs($self->ap) < 10
+}
+
 sub intersects {
 	my ($self, $other) = @_;
 	UNIVERSAL::isa($other, "KSP::Body") and $other = $other->intersectOrbit;
@@ -354,6 +359,7 @@ sub desc {
 	my $open = $self->e >= 1;
 	my @d = ();
 
+	$self->isLanded and return $self->body->name . "[ Landed ]";
 	my $tol = 1e-3;
 
 	my $hmax = (1 + $tol) * $self->body->highHeight;
