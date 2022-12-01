@@ -8,6 +8,7 @@ lib/KSP/SolarSystem.pm
 lib/KSP/SolarSystemDump.json
 lib/KSP/RealSolarSystem.json
 lib/KSP/Orbit2D.pm
+lib/KSP/Surface.pm
 lib/KSP/Course.pm
 lib/KSP/Anomaly.pm
 lib/KSP/DB.pm

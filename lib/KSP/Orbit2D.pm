@@ -16,7 +16,7 @@ use KSP::Util qw(U error proxy);
 proxy("KSP::Course" => sub { KSP::Course->new($_) });
 
 use overload
-	'""' => \&desc;
+	'""' => sub { $_[0]->desc };
 
 our @newpar = qw(p e a pe ap E r h v v_soi v_inf T th_inf th_dev trace);
 our %newpar = map { $_ => 1 } @newpar;
@@ -284,6 +284,8 @@ sub checkHeight {
 	$err && $die and confess $err;
 	!$err
 }
+
+sub isSurface { 0 }
 
 sub intersects {
 	my ($self, $other) = @_;

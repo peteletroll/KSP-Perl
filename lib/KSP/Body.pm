@@ -13,6 +13,7 @@ use Math::Trig;
 use KSP::Cache;
 use KSP::SolarSystem;
 use KSP::Orbit2D;
+use KSP::Surface;
 use KSP::Course;
 use KSP::Anomaly;
 
@@ -336,6 +337,13 @@ sub orbit {
 		@rest == 2 and return KSP::Orbit2D->new($self, pe => $rest[0], ap => $rest[1]);
 	}
 	KSP::Orbit2D->new($self, @rest)
+}
+
+sub surface {
+	my ($self) = @_;
+	scalar $self->cache("surface", sub {
+		KSP::Surface->new($self)
+	})
 }
 
 sub lowOrbit {
