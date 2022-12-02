@@ -60,7 +60,6 @@ sub dv {
 sub nextBurnHeight {
 	my ($self, $hdefault) = @_;
 	my $cur = $self->current;
-	$cur->isLanded and return 0;
 	$hdefault and $self->checkHeight($hdefault);
 	$self->step->[-1]{hburn} || $hdefault || $cur->pe
 }
@@ -190,7 +189,7 @@ sub enterTo {
 	$bdst->hasAncestor($cur->body)
 		or croak "can't enter from ", $cur->body->name, " to ", $bdst->name;
 	ref $hdst and croak "scalar needed for enterTo()";
-	$hdst ||= $bdst->lowHeight;
+	defined $hdst or $bdst->lowHeight;
 	while ($cur->body != $bdst) {
 		# warn "CUR $cur\n";
 		my $b1 = $cur->body;
