@@ -300,7 +300,6 @@ sub intersects {
 
 sub v { # v from h via vis viva equation
 	my ($self, $h) = @_;
-	$self->isLanded and return 0;
 	$self->checkHeight($h);
 	my $r = $h + $self->body->radius;
 	my $vsq = $self->body->mu * (2 / $r - $self->inv_a);
@@ -324,9 +323,6 @@ sub hohmannTo {
 	my ($self, $other, $fromAp, $toAp) = @_;
 
 	UNIVERSAL::isa($other, "KSP::Body") and $other = $other->orbit;
-
-	$self->isLanded and $fromAp = 1;
-	$other->isLanded and $toAp = 1;
 
 	# warn "HOHMANN ", __PACKAGE__, "\n";
 	# warn "\tSELF $self\n\tOTHER $other\n";
@@ -360,7 +356,6 @@ sub desc {
 	my $open = $self->e >= 1;
 	my @d = ();
 
-	$self->isLanded and return $self->body->name . "[ Landed ]";
 	my $tol = 1e-3;
 
 	my $hmax = (1 + $tol) * $self->body->highHeight;

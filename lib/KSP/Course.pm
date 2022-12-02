@@ -228,13 +228,9 @@ sub leaveTo {
 
 sub goTo {
 	my ($self, $dst, @rest) = @_;
-	$dst = _asorbit($dst, 1);
 	my $cur = $self->current;
-	if ($cur->body != $dst->body) {
-		$cur->isLanded and return $self->goTo($cur->body->lowOrbit)->goTo($dst, @rest);
-		$dst->isLanded and return $self->goTo($dst->body->lowOrbit, @rest)->goTo($dst);
-	}
 	# warn "CUR $cur\n";
+	$dst = _asorbit($dst, 1);
 	$self->_go_samebody($dst, @rest)
 		or $self->_go_ancestor($cur, $dst, @rest)
 		or $self->_go_descendant($cur, $dst, @rest)
@@ -245,7 +241,6 @@ sub goTo {
 
 sub _go_height {
 	my ($self, $hdst) = @_;
-	$self->current->isLanded and $hdst = 0;
 	$self->current->checkHeight($hdst);
 	$self->step->[-1]{hburn} = 0 + $hdst;
 	$self
@@ -256,18 +251,6 @@ sub _go_samebody {
 	my $cur = $self->current;
 	$cur->body == $dst->body
 		or return;
-
-	if ($cur->isLanded && !$dst->isLanded) {
-		# warn "LIFTOFF\n";
-		$self->goAp->burnTo($dst->pe)->goAp->burnTo($dst->ap);
-		return 1;
-	}
-
-	if (!$cur->isLanded && $dst->isLanded) {
-		# warn "LANDING\n";
-		$self->goPe->burnTo($dst->ap)->goPe->burnTo($dst->pe);
-		return 1;
-	}
 
 	my $common = $cur->commonApsis($dst);
 	if ($common) {
