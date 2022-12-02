@@ -369,7 +369,7 @@ sub desc {
 			and $tap = "⇑";
 	}
 
-	my $wpe = ($self->pe > 0 && $self->pe < $hmax) ? "": "⚠";
+	my $wpe = ($self->pe >= -1e-3 && $self->pe < $hmax) ? "": "⚠";
 	my $wap = ($self->e >= 1 || $self->ap > 0 && $self->ap < $hmax) ? "": "⚠";
 
 	if ($self->e < 1e-6) {
