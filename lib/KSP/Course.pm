@@ -189,7 +189,7 @@ sub enterTo {
 	$bdst->hasAncestor($cur->body)
 		or croak "can't enter from ", $cur->body->name, " to ", $bdst->name;
 	ref $hdst and croak "scalar needed for enterTo()";
-	defined $hdst or $bdst->lowHeight;
+	defined $hdst or $hdst = $bdst->lowHeight;
 	while ($cur->body != $bdst) {
 		# warn "CUR $cur\n";
 		my $b1 = $cur->body;
