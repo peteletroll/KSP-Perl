@@ -265,10 +265,15 @@ sub _go_samebody {
 		$cur->e < 1 && $cur->ap < $hh ? $cur->ap :
 		$hh;
 
-	my $tr = $cur->body->orbit(pe => $self->nextBurnHeight, ap => $ap1);
-	# warn "SAMEBODY ap1 = ", U($ap1), "m, tr = $tr\n";
-	$self->_add_burn($cur, $tr, $self->nextBurnHeight);
-	$self->_add_burn($tr, $dst, $dst->pe);
+	my $bh = $self->nextBurnHeight;
+	if (error($bh, $ap1) < 1e-4) {
+		$self->_add_burn($cur, $dst, $dst->pe);
+	} else {
+		my $tr = $cur->body->orbit(pe => $bh, ap => $ap1);
+		# warn "SAMEBODY ap1 = ", U($ap1), "m, tr = $tr\n";
+		$self->_add_burn($cur, $tr, $self->nextBurnHeight);
+		$self->_add_burn($tr, $dst, $dst->pe);
+	}
 
 	1
 }
