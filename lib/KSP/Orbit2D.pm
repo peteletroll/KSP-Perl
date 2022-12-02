@@ -372,11 +372,14 @@ sub desc {
 	my $wpe = ($self->pe > 0 && $self->pe < $hmax) ? "": "⚠";
 	my $wap = ($self->e >= 1 || $self->ap > 0 && $self->ap < $hmax) ? "": "⚠";
 
-	push @d, sprintf("$tpe %sm$wpe, %sm/s", U($self->pe), U($self->vmax));
-
-	push @d, $open ?
-		sprintf("$tap ∞$wap, %sm/s, ∡ %.0f°", U($self->vmin), rad2deg($self->th_dev)) :
-		sprintf("$tap %sm$wap, %sm/s", U($self->ap), U($self->vmin));
+	if ($self->e < 1e-6) {
+		push @d, sprintf("$tpe$tap %sm$wpe, %sm/s", U($self->pe), U($self->vmax));
+	} else {
+		push @d, sprintf("$tpe %sm$wpe, %sm/s", U($self->pe), U($self->vmax));
+		push @d, $open ?
+			sprintf("$tap ∞$wap, %sm/s, ∡ %.0f°", U($self->vmin), rad2deg($self->th_dev)) :
+			sprintf("$tap %sm$wap, %sm/s", U($self->ap), U($self->vmin));
+	}
 
 	$open or push @d, $self->body->system->pretty_interval($self->T);
 
