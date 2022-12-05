@@ -101,7 +101,7 @@ if (defined $opt{s}) {
 	}
 	$db->commit();
 	foreach my $c (@col) {
-		$db->do(qq{ create index idx_$c on $table ($c) });
+		$db->do(qq{ create index idx_${table}_${c} on $table ($c) });
 	}
 	$db->commit();
 } else {
