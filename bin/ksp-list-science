@@ -58,7 +58,7 @@ sub parseScienceId($) {
 		my $situation = $tmp;
 	}
 
-	my @ret = map { defined($_) && $_ ne "" ? $_ : "NULL" } ($experiment, $body, $situation, $biome);
+	my @ret = map { defined($_) && $_ ne "" ? $_ : "NULL" } ($body, $situation, $biome, $experiment);
 	wantarray ? @ret : \@ret
 }
 
@@ -66,10 +66,15 @@ if (@ARGV != 1) {
 	die "usage: $0 <savefile>\n";
 }
 
+my @lst = ();
 my $s = KSP::ConfigNode->load($ARGV[0]);
 foreach my $n ($s->find("Science", id => qr/\@/)) {
 	my $id = $n->get("id");
-	print join("\t", parseScienceId($id), $id), "\n";
+	push @lst, [ parseScienceId($id), $id ];
+}
+
+foreach my $s (@lst) {
+	print join("\t", @$s), "\n";
 }
 
 exit 0;
