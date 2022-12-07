@@ -87,7 +87,7 @@ if (defined $opt{s}) {
 	my @col = qw(body situation biome experiment id);
 	$db->do(qq{ drop table if exists $table });
 	$db->do("create table $table ("
-		. join(", ", map { "$_ text" } @col)
+		. join(", ", map { "$_ text collate nocase" } @col)
 		. ")");
 	foreach my $c (@col) {
 		$db->do(qq{ drop index if exists idx_$c});
