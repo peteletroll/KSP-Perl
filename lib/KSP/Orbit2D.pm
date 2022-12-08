@@ -285,8 +285,6 @@ sub checkHeight {
 	!$err
 }
 
-sub isSurface { 0 }
-
 sub intersects {
 	my ($self, $other) = @_;
 	UNIVERSAL::isa($other, "KSP::Body") and $other = $other->intersectOrbit;

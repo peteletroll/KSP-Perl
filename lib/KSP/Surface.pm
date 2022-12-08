@@ -18,8 +18,6 @@ sub BUILD {
 
 sub v { 0 }
 
-sub isSurface { 1 }
-
 sub desc {
 	my ($self) = @_;
 	$self->body->name . "[ Surface ]"
