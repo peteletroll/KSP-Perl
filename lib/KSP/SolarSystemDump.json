@@ -1,12 +1,22 @@
 {
   "version": "1.12.4.3187 (LinuxPlayer)",
+  "g0": 9.80665,
   "timeUnits": {
     "Year": 9201600,
     "Day": 21600,
     "Hour": 3600,
     "Minute": 60
   },
-  "g0": 9.80665,
+  "enums": {
+    "ExperimentSituations": {
+      "SrfLanded": 1,
+      "SrfSplashed": 2,
+      "FlyingLow": 4,
+      "FlyingHigh": 8,
+      "InSpaceLow": 16,
+      "InSpaceHigh": 32
+    }
+  },
   "rootBody": "Sun",
   "bodies": {
     "Sun": {
