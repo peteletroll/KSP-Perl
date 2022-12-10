@@ -19,15 +19,6 @@ use Getopt::Std;
 our %opt = ();
 getopts("s:", \%opt) && @ARGV == 1 or die $usage;
 
-sub gulp($) {
-	my ($in) = @_;
-	open IN, "<:utf8", $in or die "$0: can't open $in: $!";
-	local $/ = undef;
-	my $ret = <IN>;
-	close IN or die "$0: can't close $in: $!";
-	$ret
-}
-
 sub situationPrefixMatchers {
 	map { qr/^(\Q$_\E)(.*)/ }
 		sort { length $b <=> length $a || $a cmp $b }
