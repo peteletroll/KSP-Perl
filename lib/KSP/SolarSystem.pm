@@ -60,6 +60,16 @@ sub bodies {
 	sort { $a->_sortkey <=> $b->_sortkey } @lst
 }
 
+sub situationPrefixMatchers {
+	my ($self) = @_;
+	wantarray or croak __PACKAGE__, "::situationPrefixMatchers() wants list context";
+	$self->cache("situationPrefixMatchers", sub {
+		map { qr/^(\Q$_\E)(.*)/ }
+			sort { length $b <=> length $a || $a cmp $b }
+			keys %{$self->json->{enums}{ExperimentSituations}}
+	})
+}
+
 sub bodyPrefixMatchers {
 	my ($self) = @_;
 	wantarray or croak __PACKAGE__, "::bodyPrefixMatchers() wants list context";
