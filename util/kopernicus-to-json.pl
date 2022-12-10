@@ -71,8 +71,8 @@ foreach my $b (@bodies) {
 	$rename{$name} ||= $b->get("cbNameLater") || $name;
 	my $j = { };
 
-	sub import_stock_body($$) {
-		my ($name, $tmpl) = @_;
+	sub import_stock_body($$$) {
+		my ($j, $name, $tmpl) = @_;
 		my $tbody = $stockSystem->body($tmpl)
 			or die "NO TEMPLATE: $tmpl\n";
 		my $tjson = $tbody->json;
@@ -80,7 +80,7 @@ foreach my $b (@bodies) {
 		foreach my $i (sort keys %$tjson) {
 			my $k = $tjson->{$i};
 			ref $k eq "HASH" or next;
-			warn "\tI $i = $k\n";
+			# warn "\tI $i = $k\n";
 			foreach my $n (sort keys %$k) {
 				my $v = $k->{$n};
 				if (JSON::is_bool($v)) {
@@ -97,7 +97,7 @@ foreach my $b (@bodies) {
 	my $tmpl = $b->find("Template");
 	$tmpl &&= $tmpl->get("name");
 	if ($tmpl) {
-		import_stock_body($name, $tmpl);
+		import_stock_body($j, $name, $tmpl);
 		$j->{KopernicusTemplate} = $tmpl;
 	}
 
