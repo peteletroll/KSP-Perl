@@ -27,29 +27,13 @@ sub extractPrefix($@) {
 	("", $str)
 }
 
-sub extractSuffix($@) {
-	my ($str, @re) = @_;
-	foreach my $re (@re) {
-		$str =~ $re and return ($1, $2);
-	}
-	($str, "")
-}
-
 sub parseScienceId($) {
 	my ($id) = @_;
 	my $tmp = $id;
 	my $experiment = $tmp =~ s/^(.*?)@// ? $1 : undef;
 	(my $body, $tmp) = extractPrefix($tmp, Sun->system->bodyPrefixMatchers);
-	(my $situation, $tmp) = extractPrefix($tmp, Kerbin->system->situationPrefixMatchers);
+	(my $situation, $tmp) = extractPrefix($tmp, Sun->system->situationPrefixMatchers);
 	my $biome = $tmp;
-	if (0) {
-		if ($tmp =~ s/_([^_]+)$//) {
-			$biome = $1;
-		} elsif (length $body) {
-			($tmp, $biome) = extractSuffix($tmp, Sun->system->body($body)->biomeSuffixMatchers);
-		}
-		my $situation = $tmp;
-	}
 
 	my @ret = map { (defined $_ && $_ eq "") ? undef : $_ } ($body, $situation, $biome, $experiment);
 	wantarray ? @ret : \@ret
