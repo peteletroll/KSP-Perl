@@ -49,18 +49,22 @@ foreach my $n ($s->find("Science", id => qr/\@/)) {
 if (defined $opt{s}) {
 	require DBI;
 	my $db = DBI->connect("dbi:SQLite:dbname=$opt{s}", "", "", {
-		AutoCommit => 0,
+		AutoCommit => 1,
 		RaiseError => 1,
 	});
 	my $table = "kspscience";
 	my @col = qw(body situation biome experiment id);
-	$db->do(qq{ drop table if exists $table });
-	$db->do("create table $table ("
-		. join(", ", map { "$_ text collate nocase" } @col)
-		. ")");
+
 	foreach my $c (@col) {
 		$db->do(qq{ drop index if exists idx_$c});
 	}
+	$db->do(qq{ drop table if exists $table });
+
+	$db->do("create table $table ("
+		. join(", ", map { "$_ text collate nocase" } @col)
+		. ")");
+
+	$db->begin_work;
 	foreach my $s (@lst) {
 		my $h = $db->prepare_cached(qq{
 			insert into $table
@@ -68,11 +72,14 @@ if (defined $opt{s}) {
 		});
 		$h->execute(@$s);
 	}
-	$db->commit();
+	$db->commit;
+
 	foreach my $c (@col) {
 		$db->do(qq{ create index idx_${table}_${c} on $table ($c) });
 	}
-	$db->commit();
+
+	$db->do("vacuum");
+	$db->do("analyze");
 } else {
 	foreach my $s (@lst) {
 		print join("\t", map { defined($_) && $_ ne "" ? $_ : "NULL" } @$s), "\n";
