@@ -167,9 +167,41 @@ sub hasDescendant {
 	$other->hasAncestor($self)
 }
 
-sub orbitNormal {
+sub orbitX {
 	my ($self) = @_;
-	scalar $self->cache("orbitNormal", sub {
+	scalar $self->cache("orbitX", sub {
+		my $o = $self->json->{orbit} or return;
+		# https://en.wikipedia.org/wiki/Orbital_elements#Euler_angle_transformations
+		my $i = $o->{inclinationRad};
+		my $OMEGA = $o->{longitudeOfAscendingNodeRad};
+		my $omega = $o->{argumentOfPeriapsisRad};
+		V(
+			cos($OMEGA) * cos($omega) - sin($OMEGA) * cos($i) * sin($omega),
+			sin($OMEGA) * cos($omega) + cos($OMEGA) * cos($i) * sin($omega),
+			sin($i) * sin($omega)
+		)
+	})
+}
+
+sub orbitY {
+	my ($self) = @_;
+	scalar $self->cache("orbitY", sub {
+		my $o = $self->json->{orbit} or return;
+		# https://en.wikipedia.org/wiki/Orbital_elements#Euler_angle_transformations
+		my $i = $o->{inclinationRad};
+		my $OMEGA = $o->{longitudeOfAscendingNodeRad};
+		my $omega = $o->{argumentOfPeriapsisRad};
+		V(
+			-cos($OMEGA) * sin($omega) - sin($OMEGA) * cos($i) * cos($omega),
+			-sin($OMEGA) * sin($omega) + cos($OMEGA) * cos($i) * cos($omega),
+			sin($i) * cos($omega)
+		)
+	})
+}
+
+sub orbitZ {
+	my ($self) = @_;
+	scalar $self->cache("orbitZ", sub {
 		my $o = $self->json->{orbit} or return;
 		# https://en.wikipedia.org/wiki/Orbital_elements#Euler_angle_transformations
 		my $i = $o->{inclinationRad};
@@ -182,6 +214,8 @@ sub orbitNormal {
 		)
 	})
 }
+
+sub orbitNormal { goto &orbitZ }
 
 sub volume {
 	my ($self) = @_;
