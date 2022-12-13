@@ -172,13 +172,13 @@ sub orbitNormal {
 	scalar $self->cache("orbitNormal", sub {
 		my $o = $self->json->{orbit} or return;
 		# https://en.wikipedia.org/wiki/Orbital_elements#Euler_angle_transformations
-		my $incl = $o->{inclinationRad};
-		my $longOfAN = $o->{longitudeOfAscendingNodeRad};
-		my $argOfPE = $o->{argumentOfPeriapsisRad};
+		my $i = $o->{inclinationRad};
+		my $OMEGA = $o->{longitudeOfAscendingNodeRad};
+		my $omega = $o->{argumentOfPeriapsisRad};
 		V(
-			sin($incl) * sin($longOfAN),
-			-sin($incl) * cos($longOfAN),
-			cos($incl)
+			sin($i) * sin($OMEGA),
+			-sin($i) * cos($OMEGA),
+			cos($i)
 		)
 	})
 }
