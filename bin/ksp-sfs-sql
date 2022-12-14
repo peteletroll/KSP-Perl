@@ -19,6 +19,8 @@ use Getopt::Std;
 our %opt = ();
 getopts("", \%opt) && @ARGV == 2 or die $usage;
 
+my $sw = KSP::StopWatch->new();
+
 ##################################################
 
 # analyze savefile
@@ -45,7 +47,9 @@ sub parseScienceId($) {
 	wantarray ? @ret : \@ret
 }
 
+$sw->reset->start;
 my $sfs = KSP::ConfigNode->load($ARGV[1]);
+printf "parsed sfs in %1.3f seconds\n", $sw->read;
 
 ##################################################
 
@@ -77,6 +81,7 @@ sub insert($@) {
 	$h->execute(@val);
 }
 
+$sw->reset->start;
 create(biomes => qw(body biome));
 $db->begin_work;
 foreach my $b (Kerbin->system->bodies) {
@@ -85,7 +90,9 @@ foreach my $b (Kerbin->system->bodies) {
 	}
 }
 $db->commit;
+printf "created biomes in %1.3f seconds\n", $sw->read;
 
+$sw->reset->start;
 create(science => qw(body situation biome experiment id));
 $db->begin_work;
 foreach my $n ($sfs->find("Science", id => qr/\@/)) {
@@ -93,7 +100,9 @@ foreach my $n ($sfs->find("Science", id => qr/\@/)) {
 	insert("science", parseScienceId($id), $id);
 }
 $db->commit;
+printf "created science in %1.3f seconds\n", $sw->read;
 
+$sw->reset->start;
 create(roster => qw(name gender type trait state));
 $db->begin_work;
 foreach my $r ($sfs->find("ROSTER")) {
@@ -102,9 +111,12 @@ foreach my $r ($sfs->find("ROSTER")) {
 	}
 }
 $db->commit;
+printf "created roster in %1.3f seconds\n", $sw->read;
 
+$sw->reset->start;
 $db->do("analyze");
 $db->do("vacuum");
+printf "finalized in %1.3f seconds\n", $sw->read;
 
 exit 0;
 
