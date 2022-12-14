@@ -77,6 +77,15 @@ sub insert($@) {
 	$h->execute(@val);
 }
 
+create(biomes => qw(body biome));
+$db->begin_work;
+foreach my $b (Kerbin->system->bodies) {
+	foreach my $i ($b->biomes) {
+		insert("biomes", $b->name, $i);
+	}
+}
+$db->commit;
+
 create(science => qw(body situation biome experiment id));
 $db->begin_work;
 foreach my $n ($sfs->find("Science", id => qr/\@/)) {
