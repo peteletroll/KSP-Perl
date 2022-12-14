@@ -55,9 +55,6 @@ if (defined $opt{s}) {
 	my $table = "kspscience";
 	my @col = qw(body situation biome experiment id);
 
-	foreach my $c (@col) {
-		$db->do(qq{ drop index if exists idx_$c});
-	}
 	$db->do(qq{ drop table if exists $table });
 
 	$db->do("create table $table ("
