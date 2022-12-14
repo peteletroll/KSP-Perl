@@ -35,7 +35,7 @@ t/07-course.t
 bin/ksp-parse
 bin/ksp-delta-v
 bin/ksp-shell
-bin/ksp-list-science
+bin/ksp-sfs-sql
 util/comm-network.pl
 util/kopernicus-to-json.pl
 util/moho-polar-transfer.pl
