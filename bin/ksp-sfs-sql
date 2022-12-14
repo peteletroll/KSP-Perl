@@ -69,8 +69,23 @@ sub run($) {
 	my ($cmd) = @_;
 	$cmd =~ s/^\s+//;
 	$cmd =~ s/\s+$//;
-	print "sql> $cmd;\n" if $DEBUG;
-	$db->do($cmd)
+	local $| = 1;
+	print "sql> $cmd; " if $DEBUG;
+	my $sw = KSP::StopWatch->new->start;
+	my $ret = $db->do($cmd);
+	printf "-- %1.3fs\n", $sw->read if $DEBUG;
+	$ret
+}
+
+our @Q = ();
+
+sub enqueue($) {
+	push @Q, @_;
+}
+
+END {
+	print "-- closing\n";
+	run($_) foreach @Q;
 }
 
 sub create($@) {
@@ -80,7 +95,7 @@ sub create($@) {
 		. join(",", map { "\n\t" . qi($_) . " text collate nocase" } @col)
 		. ")");
 	foreach my $c (@col) {
-		run("create index " . qi("idx_${table}_${c}") . " on " . qi($table) . " (" . qi($c). ")");
+		enqueue("create index " . qi("idx_${table}_${c}") . " on " . qi($table) . " (" . qi($c). ")");
 	}
 }
 
@@ -98,8 +113,8 @@ sub insert($@) {
 	$h->execute(@val);
 }
 
-$sw->reset->start;
 create(biomes => qw(body biome));
+$sw->reset->start;
 $db->begin_work;
 foreach my $b (Kerbin->system->bodies) {
 	foreach my $i (undef, $b->biomes, $b->miniBiomes) {
@@ -107,20 +122,20 @@ foreach my $b (Kerbin->system->bodies) {
 	}
 }
 $db->commit;
-printf "-- created biomes in %1.3f seconds\n", $sw->read;
+printf "-- generated biomes in %1.3f seconds\n", $sw->read;
 
-$sw->reset->start;
 create(science => qw(body situation biome experiment id));
+$sw->reset->start;
 $db->begin_work;
 foreach my $n ($sfs->find("Science", id => qr/\@/)) {
 	my $id = $n->get("id");
 	insert("science", parseScienceId($id), $id);
 }
 $db->commit;
-printf "-- created science in %1.3f seconds\n", $sw->read;
+printf "-- generated science in %1.3f seconds\n", $sw->read;
 
-$sw->reset->start;
 create(roster => qw(name gender type trait state));
+$sw->reset->start;
 $db->begin_work;
 foreach my $r ($sfs->find("ROSTER")) {
 	foreach my $k ($r->getnodes("KERBAL")) {
@@ -128,12 +143,8 @@ foreach my $r ($sfs->find("ROSTER")) {
 	}
 }
 $db->commit;
-printf "-- created roster in %1.3f seconds\n", $sw->read;
+printf "-- generated roster in %1.3f seconds\n", $sw->read;
 
-$sw->reset->start;
-run("analyze");
-run("vacuum");
-printf "-- finalized in %1.3f seconds\n", $sw->read;
-
-exit 0;
+enqueue("analyze");
+enqueue("vacuum");
 
