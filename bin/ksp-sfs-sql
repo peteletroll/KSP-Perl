@@ -11,11 +11,12 @@ binmode \*STDOUT, ":utf8";
 
 our $script = $0;
 $script =~ s/.*\///;
-our $usage = "usage: $script <db> <savefile>\n";
+our $usage = "usage: $script [ -d ] <db> <savefile>\n";
 
 use Getopt::Std;
 our %opt = ();
-getopts("", \%opt) && @ARGV == 2 or die $usage;
+getopts("d", \%opt) && @ARGV == 2 or die $usage;
+our $DEBUG = $opt{d};
 
 my $sw = KSP::StopWatch->new();
 
@@ -47,7 +48,7 @@ sub parseScienceId($) {
 
 $sw->reset->start;
 my $sfs = KSP::ConfigNode->load($ARGV[1]);
-printf "parsed sfs in %1.3f seconds\n", $sw->read;
+printf "-- parsed sfs in %1.3f seconds\n", $sw->read;
 
 ##################################################
 
@@ -60,14 +61,26 @@ my $db = DBI->connect("dbi:SQLite:dbname=$ARGV[0]", "", "", {
 	RaiseError => 1,
 });
 
+sub qi($) {
+	$db->quote_identifier($_[0])
+}
+
+sub run($) {
+	my ($cmd) = @_;
+	$cmd =~ s/^\s+//;
+	$cmd =~ s/\s+$//;
+	print "sql> $cmd;\n" if $DEBUG;
+	$db->do($cmd)
+}
+
 sub create($@) {
 	my ($table, @col) = @_;
-	$db->do(qq{ drop table if exists $table });
-	$db->do("create table $table ("
-		. join(", ", map { "$_ text collate nocase" } @col)
+	run("drop table if exists " . qi($table));
+	run("create table " . qi($table) . " ("
+		. join(",", map { "\n\t" . qi($_) . " text collate nocase" } @col)
 		. ")");
 	foreach my $c (@col) {
-		$db->do(qq{ create index idx_${table}_${c} on $table ($c) });
+		run("create index " . qi("idx_${table}_${c}") . " on " . qi($table) . " (" . qi($c). ")");
 	}
 }
 
@@ -88,7 +101,7 @@ foreach my $b (Kerbin->system->bodies) {
 	}
 }
 $db->commit;
-printf "created biomes in %1.3f seconds\n", $sw->read;
+printf "-- created biomes in %1.3f seconds\n", $sw->read;
 
 $sw->reset->start;
 create(science => qw(body situation biome experiment id));
@@ -98,7 +111,7 @@ foreach my $n ($sfs->find("Science", id => qr/\@/)) {
 	insert("science", parseScienceId($id), $id);
 }
 $db->commit;
-printf "created science in %1.3f seconds\n", $sw->read;
+printf "-- created science in %1.3f seconds\n", $sw->read;
 
 $sw->reset->start;
 create(roster => qw(name gender type trait state));
@@ -109,12 +122,12 @@ foreach my $r ($sfs->find("ROSTER")) {
 	}
 }
 $db->commit;
-printf "created roster in %1.3f seconds\n", $sw->read;
+printf "-- created roster in %1.3f seconds\n", $sw->read;
 
 $sw->reset->start;
-$db->do("analyze");
-$db->do("vacuum");
-printf "finalized in %1.3f seconds\n", $sw->read;
+run("analyze");
+run("vacuum");
+printf "-- finalized in %1.3f seconds\n", $sw->read;
 
 exit 0;
 
