@@ -45,12 +45,7 @@ sub parseScienceId($) {
 	wantarray ? @ret : \@ret
 }
 
-my @science = ();
-my $s = KSP::ConfigNode->load($ARGV[1]);
-foreach my $n ($s->find("Science", id => qr/\@/)) {
-	my $id = $n->get("id");
-	push @science, [ parseScienceId($id), $id ];
-}
+my $sfs = KSP::ConfigNode->load($ARGV[1]);
 
 ##################################################
 
@@ -82,13 +77,11 @@ sub insert($@) {
 	$h->execute(@val);
 }
 
-my $table = "science";
-my @science_col = qw(body situation biome experiment id);
-create($table, @science_col);
-
+create("science", qw(body situation biome experiment id));
 $db->begin_work;
-foreach my $s (@science) {
-	insert($table, $s);
+foreach my $n ($sfs->find("Science", id => qr/\@/)) {
+	my $id = $n->get("id");
+	insert("science", parseScienceId($id), $id);
 }
 $db->commit;
 
