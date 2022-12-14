@@ -85,7 +85,7 @@ $sw->reset->start;
 create(biomes => qw(body biome));
 $db->begin_work;
 foreach my $b (Kerbin->system->bodies) {
-	foreach my $i ($b->biomes) {
+	foreach my $i (undef, $b->biomes, $b->miniBiomes) {
 		insert("biomes", $b->name, $i);
 	}
 }
