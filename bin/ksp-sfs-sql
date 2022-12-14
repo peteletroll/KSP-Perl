@@ -19,6 +19,12 @@ use Getopt::Std;
 our %opt = ();
 getopts("", \%opt) && @ARGV == 2 or die $usage;
 
+##################################################
+
+# analyze savefile
+
+##################################################
+
 sub extractPrefix($@) {
 	my ($str, @re) = @_;
 	foreach my $re (@re) {
@@ -39,8 +45,6 @@ sub parseScienceId($) {
 	wantarray ? @ret : \@ret
 }
 
-my $table = "science";
-
 my @science = ();
 my $s = KSP::ConfigNode->load($ARGV[1]);
 foreach my $n ($s->find("Science", id => qr/\@/)) {
@@ -48,34 +52,48 @@ foreach my $n ($s->find("Science", id => qr/\@/)) {
 	push @science, [ parseScienceId($id), $id ];
 }
 
+##################################################
+
+# save to sqlite
+
+##################################################
+
 my $db = DBI->connect("dbi:SQLite:dbname=$ARGV[0]", "", "", {
 	AutoCommit => 1,
 	RaiseError => 1,
 });
 
-my @science_col = qw(body situation biome experiment id);
-$db->do(qq{ drop table if exists $table });
+sub create($@) {
+	my ($table, @col) = @_;
+	$db->do(qq{ drop table if exists $table });
+	$db->do("create table $table ("
+		. join(", ", map { "$_ text collate nocase" } @col)
+		. ")");
+	foreach my $c (@col) {
+		$db->do(qq{ create index idx_${table}_${c} on $table ($c) });
+	}
+}
 
-$db->do("create table $table ("
-	. join(", ", map { "$_ text collate nocase" } @science_col)
-	. ")");
+sub insert($@) {
+	my ($table, @val) = @_;
+	@val == 1 && ref $val[0] eq "ARRAY" and @val = @{$val[0]};
+	my $h = $db->prepare_cached("insert into $table"
+		. " values (" . join(", ", (("?") x scalar @val)) . ")");
+	$h->execute(@val);
+}
+
+my $table = "science";
+my @science_col = qw(body situation biome experiment id);
+create($table, @science_col);
 
 $db->begin_work;
 foreach my $s (@science) {
-	my $h = $db->prepare_cached(qq{
-		insert into $table
-		values (?, ?, ?, ?, ?)
-	});
-	$h->execute(@$s);
+	insert($table, $s);
 }
 $db->commit;
 
-foreach my $c (@science_col) {
-	$db->do(qq{ create index idx_${table}_${c} on $table ($c) });
-}
-
-$db->do("vacuum");
 $db->do("analyze");
+$db->do("vacuum");
 
 exit 0;
 
