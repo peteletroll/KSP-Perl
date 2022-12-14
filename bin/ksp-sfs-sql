@@ -77,11 +77,20 @@ sub insert($@) {
 	$h->execute(@val);
 }
 
-create("science", qw(body situation biome experiment id));
+create(science => qw(body situation biome experiment id));
 $db->begin_work;
 foreach my $n ($sfs->find("Science", id => qr/\@/)) {
 	my $id = $n->get("id");
 	insert("science", parseScienceId($id), $id);
+}
+$db->commit;
+
+create(roster => qw(name gender type trait state));
+$db->begin_work;
+foreach my $r ($sfs->find("ROSTER")) {
+	foreach my $k ($r->getnodes("KERBAL")) {
+		insert("roster", map { scalar $k->get($_) } qw(name gender type trait state));
+	}
 }
 $db->commit;
 
