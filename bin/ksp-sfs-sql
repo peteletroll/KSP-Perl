@@ -3,8 +3,6 @@
 use strict;
 use warnings;
 
-use lib "lib";
-
 use DBI;
 use JSON;
 use KSP qw(:bodies);
