@@ -56,7 +56,7 @@ printf "-- parsed sfs in %1.3f seconds\n", $sw->read;
 
 ##################################################
 
-my $db = DBI->connect("dbi:SQLite:dbname=$ARGV[0]", "", "", {
+our $db = DBI->connect("dbi:SQLite:dbname=$ARGV[0]", "", "", {
 	AutoCommit => 1,
 	RaiseError => 1,
 });
@@ -84,11 +84,17 @@ sub create($@) {
 	}
 }
 
+our %_insert_handle = ();
+
 sub insert($@) {
 	my ($table, @val) = @_;
 	@val == 1 && ref $val[0] eq "ARRAY" and @val = @{$val[0]};
-	my $h = $db->prepare_cached("insert into $table"
-		. " values (" . join(", ", (("?") x scalar @val)) . ")");
+	my $n = @val;
+	my $h = $_insert_handle{$table}[$n] ||= do {
+		my $i = "insert into " . qi($table) . " values (" . join(", ", (("?") x $n)) . ")";
+		print "-- $i\n";
+		$db->prepare_cached($i)
+	};
 	$h->execute(@val);
 }
 
