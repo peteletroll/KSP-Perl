@@ -44,6 +44,11 @@ sub parseScienceId($) {
 	(my $situation, $tmp) = extractPrefix($tmp, $system->situationPrefixMatchers);
 	(my $biome, $tmp) = extractPrefix($tmp, $system->body($body)->biomePrefixMatchers);
 
+	if ($biome && $tmp) {
+		$biome = "$biome$tmp";
+		$tmp = "";
+	}
+
 	my @ret = map { (defined $_ && $_ eq "") ? undef : $_ } ($experiment, $body, $situation, $biome, $tmp);
 	wantarray ? @ret : \@ret
 }
