@@ -5,7 +5,7 @@ use warnings;
 
 use DBI;
 use JSON;
-use KSP qw(:bodies);
+use KSP;
 
 binmode \*STDOUT, ":utf8";
 
@@ -26,6 +26,8 @@ my $sw = KSP::StopWatch->new();
 
 ##################################################
 
+our $system = KSP::SolarSystem->new();
+
 sub extractPrefix($@) {
 	my ($str, @re) = @_;
 	foreach my $re (@re) {
@@ -38,8 +40,8 @@ sub parseScienceId($) {
 	my ($id) = @_;
 	my $tmp = $id;
 	my $experiment = $tmp =~ s/^(.*?)@// ? $1 : undef;
-	(my $body, $tmp) = extractPrefix($tmp, Sun->system->bodyPrefixMatchers);
-	(my $situation, $tmp) = extractPrefix($tmp, Sun->system->situationPrefixMatchers);
+	(my $body, $tmp) = extractPrefix($tmp, $system->bodyPrefixMatchers);
+	(my $situation, $tmp) = extractPrefix($tmp, $system->situationPrefixMatchers);
 	my $biome = $tmp;
 
 	my @ret = map { (defined $_ && $_ eq "") ? undef : $_ } ($body, $situation, $biome, $experiment);
@@ -119,7 +121,7 @@ create(biomes => qw(body biome ismini));
 $sw->reset->start;
 $db->begin_work;
 $insert_count = 0;
-foreach my $b (Kerbin->system->bodies) {
+foreach my $b ($system->bodies) {
 	foreach my $i (undef, $b->biomes) {
 		insert("biomes", $b->name, $i, "False");
 	}
