@@ -115,13 +115,16 @@ sub insert($@) {
 	$h->execute(@val)
 }
 
-create(biomes => qw(body biome));
+create(biomes => qw(body biome ismini));
 $sw->reset->start;
 $db->begin_work;
 $insert_count = 0;
 foreach my $b (Kerbin->system->bodies) {
-	foreach my $i (undef, $b->biomes, $b->miniBiomes) {
-		insert("biomes", $b->name, $i);
+	foreach my $i (undef, $b->biomes) {
+		insert("biomes", $b->name, $i, "False");
+	}
+	foreach my $i ($b->miniBiomes) {
+		insert("biomes", $b->name, $i, "True");
 	}
 }
 $db->commit;
