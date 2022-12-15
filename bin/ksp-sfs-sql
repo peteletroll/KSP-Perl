@@ -42,9 +42,9 @@ sub parseScienceId($) {
 	my $experiment = $tmp =~ s/^(.*?)@// ? $1 : undef;
 	(my $body, $tmp) = extractPrefix($tmp, $system->bodyPrefixMatchers);
 	(my $situation, $tmp) = extractPrefix($tmp, $system->situationPrefixMatchers);
-	my $biome = $tmp;
+	(my $biome, $tmp) = extractPrefix($tmp, $system->body($body)->biomePrefixMatchers);
 
-	my @ret = map { (defined $_ && $_ eq "") ? undef : $_ } ($body, $situation, $biome, $experiment);
+	my @ret = map { (defined $_ && $_ eq "") ? undef : $_ } ($experiment, $body, $situation, $biome, $tmp);
 	wantarray ? @ret : \@ret
 }
 
@@ -132,7 +132,7 @@ foreach my $b ($system->bodies) {
 $db->commit;
 printf "-- generated biomes [$insert_count] in %1.3f seconds\n", $sw->read;
 
-create(science => qw(body situation biome experiment id));
+create(science => qw(experiment body situation biome extra id));
 $sw->reset->start;
 $db->begin_work;
 $insert_count = 0;

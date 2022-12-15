@@ -246,16 +246,13 @@ sub miniBiomes {
 	wantarray ? sort @$b : scalar @$b
 }
 
-sub biomeSuffixMatchers {
+sub biomePrefixMatchers {
 	my ($self) = @_;
-	wantarray or croak __PACKAGE__, "::bodySuffixMatchers() wants list context";
-	$self->cache("biomeSuffixMatchers", sub {
-		(map { qr/(.+)(\Q$_\E)$/ }
+	wantarray or croak __PACKAGE__, "::bodyPrefixMatchers() wants list context";
+	$self->cache("biomePrefixMatchers", sub {
+		map { qr/^(\Q$_\E)(.*)/ }
 			sort { length $b <=> length $a || $a cmp $b }
-			$self->biomes),
-		(map { qr/(.+)(\Q$_\E.*)$/ }
-			sort { length $b <=> length $a || $a cmp $b }
-			$self->miniBiomes)
+			($self->biomes, $self->miniBiomes)
 	})
 }
 
