@@ -138,13 +138,14 @@ foreach my $n ($sfs->find("Science", id => qr/\@/)) {
 $db->commit;
 printf "-- generated science [$insert_count] in %1.3f seconds\n", $sw->read;
 
-create(roster => qw(name gender type trait state));
+my @roster_cols = qw(name gender type trait badS veteran tour state inactive);
+create(roster => @roster_cols);
 $sw->reset->start;
 $db->begin_work;
 $insert_count = 0;
 foreach my $r ($sfs->find("ROSTER")) {
 	foreach my $k ($r->getnodes("KERBAL")) {
-		insert("roster", map { scalar $k->get($_) } qw(name gender type trait state));
+		insert("roster", map { scalar $k->get($_) } @roster_cols);
 	}
 }
 $db->commit;
