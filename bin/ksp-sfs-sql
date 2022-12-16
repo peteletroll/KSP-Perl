@@ -11,12 +11,13 @@ binmode \*STDOUT, ":utf8";
 
 our $script = $0;
 $script =~ s/.*\///;
-our $usage = "usage: $script [ -d ] <db> <savefile>\n";
+our $usage = "usage: $script [ -di ] <db> <savefile>\n";
 
 use Getopt::Std;
 our %opt = ();
-getopts("d", \%opt) && @ARGV == 2 or die $usage;
+getopts("di", \%opt) && @ARGV == 2 or die $usage;
 our $DEBUG = $opt{d};
+our $INDEX = $opt{i};
 
 my $sw = KSP::StopWatch->new();
 
@@ -101,8 +102,10 @@ sub create($@) {
 	run("create table " . qi($table) . " ("
 		. join(",", map { "\n\t" . qi($_) . " text collate nocase" } @col)
 		. ")");
-	foreach my $c (@col) {
-		enqueue("create index " . qi("idx_${table}_${c}") . " on " . qi($table) . " (" . qi($c). ")");
+	if ($INDEX) {
+		foreach my $c (@col) {
+			enqueue("create index " . qi("idx_${table}_${c}") . " on " . qi($table) . " (" . qi($c). ")");
+		}
 	}
 }
 
