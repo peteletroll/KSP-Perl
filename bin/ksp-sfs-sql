@@ -50,6 +50,10 @@ sub parseScienceId($) {
 		$tmp = "";
 	}
 
+	if (!$tmp && $experiment =~ s/_(\w+)$//) {
+		$tmp = $1;
+	}
+
 	my @ret = map { (defined $_ && $_ eq "") ? undef : $_ } ($experiment, $body, $situation, $biome, $tmp);
 	wantarray ? @ret : \@ret
 }
