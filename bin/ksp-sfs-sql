@@ -104,7 +104,17 @@ sub create($@) {
 	my ($table, @col) = @_;
 	run("drop table if exists " . qi($table));
 	run("create table " . qi($table) . " ("
-		. join(",", map { "\n\t" . qi($_) . " text collate nocase" } @col)
+		. join(",", map {
+			my $col = $_;
+			my $type = "text collate nocase";
+			if ($col =~ s/:(\w+)$//) {
+				# warn "COL\t$col\t$type";
+				if ($1 eq "r") {
+					$type = "real";
+				}
+			}
+			"\n\t" . qi($col) . " " . $type
+		} @col)
 		. ")");
 	if ($INDEX) {
 		foreach my $c (@col) {
@@ -144,13 +154,14 @@ foreach my $b ($system->bodies) {
 $db->commit;
 printf "-- generated biomes [$insert_count] in %1.3f seconds\n", $sw->read;
 
-create(science => qw(experiment body situation biome extra id));
+create(science => qw(experiment body situation biome extra scv:r id));
 $sw->reset->start;
 $db->begin_work;
 $insert_count = 0;
 foreach my $n ($sfs->find("Science", id => qr/\@/)) {
+	my $scv = $n->get("scv");
 	my $id = $n->get("id");
-	insert("science", parseScienceId($id), $id);
+	insert("science", parseScienceId($id), $scv, $id);
 }
 $db->commit;
 printf "-- generated science [$insert_count] in %1.3f seconds\n", $sw->read;
