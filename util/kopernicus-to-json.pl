@@ -15,6 +15,8 @@ my $stockSystem = KSP::SolarSystem->new();
 
 binmode \*STDOUT, ":utf8";
 
+my @CMD = ($0, @ARGV);
+
 my %rename = ();
 while (@ARGV > 1 && $ARGV[0] =~ /^(\w+)=(\w+)$/) {
 	$rename{$1} = $2;
@@ -170,6 +172,7 @@ my $system = {
 		Minute => 60
 	},
 	rootBody => $rootBody,
+	generator => \@CMD,
 	bodies => \%bodiesJson
 };
 
