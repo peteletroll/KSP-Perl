@@ -9,22 +9,35 @@ use KSP;
 
 binmode \*STDOUT, ":utf8";
 
+##################################################
+
+# process parameters
+
+##################################################
+
 our $script = $0;
 $script =~ s/.*\///;
 our $usage = "usage: $script [ -di ] <db> <savefile>\n";
 
 use Getopt::Std;
 our %opt = ();
-getopts("di", \%opt) && @ARGV == 2 or die $usage;
+getopts("di", \%opt) or die $usage;
 
 our $DEBUG = $opt{d};
 our $INDEX = $opt{i};
 
 our $SW = KSP::StopWatch->new();
 
-our ($DBNAME, $SFSNAME) = @ARGV;
+our ($DBNAME, $SFSNAME);
+if (@ARGV == 2) {
+	($DBNAME, $SFSNAME) = @ARGV;
+} else {
+	die $usage;
+}
 
-our ($DB, $SFS) = @ARGV;
+if ($ENV{KSPHOME} && $SFSNAME !~ /\// && ! -f $SFSNAME) {
+	$SFSNAME = "$ENV{KSPHOME}/saves/$SFSNAME/persistent.sfs";
+}
 
 ##################################################
 
@@ -64,7 +77,8 @@ sub parseScienceId($) {
 }
 
 $SW->reset->start;
-$SFS = KSP::ConfigNode->load($SFSNAME);
+printf "-- parsing sfs $SFSNAME\n";
+our $SFS = KSP::ConfigNode->load($SFSNAME);
 printf "-- parsed sfs in %1.3f seconds\n", $SW->read;
 
 ##################################################
@@ -73,7 +87,8 @@ printf "-- parsed sfs in %1.3f seconds\n", $SW->read;
 
 ##################################################
 
-$DB = DBI->connect("dbi:SQLite:dbname=$DBNAME", "", "", {
+printf "-- opening db $DBNAME\n";
+our $DB = DBI->connect("dbi:SQLite:dbname=$DBNAME", "", "", {
 	AutoCommit => 1,
 	RaiseError => 1,
 });
