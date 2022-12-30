@@ -121,13 +121,13 @@ sub enqueue($) {
 	push @Q, @_;
 }
 
-END {
-	print "-- closing\n";
-	run($_) foreach @Q;
+sub runqueue() {
+	run(shift @Q) while @Q;
 }
 
 sub create($@) {
 	my ($table, @col) = @_;
+	my @idx = ();
 	run("drop table if exists " . qi($table));
 	run("create table " . qi($table) . " ("
 		. join(",", map {
@@ -141,11 +141,12 @@ sub create($@) {
 					$type = "boolean";
 				}
 			}
+			push @idx, $col;
 			"\n\t" . qi($col) . " " . $type
 		} @col)
 		. ")");
 	if ($INDEX) {
-		foreach my $c (@col) {
+		foreach my $c (@idx) {
 			enqueue("create index " . qi("idx_${table}_${c}") . " on " . qi($table) . " (" . qi($c). ")");
 		}
 	}
@@ -231,6 +232,8 @@ printf "-- generated roster [$insert_count] in %1.3f seconds\n", $SW->read;
 
 enqueue("analyze");
 enqueue("vacuum");
+
+runqueue();
 
 if ($RUNSQLITE) {
 	system "sqlite3", $DBNAME;
