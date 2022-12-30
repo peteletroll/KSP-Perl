@@ -137,6 +137,8 @@ sub create($@) {
 				# warn "COL\t$col\t$type";
 				if ($1 eq "r") {
 					$type = "real";
+				} elsif ($1 eq "b") {
+					$type = "boolean";
 				}
 			}
 			"\n\t" . qi($col) . " " . $type
@@ -162,19 +164,24 @@ sub insert($@) {
 		$DB->prepare_cached($i)
 	};
 	$insert_count++;
-	$h->execute(@val)
+	$h->execute(map {
+		!defined ? undef :
+		/^false$/i ? 0 :
+		/^true$/i ? 1 :
+		$_
+	} @val)
 }
 
-create(biomes => qw(body biome ismini));
+create(biomes => qw(body biome ismini:b));
 $SW->reset->start;
 $DB->begin_work;
 $insert_count = 0;
 foreach my $b ($system->bodies) {
 	foreach my $i (undef, $b->biomes) {
-		insert("biomes", $b->name, $i, "False");
+		insert("biomes", $b->name, $i, 0);
 	}
 	foreach my $i ($b->miniBiomes) {
-		insert("biomes", $b->name, $i, "True");
+		insert("biomes", $b->name, $i, 1);
 	}
 }
 $DB->commit;
@@ -192,8 +199,9 @@ foreach my $n ($SFS->find("Science", id => qr/\@/)) {
 $DB->commit;
 printf "-- generated science [$insert_count] in %1.3f seconds\n", $SW->read;
 
-my @roster_cols = qw(name gender type trait badS veteran tour state inactive);
+my @roster_cols = qw(name gender type trait badS:b veteran:b tour:b state inactive:b);
 create(roster => @roster_cols);
+s/:\w+$// foreach @roster_cols;
 $SW->reset->start;
 $DB->begin_work;
 $insert_count = 0;
