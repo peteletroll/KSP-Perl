@@ -199,7 +199,7 @@ foreach my $n ($SFS->find("Science", id => qr/\@/)) {
 $DB->commit;
 printf "-- generated science [$insert_count] in %1.3f seconds\n", $SW->read;
 
-my @roster_cols = qw(name gender type trait badS:b veteran:b tour:b state inactive:b);
+my @roster_cols = qw(name gender type trait state badS:b hero:b veteran:b tour:b inactive:b);
 create(roster => @roster_cols);
 s/:\w+$// foreach @roster_cols;
 $SW->reset->start;
