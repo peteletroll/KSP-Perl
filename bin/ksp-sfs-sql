@@ -160,7 +160,7 @@ sub insert($@) {
 	my $n = @val;
 	my $h = $_insert_handle{$table}[$n] ||= do {
 		my $i = "insert into " . qi($table) . " values (" . join(", ", (("?") x $n)) . ")";
-		print "-- $i\n";
+		# print "-- $i\n";
 		$DB->prepare_cached($i)
 	};
 	$insert_count++;
@@ -187,14 +187,15 @@ foreach my $b ($system->bodies) {
 $DB->commit;
 printf "-- generated biomes [$insert_count] in %1.3f seconds\n", $SW->read;
 
-create(science => qw(experiment body situation biome extra scv:r id));
+create(science => qw(experiment body situation biome extra dsc scv:r sbv:r sci:r asc:b cap:r id));
 $SW->reset->start;
 $DB->begin_work;
 $insert_count = 0;
 foreach my $n ($SFS->find("Science", id => qr/\@/)) {
-	my $scv = $n->get("scv");
 	my $id = $n->get("id");
-	insert("science", parseScienceId($id), $scv, $id);
+	insert("science", parseScienceId($id),
+		(map { $n->get($_) } qw(dsc scv sbv sci asc cap)),
+		$id);
 }
 $DB->commit;
 printf "-- generated science [$insert_count] in %1.3f seconds\n", $SW->read;
