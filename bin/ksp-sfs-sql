@@ -42,7 +42,7 @@ if (@ARGV == 2) {
 }
 
 if ($ENV{KSPHOME} && $SFSNAME !~ /\// && ! -f $SFSNAME) {
-	$SFSNAME = "$ENV{KSPHOME}/saves/$SFSNAME/persistent.sfs";
+	$SFSNAME = "$ENV{KSPHOME}/saves/$SFSNAME/quicksave.sfs";
 }
 
 ##################################################
@@ -83,9 +83,9 @@ sub parseScienceId($) {
 }
 
 $SW->reset->start;
-printf "-- parsing sfs $SFSNAME\n";
+printf "-- Parsing sfs $SFSNAME\n";
 our $SFS = KSP::ConfigNode->load($SFSNAME);
-printf "-- parsed sfs in %1.3f seconds\n", $SW->read;
+printf "-- Parsed sfs in %1.3f seconds\n", $SW->read;
 
 ##################################################
 
@@ -93,7 +93,7 @@ printf "-- parsed sfs in %1.3f seconds\n", $SW->read;
 
 ##################################################
 
-printf "-- opening db $DBNAME\n";
+printf "-- Opening db $DBNAME\n";
 our $DB = DBI->connect("dbi:SQLite:dbname=$DBNAME", "", "", {
 	AutoCommit => 1,
 	RaiseError => 1,
@@ -186,7 +186,7 @@ foreach my $b ($system->bodies) {
 	}
 }
 $DB->commit;
-printf "-- generated biomes [$insert_count] in %1.3f seconds\n", $SW->read;
+printf "-- Generated biomes [$insert_count] in %1.3f seconds\n", $SW->read;
 
 create(roc => qw(body biome name));
 $SW->reset->start;
@@ -201,7 +201,7 @@ foreach my $b ($system->bodies) {
 	}
 }
 $DB->commit;
-printf "-- generated roc [$insert_count] in %1.3f seconds\n", $SW->read;
+printf "-- Generated roc [$insert_count] in %1.3f seconds\n", $SW->read;
 
 create(science => qw(experiment body situation biome extra dsc scv:r sbv:r sci:r asc:b cap:r id));
 $SW->reset->start;
@@ -214,7 +214,7 @@ foreach my $n ($SFS->find("Science", id => qr/\@/)) {
 		$id);
 }
 $DB->commit;
-printf "-- generated science [$insert_count] in %1.3f seconds\n", $SW->read;
+printf "-- Generated science [$insert_count] in %1.3f seconds\n", $SW->read;
 
 my @roster_cols = qw(name gender type trait state badS:b hero:b veteran:b tour:b inactive:b);
 create(roster => @roster_cols);
@@ -228,7 +228,7 @@ foreach my $r ($SFS->find("ROSTER")) {
 	}
 }
 $DB->commit;
-printf "-- generated roster [$insert_count] in %1.3f seconds\n", $SW->read;
+printf "-- Generated roster [$insert_count] in %1.3f seconds\n", $SW->read;
 
 enqueue("analyze");
 enqueue("vacuum");
