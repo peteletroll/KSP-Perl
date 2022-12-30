@@ -187,6 +187,21 @@ foreach my $b ($system->bodies) {
 $DB->commit;
 printf "-- generated biomes [$insert_count] in %1.3f seconds\n", $SW->read;
 
+create(roc => qw(body biome name));
+$SW->reset->start;
+$DB->begin_work;
+$insert_count = 0;
+foreach my $b ($system->bodies) {
+	my $i = $b->rocInfo;
+	foreach my $r (keys %$i) {
+		foreach my $n (@{$i->{$r}}) {
+			insert("roc", $b->name, $n, $r);
+		}
+	}
+}
+$DB->commit;
+printf "-- generated roc [$insert_count] in %1.3f seconds\n", $SW->read;
+
 create(science => qw(experiment body situation biome extra dsc scv:r sbv:r sci:r asc:b cap:r id));
 $SW->reset->start;
 $DB->begin_work;
