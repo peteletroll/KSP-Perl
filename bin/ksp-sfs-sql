@@ -93,7 +93,7 @@ printf "-- Parsed sfs in %1.3f seconds\n", $SW->read;
 
 ##################################################
 
-printf "-- Opening db $DBNAME\n";
+printf "-- Creating db $DBNAME\n";
 our $DB = DBI->connect("dbi:SQLite:dbname=$DBNAME", "", "", {
 	AutoCommit => 1,
 	RaiseError => 1,
