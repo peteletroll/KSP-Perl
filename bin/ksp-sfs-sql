@@ -125,9 +125,12 @@ sub runqueue() {
 	run(shift @Q) while @Q;
 }
 
+our %insert_count = ();
+
 sub create($@) {
 	my ($table, @col) = @_;
 	my @idx = ();
+	$insert_count{$table} = 0;
 	run("drop table if exists " . qi($table));
 	run("create table " . qi($table) . " ("
 		. join(",", map {
@@ -152,7 +155,6 @@ sub create($@) {
 	}
 }
 
-our $insert_count = 0;
 our %_insert_handle = ();
 
 sub insert($@) {
@@ -164,7 +166,7 @@ sub insert($@) {
 		# print "-- $i\n";
 		$DB->prepare_cached($i)
 	};
-	$insert_count++;
+	$insert_count{$table}++;
 	$h->execute(map {
 		!defined ? undef :
 		/^false$/i ? 0 :
@@ -176,7 +178,6 @@ sub insert($@) {
 create(biomes => qw(body biome ismini:b));
 $SW->reset->start;
 $DB->begin_work;
-$insert_count = 0;
 foreach my $b ($system->bodies) {
 	foreach my $i (undef, $b->biomes) {
 		insert("biomes", $b->name, $i, 0);
@@ -186,12 +187,11 @@ foreach my $b ($system->bodies) {
 	}
 }
 $DB->commit;
-printf "-- Generated biomes [$insert_count] in %1.3f seconds\n", $SW->read;
+printf "-- Generated biomes [$insert_count{biomes}] in %1.3f seconds\n", $SW->read;
 
 create(roc => qw(body biome name));
 $SW->reset->start;
 $DB->begin_work;
-$insert_count = 0;
 foreach my $b ($system->bodies) {
 	my $i = $b->rocInfo;
 	foreach my $r (keys %$i) {
@@ -201,12 +201,11 @@ foreach my $b ($system->bodies) {
 	}
 }
 $DB->commit;
-printf "-- Generated roc [$insert_count] in %1.3f seconds\n", $SW->read;
+printf "-- Generated roc [$insert_count{roc}] in %1.3f seconds\n", $SW->read;
 
 create(science => qw(experiment body situation biome extra dsc scv:r sbv:r sci:r asc:b cap:r id));
 $SW->reset->start;
 $DB->begin_work;
-$insert_count = 0;
 foreach my $n ($SFS->find("Science", id => qr/\@/)) {
 	my $id = $n->get("id");
 	insert("science", parseScienceId($id),
@@ -214,7 +213,7 @@ foreach my $n ($SFS->find("Science", id => qr/\@/)) {
 		$id);
 }
 $DB->commit;
-printf "-- Generated science [$insert_count] in %1.3f seconds\n", $SW->read;
+printf "-- Generated science [$insert_count{science}] in %1.3f seconds\n", $SW->read;
 
 my @roster_cols = qw(name gender type trait state badS:b hero:b veteran:b tour:b inactive:b);
 create(roster => @roster_cols);
@@ -239,7 +238,7 @@ foreach my $r ($SFS->find("ROSTER")) {
 	}
 }
 $DB->commit;
-printf "-- Generated roster, career [$insert_count] in %1.3f seconds\n", $SW->read;
+printf "-- Generated roster [$insert_count{roster}], career [$insert_count{career}] in %1.3f seconds\n", $SW->read;
 
 enqueue("analyze");
 enqueue("vacuum");
