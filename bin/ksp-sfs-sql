@@ -218,17 +218,28 @@ printf "-- Generated science [$insert_count] in %1.3f seconds\n", $SW->read;
 
 my @roster_cols = qw(name gender type trait state badS:b hero:b veteran:b tour:b inactive:b);
 create(roster => @roster_cols);
+create(career => qw(name flight body situation));
 s/:\w+$// foreach @roster_cols;
 $SW->reset->start;
 $DB->begin_work;
-$insert_count = 0;
+my $career_count = 0;
 foreach my $r ($SFS->find("ROSTER")) {
 	foreach my $k ($r->getnodes("KERBAL")) {
 		insert("roster", map { scalar $k->get($_) } @roster_cols);
+		my $n = $k->get("name");
+		my $c = $k->getnodes("CAREER_LOG");
+		if ($n && $c) {
+			foreach my $l ($c->values) {
+				my $k = $l->name;
+				$k =~ /^[0-9]+$/ or next;
+				my ($s, $b) = split /\s*,\s*/, $l->value;
+				insert("career", $n, $k, $b, $s);
+			}
+		}
 	}
 }
 $DB->commit;
-printf "-- Generated roster [$insert_count] in %1.3f seconds\n", $SW->read;
+printf "-- Generated roster, career [$insert_count] in %1.3f seconds\n", $SW->read;
 
 enqueue("analyze");
 enqueue("vacuum");
