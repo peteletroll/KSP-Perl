@@ -209,7 +209,7 @@ $DB->begin_work;
 foreach my $n ($SFS->find("Science", id => qr/\@/)) {
 	my $id = $n->get("id");
 	insert("science", parseScienceId($id),
-		(map { $n->get($_) } qw(dsc scv sbv sci asc cap)),
+		(map { scalar $n->get($_) } qw(dsc scv sbv sci asc cap)),
 		$id);
 }
 $DB->commit;
