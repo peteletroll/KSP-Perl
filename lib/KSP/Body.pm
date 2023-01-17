@@ -227,6 +227,18 @@ sub density {
 	$self->mass / $self->volume
 }
 
+sub scienceValues {
+	my ($self) = @_;
+	scalar $self->cache("scienceValues", sub {
+		my $s = $self->json->{science} || { };
+		my $r = { };
+		foreach my $k (keys %$s) {
+			$r->{$k} = $s->{$k} if $k =~ /Value$/ & !ref $s->{$k};
+		}
+		$r
+	})
+}
+
 sub spaceThreshold {
 	my ($self) = @_;
 	$self->json->{science}{spaceAltitudeThreshold}
