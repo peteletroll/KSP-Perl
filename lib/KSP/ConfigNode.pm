@@ -289,12 +289,12 @@ sub print($$;$) {
 	}
 	$stream ||= \*STDOUT;
 	my $prev = select $stream;
-	$start->_print("", "", $rootflag);
+	$start->_print("", "");
 	select $prev;
 	$self
 }
 
-sub _print($$$;$) {
+sub _print($$$) {
 	my ($self, $indent, $prefix) = @_;
 
 	my $isfirst = 0;
