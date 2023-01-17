@@ -87,6 +87,7 @@ sub parse_cfg($) {
 			printf "// $file\n"
 				if $putcomments;
 			$c->print(\*STDOUT);
+			print "\n";
 		}
 	}
 	$progress->message("$0: can't parse $file") unless defined $c;

@@ -297,6 +297,7 @@ sub print($$;$) {
 sub _print($$$;$) {
 	my ($self, $indent, $prefix) = @_;
 
+	my $isfirst = 0;
 	foreach ($self->values) {
 		my $s = $_->asString();
 		my $c = $_->_comment();
@@ -310,7 +311,9 @@ sub _print($$$;$) {
 		} else {
 			$c = "";
 		}
-		print "$indent$s$c\n";
+
+		$isfirst++ and print "\n";
+		print "$indent$s$c";
 	}
 
 	my $newprefix = $prefix;
@@ -319,15 +322,16 @@ sub _print($$$;$) {
 		my $c = $_->_comment();
 		if (defined $c && $c =~ /\S/) {
 			$c =~ s/^/$indent\t\/\/ /gm;
-			$c .= "\n\n";
+			$c = "$c\n\n";
 		} else {
 			$c = "";
 		}
 		my $n = _encode($_->name());
 		my $p = $n . $_->_nodename();
+		$isfirst++ and print "\n";
 		print "$indent$n // $newprefix$p\n", $indent, "{\n$c";
 		$_->_print("$indent\t", "$newprefix$p");
-		print $indent, "}\n";
+		print "\n", $indent, "}";
 	}
 }
 
