@@ -2093,6 +2093,11 @@
          }
       }
    },
+   "generator": [
+      "util/kopernicus-to-json.pl",
+      "Sun=Sol",
+      "RSSKopernicus"
+   ],
    "rootBody": "Sol",
    "timeUnits": {
       "Day": 86400,
