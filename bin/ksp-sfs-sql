@@ -203,13 +203,13 @@ foreach my $b ($system->bodies) {
 $DB->commit;
 printf "-- Generated roc [$insert_count{roc}] in %1.3f seconds\n", $SW->read;
 
-create(science => qw(experiment body situation biome extra dsc scv:r sbv:r sci:r asc:b cap:r id));
+create(science => qw(experiment body situation biome extra sbv:r sci:r cap:r id));
 $SW->reset->start;
 $DB->begin_work;
 foreach my $n ($SFS->find("Science", id => qr/\@/)) {
 	my $id = $n->get("id");
 	insert("science", parseScienceId($id),
-		(map { scalar $n->get($_) } qw(dsc scv sbv sci asc cap)),
+		(map { scalar $n->get($_) } qw(sbv sci cap)),
 		$id);
 }
 $DB->commit;
