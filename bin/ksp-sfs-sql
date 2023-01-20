@@ -203,6 +203,12 @@ foreach my $b ($system->bodies) {
 $DB->commit;
 printf "-- Generated roc [$insert_count{roc}] in %1.3f seconds\n", $SW->read;
 
+my $scienceGainMultiplier = 1;
+foreach my $c ($SFS->find("CAREER")) {
+	my $sm = 1 * $c->get("ScienceGainMultiplier");
+	$sm > 0 && $sm < 1.00001 and $scienceGainMultiplier = $sm;
+}
+
 create(science => qw(experiment body situation biome extra sbv:r sci:r cap:r id));
 $SW->reset->start;
 $DB->begin_work;
