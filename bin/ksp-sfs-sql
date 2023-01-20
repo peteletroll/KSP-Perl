@@ -209,14 +209,18 @@ foreach my $c ($SFS->find("CAREER")) {
 	$sm > 0 && $sm < 1.00001 and $scienceGainMultiplier = $sm;
 }
 
-create(science => qw(experiment body situation biome extra sbv:r sci:r cap:r id));
+create(science => qw(experiment body situation biome extra asc avail:r sci:r cap:r id));
 $SW->reset->start;
 $DB->begin_work;
 foreach my $n ($SFS->find("Science", id => qr/\@/)) {
 	my $id = $n->get("id");
+	my $asc = $n->get("asc") =~ /true/i ? 1 : 0;
+	my $avail = $n->get("scv");
+	$asc or $avail = 1 - $avail;
+	my $sci = $scienceGainMultiplier * $n->get("sci");
+	my $cap = $scienceGainMultiplier * $n->get("cap");
 	insert("science", parseScienceId($id),
-		(map { scalar $n->get($_) } qw(sbv sci cap)),
-		$id);
+		$asc, $avail, $sci, $cap, $id);
 }
 $DB->commit;
 printf "-- Generated science [$insert_count{science}] in %1.3f seconds\n", $SW->read;
