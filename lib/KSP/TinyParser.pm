@@ -283,45 +283,5 @@ sub parse {
 	$start->($self, $_[0])
 }
 
-# Preloaded methods go here.
-
-# Autoload methods go after =cut, and are processed by the autosplit program.
-
 1;
-__END__
-
-=head1 NAME
-
-TinyParser - Easy, fast regexp-based parser.
-
-=head1 SYNOPSIS
-
-  use TinyParser;
-
-=head1 DESCRIPTION
-
-A faster Parse::Stallion.
-
-=head2 EXPORT
-
-None by default.
-
-=head1 SEE ALSO
-
-Parse::RecDescent
-Parse::Stallion
-
-=head1 AUTHOR
-
-Pietro Cagnoni, E<lt>pietro.cagnoni@gmail.comE<gt>
-
-=head1 COPYRIGHT AND LICENSE
-
-Copyright (C) 2014 by Pietro Cagnoni
-
-This library is free software; you can redistribute it and/or modify
-it under the same terms as Perl itself, either Perl version 5.18.2 or,
-at your option, any later version of Perl 5 you may have available.
-
-=cut
 
