@@ -7,7 +7,7 @@ use Carp;
 
 our $VERSION = '0.01';
 
-use vars qw($print $picky $XS $BASE $FIELDS $FLD);
+use vars qw($PRINT $PICKY $XS $BASE $FIELDS $FLD);
 
 sub run($);
 
@@ -17,8 +17,8 @@ BEGIN {
 	@ISA = qw(Exporter);
 	@EXPORT_OK = qw(defstruct);
 
-	$print = 0;
-	$picky = 0;
+	$PRINT = 0;
+	$PICKY = 0;
 
 	$FLD = '[a-z_][a-z0-9_]*';
 
@@ -45,7 +45,6 @@ sub import {
 
 sub checkfield($) {
 	$_[0] =~ /^$FLD$/io
-		and $_[0] ne uc $_[0]
 		or croak "bad field name '$_[0]'";
 }
 
@@ -100,25 +99,16 @@ sub definition {
 
 	$ret .= "use strict;\n";
 	$ret .= "use warnings;\n";
-	$ret .= "use Carp;\n" if $picky;
+	$ret .= "use Carp;\n" if $PICKY;
 
 	$ret .= "\n";
-	$ret .= "use vars qw(\@EXPORT \@EXPORT_OK \%EXPORT_TAGS);\n";
-	$ret .= "\@${struct}::ISA = qw(" . join(" ", @isa) . ");\n";
+	$ret .= "use vars qw(\@ISA \@EXPORT \@EXPORT_OK \%EXPORT_TAGS);\n";
+	$ret .= "\@ISA = qw(" . join(" ", @isa) . ");\n";
 
 	$ret .= "\n";
 	$ret .= "sub $FIELDS() { qw(\n"
 		. join("", map { "  $_\n" } @allfields)
 		. ") }\n";
-
-	if (@allfields) {
-		$ret .= "\n";
-		my $idx = 0;
-		foreach my $field (@allfields) {
-			$ret .= "sub \U$field\E() { $idx }\n";
-			$idx++;
-		}
-	}
 
 	$ret .= "\n";
 	$ret .= "sub new {\n";
@@ -129,7 +119,7 @@ sub definition {
 	$ret .= "sub _new_simple {\n";
 	$ret .= "  shift;\n";
 	$ret .= "  \@_ <= $allfields or croak \"$struct->new() needs at most $allfields parameters\";\n"
-		if $picky;
+		if $PICKY;
 	$ret .= "  bless [ \@_ ]\n";
 	$ret .= "}\n";
 
@@ -142,42 +132,44 @@ sub definition {
 	$ret .= "\n";
 	$ret .= "sub clone {\n";
 	$ret .= "  \@_ == 1 or croak \"$struct->clone() needs no parameters\";\n"
-		if $picky;
+		if $PICKY;
 	$ret .= "  bless [ \@{\$_[0]} ]\n";
 	$ret .= "}\n";
 
-	if ($XS && !$picky) {
-		if (@allfields) {
+	if (@fields) {
+		my $idx = @superfields;
+		if ($XS && !$PICKY) {
 			$ret .= "\n";
 			$ret .= "use Class::XSAccessor::Array\n";
 			$ret .= "  getters => {\n";
 			foreach my $field (@allfields) {
-				$ret .= "    $field => \U$field\E,\n";
+				$ret .= "    $field => $idx,\n";
+				$idx++;
 			}
 			$ret .= "  },\n";
+
+			$idx = @superfields;
 			$ret .= "  setters => {\n";
-			foreach my $field (@fields) {
-				$ret .= "    set_$field => \U$field\E,\n";
+			foreach my $field (@allfields) {
+				$ret .= "    set_$field => $idx,\n";
+				$idx++;
 			}
 			$ret .= "  };\n";
-		}
-	} else {
-		my $idx = 0;
-		foreach my $field (@allfields) {
-			my $id = uc $field;
-
-			$ret .= "\n";
-			$ret .= "sub $field {\n";
-			$ret .= "  \@_ == 1 or croak \"$struct->$field() needs no parameters\";\n"
-				if $picky;
-			$ret .= "  \$_[0][$id]\n";
-			$ret .= "}\n";
-			$ret .= "sub set_$field {\n";
-			$ret .= "  \@_ == 2 or croak \"$struct->set_$field() needs one parameter\";\n"
-				if $picky;
-			$ret .= "  \$_[0][$id] = \$_[1]\n";
-			$ret .= "}\n";
-			$idx++;
+		} else {
+			foreach my $field (@fields) {
+				$ret .= "\n";
+				$ret .= "sub $field {\n";
+				$ret .= "  \@_ == 1 or croak \"$struct->$field() needs no parameters\";\n"
+					if $PICKY;
+				$ret .= "  \$_[0][$idx]\n";
+				$ret .= "}\n\n";
+				$ret .= "sub set_$field {\n";
+				$ret .= "  \@_ == 2 or croak \"$struct->set_$field() needs one parameter\";\n"
+					if $PICKY;
+				$ret .= "  \$_[0][$idx] = \$_[1]\n";
+				$ret .= "}\n";
+				$idx++;
+			}
 		}
 	}
 
@@ -220,7 +212,7 @@ sub run($) {
 		die $msg;
 	}
 
-	if ($print) {
+	if ($PRINT) {
 		local $| = 1;
 		print $code;
 	}
