@@ -209,7 +209,7 @@ foreach my $c ($SFS->find("CAREER")) {
 	$sm > 0 && $sm < 1.00001 and $scienceGainMultiplier = $sm;
 }
 
-create(science => qw(experiment body situation biome extra points full id));
+create(science => qw(experiment body situation biome extra points:r full:r id));
 $SW->reset->start;
 $DB->begin_work;
 foreach my $n ($SFS->find("Science", id => qr/\@/)) {
