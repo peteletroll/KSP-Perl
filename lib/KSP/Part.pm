@@ -43,9 +43,11 @@ sub desc {
 	scalar $self->cache("desc", sub {
 		my $wm = $self->wetMass;
 		my $dm = $self->dryMass;
+		my $crew = $self->crew;
 		my $ret = $self->name . "[ ";
 		my $t = $self->title;
 		$ret .= "$t; " if defined $t;
+		$ret .= "$crew☺; " if $crew;
 		$ret .= U(1000 * $wm) . "g / " if $wm > $dm;
 		$ret .= U(1000 * $dm) . "g ]";
 		$ret
@@ -84,6 +86,13 @@ sub dryMass {
 	my ($self) = @_;
 	scalar $self->cache("dryMass", sub {
 		1000 * ($self->node->get("mass") || 0)
+	});
+}
+
+sub crew {
+	my ($self) = @_;
+	scalar $self->cache("crew", sub {
+		0 + ($self->node->get("CrewCapacity") || 0)
 	});
 }
 
