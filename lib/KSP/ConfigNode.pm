@@ -270,6 +270,12 @@ sub _decode($) {
 	$_
 }
 
+sub isEmpty($) {
+	my ($self) = @_;
+	my @cnt = ($self->nodes, $self->values);
+	!@cnt
+}
+
 sub asString($;$) {
 	my ($self, $rootflag) = @_;
 	my $ret = "";
@@ -331,7 +337,8 @@ sub _print($$$) {
 		$isfirst++ and print "\n";
 		print "$indent$n // $newprefix$p\n", $indent, "{\n$c";
 		$_->_print("$indent\t", "$newprefix$p");
-		print "\n", $indent, "}";
+		print "\n" unless $_->isEmpty;
+		print $indent, "}";
 	}
 }
 
