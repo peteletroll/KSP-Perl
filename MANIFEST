@@ -36,6 +36,7 @@ bin/ksp-parse
 bin/ksp-delta-v
 bin/ksp-shell
 bin/ksp-sfs-sql
+bin/ksp-dds-tool
 util/comm-network.pl
 util/kopernicus-to-json.pl
 util/moho-polar-transfer.pl

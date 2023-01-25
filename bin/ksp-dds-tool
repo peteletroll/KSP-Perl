@@ -1,0 +1,664 @@
+#!/usr/bin/perl
+
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+
+use strict;
+use warnings;
+
+use Cwd qw(realpath);
+use File::Temp;
+use File::Copy;
+use File::Find;
+
+############################################################
+
+sub ispowerof2($) {
+	my ($n) = @_;
+	int($n) == $n && sprintf("%b", $n) =~ /^0*10*$/
+}
+
+############################################################
+
+our $prg = $0;
+$prg =~ s/.*\///;
+
+use Getopt::Std;
+our %opt = (r => 1, M => 65536, m => 32);
+our %defopt = (%opt);
+getopts("cChsr:m:M:DK", \%opt) or die "$0: bad options\n";
+
+foreach my $o (qw(r m M)) {
+	ispowerof2($opt{$o}) 
+		or die "$prg: option -$o must be a power of 2\n";
+}
+
+unless (@ARGV) {
+	die <<"END";
+
+usage: $prg [-chs] [-r <ratio>] [-m <min>] [-M <max>] <file or dir> ...
+
+    -c          convert mbm, png and tga to dds
+    -C		convert mbm, png and tga to dds, don't touch dds
+    -h          use slow and high quality dds compression
+    -s          swizzle files (doesn't work on directories) (NOT WORKING YET)
+    -r <ratio>  reduction ratio (default $defopt{r})
+    -m <min>    min texture size (default $defopt{m})
+    -M <size>   max texture size (default $defopt{M})
+
+$prg will use the following external utilities:
+
+    * identify, convert
+      (from ImageMagick, http://www.imagemagick.org/)
+
+    * nvcompress, nvdecompress, nvzoom, nvddsinfo
+      (from NVIDIA Texture Tools,
+      https://code.google.com/p/nvidia-texture-tools/)
+
+END
+}
+
+############################################################
+
+sub shellquote(@) {
+	join " ", map {
+		if (/^[a-z0-9_\-\.\/]+$/i) {
+			$_
+		} else {
+			my $win = $^O eq "MSWin32";
+			my $t = $_;
+			$t =~ s{"}{ $win ? "\"\"" : "\\\"" }ges;
+			"\"$t\""
+		}
+	} @_
+}
+
+our $TMPDIR = undef;
+
+sub tmp($) {
+	my ($suf) = @_;
+	$TMPDIR ||= File::Temp->newdir("ksp-dds-tool-XXXXXXXX",
+		TMPDIR => 1, CLEANUP => !$opt{K});
+	File::Temp->new(DIR => $TMPDIR, SUFFIX => $suf, UNLINK => 0)
+}
+
+sub tmpreset() {
+	$TMPDIR = undef;
+}
+
+sub gulp($) {
+	my ($file) = @_;
+	open IN, "<:bytes", $file
+		or die "$0: can't open $file: $!\n";
+	local $/ = undef;
+	my $cnt = <IN>;
+	close IN;
+	$cnt
+}
+
+sub run {
+	my $run = (@_ == 1 && ref $_[0] eq "HASH") ?
+		$_[0] :
+		{ cmd => \@_ };
+	my $cmd = shellquote(@{$run->{cmd}});
+	defined $run->{out} and $cmd .= " > " . shellquote($run->{out});
+	print "\$ $cmd\n" if $opt{D};
+	my $exit = system($cmd);
+	$exit && !defined(wantarray)
+		and die "$0: command failed\n";
+	$exit
+}
+
+sub cp($$) {
+	print "\$ cp ", shellquote(@_), "\n" if $opt{D};
+	copy @_ or die "$0: copy failed: $!\n";
+}
+
+sub mv($$) {
+	print "\$ mv ", shellquote(@_), "\n" if $opt{D};
+	move @_ or die "$0: move failed: $!\n";
+}
+
+############################################################
+
+sub indent_parser($) {
+	my ($in) = @_;
+
+	local $_;
+	my @st = ();
+
+	my $push = sub { push @st, { ind => $_[0], body => [ ] } };
+
+	my $pop = sub {
+		my $tos = pop @st;
+		push @{$st[-1]{body}[-1]{body}}, @{$tos->{body}};
+	};
+
+	my $add = sub { push @{$st[-1]{body}}, @_ };
+
+	$push->(0);
+
+	while (<$in>) {
+		s/\s+$//s;
+		next if $_ eq "";
+		my $ind = 0;
+		while (s/^( +|\t)//) {
+			if ($1 eq "\t") {
+				$ind = $ind + 8 - ($ind & 7);
+			} else {
+				$ind += length $1;
+			}
+		}
+		
+		# /^(\d+):/ and $ind += length($1);
+
+		if ($ind > $st[-1]{ind}) {
+			$push->($ind);
+		} elsif ($ind < $st[-1]{ind}) {
+			while ($ind < $st[-1]{ind}) {
+				$pop->();
+			}
+			$ind == $st[-1]{ind} or die "$0: bad dedent at `$_'\n";
+		}
+		if (/^(.+?)\s*:\s*(.*)/) {
+			$add->({ name => $1, (($2 eq "") ? () : (value => $2)) });
+		} else {
+			$add->({ name => $_ });
+		}
+	}
+	$pop->() while @st > 1;
+	$st[0]{body}
+}
+
+sub _get($$@);
+sub _get($$@) {
+	my ($ret, $info, @path) = @_;
+	@path or return;
+	my $head = shift @path;
+	my $test = ref $head eq "Regexp" ?
+		sub { $_[0] =~ $head } :
+		sub { $_[0] eq $head };
+	foreach my $n (@$info) {
+		if ($test->($n->{name})) {
+			if (@path) {
+				_get($ret, ($n->{body} || [ ]), @path)
+			} else {
+				push @$ret, $n;
+			}
+		}
+	}
+}
+
+sub getvalues($@) {
+	my ($info, @path) = @_;
+	my @acc = ();
+	_get(\@acc, $info, @path);
+	my @ret = map { $_->{value} } @acc;
+	wantarray ? @ret : \@ret
+}
+
+sub getbodies($@) {
+	my ($info, @path) = @_;
+	my @acc = ();
+	_get(\@acc, $info, @path);
+	my @ret = map { $_->{body} || [ ] } @acc;
+	wantarray ? @ret : \@ret
+}
+
+############################################################
+
+sub imgsize($) {
+	my ($img) = @_;
+	my $size = tmp(".size");
+	run({
+		out => $size,
+		cmd => [ "identify", "-ping", "-format", "%w %h", $img ],
+	});
+	my $wh = gulp($size);
+	$wh =~ /^\s*(\d+)\s+(\d+)\s*$/
+		or die "$0: $img: can't read size\n";
+	wantarray ? ($1, $2) : "${1}x${2}"
+}
+
+sub alphamean($) {
+	my ($info) = @_;
+	my ($mean) = getvalues($info, "Image", "Channel statistics", "Alpha", "mean");
+	$mean and $mean =~ s/\s.*//;
+	defined $mean ? 0 + $mean : 255
+}
+
+sub mayneedswizzle($) {
+	my ($info) = @_;
+	my ($r_min) = getvalues($info, "Image", "Channel statistics", "Red", "min");
+	my ($g_min) = getvalues($info, "Image", "Channel statistics", "Green", "min");
+	my ($b_min) = getvalues($info, "Image", "Channel statistics", "Blue", "min");
+	my ($a_min) = getvalues($info, "Image", "Channel statistics", "Alpha", "min");
+	foreach ($r_min, $g_min, $b_min, $a_min) {
+		defined $_ or $_ = "255";
+		s/\s.*//;
+	}
+	defined $r_min < 255 && $g_min < 255 && $b_min == 255 && $a_min == 255
+}
+
+sub swizzle($$) {
+	my ($in, $out) = @_;
+	my %c = ();
+	foreach my $c (qw(R G B)) {
+		my $t = tmp("-$c.png");
+		$c{$c} = $t;
+		run "convert", $in,
+			"-channel", $c,
+			"-separate", $t;
+	}
+	run "convert",
+		(map { $c{$_} } qw(B G B R)),
+		"-channel", "RGBA",
+		"-combine", $out;
+}
+
+sub identify($) {
+	my ($dds) = @_;
+
+	my $ident = tmp(".ident");
+	run { out => $ident, cmd => [ "identify", "-verbose", $dds ] };
+
+	open IDENT, "<", $ident or die "$0: $ident: $!\n";
+	my $ret = indent_parser(\*IDENT);
+	close IDENT or die "$0: can't close identify pipe\n";
+	$ret
+}
+
+sub validsize($$) {
+	foreach my $n (@_) {
+		$n >= $opt{m} && ispowerof2($n)
+			or return 0;
+	}
+	1
+}
+
+sub archive_orig($) {
+	my ($file) = @_;
+	mv $file, "$file-orig";
+}
+
+sub nvcompress {
+	my $out = tmp(".log");
+	run { out => $out, cmd => [ "nvcompress", @_ ] };
+	my $log = gulp($out);
+	$log =~ s/\s+$//s;
+	$log =~ s/.*[\n\r]//s;
+	print "nvcompress: $log\n";
+}
+
+############################################################
+
+sub mbm2tga($) {
+	my ($mbm) = @_;
+
+	my $tga = $mbm;
+	$tga =~ s/\.mbm$/.tga/i
+		or return;
+
+	print "MBM $mbm\n";
+
+	if (-f $tga) {
+		print "can't convert, file $tga exists\n";
+		return $mbm;
+	}
+
+	my $buffer = gulp($mbm);
+
+	my $header = substr($buffer, 0, 20, "");
+	length $header == 20 or die "$0: $mbm: bad header read\n";
+
+	my @header = unpack("V*", $header);
+	# print "header: ", join(" ", map { sprintf("%08x", $_) } @header), "\n";
+	my ($magic, $width, $height, $type, $bits) = @header;
+	$magic == 0x50534b03 or die "$0: $mbm: bad header magic\n";
+	print "size ${width}x${height}, type $type, bits $bits\n";
+	$bits == 24 || $bits == 32 or die "$0: illegal bits value\n";
+
+	validsize($width, $height) or return $mbm;
+	
+	my $fmt = $bits == 32 ? "rgba" : "rgb";
+	my $rgb = tmp(".$fmt");
+	# print "exporting to $rgb\n";
+	open RGB, ">:bytes", $rgb or die "$0: can't open $rgb: $!\n";
+	print RGB $buffer;
+	close RGB;
+
+	run "convert", "-flip", "-size", "${width}x${height}", "-depth", 8, "$fmt:$rgb", $tga;
+	archive_orig($mbm);
+	$tga
+}
+
+############################################################
+
+sub png2tga($) {
+	my ($png) = @_;
+
+	my $tga = $png;
+	$tga =~ s/\.png$/.tga/i
+		or return;
+
+	print "PNG $png\n";
+
+	if (realpath($png) =~ /\/\@thumbs\//i) {
+		print "skipping, part icon\n";
+		return $png;
+	}
+
+	if (-f $tga) {
+		print "can't convert, file $tga exists\n";
+		return $png;
+	}
+
+	my ($width, $height) = imgsize($png);
+	print "size ${width}x${height}\n";
+
+	validsize($width, $height) or return $png;
+	
+	run "convert", $png, $tga;
+	archive_orig($png);
+	$tga
+}
+
+############################################################
+
+sub tga2dds($) {
+	my ($tga) = @_;
+
+	my $dds = $tga;
+	$dds =~ s/\.tga$/.dds/i
+		or return;
+
+	print "TGA $tga\n";
+
+	if (-f $dds) {
+		print "can't convert, file $dds exists\n";
+		return $tga;
+	}
+
+	my ($width, $height) = imgsize($tga);
+	print "size ${width}x${height}\n";
+	validsize($width, $height) or return $tga;
+	
+	my $ident = identify($tga);
+	my $alphamean = alphamean($ident);
+	my $compr = "-bc3";
+	my $status = $alphamean <= 254.5 ? "keep" : do { $compr = "-bc1"; "remove" };
+	printf "alpha %1.2f, %s, codec %s\n", $alphamean, $status, $compr;
+
+	my @opt = qw(-repeat);
+	push @opt, $compr;
+	push @opt, "-fast" unless $opt{h};
+	nvcompress @opt, $tga, $dds;
+	archive_orig($tga);
+	$dds
+}
+
+############################################################
+
+sub ddsinfo($) {
+	my ($dds) = @_;
+
+	my $info = tmp(".info");
+	run { out => $info, cmd => [ "nvddsinfo", $dds ] };
+
+	open INFO, "<", $info or die "$0: $info: $!\n";
+	my $ret = indent_parser(\*INFO);
+	close INFO or die "$0: can't close nvddsinfo pipe\n";
+
+	$ret
+}
+
+sub ddsstat($) {
+	my ($info) = @_;
+
+	my ($w) = getvalues($info, "Width");
+	my ($h) = getvalues($info, "Height");
+
+	my ($c) = getvalues($info, "Pixel Format", "FourCC");
+	$c = uc $c;
+	$c =~ s/^'(.*)'$/$1/s || $c =~ s/^"(.*)"$/$1/s;
+
+	my ($m) = getvalues($info, "Mipmap count");
+	$m ||= 1;
+
+	my ($f) = getvalues($info, "Pixel Format", "Flags");
+	$f = hex($f);
+
+	my @ret = ($w, $h, $c, $m, $f);
+	wantarray ? @ret : join("/", @ret)
+}
+
+sub ddsnvidia($) {
+	my ($info) = @_;
+	my @acc = ();
+	_get(\@acc, $info, "Version", qr/\bnvidia\b/i);
+	@acc ? 1 : 0
+}
+
+sub ddsreduceratio($$) {
+	my ($w_src, $h_src) = @_;
+	my $s = ($w_src > $h_src) ? $w_src : $h_src;
+	$s > $opt{m} or return 1;
+	my $r = $opt{r};
+	my $new_s = $s / $r;
+	$new_s > $opt{m} or return $s / $opt{m};
+	$new_s < $opt{M} or return $s / $opt{M};
+	return $r;
+}
+
+my @mayneedswizzle = ();
+
+my ($size_in, $size_out) = (0, 0);
+
+sub processdds($) {
+	my ($dds) = @_;
+
+	$dds =~ /\.dds$/i or return;
+
+	print "DDS $dds\n";
+
+	my $dds_orig = "${dds}-orig";
+
+	my $dds_src = -f $dds_orig ? $dds_orig : $dds;
+	my $info_src = ddsinfo($dds_src);
+	my ($w_src, $h_src, $c_src, $m_src, $f_src) = ddsstat($info_src);
+	printf "source %dx%d 0x%x 0x%x %s %s\n", $w_src, $h_src, $m_src, $f_src, $c_src, $dds_src;
+
+	my $srcsize = -s $dds_src;
+
+	my $info_cur = $dds_src eq $dds ? $info_src : ddsinfo($dds);
+	my ($w_cur, $h_cur, $c_cur, $m_cur, $f_cur) = ddsstat($info_cur);
+	my $nvidia_cur = ddsnvidia($info_cur);
+	printf "current %dx%d 0x%x 0x%x %s (%s) %s\n",
+		$w_cur, $h_cur, $m_cur, $f_cur, $c_cur,
+		($nvidia_cur ? "nvidia" : "not nvidia"),
+		$dds
+		if $info_cur != $info_src;
+
+	my $ratio = ddsreduceratio($w_src, $h_src);
+	my ($w_new, $h_new) = map { $_ / $ratio } ($w_src, $h_src);
+	print "resize 1/$ratio to ${w_new}x${h_new}\n" if $ratio > 1;
+	
+	my $c_new = $c_src;
+	my $ident_src = identify($dds_src);
+	if (mayneedswizzle($ident_src)) {
+		print "this image may need swizzling!\n";
+		push @mayneedswizzle, $dds;
+	}
+
+	if ($c_new ne "DXT1") {
+		my $alphamean = alphamean($ident_src);
+		my $status = $alphamean <= 254.5 ? "keep" : do { $c_new = "DXT1"; "remove" };
+		printf "alpha %1.2f, %s, codec %s\n", $alphamean, $status, $c_new;
+	}
+
+	my $m_new = $m_src;
+
+	my $f_new = $f_src;
+
+	my $doit = !ddsnvidia($info_cur)
+		|| $w_new != $w_cur
+		|| $h_new != $h_cur
+		|| $c_new ne $c_cur
+		|| $f_new != $f_cur
+		|| ($m_cur > 1) != ($m_new > 1);
+
+	my $justcopy = $doit
+		&& $ratio == 1
+		&& $dds_src ne $dds
+		&& $c_src eq $c_new
+		&& ($m_src > 1) == ($m_new > 1)
+		&& ddsnvidia($info_src);
+
+	if ($justcopy) {
+		mv $dds_src, $dds;
+		print "moved\n";
+	} elsif ($doit) {
+		my $dds_tmp = tmp(".dds");
+		cp $dds_src, $dds_tmp;
+
+		my $tga_tmp = $dds_tmp;
+		$tga_tmp =~ s/.(\w+)$/.tga/
+			or die "can't generate tga name";
+
+		# adapting non transparent normal maps (swizzling): RGBA -> BGBR
+		# separate: convert orig.tga -channel RGBA -separate orig.png
+		# combine:  convert orig-2.png orig-1.png orig-2.png orig-0.png -channel RGBA -combine out.png
+
+		my $use_convert = !ddsnvidia($info_src) && $dds =~ /_N_NRM\.dds$/;
+		if ($ratio == 1) {
+			if ($use_convert) {
+				run "convert", $dds_tmp, $tga_tmp;
+			} else {
+				run "nvdecompress", $dds_tmp;
+			}
+			-f $tga_tmp or die "no $tga_tmp file";
+		} else {
+			if ($use_convert) {
+				run "convert", "-resize", "${w_new}x${h_new}", $dds_tmp, $tga_tmp;
+			} else {
+				run "nvzoom", "-s", 1 / $ratio, $dds_tmp, $tga_tmp;
+			}
+		}
+
+		my $normal = $f_new & 0x80000000;
+
+		my $dds_res = tmp(".dds");
+		my @opt = qw(-repeat);
+		push @opt, "-fast" unless $opt{h};
+		push @opt, "-normal" if $normal;
+		$m_src > 1 or push @opt, "-nomips";
+		if ($c_new eq "DXT1") {
+			push @opt, "-bc1";
+		} elsif ($c_new eq "DXT3") {
+			push @opt, "-bc2";
+		} elsif ($c_new eq "DXT5") {
+			push @opt, $normal ? "-bc3n" : "-bc3";
+		} else {
+			my $e = $c_new;
+			$e =~ s{([^\x{20}-\x{7e}])}{ sprintf "\\x{%x}", ord $1 }ges;
+			print "unrecognized compression \"$e\", use DXT5\n";
+			push @opt, $normal ? "-bc3n" : "-bc3";
+		}
+		nvcompress @opt, $tga_tmp, $dds_res;
+
+		-f $dds_orig or cp $dds, $dds_orig;
+
+		mv $dds_res, $dds;
+	}
+	my $ddssize = -s $dds;
+	print "size $srcsize -> $ddssize\n";
+	$size_in += $srcsize;
+	$size_out += $ddssize;
+	$dds
+}
+
+############################################################
+
+local $| = 1;
+
+my @lst = ();
+foreach my $arg (@ARGV) {
+	if (-f $arg) {
+		push @lst, $arg;
+	} elsif (-d $arg) {
+		if ($opt{s}) {
+			die "$0: $arg is a directory, can't swizzle\n";
+		}
+		find({
+			no_chdir => 1,
+			wanted => sub {
+				-f $_
+					and $_ !~ /\/\@thumbs\//
+					and push @lst, $_;
+			},
+		}, $arg);
+	}
+}
+
+@lst = sort @lst;
+
+if ($opt{s}) {
+	foreach my $file (@lst) {
+		unless ($file =~ /\.(\w+)$/) {
+			print "$file has no extension, can't swizzle\n\n";
+			next;
+		}
+		my $ext = $1;
+		my $orig = "$file-unswizzled";
+		print "swizzling \U$ext\E $file\n";
+		if (-e $orig) {
+			print "$orig exists, can't swizzle\n\n";
+			next;
+		}
+		my $tmp = tmp(".$ext");
+		swizzle($file, $tmp);
+		mv $file, $orig;
+		cp $tmp, $file;
+		print "\n";
+	}
+	tmpreset();
+	exit 0;
+}
+
+my @steps = ();
+push @steps, \&mbm2tga, \&png2tga, \&tga2dds
+	if $opt{c} || $opt{C};
+push @steps, \&processdds
+	unless $opt{C};
+
+foreach my $file (@lst) {
+	my $c = 0;
+	foreach my $step (@steps) {
+		my $next = $step->($file);
+		if (defined $next) {
+			$file = $next;
+			$c++;
+		}
+	}
+	print "\n" if $c;
+	tmpreset();
+}
+
+if (@mayneedswizzle) {
+	print "the following textures may need swizzling:\n",
+		map { "\t$_\n" } @mayneedswizzle;
+}
+
+if ($size_in) {
+	printf "%d -> %d: %1.1f%% dds size reduction\n\n",
+		$size_in, $size_out,
+		100 * ($size_in - $size_out) / $size_in;
+}
+

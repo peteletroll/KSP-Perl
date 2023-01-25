@@ -15,5 +15,5 @@ WriteMakefile(
     #LICENSE           => 'perl',
     #Value must be from legacy list of licenses here
     #http://search.cpan.org/perldoc?Module%3A%3ABuild%3A%3AAPI
-    'EXE_FILES'		=> ['bin/ksp-parse', 'bin/ksp-delta-v', 'bin/ksp-shell', 'bin/ksp-sfs-sql' ],
+    'EXE_FILES'		=> ['bin/ksp-parse', 'bin/ksp-delta-v', 'bin/ksp-shell', 'bin/ksp-sfs-sql', 'bin/ksp-dds-tool' ],
 );
