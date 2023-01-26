@@ -7,7 +7,6 @@ use warnings;
 use Carp;
 
 use KSP::ConfigNode;
-use KSP::DB;
 use KSP::DBNode;
 use KSP::Util qw(U);
 
