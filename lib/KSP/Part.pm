@@ -139,10 +139,7 @@ sub allEngines {
 
 sub antenna {
 	my ($self) = @_;
-	scalar $self->cache("antenna", sub {
-		my $m = $self->node->getnodes("MODULE", name => "ModuleDataTransmitter");
-		$m ? KSP::Antenna->new($self->name, $m) : undef
-	})
+	KSP::Antenna->new($self)
 }
 
 sub resources {
