@@ -10,6 +10,7 @@ use KSP::ConfigNode;
 use KSP::DB;
 use KSP::DBNode;
 use KSP::Engine;
+use KSP::Antenna;
 use KSP::Resource;
 use KSP::Util qw(U matcher);
 
@@ -133,6 +134,14 @@ sub allEngines {
 		sort { $b->maxThrust <=> $a->maxThrust }
 		map { KSP::Engine->new($self->name, $_) }
 		$self->node->getnodes("MODULE", name => qr/^(?:ModuleEngines|ModuleRCS)(?:FX)?$/)
+	})
+}
+
+sub antenna {
+	my ($self) = @_;
+	scalar $self->cache("antenna", sub {
+		my $m = $self->node->getnodes("MODULE", name => "ModuleDataTransmitter");
+		$m ? KSP::Antenna->new($self->name, $m) : undef
 	})
 }
 
