@@ -32,6 +32,17 @@ sub BUILD {
 	$self
 }
 
+our @DSN_range = (2e9, 50e9, 250e9);
+
+sub DSN {
+	my ($pkg, $level) = @_;
+	defined $level or $level = $#DSN_range;
+	$level = int $level;
+	$level >= 0 or $level = 0;
+	$level <= $#DSN_range or $level = $#DSN_range;
+	$pkg->new("DSN level $level", $DSN_range[$level])
+}
+
 sub desc {
 	my ($self) = @_;
 	$self->cache("desc", sub {
