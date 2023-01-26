@@ -26,7 +26,7 @@ use KSP::TinyStruct qw(json system +KSP::Cache);
 use Scalar::Util qw(looks_like_number);
 
 use overload
-	'""' => \&desc;
+	'""' => sub { $_[0]->desc };
 
 sub BUILD {
 	my ($self, $json, $system) = @_;

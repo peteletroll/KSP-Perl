@@ -11,7 +11,7 @@ use KSP::ConfigNode;
 use KSP::TinyStruct qw(name node +KSP::Cache);
 
 use overload
-	'""' => "desc";
+	'""' => sub { $_[0]->desc };
 
 sub BUILD {
 	my ($self, $name, $node) = @_;

@@ -14,7 +14,7 @@ use JSON;
 use KSP::TinyStruct qw(name json grav_const +KSP::Cache);
 
 use overload
-	'""' => \&desc;
+	'""' => sub { $_[0]->desc };
 
 sub BUILD {
 	my ($self, $json) = @_;

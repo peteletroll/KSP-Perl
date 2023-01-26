@@ -18,7 +18,7 @@ sub BUILD {
 }
 
 use overload
-	'""' => \&desc;
+	'""' => sub { $_[0]->desc };
 
 sub name {
 	my ($self) = @_;

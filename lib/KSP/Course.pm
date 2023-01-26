@@ -15,7 +15,7 @@ use KSP::TinyStruct qw(step);
 use Text::Table;
 
 use overload
-	'""' => \&desc;
+	'""' => sub { $_[0]->desc };
 
 sub proxable { qw(
 	burn burnTo burnCirc
