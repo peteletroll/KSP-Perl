@@ -277,9 +277,9 @@ sub checkHeight {
 	my $tol = 1e-4;
 	my $err = undef;
 	if (($h + $r) < ($self->pe  + $r) * (1 - $tol)) {
-		$err = U($h) . "m is lower than periapsis (" . U($self->pe) . "m)";
+		$err = U($h) . "m is lower than periapsis (" . $self->pe . "m)";
 	} elsif ($self->e < 1 && ($h + $r) > ($self->ap + $r) * (1 + $tol)) {
-		$err = U($h) . "m is higher than apoapsis (" . U($self->ap) . "m)";
+		$err = U($h) . "m is higher than apoapsis (" . $self->ap . "m)";
 	}
 	$err && $die and confess $err;
 	!$err
