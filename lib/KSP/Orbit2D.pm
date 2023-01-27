@@ -232,13 +232,13 @@ sub T { # orbital period
 
 sub pe { # periapsis height
 	my ($self) = @_;
-	$self->p / (1 + $self->e) - $self->body->radius
+	U($self->p / (1 + $self->e) - $self->body->radius)
 }
 
 sub ap { # apoapsis height
 	my ($self, $noerr) = @_;
 	$noerr or $self->_need_ellipse;
-	$self->p / (1 - $self->e) - $self->body->radius
+	U($self->p / (1 - $self->e) - $self->body->radius)
 }
 
 sub apses {
@@ -302,7 +302,7 @@ sub v { # v from h via vis viva equation
 	my $r = $h + $self->body->radius;
 	my $vsq = $self->body->mu * (2 / $r - $self->inv_a);
 	$vsq >= 0 or confess "can't find v at ", U($h), "m for $self";
-	sqrt($vsq)
+	U sqrt($vsq)
 }
 
 sub vmax {
@@ -371,12 +371,12 @@ sub desc {
 	my $wap = ($self->e >= 1 || $self->ap > 0 && $self->ap < $hmax) ? "": "⚠";
 
 	if ($self->e < 1e-6) {
-		push @d, sprintf("$tpe$tap %sm$wpe, %sm/s", U($self->pe), U($self->vmax));
+		push @d, sprintf("$tpe$tap %sm$wpe, %sm/s", $self->pe, $self->vmax);
 	} else {
-		push @d, sprintf("$tpe %sm$wpe, %sm/s", U($self->pe), U($self->vmax));
+		push @d, sprintf("$tpe %sm$wpe, %sm/s", $self->pe, $self->vmax);
 		push @d, $open ?
-			sprintf("$tap ∞$wap, %sm/s, ∡ %.0f°", U($self->vmin), rad2deg($self->th_dev)) :
-			sprintf("$tap %sm$wap, %sm/s", U($self->ap), U($self->vmin));
+			sprintf("$tap ∞$wap, %sm/s, ∡ %.0f°", $self->vmin, rad2deg($self->th_dev)) :
+			sprintf("$tap %sm$wap, %sm/s", $self->ap, $self->vmin);
 	}
 
 	$open or push @d, $self->body->system->pretty_interval($self->T);
