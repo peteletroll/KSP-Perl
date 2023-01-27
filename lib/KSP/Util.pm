@@ -36,6 +36,7 @@ sub U($;$) {
 	my ($x, $d) = @_;
 	defined $x or return;
 	ref $x and return $x;
+	$x = 0 + $x;
 	defined $d or $d = 3;
 
 	my $a = abs($x);
