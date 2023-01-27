@@ -37,6 +37,7 @@ sub U($;$) {
 	defined $x or return;
 	ref $x and return $x;
 	$x = 0 + $x;
+	my $x0 = $x;
 	defined $d or $d = 3;
 
 	my $a = abs($x);
@@ -56,10 +57,10 @@ sub U($;$) {
 			$i *= 10;
 			$d--;
 		}
-		return dualvar($x, sprintf("%.${d}f%s", $x, $m));
+		return dualvar($x0, sprintf("%.${d}f%s", $x, $m));
 	}
 
-	dualvar($x, sprintf("%g", $x))
+	dualvar($x0, sprintf("%g", $x0))
 }
 
 sub error($$) {
