@@ -43,6 +43,11 @@ sub DSN {
 	$pkg->new("DSN level $level", $DSN_range[$level])
 }
 
+sub rangeTo {
+	my ($self, $other) = @_;
+	sqrt($self->range * $other->range)
+}
+
 sub desc {
 	my ($self) = @_;
 	$self->cache("desc", sub {
