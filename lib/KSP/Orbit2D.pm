@@ -314,7 +314,7 @@ sub vmin {
 	my ($self) = @_;
 	$self->e < 1 ?
 		$self->v($self->ap) :
-		sqrt(-$self->body->mu * $self->inv_a)
+		U sqrt(-$self->body->mu * $self->inv_a)
 }
 
 sub hohmannTo {
