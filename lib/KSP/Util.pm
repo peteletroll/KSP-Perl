@@ -34,7 +34,8 @@ our @U = (
 
 sub U($;$) {
 	my ($x, $d) = @_;
-	ref $x and croak "can't U() a reference";
+	defined $x or return;
+	ref $x and return $x;
 	defined $d or $d = 3;
 
 	my $a = abs($x);
