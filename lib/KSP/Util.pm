@@ -9,6 +9,7 @@ our @ISA = qw(Exporter);
 our @EXPORT_OK = qw(U error matcher proxy deparse);
 
 use Carp;
+use Scalar::Util qw(dualvar);
 
 our @U = (
 	[ undef, 1e27 ],
@@ -53,10 +54,10 @@ sub U($;$) {
 			$i *= 10;
 			$d--;
 		}
-		return sprintf "%.${d}f%s", $x, $m;
+		return dualvar($x, sprintf("%.${d}f%s", $x, $m));
 	}
 
-	sprintf "%g", $x
+	dualvar($x, sprintf("%g", $x))
 }
 
 sub error($$) {
