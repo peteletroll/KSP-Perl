@@ -54,14 +54,14 @@ sub dv {
 	for (my $i = 0; $i <= $at; $i++) {
 		$dv += abs($self->step->[$i]->{dv} || 0);
 	}
-	$dv
+	U $dv
 }
 
 sub nextBurnHeight {
 	my ($self, $hdefault) = @_;
 	my $cur = $self->current;
 	$hdefault and $self->checkHeight($hdefault);
-	$self->step->[-1]{hburn} || $hdefault || $cur->pe
+	U($self->step->[-1]{hburn} || $hdefault || $cur->pe)
 }
 
 sub desc {
@@ -83,8 +83,8 @@ sub desc {
 	$table->add(
 		"",
 		"tot Δv",
-		U($self->dv) . "m/s",
-		U($self->nextBurnHeight) . "m ");
+		$self->dv . "m/s",
+		$self->nextBurnHeight . "m ");
 	$table
 }
 
