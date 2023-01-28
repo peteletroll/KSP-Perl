@@ -282,6 +282,7 @@ sub asString($;$) {
 	open OUT, ">:utf8", \$ret or die;
 	$self->print(\*OUT, $rootflag);
 	close OUT or die;
+	utf8::decode($ret);
 	$ret
 }
 
