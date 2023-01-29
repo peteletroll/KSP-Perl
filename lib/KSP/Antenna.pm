@@ -48,6 +48,24 @@ sub rangeTo {
 	U sqrt($self->range * $other->range)
 }
 
+sub combine {
+	@_ && !ref $_[0] and shift @_;
+	my @a = sort { $b->range <=> $a->range } grep {
+		UNIVERSAL::isa($_, __PACKAGE__) or croak __PACKAGE__, " needed";
+		$_->combinable
+	} @_;
+
+	my ($expnum, $rangesum) = (0, 0);
+	foreach (@a) {
+		$expnum += $_->range * $_->exponent;
+		$rangesum += $_->range;
+	}
+	$rangesum or return KSP::Antenna->new(0);
+	my $exp = $expnum / $rangesum;
+	my $range = $a[0]->range * ($rangesum / $a[0]->range) ** $exp;
+	KSP::Antenna->new("COMBINED", $range)
+}
+
 sub desc {
 	my ($self) = @_;
 	$self->cache("desc", sub {
