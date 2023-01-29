@@ -22,7 +22,7 @@ sub BUILD {
 		$self->set_node($module);
 		$type = $module->get("antennaType", "UNK") . "@" . $part->name;
 		$range = $module->get("antennaPower", 0);
-		$combinable = $module->get("antennaCombinable");
+		$combinable = ($module->get("antennaCombinable") || "") =~ /true/i;
 		$exponent = $module->get("antennaCombinableExponent");
 	}
 	$self->set_type($type);
