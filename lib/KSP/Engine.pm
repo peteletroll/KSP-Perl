@@ -27,7 +27,7 @@ sub maxThrust {
 	my ($self) = @_;
 	scalar $self->cache("maxThrust", sub {
 		my $n = $self->node;
-		1000 * ($n->get("maxThrust") || $n->get("thrusterPower") || 0)
+		1000 * ($n->get("maxThrust") || $n->get("thrusterPower", 0))
 	})
 }
 

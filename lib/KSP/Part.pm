@@ -24,7 +24,7 @@ sub _load() {
 
 	my %n = ();
 	foreach my $n (KSP::DB->root->getnodes("PART")) {
-		($n->get("TechHidden") || "") =~ /true/i and next;
+		$n->get("TechHidden", "") =~ /true/i and next;
 		my $name = $n->get("name");
 		defined $name or next;
 		my $prev = $n{$name};
@@ -80,20 +80,20 @@ sub title {
 
 sub category {
 	my ($self) = @_;
-	scalar $self->node->get("category") || "none";
+	scalar $self->node->get("category", "none");
 }
 
 sub dryMass {
 	my ($self) = @_;
 	scalar $self->cache("dryMass", sub {
-		1000 * ($self->node->get("mass") || 0)
+		1000 * $self->node->get("mass", 0)
 	});
 }
 
 sub crew {
 	my ($self) = @_;
 	scalar $self->cache("crew", sub {
-		0 + ($self->node->get("CrewCapacity") || 0)
+		int $self->node->get("CrewCapacity", 0)
 	});
 }
 
@@ -163,7 +163,7 @@ sub resourceAmount {
 	ref $resource and croak "no reference allowed for resourceAmount()";
 	my $amount = 0;
 	foreach ($self->node->getnodes("RESOURCE", name => $resource)) {
-		$amount += $_->get("maxAmount") || 0
+		$amount += $_->get("maxAmount", 0)
 	}
 	$amount
 }
