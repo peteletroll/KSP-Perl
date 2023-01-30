@@ -198,7 +198,7 @@ sub _need_open {
 sub a { # major semiaxis
 	my ($self, $noerr) = @_;
 	$noerr or $self->_need_ellipse;
-	1 / $self->inv_a
+	U(1 / $self->inv_a)
 }
 
 sub inv_a { # 1 / major semiaxis
@@ -209,7 +209,7 @@ sub inv_a { # 1 / major semiaxis
 sub b { # minor semiaxis
 	my ($self) = @_;
 	$self->_need_ellipse;
-	$self->a * (1 - $self->e ** 2)
+	U($self->a * (1 - $self->e ** 2))
 }
 
 sub th_inf { # true anomaly at infinite distance

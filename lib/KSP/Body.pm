@@ -57,16 +57,16 @@ sub isHomeWorld {
 }
 
 sub radius {
-	$_[0]->json->{size}{radius}
+	U $_[0]->json->{size}{radius}
 }
 
 sub SOI {
 	my ($self) = @_;
 	scalar $self->cache("SOI", sub {
 		my $soi = $self->json->{size}{sphereOfInfluence};
-		defined $soi and return $soi;
+		defined $soi and return U $soi;
 		my $parent = $self->parent;
-		$parent ? $self->orbit->a * ($self->mass / $parent->mass) ** (2 / 5) : undef
+		$parent ? U($self->orbit->a * ($self->mass / $parent->mass) ** (2 / 5)) : undef
 	})
 }
 
@@ -75,7 +75,7 @@ sub mass {
 	scalar $self->cache("mass", sub {
 		my $mass = $self->json->{size}{mass};
 		defined $mass and return $mass;
-		$self->mu / $self->system->G
+		U($self->mu / $self->system->G)
 	})
 }
 
@@ -304,7 +304,7 @@ sub rocInfoInv {
 
 sub veq {
 	my ($self) = @_;
-	2 * pi * $self->radius / $self->siderealDay
+	U(2 * pi * $self->radius / $self->siderealDay)
 }
 
 sub g0 {
@@ -313,21 +313,21 @@ sub g0 {
 
 sub g {
 	my ($self, $height) = @_;
-	$self->mu / ($self->radius + ($height || 0)) ** 2
+	U($self->mu / ($self->radius + ($height || 0)) ** 2)
 }
 
 sub dvLiftoff {
 	my ($self) = @_;
 	my $dvGraph = $self->system->dvGraph or return undef;
 	my $name = $self->name;
-	$dvGraph->graph->{$name}->{"$name/LO"}
+	U $dvGraph->graph->{$name}->{"$name/LO"}
 }
 
 sub dvLanding {
 	my ($self) = @_;
 	my $dvGraph = $self->system->dvGraph or return undef;
 	my $name = $self->name;
-	$dvGraph->graph->{"$name/LO"}->{$name}
+	U $dvGraph->graph->{"$name/LO"}->{$name}
 }
 
 sub siderealDay {
@@ -342,13 +342,13 @@ sub solarDayLength {
 }
 
 sub maxGroundHeight {
-	$_[0]->json->{size}{maxHeight} || 0
+	U($_[0]->json->{size}{maxHeight} || 0)
 }
 
 sub atmosphereDepth {
 	my ($self) = @_;
 	$self->json->{atmosphere} ?
-		($self->json->{atmosphere}{atmosphereDepth} || 0) : 0
+		U($self->json->{atmosphere}{atmosphereDepth} || 0) : 0
 }
 
 sub lowHeight {
@@ -356,14 +356,14 @@ sub lowHeight {
 	my $safety = 10e3;
 	my $a = $self->atmosphereDepth;
 	my $g = $self->maxGroundHeight;
-	($a > $g ? $a : $g) + $safety
+	U(($a > $g ? $a : $g) + $safety)
 }
 
 sub highHeight {
 	my ($self) = @_;
 	my $soi = $self->SOI;
-	$soi and return $soi - $self->radius;
-	1e9 * $self->lowHeight
+	$soi and return U($soi - $self->radius);
+	U(1e9 * $self->lowHeight)
 }
 
 sub orbit {
@@ -435,9 +435,9 @@ sub desc {
 	my ($self) = @_;
 	scalar $self->cache("desc", sub {
 		my @d = ();
-		push @d, "r " . U($self->radius) . "m";
-		push @d, "g₀ " . U($self->g0) . "m/s²";
-		push @d, "soi " . U($self->SOI) . "m" if $self->SOI;
+		push @d, "r " . $self->radius . "m";
+		push @d, "g₀ " . $self->g0 . "m/s²";
+		push @d, "soi " . $self->SOI . "m" if $self->SOI;
 		push @d, "rot " . $self->system->pretty_interval($self->siderealDay)
 			if $self->siderealDay;
 		$self->name
