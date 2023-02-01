@@ -6,6 +6,8 @@ use warnings;
 
 use Carp;
 
+use POSIX qw(ceil);
+
 use Math::Trig;
 
 use KSP::Util qw(U error);
@@ -22,6 +24,7 @@ sub proxable { qw(
 	burnIncl burnInclDeg
 	enterTo leaveTo
 	goPe goAp goTo
+	goCommNet
 ) }
 
 sub BUILD {
@@ -237,6 +240,40 @@ sub goTo {
 		or $self->_go_hohmann($cur, $dst, @rest)
 		or croak "don't know how to go from $cur to $dst";
 	$self
+}
+
+sub goCommNet {
+	my ($self, $N, $M) = @_;
+	my $body = $self->current->body;
+	defined $N && $N >= 3 or $N = 3;
+	defined $M or $M = "3h";
+	if ($M =~ /^(.+)([smhdy])$/) {
+		$M = $2 eq "s" ? $1 :
+			$2 eq "m" ? 60 * $1 :
+			$2 eq "h" ? 60 * 60 * $1 :
+			$2 eq "d" ? $body->system->secs_per_day * $1 :
+			$2 eq "y" ? $body->system->secs_per_year * $1 :
+			$M;
+	}
+
+	my $r = $body->radius;
+	my $hmin = ($body->lowHeight + $r) / cos(pi / $N) - $r;
+	my $omin = $body->orbit($hmin);
+	my $T = $M * ceil($omin->T / $M);
+
+	my ($of, $ot);
+	for (;; $T += $M) {
+		$of = $body->orbit(e => 0, T => $T);
+		print "trying of = $of\n";
+		my $h = $of->pe;
+		$h > $hmin or next;
+		$ot = $body->orbit(ap => $h, T => (($N - 1) / $N) * $T);
+		print "trying ot = $ot\n";
+		$ot->pe >= $body->lowHeight or next;
+		last;
+	}
+
+	$self->burnTo($of->ap)->goAp->burnTo($ot->pe)->goAp->burnCirc;
 }
 
 sub _go_height {
