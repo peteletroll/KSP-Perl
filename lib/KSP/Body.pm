@@ -247,7 +247,7 @@ sub scienceValues {
 
 sub spaceThreshold {
 	my ($self) = @_;
-	$self->json->{science}{spaceAltitudeThreshold}
+	U $self->json->{science}{spaceAltitudeThreshold}
 }
 
 sub biomes {
