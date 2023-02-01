@@ -360,23 +360,24 @@ sub desc {
 
 	my $tpe = "↓";
 	my $tap = "↑";
+	my $tboth = "↕";
 	if ($prev && $prev->body == $self->body) {
 		error($self->pe, $prev->pe) > $tol
-			and $tpe = "⇓";
+			and $tpe = "⇓", $tboth = "⇕";
 		error($self->ap(1), $prev->ap(1)) > $tol
-			and $tap = "⇑";
+			and $tap = "⇑", $tboth = "⇕";
 	}
 
 	my $wpe = ($self->pe >= -1e-3 && $self->pe < $hmax) ? "": "⚠";
 	my $wap = ($self->e >= 1 || $self->ap > 0 && $self->ap < $hmax) ? "": "⚠";
 
 	if ($self->e < 1e-6) {
-		push @d, sprintf("$tpe$tap %sm$wpe, %sm/s", $self->pe, $self->vmax);
+		push @d, sprintf("%s %sm%s, %sm/s", $tboth, $self->pe, $wpe, $self->vmax);
 	} else {
-		push @d, sprintf("$tpe %sm$wpe, %sm/s", $self->pe, $self->vmax);
+		push @d, sprintf("%s %sm%s, %sm/s", $tpe, $self->pe, $wpe, $self->vmax);
 		push @d, $open ?
-			sprintf("$tap ∞$wap, %sm/s, ∡ %.0f°", $self->vmin, rad2deg($self->th_dev)) :
-			sprintf("$tap %sm$wap, %sm/s", $self->ap, $self->vmin);
+			sprintf("%s ∞%s, %sm/s, ∡ %.0f°", $tap, $wap, $self->vmin, rad2deg($self->th_dev)) :
+			sprintf("%s %sm%s, %sm/s", $tap, $self->ap, $wap, $self->vmin);
 	}
 
 	$open or push @d, $self->body->system->pretty_interval($self->T);
