@@ -264,11 +264,11 @@ sub goCommNet {
 	my ($of, $ot);
 	for (;; $T += $M) {
 		$of = $body->orbit(e => 0, T => $T);
-		print "trying of = $of\n";
+		# print "trying of = $of\n";
 		my $h = $of->pe;
 		$h > $hmin or next;
 		$ot = $body->orbit(ap => $h, T => (($N - 1) / $N) * $T);
-		print "trying ot = $ot\n";
+		# print "trying ot = $ot\n";
 		$ot->pe >= $body->lowHeight or next;
 		last;
 	}
