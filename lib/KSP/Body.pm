@@ -233,7 +233,9 @@ sub scienceValues {
 		my $s = $self->json->{science} || { };
 		my $r = { };
 		foreach my $k (keys %$s) {
-			$r->{$k} = $s->{$k} if $k =~ /Value$/ & !ref $s->{$k};
+			($self->atmosphereDepth <= 0 && $k =~ /^fly/i) and next;
+			(!$self->hasOcean && $k =~ /^splash/i) and next;
+			$r->{$k} = $s->{$k} if $k =~ s/(Data)?Value$// && !ref $s->{$k};
 		}
 		$r
 	})
@@ -343,6 +345,11 @@ sub solarDayLength {
 
 sub maxGroundHeight {
 	U($_[0]->json->{size}{maxHeight} || 0)
+}
+
+sub hasOcean {
+	my ($self) = @_;
+	!!$self->json->{surface}{ocean}
 }
 
 sub atmosphereDepth {
