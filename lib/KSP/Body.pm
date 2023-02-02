@@ -17,13 +17,11 @@ use KSP::Surface;
 use KSP::Course;
 use KSP::Anomaly;
 
-use KSP::Util qw(U proxy);
+use KSP::Util qw(U isnumber proxy);
 proxy("KSP::Orbit2D" => sub { $_->orbit }, qw(pe ap e a b vmin vmax));
 proxy("KSP::Course" => sub { KSP::Course->new($_->lowOrbit) });
 
 use KSP::TinyStruct qw(json system +KSP::Cache);
-
-use Scalar::Util qw(isdual looks_like_number);
 
 use overload
 	'""' => sub { $_[0]->desc };
@@ -391,7 +389,7 @@ sub orbit {
 			a => $self->json->{orbit}{semiMajorAxis},
 			e => $self->json->{orbit}{eccentricity})
 	});
-	if (!grep { !isdual($_) && !looks_like_number($_) } @rest) {
+	if (!grep { !isnumber($_) } @rest) {
 		@rest == 1 and return KSP::Orbit2D->new($self, pe => $rest[0], e => 0);
 		@rest == 2 and return KSP::Orbit2D->new($self, pe => $rest[0], ap => $rest[1]);
 	}

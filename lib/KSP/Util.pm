@@ -6,10 +6,10 @@ use warnings;
 
 require Exporter;
 our @ISA = qw(Exporter);
-our @EXPORT_OK = qw(U error matcher proxy deparse);
+our @EXPORT_OK = qw(U isnumber error matcher proxy deparse);
 
 use Carp;
-use Scalar::Util qw(dualvar);
+use Scalar::Util qw(dualvar isdual looks_like_number);
 
 our @U = (
 	[ undef, 1e27 ],
@@ -61,6 +61,9 @@ sub U($;$) {
 	}
 
 	dualvar($x0, sprintf("%g", $x0))
+}
+sub isnumber($) {
+	isdual($_[0]) || looks_like_number($_[0])
 }
 
 sub error($$) {

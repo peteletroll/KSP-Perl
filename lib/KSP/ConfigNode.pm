@@ -11,9 +11,9 @@ use KSP::TinyParser;
 
 use KSP::ConfigValue;
 
-use KSP::Util qw(matcher);
+use KSP::Util qw(isnumber matcher);
 
-use Scalar::Util qw(weaken isweak refaddr looks_like_number);
+use Scalar::Util qw(weaken isweak refaddr);
 
 use overload
 	bool => sub { $_[0] },
@@ -256,7 +256,7 @@ sub _parser() {
 				my $v = $_[2][1];
 				$v =~ s/\s+$//;
 				$v = _decode($v);
-				looks_like_number($v) and $v = $v + 0;
+				isnumber($v) and $v = $v + 0;
 				KSP::ConfigValue->new($_[2][0], undef, $v)
 			}
 		),
