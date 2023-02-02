@@ -11,7 +11,7 @@ use KSP::TinyParser;
 
 use KSP::ConfigValue;
 
-use KSP::Util qw(isnumber matcher);
+use KSP::Util qw(U isnumber matcher);
 
 use Scalar::Util qw(weaken isweak refaddr);
 
@@ -416,7 +416,7 @@ sub _comment($$) {
 			my $m = $p->_getvalue("mass");
 			$m and $mass += $m->value();
 		}
-		sprintf "$sit debris %d parts %1.3ft", scalar(@parts), $mass
+		sprintf "$sit debris %d parts %sg", scalar(@parts), U(1_000_000 * $mass)
 	} elsif ($name eq "MODULE") {
 		my $modname = $self->_val("name", "");
 		if ($modname eq "ModuleDataTransmitter") {
@@ -424,7 +424,7 @@ sub _comment($$) {
 			if ($ps > 0) {
 				my $pc = $self->_val("packetResourceCost", 0);
 				my $r = $self->_val("antennaPower", 0);
-				sprintf "%1.3f E/Mip, %1.1e m", $pc / $ps, $r
+				sprintf "%1.3f E/Mip, %sm", $pc / $ps, U $r
 			} else {
 				undef
 			}
