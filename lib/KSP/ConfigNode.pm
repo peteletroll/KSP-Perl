@@ -411,12 +411,15 @@ sub _comment($$) {
 	if ($name eq "VESSEL" && $self->_val("type", "") eq "Debris") {
 		my $sit = lc $self->_val("sit", "unknown");
 		my @parts = $self->_getnode("PART");
-		my $mass = 0;
+		my $dryMass = 0;
+		my $wetMass = 0;
 		foreach my $p (@parts) {
-			my $m = $p->_getvalue("mass");
-			$m and $mass += $m->value();
+			$p = KSP::Part->new("PART", $p);
+			$dryMass += $p->dryMass;
+			$wetMass += $p->wetMass;
 		}
-		sprintf "$sit debris %d parts %sg", scalar(@parts), U(1_000_000 * $mass)
+		sprintf "$sit debris %d parts %sg / %sg", scalar(@parts),
+			U(1000 * $wetMass), U(1000 * $dryMass);
 	} elsif ($name eq "MODULE") {
 		my $modname = $self->_val("name", "");
 		if ($modname eq "ModuleDataTransmitter") {
