@@ -15,6 +15,8 @@ use overload
 
 sub BUILD {
 	my ($self, $name, $node) = @_;
+	UNIVERSAL::isa($node, "KSP::ConfigNode")
+		or croak "KSP::ConfigNode required";
 	$self->set_name($name);
 	$self->set_node($node);
 	$self->localize;
