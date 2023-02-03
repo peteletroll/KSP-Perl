@@ -6,7 +6,7 @@ use warnings;
 
 require Exporter;
 our @ISA = qw(Exporter);
-our @EXPORT_OK = qw(U isnumber error matcher proxy deparse);
+our @EXPORT_OK = qw(U sortby isnumber error matcher proxy deparse);
 
 use Carp;
 use Scalar::Util qw(dualvar isdual looks_like_number);
@@ -62,6 +62,21 @@ sub U($;$) {
 
 	dualvar($x0, sprintf("%g", $x0))
 }
+
+sub sortby(&@) {
+	my ($k, @l) = @_;
+	local $_;
+	map { $_->[1] }
+	sort {
+		my ($ka, $kb) = ($a->[0], $b->[0]);
+		defined($ka) or return defined($kb) ? -1 : 0;
+		defined($kb) or return 1;
+		isnumber($ka) and return isnumber($kb) ? $ka <=> $kb : -1;
+		return isnumber($kb) ? 1 : $ka cmp $kb;
+	} map { [ $k->(), $_ ] }
+	@l
+}
+
 sub isnumber($) {
 	isdual($_[0]) || looks_like_number($_[0])
 }
