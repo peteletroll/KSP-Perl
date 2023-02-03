@@ -66,15 +66,15 @@ sub U($;$) {
 sub sortby(&@) {
 	my ($k, @l) = @_;
 	local $_;
+	map { $_->[1] }
 	sort {
-		$_ = $a;
-		my $ka = $k->();
-		$_ = $b;
-		my $kb = $k->();
-		isnumber($ka) && isnumber($kb) ?
-			$ka <=> $kb :
-			$ka cmp $kb
-	} @l
+		my ($ka, $kb) = ($a->[0], $b->[0]);
+		defined($ka) or return defined($kb) ? -1 : 0;
+		defined($kb) or return 1;
+		isnumber($ka) and return isnumber($kb) ? $ka <=> $kb : -1;
+		return isnumber($kb) ? 1 : $ka cmp $kb;
+	} map { [ $k->(), $_ ] }
+	@l
 }
 
 sub isnumber($) {
