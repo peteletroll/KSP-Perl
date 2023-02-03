@@ -451,9 +451,9 @@ sub desc {
 		my @d = ();
 		push @d, "r " . $self->radius . "m";
 		push @d, "g₀ " . $self->g0 . "m/s²";
-		push @d, "soi " . $self->SOI . "m" if $self->SOI;
-		push @d, "rot " . $self->system->pretty_interval($self->siderealDay)
+		push @d, "↺ " . $self->system->pretty_interval($self->siderealDay)
 			if $self->siderealDay;
+		push @d, "SOI " . $self->SOI . "m" if $self->SOI;
 		$self->name
 			. ($self->isHomeWorld ? "@" : "")
 			. ($self->isStar ? "*" : "")
