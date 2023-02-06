@@ -155,6 +155,12 @@ sub create($@) {
 	}
 }
 
+sub view($$) {
+	my ($view, $select) = @_;
+	run("drop view if exists " . qi($view));
+	run("create view " . qi($view) . " as $select");
+}
+
 our %_insert_handle = ();
 
 sub insert($@) {
@@ -209,17 +215,25 @@ foreach my $c ($SFS->find("CAREER")) {
 	$sm > 0 && $sm < 1.00001 and $scienceGainMultiplier = $sm;
 }
 
-create(science => qw(experiment body situation biome extra points:r full:r id));
+create(science_full => qw(experiment body situation biome extra points:r full:r id));
 $SW->reset->start;
 $DB->begin_work;
 foreach my $n ($SFS->find("Science", id => qr/\@/)) {
 	my $id = $n->get("id");
 	my $points = $scienceGainMultiplier * $n->get("sci");
 	my $full = $scienceGainMultiplier * $n->get("cap");
-	insert("science", parseScienceId($id), $points, $full, $id);
+	insert("science_full", parseScienceId($id), $points, $full, $id);
 }
 $DB->commit;
-printf "-- Generated science [$insert_count{science}] in %1.3f seconds\n", $SW->read;
+printf "-- Generated science_full [$insert_count{science_full}] in %1.3f seconds\n", $SW->read;
+
+$SW->reset->start;
+view("science", q{
+	select body, situation, biome, experiment, extra, full, points, points / full as perc
+	from science_full
+	order by body, situation, extra, experiment, extra, full
+});
+printf "-- Generated view science in %1.3f seconds\n", $SW->read;
 
 my @roster_cols = qw(name gender type trait state badS:b hero:b veteran:b tour:b inactive:b);
 create(roster => @roster_cols);
