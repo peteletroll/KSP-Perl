@@ -78,6 +78,8 @@ sub parseScienceId($) {
 		$tmp = $1;
 	}
 
+	$tmp =~ s/^_//;
+
 	my @ret = map { (defined $_ && $_ eq "") ? undef : $_ } ($experiment, $body, $situation, $biome, $tmp);
 	wantarray ? @ret : \@ret
 }
