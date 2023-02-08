@@ -471,9 +471,10 @@ sub _sort {
 
 sub _sortkey {
 	my ($self) = @_;
+	$self or return 1;
 	scalar $self->cache("sortkey", sub {
-		my $o = $self->orbit;
-		$o ? $o->a + $o->body->_sortkey : 1
+		my $o = $self->json->{orbit} or return 1;
+		$o->{semiMajorAxis} + _sortkey($self->parent);
 	})
 }
 
