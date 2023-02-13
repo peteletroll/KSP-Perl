@@ -174,7 +174,7 @@ sub burnInclDeg {
 sub burnIncl {
 	my ($self, $incl, $h) = @_;
 	my $cur = $self->current;
-	defined $h or $h = $cur->pe;
+	defined $h or $h = $self->nextBurnHeight;
 	my $vincl = $cur->v($h);
 	my $dvincl = 2 * sin($incl / 2) * $vincl;
 	$dvincl > 1e-10 or return $self;
