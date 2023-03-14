@@ -4,10 +4,7 @@ use 5.008000;
 use strict;
 use warnings;
 
-require Exporter;
-
-our @ISA = qw(Exporter);
-
+use Exporter qw(import);
 our @EXPORT = qw(
 	REX EOS
 	SEQ FIRST REP AHEAD

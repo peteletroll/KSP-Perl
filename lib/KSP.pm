@@ -23,10 +23,9 @@ BEGIN {
 	$KSP_DIR =~ s/\.pm$//;
 }
 
-require Exporter;
-our (@ISA, %EXPORT_TAGS, @EXPORT_OK, @EXPORT);
+use Exporter qw(import);
+our (%EXPORT_TAGS, @EXPORT_OK, @EXPORT);
 BEGIN {
-	@ISA = qw(Exporter);
 	%EXPORT_TAGS = ('all' => [ qw(U) ]);
 	@EXPORT_OK = (@{$EXPORT_TAGS{'all'}});
 	@EXPORT = qw();
