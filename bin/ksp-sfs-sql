@@ -232,9 +232,9 @@ printf "-- Generated science_full [$insert_count{science_full}] in %1.3f seconds
 $SW->reset->start;
 view("science", q{
 	select body, situation, biome, experiment, extra,
-	printf('%6.2f', points) as points,
-	printf('%6.2f', full) as full,
-	printf('%1.2f', points / full) as perc
+		printf('%6.2f', points) as points,
+		printf('%6.2f', full) as full,
+		printf('%1.2f', points / full) as perc
 	from science_full
 	order by body, situation, extra, experiment, extra, full
 });
