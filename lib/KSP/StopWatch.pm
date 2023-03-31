@@ -3,13 +3,11 @@ package KSP::StopWatch;
 use strict;
 use warnings;
 
-our (@ISA, @EXPORT_OK, $HIRES);
+use Exporter qw(import);
+our @EXPORT_OK = qw(stopwatch);
 
+our $HIRES;
 BEGIN {
-	require Exporter;
-	@ISA = qw(Exporter);
-	@EXPORT_OK = qw(stopwatch);
-
 	$HIRES = 0;
 	if (eval { require Time::HiRes }) {
 		Time::HiRes->import(qw( time ));

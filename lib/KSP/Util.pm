@@ -4,8 +4,7 @@ use utf8;
 use strict;
 use warnings;
 
-require Exporter;
-our @ISA = qw(Exporter);
+use Exporter qw(import);
 our @EXPORT_OK = qw(U sortby isnumber error matcher proxy deparse);
 
 use Carp;

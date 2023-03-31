@@ -296,6 +296,11 @@ sub intersects {
 
 }
 
+sub crosses {
+	my ($self) = @_;
+	grep { $self->intersects($_) } $self->body->children
+}
+
 sub v { # v from h via vis viva equation
 	my ($self, $h) = @_;
 	$self->checkHeight($h);
