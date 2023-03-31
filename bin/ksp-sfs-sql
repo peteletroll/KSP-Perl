@@ -240,7 +240,11 @@ $DB->commit;
 printf "-- Generated science_full [$insert_count{science_full}] in %1.3f seconds\n", $SW->read;
 
 view("science", q{
-	select body, situation, biome, experiment, extra,
+	select body,
+		situation,
+		biome,
+		experiment,
+		extra,
 		printf('%6.2f', points) as points,
 		printf('%6.2f', full) as full,
 		printf('%1.2f', points / full) as perc
@@ -266,6 +270,19 @@ view("sources", q{
 	from biomes
 	join (select experiment, situation from results where nullbiome > 0)
 	where biome is null and body in (select distinct body from science_full)
+});
+
+view("report", q{
+	select sources.*,
+		coalesce(science.points, 0.0) as points,
+		science.full,
+		coalesce(science.perc, 0.0) as perc
+	from sources
+	left join science
+	on sources.body = science.body
+		and sources.biome = science.biome
+		and sources.experiment = science.experiment
+		and sources.situation = science.situation
 });
 
 my @roster_cols = qw(name gender type trait state badS:b hero:b veteran:b tour:b inactive:b);
