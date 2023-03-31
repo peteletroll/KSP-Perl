@@ -187,19 +187,25 @@ sub insert($@) {
 	} @val)
 }
 
-create(biomes => qw(body biome ismini:b));
+create(biomes_all => qw(body biome ismini:b));
 $SW->reset->start;
 $DB->begin_work;
 foreach my $b ($system->bodies) {
 	foreach my $i (undef, $b->biomes) {
-		insert("biomes", $b->name, $i, 0);
+		insert("biomes_all", $b->name, $i, 0);
 	}
 	foreach my $i ($b->miniBiomes) {
-		insert("biomes", $b->name, $i, 1);
+		insert("biomes_all", $b->name, $i, 1);
 	}
 }
 $DB->commit;
-printf "-- Generated biomes [$insert_count{biomes}] in %1.3f seconds\n", $SW->read;
+printf "-- Generated biomes_all [$insert_count{biomes_all}] in %1.3f seconds\n", $SW->read;
+
+view("biomes", q{
+	select body, biome
+	from biomes_all
+	where not ismini
+});
 
 create(roc => qw(body biome name));
 $SW->reset->start;
@@ -240,6 +246,26 @@ view("science", q{
 	printf('%1.2f', points / full) as perc
 	from science_full
 	order by body, situation, extra, experiment, extra, full
+});
+
+view("results", q{
+	select distinct experiment, situation,
+		iif(biome is null, 1, 0) as nullbiome
+	from science_full
+	where experiment <> 'ROCScience'
+	order by experiment, situation
+});
+
+view("sources", q{
+	select *
+	from biomes
+	join (select experiment, situation from results where nullbiome = 0)
+	where biome is not null and body in (select distinct body from science_full)
+	union
+	select *
+	from biomes
+	join (select experiment, situation from results where nullbiome > 0)
+	where biome is null and body in (select distinct body from science_full)
 });
 
 my @roster_cols = qw(name gender type trait state badS:b hero:b veteran:b tour:b inactive:b);
