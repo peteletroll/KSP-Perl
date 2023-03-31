@@ -39,7 +39,7 @@ sub new {
 	bless \(my $c = 0)
 }
 
-sub stopwatch { goto &new }
+*stopwatch = \&new;
 
 sub start {
 	my $t = $_[0];

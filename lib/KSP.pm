@@ -13,6 +13,7 @@ use KSP::Course;
 use KSP::DeltaVGraph;
 use KSP::Part;
 use KSP::Util qw(U);
+use KSP::StopWatch qw(stopwatch);
 
 our $KSP_DIR;
 BEGIN {
@@ -27,7 +28,7 @@ require Exporter;
 our (@ISA, %EXPORT_TAGS, @EXPORT_OK, @EXPORT);
 BEGIN {
 	@ISA = qw(Exporter);
-	%EXPORT_TAGS = ('all' => [ qw(U) ]);
+	%EXPORT_TAGS = ('all' => [ qw(U stopwatch) ]);
 	@EXPORT_OK = (@{$EXPORT_TAGS{'all'}});
 	@EXPORT = qw();
 }
