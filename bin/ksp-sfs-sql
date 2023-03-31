@@ -280,9 +280,9 @@ view("report", q{
 	from sources
 	left join science
 	on sources.body = science.body
-		and sources.biome = science.biome
+		and (sources.biome = science.biome or (sources.biome is null and science.biome is null))
 		and sources.experiment = science.experiment
-		and sources.situation = science.situation
+		and (sources.situation = science.situation or (sources.situation is null and science.situation is null))
 });
 
 my @roster_cols = qw(name gender type trait state badS:b hero:b veteran:b tour:b inactive:b);
