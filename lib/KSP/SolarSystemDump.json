@@ -236,122 +236,161 @@
           "Woomerang",
           "DesertAirfield",
           "DesertLaunchSite"
-        ]
+        ],
+        "biomeColors": {
+          "Water": "#3762ab",
+          "Grasslands": "#83bc2e",
+          "Highlands": "#5d852a",
+          "Shores": "#faf2b7",
+          "Mountains": "#a7a7a7",
+          "Deserts": "#eabf6f",
+          "Badlands": "#974f23",
+          "Tundra": "#c78fdf",
+          "IceCaps": "#ffffff",
+          "NorthernIceShelf": "#e4fdff",
+          "SouthernIceShelf": "#d8d8d8"
+        }
       },
       "anomalies": [
         {
           "name": "KSC",
           "objectName": "KSC",
           "lat": -0.096909910440444946,
-          "lon": -74.600389849599551
+          "lon": -74.600395202636719,
+          "class": "PQSCity"
         },
         {
           "name": "KSC2",
           "objectName": "KSC2",
           "lat": 20.582893371582031,
-          "lon": -146.51159601366166
+          "lon": -146.5115966796875,
+          "class": "PQSCity"
         },
         {
           "name": "Monolith00",
           "objectName": "Monolith00",
           "lat": 35.570526123046875,
-          "lon": -74.9773057556464
+          "lon": -74.977302551269531,
+          "class": "PQSCity"
         },
         {
           "name": "Monolith01",
           "objectName": "Monolith01",
           "lat": -0.64016741514205933,
-          "lon": -80.766769175365454
+          "lon": -80.766769409179688,
+          "class": "PQSCity"
         },
         {
           "name": "Monolith02",
           "objectName": "Monolith02",
           "lat": -28.808313369750977,
-          "lon": -13.440113401054271
+          "lon": -13.440113067626953,
+          "class": "PQSCity"
+        },
+        {
+          "name": "Randolith",
+          "objectName": "Randolith",
+          "lat": 69.387252807617188,
+          "lon": 98.9847183227539,
+          "class": "PQSCity"
         },
         {
           "name": "Pyramids",
           "objectName": "Pyramids",
           "lat": -6.5056900978088379,
-          "lon": -141.68559284500958
+          "lon": -141.68559265136719,
+          "class": "PQSCity"
         },
         {
           "name": "UFO",
           "objectName": "UFO",
           "lat": 81.95513916015625,
-          "lon": -128.51795124202758
+          "lon": -128.5179443359375,
+          "class": "PQSCity"
         },
         {
           "name": "IslandAirfield",
           "objectName": "IslandAirfield",
           "lat": -1.5409176349639893,
-          "lon": -71.909889224128563
+          "lon": -71.9098892211914,
+          "class": "PQSCity"
         },
         {
           "name": "CommNetDish",
           "objectName": "Harvester Massif",
           "lat": -11.949999809265137,
-          "lon": 33.740000049626531
+          "lon": 33.7400016784668,
+          "class": "PQSCity2"
         },
         {
           "name": "CommNetDish",
           "objectName": "Nye Island",
           "lat": 5.3600001335144043,
-          "lon": 108.55000035763803
+          "lon": 108.54999542236328,
+          "class": "PQSCity2"
         },
         {
           "name": "CommNetDish",
           "objectName": "Mesa South",
           "lat": -59.590000152587891,
-          "lon": -25.869998523538584
+          "lon": -25.869998931884766,
+          "class": "PQSCity2"
         },
         {
           "name": "CommNetDish",
           "objectName": "Crater Rim",
           "lat": 9.4499998092651367,
-          "lon": -172.11000263238677
+          "lon": -172.11000061035156,
+          "class": "PQSCity2"
         },
         {
           "name": "CommNetDish",
           "objectName": "North Station One",
           "lat": 63.095001220703125,
-          "lon": -90.080001053431559
+          "lon": -90.080001831054688,
+          "class": "PQSCity2"
         },
         {
           "name": "Crater_Launch_Site",
           "objectName": "Crater_Launch_Site",
           "lat": 8.3862085342407227,
-          "lon": -179.69777465017037
+          "lon": -179.69776916503906,
+          "class": "PQSCity2"
         },
         {
           "name": "MahiMahi_Launch_Site",
           "objectName": "MahiMahi_Launch_Site",
           "lat": -49.802360534667969,
-          "lon": -120.76559788339817
+          "lon": -120.76560211181641,
+          "class": "PQSCity2"
         },
         {
           "name": "Cove_Launch_Site",
           "objectName": "Cove_Launch_Site",
           "lat": 3.7474768161773682,
-          "lon": -72.213099606331383
+          "lon": -72.213096618652344,
+          "class": "PQSCity2"
         },
         {
           "name": "GlacierLake_Launch_Site",
           "objectName": "GlacierLake_Launch_Site",
           "lat": 73.5615234375,
-          "lon": 84.246620390868145
+          "lon": 84.246620178222656,
+          "class": "PQSCity2"
         },
         {
           "name": "Anniversary2",
           "objectName": "Anniversary2",
           "lat": -17.534202575683594,
-          "lon": 61.062003437735918
+          "lon": 61.0620002746582,
+          "class": "PQSCity"
         },
         {
           "name": "Anniversary1",
           "objectName": "Anniversary1",
           "lat": -6.518000602722168,
-          "lon": -144.01599683058549
+          "lon": -144.01600646972656,
+          "class": "PQSCity"
         }
       ],
       "roc": {
@@ -462,56 +501,90 @@
           "Lowlands",
           "FarsideBasin"
         ],
-        "miniBiomes": [ ]
+        "miniBiomes": [ ],
+        "biomeColors": {
+          "Midlands": "#5d7582",
+          "NorthernBasin": "#6c7593",
+          "EastCrater": "#94a0cb",
+          "NorthwestCrater": "#6879b1",
+          "SouthwestCrater": "#a8adbc",
+          "FarsideCrater": "#8fa5e6",
+          "Canyons": "#535e85",
+          "PolarCrater": "#9aa5ab",
+          "Poles": "#eaeced",
+          "PolarLowlands": "#cfd3d6",
+          "Highlands": "#738995",
+          "HighlandCraters": "#b1bbde",
+          "MidlandCraters": "#2a3f4b",
+          "EastFarsideCrater": "#9a9cea",
+          "TwinCraters": "#adbef1",
+          "Lowlands": "#415b6a",
+          "FarsideBasin": "#878ea3"
+        }
       },
       "anomalies": [
         {
           "name": "Monolith00",
           "objectName": "Monolith00",
           "lat": -9.8313722610473633,
-          "lon": 25.917721500924937
+          "lon": 25.917720794677734,
+          "class": "PQSCity"
         },
         {
           "name": "Monolith02",
           "objectName": "Monolith02",
           "lat": -82.2062759399414,
-          "lon": 102.92873523563547
+          "lon": 102.92873382568359,
+          "class": "PQSCity"
         },
         {
           "name": "Monolith01",
           "objectName": "Monolith01",
           "lat": 57.660232543945313,
-          "lon": 9.1423166473373865
+          "lon": 9.1423168182373047,
+          "class": "PQSCity"
         },
         {
           "name": "RockArch02",
           "objectName": "RockArch02",
           "lat": 2.4694588184356689,
-          "lon": 81.513231814764268
+          "lon": 81.513236999511719,
+          "class": "PQSCity"
         },
         {
           "name": "RockArch00",
           "objectName": "RockArch00",
-          "lat": 12.443114280700684,
-          "lon": 39.178013085282181
+          "lat": 12.443113327026367,
+          "lon": 39.178012847900391,
+          "class": "PQSCity"
         },
         {
           "name": "RockArch01",
           "objectName": "RockArch01",
-          "lat": -12.443114280700684,
-          "lon": -140.82198684309216
+          "lat": -12.464049339294434,
+          "lon": -140.94424438476563,
+          "class": "PQSCity"
         },
         {
           "name": "ArmstrongMemorial",
           "objectName": "ArmstrongMemorial",
           "lat": 0.70273619890213013,
-          "lon": 22.746955241632836
+          "lon": 22.746955871582031,
+          "class": "PQSCity"
         },
         {
           "name": "UFO",
           "objectName": "UFO",
           "lat": -70.955635070800781,
-          "lon": -68.1371543827651
+          "lon": -68.137153625488281,
+          "class": "PQSCity"
+        },
+        {
+          "name": "Randolith",
+          "objectName": "Randolith",
+          "lat": 4.1597003936767578,
+          "lon": 27.058050155639648,
+          "class": "PQSCity"
         }
       ],
       "roc": {
@@ -638,8 +711,8 @@
         "meanAnomalyAtEpochRad": 0.899999976158142,
         "meanAnomalyAtEpochDeg": 51.566200195736251,
         "normal": [
-          -0.049073141005872879,
-          0.09229315502741739,
+          0.099243195875498028,
+          -0.03281749084733189,
           0.99452189536827329
         ]
       },
@@ -664,14 +737,33 @@
           "Poles",
           "Slopes"
         ],
-        "miniBiomes": [ ]
+        "miniBiomes": [ ],
+        "biomeColors": {
+          "Highlands": "#618382",
+          "Midlands": "#87ab9d",
+          "Lowlands": "#b0e1ce",
+          "Flats": "#c0ffe7",
+          "GreatFlats": "#69c2bc",
+          "GreaterFlats": "#a5d7d9",
+          "LesserFlats": "#8bd4cf",
+          "Poles": "#ffffff",
+          "Slopes": "#99ccbb"
+        }
       },
       "anomalies": [
         {
           "name": "Monolith00",
           "objectName": "Monolith00",
-          "lat": 23.776256561279297,
-          "lon": 60.046393401082476
+          "lat": 23.776254653930664,
+          "lon": 60.046394348144531,
+          "class": "PQSCity"
+        },
+        {
+          "name": "Randolith",
+          "objectName": "Randolith",
+          "lat": 68.6280517578125,
+          "lon": 144.95298767089844,
+          "class": "PQSCity"
         }
       ],
       "roc": {
@@ -755,8 +847,8 @@
         "meanAnomalyAtEpochRad": 3.14000010490417,
         "meanAnomalyAtEpochDeg": 179.9087536816447,
         "normal": [
-          -0.041681770298433715,
-          0.11451972269784089,
+          0.109256202874146,
+          -0.0539927679928082,
           0.992546151641322
         ]
       },
@@ -784,14 +876,36 @@
           "Canyon",
           "SouthPole"
         ],
-        "miniBiomes": [ ]
+        "miniBiomes": [ ],
+        "biomeColors": {
+          "NorthPole": "#d6bda6",
+          "NorthernSinkholeRidge": "#a6805e",
+          "NorthernSinkhole": "#766b62",
+          "Midlands": "#b48f6d",
+          "WesternLowlands": "#584b41",
+          "CentralLowlands": "#584f48",
+          "Highlands": "#c69f7c",
+          "MinorCraters": "#4d443d",
+          "SouthWesternLowlands": "#63584f",
+          "SouthEasternLowlands": "#6b6056",
+          "Canyon": "#4b3e34",
+          "SouthPole": "#d8b290"
+        }
       },
       "anomalies": [
+        {
+          "name": "Randolith",
+          "objectName": "Randolith",
+          "lat": -11.207254409790039,
+          "lon": 84.982574462890625,
+          "class": "PQSCity"
+        },
         {
           "name": "Mohole",
           "objectName": "Mohole",
           "lat": 90,
-          "lon": 0
+          "lon": 0,
+          "class": "PQSCity2"
         }
       ],
       "roc": {
@@ -895,8 +1009,8 @@
         "meanAnomalyAtEpochRad": 3.14000010490417,
         "meanAnomalyAtEpochDeg": 179.9087536816447,
         "normal": [
-          0.021017966900529515,
-          0.030016767534762984,
+          0.005544092315666705,
+          -0.0362218760732119,
           0.99932839383964878
         ]
       },
@@ -927,9 +1041,34 @@
           "AkatsukiLake",
           "Shallows"
         ],
-        "miniBiomes": [ ]
+        "miniBiomes": [ ],
+        "biomeColors": {
+          "Poles": "#dcc1fe",
+          "Midlands": "#732e86",
+          "ExplodiumSea": "#b15983",
+          "Lowlands": "#5c196f",
+          "Highlands": "#8a499c",
+          "Peaks": "#a871ba",
+          "ImpactEjecta": "#a765fa",
+          "CraterLake": "#8e2f5c",
+          "WesternSea": "#d58eb0",
+          "Olympus": "#ffffff",
+          "EasternSea": "#6a123c",
+          "Craters": "#a765fa",
+          "Foothills": "#cfa6da",
+          "AkatsukiLake": "#ba91bd",
+          "Shallows": "#8b668d"
+        }
       },
-      "anomalies": [ ],
+      "anomalies": [
+        {
+          "name": "Randolith",
+          "objectName": "Randolith",
+          "lat": -56.931278228759766,
+          "lon": 176.80348205566406,
+          "class": "PQSCity"
+        }
+      ],
       "roc": {
         "EveVolcanicRock": [
           "Poles",
@@ -1032,8 +1171,8 @@
         "meanAnomalyAtEpochRad": 3.14000010490417,
         "meanAnomalyAtEpochDeg": 179.9087536816447,
         "normal": [
-          -0.0010439691764895047,
-          8.2162156062015081E-05,
+          0.00081149540793032718,
+          0.00066188931420361032,
           0.999999451688719
         ]
       },
@@ -1063,32 +1202,59 @@
           "PolarHighlands",
           "PolarCraters"
         ],
-        "miniBiomes": [ ]
+        "miniBiomes": [ ],
+        "biomeColors": {
+          "Poles": "#ffffff",
+          "Midlands": "#fc8c59",
+          "Lowlands": "#e96a31",
+          "Craters": "#b76501",
+          "Highlands": "#ffaa83",
+          "MidlandSea": "#ff9102",
+          "NorthernBasin": "#b52922",
+          "SouthernBasin": "#d24a43",
+          "NorthernShelf": "#94120b",
+          "MidlandCanyon": "#bb5809",
+          "EasternCanyon": "#994400",
+          "WesternCanyon": "#6f3100",
+          "PolarHighlands": "#e6e6e6",
+          "PolarCraters": "#bebebe"
+        }
       },
       "anomalies": [
         {
           "name": "Face",
           "objectName": "Face",
           "lat": 17.058536529541016,
-          "lon": -85.459296618411074
+          "lon": -85.459297180175781,
+          "class": "PQSCity"
         },
         {
           "name": "MSL",
           "objectName": "MSL",
           "lat": -30.341999053955078,
-          "lon": -28.81034486229612
+          "lon": -28.810346603393555,
+          "class": "PQSCity"
         },
         {
           "name": "Pyramid",
           "objectName": "Pyramid",
           "lat": -66.0483169555664,
-          "lon": -160.88162835341529
+          "lon": -160.88162231445313,
+          "class": "PQSCity"
+        },
+        {
+          "name": "Randolith",
+          "objectName": "Randolith",
+          "lat": 29.902694702148438,
+          "lon": 66.495414733886719,
+          "class": "PQSCity"
         },
         {
           "name": "Anniversary4",
           "objectName": "Anniversary4",
           "lat": -2.4140005111694336,
-          "lon": -5.3230000550631287
+          "lon": -5.3229994773864746,
+          "class": "PQSCity"
         }
       ],
       "roc": {
@@ -1217,8 +1383,8 @@
         "meanAnomalyAtEpochRad": 1.70000004768372,
         "meanAnomalyAtEpochDeg": 97.402827904315856,
         "normal": [
-          0.0026739941593429883,
-          0.0022437475128749039,
+          -0.00038291634638456254,
+          -0.0034695853840775023,
           0.99999390765760876
         ]
       },
@@ -1242,14 +1408,32 @@
           "SouthPole",
           "CentralMountainRange"
         ],
-        "miniBiomes": [ ]
+        "miniBiomes": [ ],
+        "biomeColors": {
+          "PolarLowlands": "#797776",
+          "Midlands": "#939393",
+          "EasternMountainRidge": "#ffffff",
+          "WesternMountainRidge": "#ececec",
+          "Lowlands": "#686868",
+          "SouthEasternMountainRange": "#dadada",
+          "SouthPole": "#848484",
+          "CentralMountainRange": "#cccccc"
+        }
       },
       "anomalies": [
+        {
+          "name": "Randolith",
+          "objectName": "Randolith",
+          "lat": 4.73256254196167,
+          "lon": -38.060726165771484,
+          "class": "PQSCity"
+        },
         {
           "name": "Anniversary5",
           "objectName": "Anniversary5",
           "lat": -11.378998756408691,
-          "lon": 27.3079980099998
+          "lon": 27.307998657226563,
+          "class": "PQSCity"
         }
       ],
       "roc": {
@@ -1339,8 +1523,8 @@
         "meanAnomalyAtEpochRad": 0.100000001490116,
         "meanAnomalyAtEpochDeg": 5.72957803668559,
         "normal": [
-          -0.00079421235085683738,
-          0.022743266039556009,
+          0.016287697748096349,
+          -0.015893326444483942,
           0.99974102300375556
         ]
       },
@@ -1455,14 +1639,27 @@
           "DeGrasseSea",
           "Peaks"
         ],
-        "miniBiomes": [ ]
+        "miniBiomes": [ ],
+        "biomeColors": {
+          "Poles": "#b9d5e3",
+          "Shores": "#ffeca5",
+          "Dunes": "#d6be62",
+          "CrescentBay": "#5e70cc",
+          "TheSagenSea": "#2662af",
+          "CraterIsland": "#ad9432",
+          "Shallows": "#719ed7",
+          "CraterBay": "#487dc2",
+          "DeGrasseSea": "#0c448c",
+          "Peaks": "#fff6d5"
+        }
       },
       "anomalies": [
         {
           "name": "Anniversary7",
           "objectName": "Anniversary7",
           "lat": 0.074000023305416107,
-          "lon": -162.52499910431033
+          "lon": -162.52499389648438,
+          "class": "PQSCity"
         }
       ],
       "roc": {
@@ -1577,14 +1774,26 @@
           "SouthernValleys",
           "Mountains"
         ],
-        "miniBiomes": [ ]
+        "miniBiomes": [ ],
+        "biomeColors": {
+          "Poles": "#bef7fc",
+          "Midlands": "#6bc6ce",
+          "Highlands": "#45b2bc",
+          "Lowlands": "#ffffff",
+          "NortheastBasin": "#b2b2b2",
+          "NorthwestBasin": "#969696",
+          "SouthernBasin": "#dddddd",
+          "SouthernValleys": "#c7c7c7",
+          "Mountains": "#9cd9de"
+        }
       },
       "anomalies": [
         {
           "name": "Icehenge",
           "objectName": "Icehenge",
           "lat": -60.089035034179688,
-          "lon": 83.779592850071211
+          "lon": 83.779594421386719,
+          "class": "PQSCity"
         }
       ],
       "roc": {
@@ -1685,8 +1894,8 @@
         "meanAnomalyAtEpochRad": 0.899999976158142,
         "meanAnomalyAtEpochDeg": 51.566200195736251,
         "normal": [
-          0.16636567534280183,
-          0.19826689127414621,
+          0.0167117104974721,
+          -0.25827895160084058,
           0.96592582628906831
         ]
       },
@@ -1707,14 +1916,22 @@
           "Slopes",
           "Valley"
         ],
-        "miniBiomes": [ ]
+        "miniBiomes": [ ],
+        "biomeColors": {
+          "Peaks": "#ddcca7",
+          "Ridges": "#c4b28b",
+          "Poles": "#f5e2b9",
+          "Slopes": "#ae9d78",
+          "Valley": "#978c73"
+        }
       },
       "anomalies": [
         {
           "name": "DeadKraken",
           "objectName": "DeadKraken",
           "lat": 68.429290771484375,
-          "lon": 116.99019869562092
+          "lon": 116.99019622802734,
+          "class": "PQSCity"
         }
       ],
       "roc": {
@@ -1789,8 +2006,8 @@
         "meanAnomalyAtEpochRad": 3.14000010490417,
         "meanAnomalyAtEpochDeg": 179.9087536816447,
         "normal": [
-          0.00033424993810044737,
-          0.00028046899978111426,
+          -4.7864638981910543E-05,
+          -0.00043369903999605877,
           0.999999904807055
         ]
       },
@@ -1815,14 +2032,26 @@
           "GrissomCrater",
           "GagarinCrater"
         ],
-        "miniBiomes": [ ]
+        "miniBiomes": [ ],
+        "biomeColors": {
+          "Midlands": "#b3a39a",
+          "Highlands": "#cabbb3",
+          "Lowlands": "#9e8e84",
+          "Mara": "#89796f",
+          "MinorCraters": "#72635a",
+          "TychoCrater": "#d3a488",
+          "GalileioCrater": "#bd8a6c",
+          "GrissomCrater": "#aa7556",
+          "GagarinCrater": "#956346"
+        }
       },
       "anomalies": [
         {
           "name": "Cave",
           "objectName": "Cave",
           "lat": 40.203742980957031,
-          "lon": 173.99762394174837
+          "lon": 173.99761962890625,
+          "class": "PQSCity"
         }
       ],
       "roc": {
@@ -1925,8 +2154,8 @@
         "meanAnomalyAtEpochRad": 0.899999976158142,
         "meanAnomalyAtEpochDeg": 51.566200195736251,
         "normal": [
-          -0.1039558454088797,
-          0.18005680599195537,
+          0.19955689188197351,
+          -0.058346534439552629,
           0.97814760073380569
         ]
       },
@@ -1945,9 +2174,22 @@
           "Lowlands",
           "Highlands"
         ],
-        "miniBiomes": [ ]
+        "miniBiomes": [ ],
+        "biomeColors": {
+          "Midlands": "#cba15d",
+          "Lowlands": "#a58147",
+          "Highlands": "#eaca96"
+        }
       },
-      "anomalies": [ ],
+      "anomalies": [
+        {
+          "name": "Randolith",
+          "objectName": "Randolith",
+          "lat": 52.096485137939453,
+          "lon": -116.51409149169922,
+          "class": "PQSCity"
+        }
+      ],
       "roc": {
         "GillyRidgeline": [
           "Midlands",
@@ -2020,8 +2262,8 @@
         "meanAnomalyAtEpochRad": 0.899999976158142,
         "meanAnomalyAtEpochDeg": 51.566200195736251,
         "normal": [
-          0.055073341012653126,
-          0.049588258980787,
+          -0.005553836310187508,
+          -0.073900089453810727,
           0.99725018509948571
         ]
       },
@@ -2041,7 +2283,13 @@
           "Highlands",
           "Midlands"
         ],
-        "miniBiomes": [ ]
+        "miniBiomes": [ ],
+        "biomeColors": {
+          "Poles": "#fff3c5",
+          "Lowlands": "#b6a568",
+          "Highlands": "#f5e4a3",
+          "Midlands": "#d4c17a"
+        }
       },
       "anomalies": [ ],
       "roc": {
@@ -2117,8 +2365,8 @@
         "meanAnomalyAtEpochRad": 3.14000010490417,
         "meanAnomalyAtEpochDeg": 179.9087536816447,
         "normal": [
-          0.0667651724177507,
-          -0.056022631551222127,
+          -0.086973869538623377,
+          -0.0056275670919582674,
           0.99619469809174555
         ]
       },
@@ -2142,14 +2390,32 @@
           "ImpactEjecta",
           "Canyons"
         ],
-        "miniBiomes": [ ]
+        "miniBiomes": [ ],
+        "biomeColors": {
+          "Poles": "#f8eddc",
+          "Midlands": "#868178",
+          "Lowlands": "#75716b",
+          "Ridges": "#b1a797",
+          "Highlands": "#d1c2ab",
+          "ImpactCraters": "#615d59",
+          "ImpactEjecta": "#9c9488",
+          "Canyons": "#55524e"
+        }
       },
       "anomalies": [
         {
+          "name": "Randolith",
+          "objectName": "Randolith",
+          "lat": -24.152057647705078,
+          "lon": 113.86298370361328,
+          "class": "PQSCity"
+        },
+        {
           "name": "Anniversary6",
           "objectName": "Anniversary6",
-          "lat": 1.9545198678970337,
-          "lon": 64.139515147831347
+          "lat": 1.9545197486877441,
+          "lon": 64.139511108398438,
+          "class": "PQSCity"
         }
       ],
       "roc": {
@@ -2237,8 +2503,8 @@
         "meanAnomalyAtEpochRad": 3.14000010490417,
         "meanAnomalyAtEpochDeg": 179.9087536816447,
         "normal": [
-          -3.4694469519536142E-17,
-          0.10713175431387367,
+          0.074018299558039874,
+          -0.077450010412552339,
           0.99424483263310537
         ]
       },
@@ -2265,14 +2531,28 @@
           "SouthernGlaciers",
           "MuGlacier"
         ],
-        "miniBiomes": [ ]
+        "miniBiomes": [ ],
+        "biomeColors": {
+          "Poles": "#ffffff",
+          "NorthernGlaciers": "#cacaca",
+          "Lowlands": "#7ba3e7",
+          "Highlands": "#d5dae1",
+          "IceCanyons": "#ffb563",
+          "Craters": "#e08822",
+          "Midlands": "#becee8",
+          "Fragipan": "#ffcd94",
+          "BabbagePatch": "#97b3e4",
+          "SouthernGlaciers": "#e0e0e0",
+          "MuGlacier": "#7c7c7c"
+        }
       },
       "anomalies": [
         {
           "name": "Anniversary3",
           "objectName": "Anniversary3",
           "lat": 25.99799919128418,
-          "lon": 110.5919989569834
+          "lon": 110.59200286865234,
+          "class": "PQSCity"
         }
       ],
       "roc": {

@@ -27,7 +27,6 @@ BEGIN {
 use Exporter qw(import);
 our (%EXPORT_TAGS, @EXPORT_OK, @EXPORT);
 BEGIN {
-	@ISA = qw(Exporter);
 	%EXPORT_TAGS = ('all' => [ qw(U stopwatch) ]);
 	@EXPORT_OK = (@{$EXPORT_TAGS{'all'}});
 	@EXPORT = qw();
