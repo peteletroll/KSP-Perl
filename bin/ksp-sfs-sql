@@ -187,6 +187,17 @@ sub insert($@) {
 	} @val)
 }
 
+create(bodies => qw(body atmosphere:b ocean:b));
+$SW->reset->start;
+$DB->begin_work;
+foreach my $b ($system->bodies) {
+	insert("bodies", $b->name,
+		($b->atmosphereDepth > 0 ? 1 : 0),
+		($b->hasOcean ? 1 : 0));
+}
+$DB->commit;
+printf "-- Generated bodies [$insert_count{bodies}] in %1.3f seconds\n", $SW->read;
+
 create(biomes_all => qw(body biome ismini:b));
 $SW->reset->start;
 $DB->begin_work;
