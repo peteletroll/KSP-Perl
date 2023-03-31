@@ -6,7 +6,7 @@ use warnings;
 use DBI;
 use JSON;
 use File::Temp;
-use KSP;
+use KSP qw(:all);
 
 binmode \*STDOUT, ":utf8";
 
@@ -28,7 +28,7 @@ our $DEBUG = $opt{d};
 our $INDEX = $opt{i};
 our $RUNSQLITE;
 
-our $SW = KSP::StopWatch->new();
+our $SW = stopwatch;
 
 our ($DBNAME, $SFSNAME);
 if (@ARGV == 2) {
@@ -158,9 +158,13 @@ sub create($@) {
 }
 
 sub view($$) {
-	my ($view, $select) = @_;
-	run("drop view if exists " . qi($view));
-	run("create view " . qi($view) . " as $select");
+	my ($name, $select) = @_;
+	my $sw = stopwatch->start;
+	$DB->begin_work;
+	run("drop view if exists " . qi($name));
+	run("create view " . qi($name) . " as $select");
+	$DB->commit;
+	printf "-- Generated view $name in %1.3f seconds\n", $SW->read;
 }
 
 our %_insert_handle = ();
@@ -229,7 +233,6 @@ foreach my $n ($SFS->find("Science", id => qr/\@/)) {
 $DB->commit;
 printf "-- Generated science_full [$insert_count{science_full}] in %1.3f seconds\n", $SW->read;
 
-$SW->reset->start;
 view("science", q{
 	select body, situation, biome, experiment, extra,
 	printf('%6.2f', points) as points,
@@ -238,7 +241,6 @@ view("science", q{
 	from science_full
 	order by body, situation, extra, experiment, extra, full
 });
-printf "-- Generated view science in %1.3f seconds\n", $SW->read;
 
 my @roster_cols = qw(name gender type trait state badS:b hero:b veteran:b tour:b inactive:b);
 create(roster => @roster_cols);
