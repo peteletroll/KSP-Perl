@@ -54,6 +54,10 @@ sub isHomeWorld {
 	!! $_[0]->json->{info}{isHomeWorld}
 }
 
+sub hasSurface {
+	!! $_[0]->json->{surface}{hasSolidSurface}
+}
+
 sub radius {
 	U $_[0]->json->{size}{radius}
 }
