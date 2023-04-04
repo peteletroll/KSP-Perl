@@ -288,13 +288,6 @@
           "class": "PQSCity"
         },
         {
-          "name": "Randolith",
-          "objectName": "Randolith",
-          "lat": 69.387252807617188,
-          "lon": 98.9847183227539,
-          "class": "PQSCity"
-        },
-        {
           "name": "Pyramids",
           "objectName": "Pyramids",
           "lat": -6.5056900978088379,
@@ -578,13 +571,6 @@
           "lat": -70.955635070800781,
           "lon": -68.137153625488281,
           "class": "PQSCity"
-        },
-        {
-          "name": "Randolith",
-          "objectName": "Randolith",
-          "lat": 4.1597003936767578,
-          "lon": 27.058050155639648,
-          "class": "PQSCity"
         }
       ],
       "roc": {
@@ -757,13 +743,6 @@
           "lat": 23.776254653930664,
           "lon": 60.046394348144531,
           "class": "PQSCity"
-        },
-        {
-          "name": "Randolith",
-          "objectName": "Randolith",
-          "lat": 68.6280517578125,
-          "lon": 144.95298767089844,
-          "class": "PQSCity"
         }
       ],
       "roc": {
@@ -893,13 +872,6 @@
         }
       },
       "anomalies": [
-        {
-          "name": "Randolith",
-          "objectName": "Randolith",
-          "lat": -11.207254409790039,
-          "lon": 84.982574462890625,
-          "class": "PQSCity"
-        },
         {
           "name": "Mohole",
           "objectName": "Mohole",
@@ -1060,15 +1032,7 @@
           "Shallows": "#8b668d"
         }
       },
-      "anomalies": [
-        {
-          "name": "Randolith",
-          "objectName": "Randolith",
-          "lat": -56.931278228759766,
-          "lon": 176.80348205566406,
-          "class": "PQSCity"
-        }
-      ],
+      "anomalies": [ ],
       "roc": {
         "EveVolcanicRock": [
           "Poles",
@@ -1243,13 +1207,6 @@
           "class": "PQSCity"
         },
         {
-          "name": "Randolith",
-          "objectName": "Randolith",
-          "lat": 29.902694702148438,
-          "lon": 66.495414733886719,
-          "class": "PQSCity"
-        },
-        {
           "name": "Anniversary4",
           "objectName": "Anniversary4",
           "lat": -2.4140005111694336,
@@ -1421,13 +1378,6 @@
         }
       },
       "anomalies": [
-        {
-          "name": "Randolith",
-          "objectName": "Randolith",
-          "lat": 4.73256254196167,
-          "lon": -38.060726165771484,
-          "class": "PQSCity"
-        },
         {
           "name": "Anniversary5",
           "objectName": "Anniversary5",
@@ -2181,15 +2131,7 @@
           "Highlands": "#eaca96"
         }
       },
-      "anomalies": [
-        {
-          "name": "Randolith",
-          "objectName": "Randolith",
-          "lat": 52.096485137939453,
-          "lon": -116.51409149169922,
-          "class": "PQSCity"
-        }
-      ],
+      "anomalies": [ ],
       "roc": {
         "GillyRidgeline": [
           "Midlands",
@@ -2403,13 +2345,6 @@
         }
       },
       "anomalies": [
-        {
-          "name": "Randolith",
-          "objectName": "Randolith",
-          "lat": -24.152057647705078,
-          "lon": 113.86298370361328,
-          "class": "PQSCity"
-        },
         {
           "name": "Anniversary6",
           "objectName": "Anniversary6",
