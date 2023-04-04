@@ -271,7 +271,7 @@ view("results", q{
 	order by experiment, situation
 });
 
-view("sources", q{
+view("sources_full", q{
 	select *
 	from biomes
 	join (select experiment, situation from results where nullbiome = 0)
@@ -281,6 +281,16 @@ view("sources", q{
 	from biomes
 	join (select experiment, situation from results where nullbiome > 0)
 	where biome is null and body in (select distinct body from science_full)
+});
+
+view("sources", q{
+	select bodies.body, biome, experiment, situation
+	from sources_full
+	left join bodies
+		on sources_full.body = bodies.body
+	where not (situation like 'Flying%' or situation = 'SrfSplashed')
+		or (situation like 'Flying%' and atmosphere)
+		or (situation = 'SrfSplashed' and ocean)
 });
 
 view("report", q{
