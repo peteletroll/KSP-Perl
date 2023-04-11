@@ -4,7 +4,7 @@ use utf8;
 use strict;
 use warnings;
 
-use Carp;
+use Carp qw(croak cluck);
 
 use File::Find;
 use File::Spec;
@@ -19,6 +19,8 @@ our $DB;
 
 sub root {
 	$DB and return $DB;
+
+	# cluck "loading " . __PACKAGE__;
 
 	my $KSPHOME = $ENV{KSPHOME};
 	defined $KSPHOME or croak "no \$KSPHOME environment variable";
@@ -46,7 +48,7 @@ sub root {
 	}, "$KSPHOME/.");
 
 	my $time = $stopwatch->stop->read;
-	warn sprintf "# %s loaded %sB in %ss, %sB/s\n",
+	-t STDIN && -t STDOUT && -t STDERR and warn sprintf "# %s loaded %sB in %ss, %sB/s\n",
 		__PACKAGE__,
 		U($bytes),
 		U($time),
