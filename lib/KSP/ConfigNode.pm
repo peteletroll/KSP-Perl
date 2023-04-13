@@ -23,6 +23,8 @@ use overload
 
 our $FIXENCODING = 0;
 
+our $PUTCOMMENTS = 1;
+
 sub BUILD($$) {
 	my ($self, $name, @content) = @_;
 	$self->set_name($name);
@@ -336,7 +338,9 @@ sub _print($$$) {
 		my $n = _encode($_->name());
 		my $p = $n . $_->_nodename();
 		$isfirst++ and print "\n";
-		print "$indent$n // $newprefix$p\n", $indent, "{\n$c";
+		print "$indent$n";
+		print " // $newprefix$p" if $PUTCOMMENTS;
+		print "\n", $indent, "{\n$c";
 		$_->_print("$indent\t", "$newprefix$p");
 		print "\n" unless $_->isEmpty;
 		print $indent, "}";
@@ -406,6 +410,7 @@ sub _val($$$) {
 
 sub _comment($$) {
 	my ($self) = @_;
+	$PUTCOMMENTS or return undef;
 	my $name = $self->name();
 	# warn "_COMMENT(", dump($name), ", ", dump($value), ")\n";
 	if ($name eq "VESSEL" && $self->_val("type", "") eq "Debris") {
@@ -453,9 +458,10 @@ sub _comment($$) {
 		if ($p && $p->name() eq "VESSEL") {
 			# warn "PART in VESSEL\n";
 			my @p = $p->_getnode("PART");
-			for (my $i = 0; $i < @p; $i++) {
+			my $n = @p;
+			for (my $i = 0; $i < $n; $i++) {
 				$p[$i] == $self or next;
-				return "vessel index: $i";
+				return "vessel index: $i/$n";
 			}
 		}
 	} elsif ($name eq "TechTree") {
