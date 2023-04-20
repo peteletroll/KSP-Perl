@@ -1,0 +1,68 @@
+#!/usr/bin/perl
+
+use strict;
+use warnings;
+
+use KSP qw(:all);
+
+binmode \*STDOUT, ":utf8";
+
+##################################################
+
+# process parameters
+
+##################################################
+
+our $script = $0;
+$script =~ s/.*\///;
+our $usage = "usage: $script <save file or save name> [ <vessel name> ]\n";
+
+use Getopt::Std;
+our %opt = ();
+getopts("", \%opt) or die $usage;
+
+our ($SFSNAME, $VESSELNAME);
+if (@ARGV == 2) {
+	($SFSNAME, $VESSELNAME) = @ARGV;
+} elsif (@ARGV == 1) {
+	($SFSNAME) = @ARGV;
+	($SFSNAME, $VESSELNAME) = ($ARGV[0], "");
+} else {
+	die $usage;
+}
+
+our $VESSEL_RE = qr/\Q$VESSELNAME\E/i;
+
+if ($ENV{KSPHOME} && $SFSNAME !~ /\// && ! -f $SFSNAME) {
+	$SFSNAME = "$ENV{KSPHOME}/saves/$SFSNAME/quicksave.sfs";
+}
+
+##################################################
+
+# analyze savefile
+
+##################################################
+
+our $SFS = KSP::ConfigNode->load($SFSNAME);
+
+my @V = ();
+foreach my $v ($SFS->find("VESSEL")) {
+	my $name = $v->get("name");
+	$name =~ $VESSEL_RE or next;
+	my $type = $v->get("type");
+	my @part = $v->getnodes("PART");
+	@part > 1 or next;
+	push @V, { node => $v, name => $name, type => $type, part => \@part };
+}
+
+if (@V != 1) {
+	foreach my $v (@V) {
+		printf "%3d %-10s %s\n", scalar(@{$v->{part}}), $v->{type}, $v->{name};
+	}
+	printf "found %d vessels\n", scalar(@V);
+	exit 0;
+}
+
+my $V = $V[0];
+print $V->{node}->asString;
+
