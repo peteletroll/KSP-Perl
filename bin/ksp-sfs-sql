@@ -85,9 +85,11 @@ sub parseScienceId($) {
 }
 
 $SW->reset->start;
-printf "-- Parsing sfs $SFSNAME\n";
+printf "-- Parsing sfs $SFSNAME, %1.1fKiB\n", (-s $SFSNAME) / 1024;
 our $SFS = KSP::ConfigNode->load($SFSNAME);
-printf "-- Parsed sfs in %1.3f seconds\n", $SW->read;
+our $TITLE = "Untitled";
+eval { $TITLE = $SFS->getnodes("GAME")->get("Title") };
+printf "-- Parsed $TITLE in %1.3f seconds\n", $SW->read;
 
 ##################################################
 
@@ -339,6 +341,16 @@ enqueue("vacuum");
 runqueue();
 
 if ($RUNSQLITE) {
-	system "sqlite3", $DBNAME;
+	my $init = File::Temp->new(DIR => "/var/tmp",
+		TEMPLATE => "$script-XXXXXXXX",
+		SUFFIX => ".sqlite");
+	my $prompt = $TITLE;
+	$prompt =~ s/\(.*$//;
+	$prompt =~ s/[^\w\-\.]//;
+	print $init ".read \"$ENV{HOME}/.sqliterc\"\n"
+		if -f "$ENV{HOME}/.sqliterc";
+	print $init ".prompt \"$prompt> \" \"", ("." x length($prompt)), "> \"\n";
+	$init->flush();
+	system "sqlite3", "-init", $init->filename, $DBNAME;
 }
 
