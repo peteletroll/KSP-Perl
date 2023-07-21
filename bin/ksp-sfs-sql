@@ -337,6 +337,34 @@ foreach my $r ($SFS->find("ROSTER")) {
 $DB->commit;
 printf "-- Generated roster [$insert_count{roster}], career [$insert_count{career}] in %1.3f seconds\n", $SW->read;
 
+my @vessels_cols = qw(persistentId:i pid type name lct:r ctrl:b sit);
+create(vessels_full => @vessels_cols, qw(body parts:i));
+s/:\w+$// foreach @vessels_cols;
+$SW->reset->start;
+$DB->begin_work;
+foreach my $r ($SFS->find("VESSEL")) {
+	my $b = $r->getnodes("ORBIT");
+	$b = $b->get("REF") if $b;
+	$b = $system->body($b) if defined $b;
+	$b = $b->name if $b;
+	my @parts = $r->getnodes("PART");
+	my $parts = @parts;
+	insert("vessels_full", (map { scalar $r->get($_) } @vessels_cols), $b, $parts);
+}
+$DB->commit;
+printf "-- Generated vessels_full [$insert_count{vessels_full}] in %1.3f seconds\n", $SW->read;
+
+view("vessels", q{
+	select persistentId as id,
+		sit as situation,
+		body,
+		ctrl, parts,
+		round(lct / 3600 / 6) as launch,
+		type, name
+	from vessels_full
+	order by lct
+});
+
 enqueue("analyze");
 enqueue("vacuum");
 
