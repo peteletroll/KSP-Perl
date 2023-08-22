@@ -273,8 +273,6 @@ sub parse {
 	my $start = $self->{$startrule}
 		or croak "no rule '$startrule'";
 
-	study $_[0];
-
 	pos($_[0]) = 0 unless defined pos($_[0]);
 
 	$start->($self, $_[0])
