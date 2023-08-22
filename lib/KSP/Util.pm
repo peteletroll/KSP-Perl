@@ -5,7 +5,7 @@ use strict;
 use warnings;
 
 use Exporter qw(import);
-our @EXPORT_OK = qw(U sortby isnumber error matcher proxy deparse);
+our @EXPORT_OK = qw(U sortby isnumber error matcher proxy deparse CACHE);
 
 use Carp;
 use Scalar::Util qw(dualvar isdual looks_like_number);
@@ -133,6 +133,34 @@ sub deparse($) {
 	}
 	print $out;
 	()
+}
+
+use vars qw($FileCache);
+sub CACHE($$$) {
+        my ($name, $expire, $sub) = @_;
+        unless (defined $expire) {
+                return scalar $sub->();
+        }
+	unless (defined $FileCache) {
+		my $pkg = __PACKAGE__;
+		$pkg =~ s/\W+/-/gs;
+		require Cache::FileCache;
+		$FileCache = new Cache::FileCache({
+			namespace => "$pkg-$>",
+			auto_purge_interval => "1 hour"
+		});
+	}
+        utf8::encode($name);
+        my $ret = $FileCache->get($name);
+        if (defined $ret) {
+		# warn "CACHED `$name'\n";
+		$ret = $ret->[0];
+	} else {
+		# warn "GENERATING `$name'\n";
+                $ret = $sub->();
+                $FileCache->set($name, [ $ret ], $expire);
+        }
+        return $ret;
 }
 
 1;
