@@ -8,9 +8,10 @@ use Carp qw(croak cluck);
 
 use File::Find;
 use File::Spec;
+use File::stat;
 use Cwd;
 
-use KSP::Util qw(U);
+use KSP::Util qw(U CACHE);
 use KSP::StopWatch qw(stopwatch);
 
 use KSP::ConfigNode;
@@ -25,7 +26,7 @@ sub root {
 	my $KSPHOME = $ENV{KSPHOME};
 	defined $KSPHOME or croak "no \$KSPHOME environment variable";
 	$KSPHOME = Cwd::realpath($KSPHOME);
-	$KSPHOME =~ s{(\/*|\/+\.)$}{/.};
+	# $KSPHOME =~ s{(\/*|\/+\.)$}{/.};
 	-d $KSPHOME or croak "$KSPHOME is not a directory";
 
 	my $bytes = 0;
@@ -36,13 +37,21 @@ sub root {
 		no_chdir => 0,
 		follow => 0,
 		wanted => sub {
-			-d $_ && $_ eq "zDeprecated" and $File::Find::prune = 1;
-			-f $_ && (/\.cfg$/i)
+			my $s = stat($_) or return;
+			-d $s && $_ eq "zDeprecated" and $File::Find::prune = 1;
+			-f $s && (/\.cfg$/i)
 				or return;
-			$bytes += -s $_;
-			my $cfg = KSP::ConfigNode->load($_);
-			my $src = File::Spec->abs2rel($_, $KSPHOME);
-			$cfg->visit(sub { $_->set_src($src) });
+			$bytes += -s $s;
+			my $key = join ":", "file",
+				File::Spec->canonpath($File::Find::name),
+				$s->size, $s->mtime;
+			# warn "KEY $key\n";
+			my $cfg = CACHE($key, "1 hour", sub {
+				my $cfg = KSP::ConfigNode->load($_);
+				my $src = File::Spec->abs2rel($_, $KSPHOME);
+				$cfg->visit(sub { $_->set_src($src) });
+				$cfg
+			});
 			$db->gulp($cfg);
 		}
 	}, "$KSPHOME/.");
