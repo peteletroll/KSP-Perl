@@ -358,7 +358,7 @@ view("resources", q{
 	from resources_full
 	left join bodies
 		on resources_full.body = bodies.`index`
-	order by resources_full.body, biome
+	order by bodies.body, biome
 });
 
 my @vessels_cols = qw(persistentId:i pid type name lct:r ctrl:b sit);
