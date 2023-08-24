@@ -337,6 +337,22 @@ foreach my $r ($SFS->find("ROSTER")) {
 $DB->commit;
 printf "-- Generated roster [$insert_count{roster}], career [$insert_count{career}] in %1.3f seconds\n", $SW->read;
 
+my @resources_cols = qw(body:i biome);
+create(resources_full => @resources_cols);
+s/:\w+$// foreach @roster_cols;
+$SW->reset->start;
+$DB->begin_work;
+foreach my $r ($SFS->find("SCENARIO", name => "ResourceScenario")) {
+	foreach my $k ($r->find(qr/_DATA$/)) {
+		my $id = $k->get("PlanetId");
+		defined $id or next;
+		my $biome = $k->get("BiomeName");
+		insert("resources_full", $id, $biome);
+	}
+}
+$DB->commit;
+printf "-- Generated resources_full [$insert_count{roster}], career [$insert_count{career}] in %1.3f seconds\n", $SW->read;
+
 my @vessels_cols = qw(persistentId:i pid type name lct:r ctrl:b sit);
 create(vessels_full => @vessels_cols, qw(body parts:i));
 s/:\w+$// foreach @vessels_cols;
