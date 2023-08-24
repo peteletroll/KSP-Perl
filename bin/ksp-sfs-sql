@@ -353,6 +353,14 @@ foreach my $r ($SFS->find("SCENARIO", name => "ResourceScenario")) {
 $DB->commit;
 printf "-- Generated resources_full [$insert_count{roster}], career [$insert_count{career}] in %1.3f seconds\n", $SW->read;
 
+view("resources", q{
+	select bodies.body, resources_full.biome
+	from resources_full
+	left join bodies
+		on resources_full.body = bodies.`index`
+	order by resources_full.body, biome
+});
+
 my @vessels_cols = qw(persistentId:i pid type name lct:r ctrl:b sit);
 create(vessels_full => @vessels_cols, qw(body parts:i));
 s/:\w+$// foreach @vessels_cols;
