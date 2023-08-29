@@ -12,8 +12,6 @@ BEGIN {
 	if (eval { require Time::HiRes }) {
 		Time::HiRes->import(qw( time ));
 		$HIRES = 1;
-	} else {
-		$HIRES = 0;
 	}
 }
 
