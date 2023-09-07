@@ -41,36 +41,35 @@ sub files() {
 memoize("files", NORMALIZER => sub { "" });
 
 sub root {
-	# cluck "loading " . __PACKAGE__;
+	my $files_key = join "\n",
+		map {
+			my $s = stat($_);
+			join ":", "file", $_, $s->size, $s->mtime
+		} files;
 
-	my $bytes = 0;
-	my $stopwatch = stopwatch->start;
-
-	my $root = KSP::ConfigNode->new(__PACKAGE__);
-	foreach (files()) {
-		my $s = stat($_) or return;
-		$bytes += -s $s;
-		my $key = join ":", "file",
-			File::Spec->canonpath($_),
-			$s->size, $s->mtime;
-		# warn "KEY $key\n";
-		my $cfg = CACHE($key, "1 hour", sub {
+	CACHE($files_key, "1 day", sub {
+		my $time = stopwatch->start;
+		my ($files, $bytes) = (0, 0);
+		my $root = KSP::ConfigNode->new(__PACKAGE__);
+		foreach (files()) {
+			my $s = stat($_) or next;
+			# warn "KEY $key\n";
 			my $cfg = KSP::ConfigNode->load($_);
 			my $src = $_;
 			$cfg->visit(sub { $_->set_src($src) });
-			$cfg
-		});
-		$root->gulp($cfg);
-	}
+			$root->gulp($cfg);
+			$files++;
+			$bytes += $s->size;
+		}
+		$time = $time->read;
 
-	my $time = $stopwatch->stop->read;
-	-t STDIN && -t STDOUT && -t STDERR and warn sprintf "# %s loaded %sB in %ss, %sB/s\n",
-		__PACKAGE__,
-		U($bytes),
-		U($time),
-		($time ? U($bytes / $time) : "∞");
+		-t STDIN && -t STDOUT && -t STDERR and warn sprintf "# %s scanned %d files, %sB in %ss, %sB/s\n",
+			__PACKAGE__,
+			$files, U($bytes),
+			U($time), ($time ? U($bytes / $time) : "∞");
 
-	$root
+		$root
+	})
 }
 memoize("root", NORMALIZER => sub { "" });
 
