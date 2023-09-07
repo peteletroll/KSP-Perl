@@ -72,9 +72,7 @@ $REPLY->step(q{
 	KSP::SolarSystem->new("RealSolarSystem")->import_bodies();
 	binmode $_, ":utf8" foreach \*STDOUT, \*STDERR;
 	()
-});
-
-$REPLY->run();
+}) and $REPLY->run();
 
 undef $REPLY;
 
