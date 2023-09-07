@@ -135,7 +135,7 @@ sub deparse($) {
 	()
 }
 
-use vars qw($FileCache);
+our $FileCache;
 sub CACHE($$$) {
         my ($name, $expire, $sub) = @_;
         unless (defined $expire) {
