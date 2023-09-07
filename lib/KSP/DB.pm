@@ -16,23 +16,15 @@ use KSP::StopWatch qw(stopwatch);
 
 use KSP::ConfigNode;
 
-our $DB;
+use Memoize;
+memoize("stat", NORMALIZER => sub { "$_[0]" });
 
-sub root {
-	$DB and return $DB;
-
-	# cluck "loading " . __PACKAGE__;
-
+sub files() {
 	my $KSPHOME = $ENV{KSPHOME};
 	defined $KSPHOME or croak "no \$KSPHOME environment variable";
 	$KSPHOME = Cwd::realpath($KSPHOME);
-	# $KSPHOME =~ s{(\/*|\/+\.)$}{/.};
 	-d $KSPHOME or croak "$KSPHOME is not a directory";
-
-	my $bytes = 0;
-	my $stopwatch = stopwatch->start;
-
-	my $db = KSP::ConfigNode->new(__PACKAGE__);
+	my @lst = ();
 	find({
 		no_chdir => 0,
 		follow => 0,
@@ -41,20 +33,35 @@ sub root {
 			-d $s && $_ eq "zDeprecated" and $File::Find::prune = 1;
 			-f $s && (/\.cfg$/i)
 				or return;
-			$bytes += -s $s;
-			my $key = join ":", "file",
-				File::Spec->canonpath($File::Find::name),
-				$s->size, $s->mtime;
-			# warn "KEY $key\n";
-			my $cfg = CACHE($key, "1 hour", sub {
-				my $cfg = KSP::ConfigNode->load($_);
-				my $src = File::Spec->abs2rel($_, $KSPHOME);
-				$cfg->visit(sub { $_->set_src($src) });
-				$cfg
-			});
-			$db->gulp($cfg);
+			push @lst, $File::Find::name;
 		}
-	}, "$KSPHOME/.");
+	}, $KSPHOME);
+	sort @lst
+}
+memoize("files", NORMALIZER => sub { "" });
+
+sub root {
+	# cluck "loading " . __PACKAGE__;
+
+	my $bytes = 0;
+	my $stopwatch = stopwatch->start;
+
+	my $root = KSP::ConfigNode->new(__PACKAGE__);
+	foreach (files()) {
+		my $s = stat($_) or return;
+		$bytes += -s $s;
+		my $key = join ":", "file",
+			File::Spec->canonpath($_),
+			$s->size, $s->mtime;
+		# warn "KEY $key\n";
+		my $cfg = CACHE($key, "1 hour", sub {
+			my $cfg = KSP::ConfigNode->load($_);
+			my $src = $_;
+			$cfg->visit(sub { $_->set_src($src) });
+			$cfg
+		});
+		$root->gulp($cfg);
+	}
 
 	my $time = $stopwatch->stop->read;
 	-t STDIN && -t STDOUT && -t STDERR and warn sprintf "# %s loaded %sB in %ss, %sB/s\n",
@@ -63,25 +70,25 @@ sub root {
 		U($time),
 		($time ? U($bytes / $time) : "∞");
 
-	$DB = $db
+	$root
 }
+memoize("root", NORMALIZER => sub { "" });
 
-our $LOC;
-
-sub locTable {
-	unless ($LOC) {
-		$LOC = { };
-		foreach (root->getnodes("Localization")) {
-			foreach ($_->nodes) {
-				my $loc = $_->name or next;
-				foreach ($_->values) {
-					$LOC->{$loc}->{$_->name} = $_->value;
-				}
-			}
+sub fullLocTable() {
+	my $ret = { };
+	foreach (root->getnodes("Localization")) {
+		foreach ($_->nodes) {
+			my $loc = $_->name or next;
+			$ret->{$loc}->{$_->name} = $_->value foreach $_->values;
 		}
 	}
+	$ret
+}
+memoize("fullLocTable", NORMALIZER => sub { "" });
+
+sub locTable {
 	my $loc = $_[1] || "en-us";
-	my $ret = $LOC->{$loc} || { };
+	my $ret = fullLocTable->{$loc} || { };
 	wantarray ? %$ret : $ret
 }
 
