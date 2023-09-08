@@ -191,11 +191,12 @@ sub insert($@) {
 	} @val)
 }
 
-create(bodies => qw(index:i body atmosphere:b ocean:b surface:b));
+create(bodies => qw(index:i body sort:i atmosphere:b ocean:b surface:b));
 $SW->reset->start;
 $DB->begin_work;
+my $bodysort = 0;
 foreach my $b ($system->bodies) {
-	insert("bodies", $b->index, $b->name,
+	insert("bodies", $b->index, $b->name, $bodysort++,
 		($b->atmosphereDepth > 0 ? 1 : 0),
 		($b->hasOcean ? 1 : 0),
 		($b->hasSurface ? 1 : 0));
@@ -256,7 +257,7 @@ $DB->commit;
 printf "-- Generated science_full [$insert_count{science_full}] in %1.3f seconds\n", $SW->read;
 
 view("science", q{
-	select body,
+	select bodies.body,
 		situation,
 		biome,
 		experiment,
@@ -264,8 +265,9 @@ view("science", q{
 		printf('%6.2f', points) as points,
 		printf('%6.2f', full) as full,
 		printf('%1.2f', points / full) as perc
-	from science_full
-	order by body, situation, extra, experiment, extra, full
+	from science_full, bodies
+	where science_full.body = bodies.body
+	order by bodies.sort, situation, extra, experiment, extra, full
 });
 
 view("results", q{
@@ -358,7 +360,7 @@ view("resources", q{
 	from resources_full
 	left join bodies
 		on resources_full.body = bodies.`index`
-	order by bodies.body, biome
+	order by bodies.sort, biome
 });
 
 my @vessels_cols = qw(persistentId:i pid type name lct:r ctrl:b sit);
