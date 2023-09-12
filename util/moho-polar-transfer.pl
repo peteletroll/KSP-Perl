@@ -9,7 +9,7 @@ use warnings;
 use Math::Trig;
 use KSP qw(:all);
 
-use FastVector;
+use Math::Vector::Real;
 
 my $incl = atan2(Kerbin->orbitNormal, Moho->orbitNormal);
 printf "inclination = %3.2f°\n", rad2deg $incl;
@@ -25,7 +25,7 @@ print "vminTrans = $vminTrans\n";
 
 my $vOut = $vminTrans - $vKerbin;
 print "vOut = $vOut\n";
-print "|vOut| = ", abs($vOut), "\n";
+print "|vOut| = ", U(abs($vOut)), "m/s\n";
 
 my $ej = Kerbin->goTo(Kerbin->orbit(pe => Kerbin->lowHeight, v_soi => abs($vOut)));
 print "eject:\n", $ej, "\n";
