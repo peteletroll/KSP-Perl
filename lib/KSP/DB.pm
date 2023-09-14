@@ -20,10 +20,6 @@ use Memoize;
 memoize("stat", NORMALIZER => sub { "$_[0]" });
 
 sub files() {
-	my $KSPHOME = $ENV{KSPHOME};
-	defined $KSPHOME or croak "no \$KSPHOME environment variable";
-	$KSPHOME = Cwd::realpath($KSPHOME);
-	-d $KSPHOME or croak "$KSPHOME is not a directory";
 	my @lst = ();
 	find({
 		no_chdir => 0,
@@ -35,7 +31,7 @@ sub files() {
 				or return;
 			push @lst, $File::Find::name;
 		}
-	}, $KSPHOME);
+	}, KSP::HOME());
 	sort @lst
 }
 memoize("files", NORMALIZER => sub { "" });

@@ -41,8 +41,8 @@ if (@ARGV == 2) {
 	die $usage;
 }
 
-if ($ENV{KSPHOME} && $SFSNAME !~ /\// && ! -f $SFSNAME) {
-	$SFSNAME = "$ENV{KSPHOME}/saves/$SFSNAME/quicksave.sfs";
+if ($SFSNAME !~ /\// && ! -f $SFSNAME) {
+	$SFSNAME = KSP::HOME() . "/saves/$SFSNAME/quicksave.sfs";
 }
 
 ##################################################
