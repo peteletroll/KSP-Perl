@@ -50,7 +50,8 @@ $SYSTEM->import_bodies();
 
 sub HOME() {
 	my $KSPHOME = $ENV{KSPHOME};
-	defined $KSPHOME or croak "no \$KSPHOME environment variable";
+	defined $KSPHOME && $KSPHOME ne ""
+		or croak "no \$KSPHOME environment variable";
 	$KSPHOME = Cwd::realpath($KSPHOME);
 	-d $KSPHOME or croak "$KSPHOME is not a directory";
 	$KSPHOME
