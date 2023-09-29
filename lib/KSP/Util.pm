@@ -62,9 +62,9 @@ sub U($;$) {
 	dualvar($x0, sprintf("%g", $x0))
 }
 
-sub Part($) {
+sub Part(;$) {
 	require KSP::Part;
-	KSP::Part->get($_[0])
+	@_ ? KSP::Part->get($_[0]) : KSP::Part->all()
 }
 
 sub sortby(&@) {
