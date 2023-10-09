@@ -7,7 +7,6 @@ use warnings;
 use Carp qw(croak cluck);
 
 use File::Find;
-use File::Spec;
 use File::stat;
 use Cwd;
 
