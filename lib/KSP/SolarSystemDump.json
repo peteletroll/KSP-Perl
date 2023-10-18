@@ -167,12 +167,7 @@
         "argumentOfPeriapsisRad": 0,
         "argumentOfPeriapsisDeg": 0,
         "meanAnomalyAtEpochRad": 3.14000010490417,
-        "meanAnomalyAtEpochDeg": 179.9087536816447,
-        "normal": [
-          0,
-          0,
-          1
-        ]
+        "meanAnomalyAtEpochDeg": 179.9087536816447
       },
       "science": {
         "flyingAltitudeThreshold": 18000,
@@ -459,12 +454,7 @@
         "argumentOfPeriapsisRad": 0,
         "argumentOfPeriapsisDeg": 0,
         "meanAnomalyAtEpochRad": 1.70000004768372,
-        "meanAnomalyAtEpochDeg": 97.402827904315856,
-        "normal": [
-          0,
-          0,
-          1
-        ]
+        "meanAnomalyAtEpochDeg": 97.402827904315856
       },
       "science": {
         "flyingAltitudeThreshold": 18000,
@@ -548,15 +538,15 @@
         {
           "name": "RockArch00",
           "objectName": "RockArch00",
-          "lat": 12.443113327026367,
+          "lat": 12.443114280700684,
           "lon": 39.178012847900391,
           "class": "PQSCity"
         },
         {
           "name": "RockArch01",
           "objectName": "RockArch01",
-          "lat": -12.464049339294434,
-          "lon": -140.94424438476563,
+          "lat": -12.443114280700684,
+          "lon": -140.82199096679688,
           "class": "PQSCity"
         },
         {
@@ -696,12 +686,7 @@
         "argumentOfPeriapsisRad": 0.66322511575784526,
         "argumentOfPeriapsisDeg": 38,
         "meanAnomalyAtEpochRad": 0.899999976158142,
-        "meanAnomalyAtEpochDeg": 51.566200195736251,
-        "normal": [
-          0.099243195875498028,
-          -0.03281749084733189,
-          0.99452189536827329
-        ]
+        "meanAnomalyAtEpochDeg": 51.566200195736251
       },
       "science": {
         "flyingAltitudeThreshold": 18000,
@@ -741,7 +726,7 @@
         {
           "name": "Monolith00",
           "objectName": "Monolith00",
-          "lat": 23.776254653930664,
+          "lat": 23.776256561279297,
           "lon": 60.046394348144531,
           "class": "PQSCity"
         }
@@ -825,12 +810,7 @@
         "argumentOfPeriapsisRad": 0.26179938779914941,
         "argumentOfPeriapsisDeg": 15,
         "meanAnomalyAtEpochRad": 3.14000010490417,
-        "meanAnomalyAtEpochDeg": 179.9087536816447,
-        "normal": [
-          0.109256202874146,
-          -0.0539927679928082,
-          0.992546151641322
-        ]
+        "meanAnomalyAtEpochDeg": 179.9087536816447
       },
       "science": {
         "flyingAltitudeThreshold": 18000,
@@ -981,12 +961,7 @@
         "argumentOfPeriapsisRad": 0,
         "argumentOfPeriapsisDeg": 0,
         "meanAnomalyAtEpochRad": 3.14000010490417,
-        "meanAnomalyAtEpochDeg": 179.9087536816447,
-        "normal": [
-          0.005544092315666705,
-          -0.0362218760732119,
-          0.99932839383964878
-        ]
+        "meanAnomalyAtEpochDeg": 179.9087536816447
       },
       "science": {
         "flyingAltitudeThreshold": 22000,
@@ -1135,12 +1110,7 @@
         "argumentOfPeriapsisRad": 0,
         "argumentOfPeriapsisDeg": 0,
         "meanAnomalyAtEpochRad": 3.14000010490417,
-        "meanAnomalyAtEpochDeg": 179.9087536816447,
-        "normal": [
-          0.00081149540793032718,
-          0.00066188931420361032,
-          0.999999451688719
-        ]
+        "meanAnomalyAtEpochDeg": 179.9087536816447
       },
       "science": {
         "flyingAltitudeThreshold": 12000,
@@ -1212,7 +1182,7 @@
           "name": "Anniversary4",
           "objectName": "Anniversary4",
           "lat": -2.4140005111694336,
-          "lon": -5.3229994773864746,
+          "lon": -5.3229999542236328,
           "class": "PQSCity"
         }
       ],
@@ -1340,12 +1310,7 @@
         "argumentOfPeriapsisRad": 0,
         "argumentOfPeriapsisDeg": 0,
         "meanAnomalyAtEpochRad": 1.70000004768372,
-        "meanAnomalyAtEpochDeg": 97.402827904315856,
-        "normal": [
-          -0.00038291634638456254,
-          -0.0034695853840775023,
-          0.99999390765760876
-        ]
+        "meanAnomalyAtEpochDeg": 97.402827904315856
       },
       "science": {
         "flyingAltitudeThreshold": 18000,
@@ -1473,12 +1438,7 @@
         "argumentOfPeriapsisRad": 0,
         "argumentOfPeriapsisDeg": 0,
         "meanAnomalyAtEpochRad": 0.100000001490116,
-        "meanAnomalyAtEpochDeg": 5.72957803668559,
-        "normal": [
-          0.016287697748096349,
-          -0.015893326444483942,
-          0.99974102300375556
-        ]
+        "meanAnomalyAtEpochDeg": 5.72957803668559
       },
       "science": {
         "flyingAltitudeThreshold": 120000,
@@ -1563,12 +1523,7 @@
         "argumentOfPeriapsisRad": 0,
         "argumentOfPeriapsisDeg": 0,
         "meanAnomalyAtEpochRad": 3.14000010490417,
-        "meanAnomalyAtEpochDeg": 179.9087536816447,
-        "normal": [
-          0,
-          0,
-          1
-        ]
+        "meanAnomalyAtEpochDeg": 179.9087536816447
       },
       "science": {
         "flyingAltitudeThreshold": 10000,
@@ -1699,12 +1654,7 @@
         "argumentOfPeriapsisRad": 0,
         "argumentOfPeriapsisDeg": 0,
         "meanAnomalyAtEpochRad": 0.899999976158142,
-        "meanAnomalyAtEpochDeg": 51.566200195736251,
-        "normal": [
-          0,
-          0,
-          1
-        ]
+        "meanAnomalyAtEpochDeg": 51.566200195736251
       },
       "science": {
         "flyingAltitudeThreshold": 18000,
@@ -1845,12 +1795,7 @@
         "argumentOfPeriapsisRad": 0.43633231299858238,
         "argumentOfPeriapsisDeg": 25,
         "meanAnomalyAtEpochRad": 0.899999976158142,
-        "meanAnomalyAtEpochDeg": 51.566200195736251,
-        "normal": [
-          0.0167117104974721,
-          -0.25827895160084058,
-          0.96592582628906831
-        ]
+        "meanAnomalyAtEpochDeg": 51.566200195736251
       },
       "science": {
         "flyingAltitudeThreshold": 18000,
@@ -1957,12 +1902,7 @@
         "argumentOfPeriapsisRad": 0,
         "argumentOfPeriapsisDeg": 0,
         "meanAnomalyAtEpochRad": 3.14000010490417,
-        "meanAnomalyAtEpochDeg": 179.9087536816447,
-        "normal": [
-          -4.7864638981910543E-05,
-          -0.00043369903999605877,
-          0.999999904807055
-        ]
+        "meanAnomalyAtEpochDeg": 179.9087536816447
       },
       "science": {
         "flyingAltitudeThreshold": 18000,
@@ -2105,12 +2045,7 @@
         "argumentOfPeriapsisRad": 0.17453292519943295,
         "argumentOfPeriapsisDeg": 10,
         "meanAnomalyAtEpochRad": 0.899999976158142,
-        "meanAnomalyAtEpochDeg": 51.566200195736251,
-        "normal": [
-          0.19955689188197351,
-          -0.058346534439552629,
-          0.97814760073380569
-        ]
+        "meanAnomalyAtEpochDeg": 51.566200195736251
       },
       "science": {
         "flyingAltitudeThreshold": 18000,
@@ -2205,12 +2140,7 @@
         "argumentOfPeriapsisRad": 0.26179938779914941,
         "argumentOfPeriapsisDeg": 15,
         "meanAnomalyAtEpochRad": 0.899999976158142,
-        "meanAnomalyAtEpochDeg": 51.566200195736251,
-        "normal": [
-          -0.005553836310187508,
-          -0.073900089453810727,
-          0.99725018509948571
-        ]
+        "meanAnomalyAtEpochDeg": 51.566200195736251
       },
       "science": {
         "flyingAltitudeThreshold": 18000,
@@ -2308,12 +2238,7 @@
         "argumentOfPeriapsisRad": 1.5707963267948966,
         "argumentOfPeriapsisDeg": 90,
         "meanAnomalyAtEpochRad": 3.14000010490417,
-        "meanAnomalyAtEpochDeg": 179.9087536816447,
-        "normal": [
-          -0.086973869538623377,
-          -0.0056275670919582674,
-          0.99619469809174555
-        ]
+        "meanAnomalyAtEpochDeg": 179.9087536816447
       },
       "science": {
         "flyingAltitudeThreshold": 18000,
@@ -2351,7 +2276,7 @@
         {
           "name": "Anniversary6",
           "objectName": "Anniversary6",
-          "lat": 1.9545197486877441,
+          "lat": 1.9545198678970337,
           "lon": 64.139511108398438,
           "class": "PQSCity"
         }
@@ -2439,12 +2364,7 @@
         "argumentOfPeriapsisRad": 4.5378560551852569,
         "argumentOfPeriapsisDeg": 260,
         "meanAnomalyAtEpochRad": 3.14000010490417,
-        "meanAnomalyAtEpochDeg": 179.9087536816447,
-        "normal": [
-          0.074018299558039874,
-          -0.077450010412552339,
-          0.99424483263310537
-        ]
+        "meanAnomalyAtEpochDeg": 179.9087536816447
       },
       "science": {
         "flyingAltitudeThreshold": 18000,
