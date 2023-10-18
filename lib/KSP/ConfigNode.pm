@@ -89,6 +89,14 @@ sub get {
 	wantarray ? @ret : $ret[0]
 }
 
+sub del {
+	my ($self, $name) = @_;
+	$self->set__values([
+		grep { $_->name ne $name } $self->values()
+	]);
+	$self
+}
+
 sub values {
 	my ($self) = @_;
 	wantarray or croak __PACKAGE__, "::values() wants list context";
