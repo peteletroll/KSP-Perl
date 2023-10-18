@@ -18,6 +18,14 @@ use KSP::ConfigNode;
 use Memoize;
 memoize("stat", NORMALIZER => sub { "$_[0]" });
 
+sub files_key {
+	join "\n",
+		map {
+			my $s = stat($_) or return ();
+			join ":", "file", $_, $s->size, $s->mtime
+		} @_;
+}
+
 sub files() {
 	my @lst = ();
 	find({
@@ -36,12 +44,7 @@ sub files() {
 memoize("files", NORMALIZER => sub { "" });
 
 sub root {
-	my $files_key = join "\n",
-		map {
-			my $s = stat($_);
-			join ":", "file", $_, $s->size, $s->mtime
-		} files;
-
+	my $files_key = files_key files;
 	CACHE($files_key, "1 day", sub {
 		my $time = stopwatch->start;
 		my ($files, $bytes) = (0, 0);
