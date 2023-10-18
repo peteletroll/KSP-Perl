@@ -190,6 +190,18 @@ sub delete {
 	}
 }
 
+sub save {
+	my ($self, $file, $comments) = @_;
+	open FILE, ">:utf8", $file
+		or croak "can't open $file: $!";
+	local $KSP::ConfigNode::PUTCOMMENTS = $comments;
+	print FILE $self, "\n"
+		or croak "can't write to $file: $!";
+	close FILE
+		or croak "can't close to $file: $!";
+	1
+}
+
 sub parse_string {
 	my ($pkg, $str) = @_;
 	_parser()->parse(start => $str)
