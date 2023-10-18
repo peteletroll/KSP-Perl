@@ -43,6 +43,23 @@ sub files() {
 }
 memoize("files", NORMALIZER => sub { "" });
 
+sub mmcache {
+	my $file = KSP::HOME() . "/GameData/ModuleManager.ConfigCache";
+	my %ret = ();
+	my $cfg = KSP::ConfigNode->load($file);
+	my @mm = $cfg->getnodes("UrlConfig");
+	foreach my $mm (@mm) {
+		my $f = $mm->get("parentUrl");
+		$mm->del("parentUrl");
+		$f =~ s/^\//..\//;
+		$f = Cwd::realpath(KSP::HOME() . "/GameData/" . $f);
+		($ret{$f} ||= KSP::ConfigNode->new(__PACKAGE__ . "::MM"))
+			->gulp($mm);
+	}
+	\%ret
+}
+memoize("mmcache");
+
 sub root {
 	my $files_key = files_key files;
 	CACHE($files_key, "1 day", sub {
