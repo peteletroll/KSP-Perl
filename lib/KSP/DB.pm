@@ -46,33 +46,37 @@ memoize("files", NORMALIZER => sub { "" });
 sub mmcache {
 	my $file = KSP::HOME() . "/GameData/ModuleManager.ConfigCache";
 	my $s = stat($file) or return { };
-	my $time = stopwatch->start;
-	my %ret = ();
-	my $cfg = KSP::ConfigNode->load($file);
-	my @mm = $cfg->getnodes("UrlConfig");
-	foreach my $mm (@mm) {
-		my $f = $mm->get("parentUrl");
-		$mm->del("parentUrl");
-		$f =~ s/^\//..\//;
-		$f = KSP::HOME() . "/GameData/$f";
-		$f = Cwd::realpath($f) || $f;
-		($ret{$f} ||= KSP::ConfigNode->new(__PACKAGE__ . "::MM"))
-			->gulp($mm);
-	}
-	$time = $time->read;
+	CACHE(files_key($file), "1 day", sub {
+		my $time = stopwatch->start;
+		my %ret = ();
+		my $cfg = KSP::ConfigNode->load($file);
+		my @mm = $cfg->getnodes("UrlConfig");
+		foreach my $mm (@mm) {
+			my $f = $mm->get("parentUrl");
+			$mm->del("parentUrl");
+			$f =~ s/^\//..\//;
+			$f = KSP::HOME() . "/GameData/$f";
+			$f = Cwd::realpath($f) || $f;
+			($ret{$f} ||= KSP::ConfigNode->new(__PACKAGE__ . "::MM"))
+				->gulp($mm);
+		}
+		$time = $time->read;
 
-	-t STDIN && -t STDOUT && -t STDERR and warn sprintf "# %s scanned %d file, %sB in %ss, %sB/s\n",
-		__PACKAGE__,
-		1, U($s->size),
-		U($time), ($time ? U($s->size / $time) : "∞");
+		-t STDIN && -t STDOUT && -t STDERR and warn sprintf "# %s scanned %d file, %sB in %ss, %sB/s\n",
+			__PACKAGE__,
+			1, U($s->size),
+			U($time), ($time ? U($s->size / $time) : "∞");
 
-	\%ret
+		\%ret
+	})
 }
 memoize("mmcache", NORMALIZER => sub { "" });
 
 sub root {
 	my $files_key = files_key files;
 	CACHE($files_key, "1 day", sub {
+		my $mm = mmcache();
+
 		my $time = stopwatch->start;
 		my ($files, $bytes) = (0, 0);
 		my $root = KSP::ConfigNode->new(__PACKAGE__);
