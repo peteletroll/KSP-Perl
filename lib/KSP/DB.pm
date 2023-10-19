@@ -45,6 +45,8 @@ memoize("files", NORMALIZER => sub { "" });
 
 sub mmcache {
 	my $file = KSP::HOME() . "/GameData/ModuleManager.ConfigCache";
+	my $s = stat($file) or return { };
+	my $time = stopwatch->start;
 	my %ret = ();
 	my $cfg = KSP::ConfigNode->load($file);
 	my @mm = $cfg->getnodes("UrlConfig");
@@ -57,6 +59,13 @@ sub mmcache {
 		($ret{$f} ||= KSP::ConfigNode->new(__PACKAGE__ . "::MM"))
 			->gulp($mm);
 	}
+	$time = $time->read;
+
+	-t STDIN && -t STDOUT && -t STDERR and warn sprintf "# %s scanned %d file, %sB in %ss, %sB/s\n",
+		__PACKAGE__,
+		1, U($s->size),
+		U($time), ($time ? U($s->size / $time) : "∞");
+
 	\%ret
 }
 memoize("mmcache", NORMALIZER => sub { "" });
