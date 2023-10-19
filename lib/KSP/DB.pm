@@ -52,13 +52,14 @@ sub mmcache {
 		my $f = $mm->get("parentUrl");
 		$mm->del("parentUrl");
 		$f =~ s/^\//..\//;
-		$f = Cwd::realpath(KSP::HOME() . "/GameData/" . $f);
+		$f = KSP::HOME() . "/GameData/$f";
+		$f = Cwd::realpath($f) || $f;
 		($ret{$f} ||= KSP::ConfigNode->new(__PACKAGE__ . "::MM"))
 			->gulp($mm);
 	}
 	\%ret
 }
-memoize("mmcache");
+memoize("mmcache", NORMALIZER => sub { "" });
 
 sub root {
 	my $files_key = files_key files;
