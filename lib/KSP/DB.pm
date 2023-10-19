@@ -50,6 +50,7 @@ sub mmcache {
 		my $time = stopwatch->start;
 		my %ret = ();
 		my $cfg = KSP::ConfigNode->load($file);
+		$cfg->visit(sub { $_->set_src($file) });
 		my @mm = $cfg->getnodes("UrlConfig");
 		foreach my $mm (@mm) {
 			my $f = $mm->get("parentUrl");
@@ -82,10 +83,16 @@ sub root {
 		my $root = KSP::ConfigNode->new(__PACKAGE__);
 		foreach (files()) {
 			my $s = stat($_) or next;
+			my $cfg = undef;
+			if (exists $mm->{$_}) {
+				# warn "MM OVERRIDES $_\n";
+				$cfg = $mm->{$_};
+			} else {
+				$cfg = KSP::ConfigNode->load($_);
+				my $src = $_;
+				$cfg->visit(sub { $_->set_src($src) });
+			}
 			# warn "KEY $key\n";
-			my $cfg = KSP::ConfigNode->load($_);
-			my $src = $_;
-			$cfg->visit(sub { $_->set_src($src) });
 			$root->gulp($cfg);
 			$files++;
 			$bytes += $s->size;
