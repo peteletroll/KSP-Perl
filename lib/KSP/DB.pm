@@ -74,9 +74,10 @@ sub mmcache {
 memoize("mmcache", NORMALIZER => sub { "" });
 
 sub root {
-	my $files_key = files_key files;
+	my $use_mm = $ENV{KSP_NO_MM} ? "" : "MM:";
+	my $files_key = $use_mm . files_key files;
 	CACHE($files_key, "1 day", sub {
-		my $mm = mmcache();
+		my $mm = $use_mm ? mmcache() : { };
 
 		my $time = stopwatch->start;
 		my ($files, $bytes) = (0, 0);
