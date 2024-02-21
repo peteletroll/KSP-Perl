@@ -22,7 +22,9 @@ our $usage = "usage: $script [ -di ] [ <db> ] <save file or save name>\n";
 
 use Getopt::Std;
 our %opt = ();
-getopts("di", \%opt) or die $usage;
+getopts("dip", \%opt) or die $usage;
+
+our $FILE = ($opt{p} ? "persistent" : "quicksave") . ".sfs";
 
 our $DEBUG = $opt{d};
 our $INDEX = $opt{i};
@@ -42,7 +44,7 @@ if (@ARGV == 2) {
 }
 
 if ($SFSNAME !~ /\// && ! -f $SFSNAME) {
-	$SFSNAME = KSP::HOME() . "/saves/$SFSNAME/quicksave.sfs";
+	$SFSNAME = KSP::HOME() . "/saves/$SFSNAME/$FILE";
 }
 
 ##################################################
