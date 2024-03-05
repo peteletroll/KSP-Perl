@@ -50,6 +50,7 @@ sub desc {
 	my ($self) = @_;
 	scalar $self->cache("desc", sub {
 		my $ret = $self->name . "[ ";
+		$ret .= "lvl " . $self->level . "; ";
 		$ret .= $self->cost . "\x{269b}";
 		$ret .= " ]";
 		$ret
@@ -88,9 +89,28 @@ sub parents {
 	})
 }
 
+sub children {
+	my ($self) = @_;
+	$self->cache("children", sub {
+		grep {
+			grep { $_ == $self } $_->parents
+		} __PACKAGE__->all
+	});
+}
+
 sub anyToUnlock {
 	my ($self) = @_;
 	($self->node->get("anyToUnlock") || "") =~ /true/i
+}
+
+sub level {
+	my ($self) = @_;
+	$self->cache("level", sub {
+		my @p = $self->parents
+			or return 0;
+		@p = sort { $a <=> $b } map { $_->level } @p;
+		($self->anyToUnlock ? $p[0] : $p[-1]) + 1
+	})
 }
 
 1;
