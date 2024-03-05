@@ -17,6 +17,7 @@ lib/KSP/Part.pm
 lib/KSP/Engine.pm
 lib/KSP/Antenna.pm
 lib/KSP/Resource.pm
+lib/KSP/Tech.pm
 lib/KSP/Util.pm
 lib/KSP/DeltaVGraph.pm
 lib/KSP/TinyParser.pm
