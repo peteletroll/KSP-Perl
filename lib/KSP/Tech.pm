@@ -79,5 +79,10 @@ sub parts {
 	grep { $_->tech == $self } KSP::Part->all
 }
 
+sub parents {
+	my ($self) = @_;
+	map { __PACKAGE__->get($_->get("parentID")) } $self->node->getnodes("Parent")
+}
+
 1;
 
