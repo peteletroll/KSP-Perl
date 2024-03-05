@@ -88,5 +88,10 @@ sub parents {
 	})
 }
 
+sub anyToUnlock {
+	my ($self) = @_;
+	($self->node->get("anyToUnlock") || "") =~ /true/i
+}
+
 1;
 
