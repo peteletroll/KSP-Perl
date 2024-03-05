@@ -76,12 +76,16 @@ sub get {
 
 sub parts {
 	my ($self) = @_;
-	grep { $_->tech == $self } KSP::Part->all
+	$self->cache("parts", sub {
+		grep { $_->tech == $self } KSP::Part->all
+	})
 }
 
 sub parents {
 	my ($self) = @_;
-	map { __PACKAGE__->get($_->get("parentID")) } $self->node->getnodes("Parent")
+	$self->cache("parents", sub {
+		map { __PACKAGE__->get($_->get("parentID")) } $self->node->getnodes("Parent")
+	})
 }
 
 1;
