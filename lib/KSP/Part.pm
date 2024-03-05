@@ -12,6 +12,7 @@ use KSP::DBNode;
 use KSP::Engine;
 use KSP::Antenna;
 use KSP::Resource;
+use KSP::Tech;
 use KSP::Util qw(U matcher);
 
 use KSP::TinyStruct qw(+KSP::DBNode);
@@ -81,6 +82,12 @@ sub title {
 sub category {
 	my ($self) = @_;
 	scalar $self->node->get("category", "none");
+}
+
+sub tech {
+	my ($self) = @_;
+	my $n = $self->node->get("TechRequired") or return undef;
+	KSP::Tech->get($n)
 }
 
 sub dryMass {

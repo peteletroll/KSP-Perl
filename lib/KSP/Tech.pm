@@ -74,5 +74,10 @@ sub get {
 	wantarray ? @ret : $ret[0]
 }
 
+sub parts {
+	my ($self) = @_;
+	grep { $_->tech == $self } KSP::Part->all
+}
+
 1;
 
