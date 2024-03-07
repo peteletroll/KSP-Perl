@@ -5,7 +5,7 @@ use strict;
 use warnings;
 
 use Exporter qw(import);
-our @EXPORT_OK = qw(U Part Tech sortby isnumber error matcher proxy deparse CACHE);
+our @EXPORT_OK = qw(U Part Tech Resource sortby isnumber error matcher proxy deparse CACHE);
 
 use Carp;
 use Scalar::Util qw(dualvar isdual looks_like_number);
@@ -70,6 +70,11 @@ sub Part(;$) {
 sub Tech(;$) {
 	require KSP::Tech;
 	@_ ? KSP::Tech->get($_[0]) : KSP::Tech->all()
+}
+
+sub Resource(;$) {
+	require KSP::Resource;
+	@_ ? KSP::Resource->get($_[0]) : KSP::Resource->all()
 }
 
 sub sortby(&@) {

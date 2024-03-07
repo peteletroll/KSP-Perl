@@ -56,5 +56,27 @@ sub unitMass {
 	});
 }
 
+sub containers {
+	my ($self) = @_;
+	$self->cache("containers", sub {
+		my $name = $self->name;
+		grep {
+			my $r = $_->resource($name);
+			$r and $r->node->get("amount", 0)
+		} KSP::Part->all
+	})
+}
+
+sub consumers {
+	my ($self) = @_;
+	$self->cache("consumers", sub {
+		my $name = $self->name;
+		grep {
+			my $r = $_->resource($name);
+			$r and $r->node->get("rate", 0)
+		} KSP::Part->all
+	})
+}
+
 1;
 

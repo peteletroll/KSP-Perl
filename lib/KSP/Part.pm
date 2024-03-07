@@ -149,11 +149,17 @@ sub antenna {
 	KSP::Antenna->new($self)
 }
 
+our $RNODE = qr/^(?:RESOURCE|RESOURCE_PROCESS|PROPELLANT)$/;
+
 sub resources {
 	my ($self) = @_;
 	wantarray or croak __PACKAGE__, "::resources() wants list context";
 	$self->cache("resources", sub {
-		sort map { $_->get("name") } $self->node->getnodes("RESOURCE", maxAmount => qr/./);
+		my %r = ();
+		sort map {
+			my $name = $_->get("name");
+			$r{$name}++ ? () : ($name)
+		} $self->node->find($RNODE);
 	})
 }
 
@@ -161,7 +167,7 @@ sub resource {
 	my ($self, $name) = @_;
 	my @ret =
 		map { KSP::DBNode->new($name, $_) }
-		$self->node->getnodes("RESOURCE", name => $name);
+		$self->node->find($RNODE, name => $name);
 	wantarray ? @ret : $ret[0]
 }
 
@@ -169,7 +175,7 @@ sub resourceAmount {
 	my ($self, $resource) = @_;
 	ref $resource and croak "no reference allowed for resourceAmount()";
 	my $amount = 0;
-	foreach ($self->node->getnodes("RESOURCE", name => $resource)) {
+	foreach ($self->node->getnodes($RNODE, name => $resource)) {
 		$amount += $_->get("maxAmount", 0)
 	}
 	$amount
