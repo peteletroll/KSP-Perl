@@ -206,7 +206,7 @@ sub save {
 	print FILE $self, "\n"
 		or croak "can't write to $file: $!";
 	close FILE
-		or croak "can't close to $file: $!";
+		or croak "can't close $file: $!";
 	1
 }
 

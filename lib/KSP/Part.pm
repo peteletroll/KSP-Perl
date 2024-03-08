@@ -152,7 +152,11 @@ sub antenna {
 our $RNODE = qr/^(?:RESOURCE|RESOURCE_PROCESS|OUTPUT_RESOURCE|PROPELLANT)$/;
 
 sub resourceInfo {
-	my ($self) = @_;
+	my ($self, @class) = @_;
+	if (@class) {
+		my %class = map { ($_ => 1) } @class;
+		return [ grep { $class{$_->{class}} } @{$self->resourceInfo} ];
+	}
 	scalar $self->cache("resourceInfo", sub {
 		my @ret = ();
 		foreach my $ri ($self->node->find(qr/./)) {
@@ -180,13 +184,16 @@ sub resourceInfo {
 						units => $r,
 					};
 				}
-			} elsif ($n eq "MODULE" && scalar $ri->get("name", "") eq "ModuleDeployableSolarPanel") {
-				$h = {
-					class => "PRODUCE",
-					node => $ri,
-					resource => scalar KSP::Resource->get(scalar $ri->get("resourceName")),
-					units => scalar $ri->get("chargeRate", 0),
-				};
+			} elsif ($n eq "MODULE") {
+				my $name = $ri->get("name", "");
+				if ($name eq "ModuleDeployableSolarPanel") {
+					$h = {
+						class => "PRODUCE",
+						node => $ri,
+						resource => scalar KSP::Resource->get(scalar $ri->get("resourceName")),
+						units => scalar $ri->get("chargeRate", 0),
+					};
+				}
 			}
 			$h and push @ret, $h;
 		}
@@ -194,48 +201,12 @@ sub resourceInfo {
 	})
 }
 
-sub resources {
-	my ($self) = @_;
-	wantarray or croak __PACKAGE__, "::resources() wants list context";
-	$self->cache("resources", sub {
-		my %r = ();
-		sort map {
-			my $name = $_->get("name");
-			$r{$name}++ ? () : ($name)
-		} $self->node->find($RNODE);
-	})
-}
-
-sub resource {
-	my ($self, $name) = @_;
-	my @ret =
-		map { KSP::DBNode->new($name, $_) }
-		$self->node->find($RNODE, name => $name);
-	wantarray ? @ret : $ret[0]
-}
-
-sub resourceAmount {
-	my ($self, $resource) = @_;
-	ref $resource and croak "no reference allowed for resourceAmount()";
-	my $amount = 0;
-	foreach ($self->node->getnodes($RNODE, name => $resource)) {
-		$amount += $_->get("maxAmount", 0)
-	}
-	$amount
-}
-
-sub resourceMass {
-	my ($self, $resource) = @_;
-	ref $resource and croak "no reference allowed for resourceMass()";
-	$self->resourceAmount($resource) * KSP::Resource->get($resource)->unitMass
-}
-
 sub wetMass {
 	my ($self) = @_;
 	scalar $self->cache("wetMass", sub {
 		my $ret = $self->dryMass;
-		foreach ($self->resources) {
-			$ret += $self->resourceMass($_);
+		foreach (@{$self->resourceInfo("STORE")}) {
+			$ret += $_->{units} * $_->{resource}->unitMass;
 		}
 		$ret
 	})
