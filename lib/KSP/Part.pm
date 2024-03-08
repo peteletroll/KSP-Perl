@@ -186,13 +186,16 @@ sub resourceInfo {
 				}
 			} elsif ($n eq "MODULE") {
 				my $name = $ri->get("name", "");
-				if ($name eq "ModuleDeployableSolarPanel") {
-					$h = {
-						class => "PRODUCE",
-						node => $ri,
-						resource => scalar KSP::Resource->get(scalar $ri->get("resourceName")),
-						units => scalar $ri->get("chargeRate", 0),
-					};
+				my $partnode = $ri->parent;
+				if ($partnode && $partnode->name eq "PART") {
+					if ($name eq "ModuleDeployableSolarPanel") {
+						$h = {
+							class => "PRODUCE",
+							node => $ri,
+							resource => scalar KSP::Resource->get(scalar $ri->get("resourceName")),
+							units => scalar $ri->get("chargeRate", 0),
+						};
+					}
 				}
 			}
 			$h and push @ret, $h;
