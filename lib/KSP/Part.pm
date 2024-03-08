@@ -149,7 +149,50 @@ sub antenna {
 	KSP::Antenna->new($self)
 }
 
-our $RNODE = qr/^(?:RESOURCE|RESOURCE_PROCESS|PROPELLANT)$/;
+our $RNODE = qr/^(?:RESOURCE|RESOURCE_PROCESS|OUTPUT_RESOURCE|PROPELLANT)$/;
+
+sub resourceInfo {
+	my ($self) = @_;
+	scalar $self->cache("resourceInfo", sub {
+		my @ret = ();
+		foreach my $ri ($self->node->find(qr/./)) {
+			my $n = $ri->name;
+			my $h = undef;
+			if ($n eq "PROPELLANT" || $n eq "RESOURCE_PROCESS") {
+				$h = {
+					class => "CONSUME",
+					node => $ri,
+					resource => scalar KSP::Resource->get(scalar $ri->get("name")),
+				};
+			} elsif ($n eq "RESOURCE" || $n eq "OUTPUT_RESOURCE") {
+				if ((my $a = $ri->get("maxAmount", 0)) > 0) {
+					$h = {
+						class => "STORE",
+						node => $ri,
+						resource => scalar KSP::Resource->get(scalar $ri->get("name")),
+						units => $a,
+					};
+				} elsif ((my $r = $ri->get("rate", 0)) > 0) {
+					$h = {
+						class => "PRODUCE",
+						node => $ri,
+						resource => scalar KSP::Resource->get(scalar $ri->get("name")),
+						units => $r,
+					};
+				}
+			} elsif ($n eq "MODULE" && scalar $ri->get("name", "") eq "ModuleDeployableSolarPanel") {
+				$h = {
+					class => "PRODUCE",
+					node => $ri,
+					resource => scalar KSP::Resource->get(scalar $ri->get("resourceName")),
+					units => scalar $ri->get("chargeRate", 0),
+				};
+			}
+			$h and push @ret, $h;
+		}
+		\@ret
+	})
+}
 
 sub resources {
 	my ($self) = @_;
