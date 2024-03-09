@@ -210,6 +210,11 @@ our %resourceInfoTable = (
 				resource => scalar KSP::Resource->get(scalar $_->get("resourceName")),
 				units => scalar $_->get("chargeRate", 0),
 			}
+		} elsif ($name eq "ModuleResourceIntake") {
+			+{
+				class => "PRODUCE",
+				resource => scalar KSP::Resource->get(scalar $_->get("resourceName")),
+			}
 		} elsif ($name =~ /^Module\w+(Drill|Harvester)$/) {
 			+{
 				class => "PRODUCE",
