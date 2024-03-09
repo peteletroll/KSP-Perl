@@ -41,6 +41,7 @@ sub all {
 
 sub get {
 	my $matcher = matcher($_[-1]);
+	defined $matcher or confess "undefined matcher";
 	_load();
 	my @ret = ();
 	foreach my $p (@RES) {
@@ -56,26 +57,29 @@ sub unitMass {
 	});
 }
 
-sub containers {
-	my ($self) = @_;
-	$self->cache("containers", sub {
-		my $name = $self->name;
+sub _resfilter($$) {
+	my ($self, $class) = @_;
+	$self->cache("resfilter-$class", sub {
 		grep {
-			my $r = $_->resource($name);
-			$r and $r->node->get("amount", 0)
+			my $r = $_->resourceInfo($class);
+			$r and scalar grep { $_->{resource} == $self } @$r
 		} KSP::Part->all
 	})
 }
 
+sub producers {
+	my ($self) = @_;
+	$self->_resfilter("PRODUCE")
+}
+
+sub containers {
+	my ($self) = @_;
+	$self->_resfilter("STORE")
+}
+
 sub consumers {
 	my ($self) = @_;
-	$self->cache("consumers", sub {
-		my $name = $self->name;
-		grep {
-			my $r = $_->resource($name);
-			$r and $r->node->get("rate", 0)
-		} KSP::Part->all
-	})
+	$self->_resfilter("CONSUME")
 }
 
 1;

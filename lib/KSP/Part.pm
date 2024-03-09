@@ -149,7 +149,70 @@ sub antenna {
 	KSP::Antenna->new($self)
 }
 
-our $RNODE = qr/^(?:RESOURCE|RESOURCE_PROCESS|OUTPUT_RESOURCE|PROPELLANT)$/;
+our %producerModule = map { ($_ => 1) } qw(
+	ModuleAlternator
+);
+
+our %resourceInfoTable = (
+	PROPELLANT => sub {
+		+{
+			class => "CONSUME",
+			resource => scalar KSP::Resource->get(scalar $_->get("name")),
+			ratio => scalar $_->get("ratio"),
+		}
+	},
+	RESOURCE => sub {
+		if ((my $a = $_->get("maxAmount", 0)) > 0) {
+			+{
+				class => "STORE",
+				resource => scalar KSP::Resource->get(scalar $_->get("name")),
+				units => $a,
+			};
+		} elsif ((my $r = $_->get("rate", 0)) > 0) {
+			my $module = $_->parent;
+			my $producer = $module && $module->name eq "MODULE" && $producerModule{$module->get("name")};
+			+{
+				class => ($producer ? "PRODUCE" : "CONSUME"),
+				resource => scalar KSP::Resource->get(scalar $_->get("name")),
+				units => $r,
+			};
+		}
+	},
+	INPUT_RESOURCE => sub {
+		+{
+			class => "CONSUME",
+			resource => scalar KSP::Resource->get(scalar $_->get("ResourceName")),
+			ratio => scalar $_->get("Ratio"),
+		}
+	},
+	OUTPUT_RESOURCE => sub {
+		+{
+			class => "PRODUCE",
+			resource => scalar KSP::Resource->get(scalar $_->get("ResourceName") || scalar $_->get("name")),
+			ratio => scalar $_->get("Ratio"),
+			rate => scalar $_->get("rate"),
+		}
+	},
+	RESOURCE_PROCESS => sub {
+		+{
+			class => "CONSUME",
+			resource => scalar KSP::Resource->get(scalar $_->get("name")),
+			amount => scalar $_->get("amount"),
+		}
+	},
+	MODULE => sub {
+		my $partnode = $_->parent;
+		$partnode && $partnode->name eq "PART" or return undef;
+		my $name = $_->get("name", "");
+		if ($name eq "ModuleDeployableSolarPanel") {
+			+{
+				class => "PRODUCE",
+				resource => scalar KSP::Resource->get(scalar $_->get("resourceName")),
+				units => scalar $_->get("chargeRate", 0),
+			}
+		}
+	},
+);
 
 sub resourceInfo {
 	my ($self, @class) = @_;
@@ -159,43 +222,19 @@ sub resourceInfo {
 	}
 	scalar $self->cache("resourceInfo", sub {
 		my @ret = ();
+		# warn "resourceInfo(", scalar($self->name), ")\n";
 		foreach my $ri ($self->node->find(qr/./)) {
 			my $n = $ri->name;
 			my $h = undef;
-			if ($n eq "PROPELLANT" || $n eq "RESOURCE_PROCESS") {
-				$h = {
-					class => "CONSUME",
-					node => $ri,
-					resource => scalar KSP::Resource->get(scalar $ri->get("name")),
-				};
-			} elsif ($n eq "RESOURCE" || $n eq "OUTPUT_RESOURCE") {
-				if ((my $a = $ri->get("maxAmount", 0)) > 0) {
-					$h = {
-						class => "STORE",
-						node => $ri,
-						resource => scalar KSP::Resource->get(scalar $ri->get("name")),
-						units => $a,
-					};
-				} elsif ((my $r = $ri->get("rate", 0)) > 0) {
-					$h = {
-						class => "PRODUCE",
-						node => $ri,
-						resource => scalar KSP::Resource->get(scalar $ri->get("name")),
-						units => $r,
-					};
-				}
-			} elsif ($n eq "MODULE") {
-				my $name = $ri->get("name", "");
-				my $partnode = $ri->parent;
-				if ($partnode && $partnode->name eq "PART") {
-					if ($name eq "ModuleDeployableSolarPanel") {
-						$h = {
-							class => "PRODUCE",
-							node => $ri,
-							resource => scalar KSP::Resource->get(scalar $ri->get("resourceName")),
-							units => scalar $ri->get("chargeRate", 0),
-						};
+			if (my $c = $resourceInfoTable{$n}) {
+				# warn scalar($self->name), " resource from $n\n";
+				local $_ = $ri;
+				$h = $c->();
+				if ($h) {
+					foreach (keys %$h) {
+						defined $h->{$_} or delete $h->{$_};
 					}
+					$h->{z_node} = $ri;
 				}
 			}
 			$h and push @ret, $h;
