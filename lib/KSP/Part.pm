@@ -210,6 +210,11 @@ our %resourceInfoTable = (
 				resource => scalar KSP::Resource->get(scalar $_->get("resourceName")),
 				units => scalar $_->get("chargeRate", 0),
 			}
+		} elsif ($name =~ /^Module\w+(Drill|Harvester)$/) {
+			+{
+				class => "PRODUCE",
+				resource => scalar KSP::Resource->get("Ore"),
+			}
 		}
 	},
 );
@@ -234,7 +239,7 @@ sub resourceInfo {
 					foreach (keys %$h) {
 						defined $h->{$_} or delete $h->{$_};
 					}
-					$h->{z_node} = $ri;
+					# $h->{z_node} = $ri;
 				}
 			}
 			$h and push @ret, $h;
