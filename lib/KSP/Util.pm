@@ -33,13 +33,17 @@ our @U = (
 	[ "y", 1e-24 ],
 );
 
-sub U($;$) {
-	my ($x, $d) = @_;
+sub U($;$$) {
+	my ($x, $d, $unit) = @_;
 	defined $x or return;
 	ref $x and return $x;
-	$x = 0 + $x;
+	$x += 0;
 	my $x0 = $x;
+	if (!defined $unit && !isnumber($d)) {
+		($d, $unit) = (undef, $d);
+	}
 	defined $d or $d = 3;
+	defined $unit or $unit = "";
 
 	my $a = abs($x);
 	my $m = undef;
@@ -58,10 +62,10 @@ sub U($;$) {
 			$i *= 10;
 			$d--;
 		}
-		return dualvar($x0, sprintf("%.${d}f%s", $x, $m));
+		return dualvar($x0, sprintf("%.${d}f%s%s", $x, $m, $unit));
 	}
 
-	dualvar($x0, sprintf("%g", $x0))
+	dualvar($x0, sprintf("%g%s", $x0, $unit))
 }
 
 sub Part(;$) {
