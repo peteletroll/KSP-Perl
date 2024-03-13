@@ -6,6 +6,7 @@ use warnings;
 use KSP;
 use KSP::Body;
 use KSP::Cache;
+use KSP::Util qw(filekey);
 
 use Carp;
 
@@ -16,12 +17,23 @@ use KSP::TinyStruct qw(name json grav_const +KSP::Cache);
 use overload
 	'""' => sub { $_[0]->desc };
 
-sub BUILD {
-	my ($self, $json) = @_;
+our %LOAD = ();
+our $loading = 0;
 
+sub load {
+	my ($pkg, $json) = @_;
 	defined $json or $json = "SolarSystemDump";
 	$json =~ /\.\w+$/ or $json = "$json.json";
 	$json =~ /\// or $json = "$KSP::KSP_DIR/$json";
+	my $key = filekey($json);
+	local $loading = 1;
+	$LOAD{$key} ||= __PACKAGE__->new($json)
+}
+
+sub BUILD {
+	my ($self, $json) = @_;
+
+	$loading or confess __PACKAGE__, "->new() without load()";
 
 	my $name = $json;
 	$name =~ s/.*\///;

@@ -69,7 +69,7 @@ $REPLY->step(q{
 	);
 	use KSP qw(:all);
 	use KSP::Util qw(Part Tech Resource sortby deparse);
-	KSP::SolarSystem->new("RealSolarSystem")->import_bodies();
+	KSP::SolarSystem->load("RealSolarSystem")->import_bodies();
 	binmode $_, ":utf8" foreach \*STDOUT, \*STDERR;
 	()
 }) and $REPLY->run();

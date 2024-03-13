@@ -4,8 +4,10 @@ use utf8;
 use strict;
 use warnings;
 
+use File::stat;
+
 use Exporter qw(import);
-our @EXPORT_OK = qw(U Part Tech Resource sortby isnumber error matcher proxy deparse CACHE);
+our @EXPORT_OK = qw(U Part Tech Resource sortby isnumber error matcher proxy deparse filekey CACHE);
 
 use Carp;
 use Scalar::Util qw(dualvar isdual looks_like_number);
@@ -148,6 +150,13 @@ sub deparse($) {
 	}
 	print $out;
 	()
+}
+
+sub filekey($) {
+	my ($file) = @_;
+	my $stat = stat($file)
+		or return;
+	$stat->dev . ":" . $stat->ino
 }
 
 our $FileCache;
