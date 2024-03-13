@@ -14,7 +14,7 @@ use Math::Trig;
 
 binmode $_, ":utf8" foreach (\*STDOUT, \*STDERR);
 
-my $system = KSP::SolarSystem->new();
+my $system = KSP::SolarSystem->load();
 
 my @b = qw(Mun Minmus);
 

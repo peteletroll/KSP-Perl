@@ -14,7 +14,7 @@ use Data::Dump qw(dump);
 
 binmode $_, ":utf8" foreach (\*STDOUT, \*STDERR);
 
-my $system = KSP::SolarSystem->new();
+my $system = KSP::SolarSystem->load();
 
 my @b = $system->bodies();
 foreach my $b1 (@b) {

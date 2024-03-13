@@ -10,7 +10,7 @@ binmode $_, ":utf8" foreach (\*STDOUT, \*STDERR);
 
 use Data::Dump qw(dump);
 
-my $system = KSP::SolarSystem->new();
+my $system = KSP::SolarSystem->load();
 
 my $k = $system->body("Kerbin");
 print KSP::Orbit2D->new($k, a => -$k->radius() * 10, e => 1.1)->desc(), "\n";

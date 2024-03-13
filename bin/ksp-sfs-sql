@@ -53,7 +53,7 @@ if ($SFSNAME !~ /\// && ! -f $SFSNAME) {
 
 ##################################################
 
-our $system = KSP::SolarSystem->new();
+our $system = KSP::SolarSystem->load();
 
 sub extractPrefix($@) {
 	my ($str, @re) = @_;

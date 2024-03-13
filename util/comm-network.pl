@@ -12,7 +12,7 @@ use KSP qw(:all);
 
 @ARGV >= 1 && @ARGV <= 2 or die "usage: $0 <body> [ <time module> ]\n";
 
-my @systems = (Kerbin->system, KSP::SolarSystem->new("RealSolarSystem"));
+my @systems = (Kerbin->system, KSP::SolarSystem->load("RealSolarSystem"));
 my $bodyname = $ARGV[0];
 my $body = undef;
 

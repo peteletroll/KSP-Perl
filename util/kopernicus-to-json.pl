@@ -11,7 +11,7 @@ use JSON;
 
 use lib "lib";
 use KSP;
-my $stockSystem = KSP::SolarSystem->new();
+my $stockSystem = KSP::SolarSystem->load();
 
 binmode \*STDOUT, ":utf8";
 

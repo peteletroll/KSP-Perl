@@ -6,7 +6,7 @@ BEGIN { use_ok('KSP') };
 
 #########################
 
-my $system = KSP::SolarSystem->new("SolarSystemDump");
+my $system = KSP::SolarSystem->load("SolarSystemDump");
 
 is($system->root()->name(), "Sun");
 is($system->body("Kerbin")->name(), "Kerbin");

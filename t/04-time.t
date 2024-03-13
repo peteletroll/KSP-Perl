@@ -6,7 +6,7 @@ BEGIN { use_ok('KSP') };
 
 #########################
 
-my $system = KSP::SolarSystem->new();
+my $system = KSP::SolarSystem->load();
 
 is($system->secs_per_day(), 6 * 60 * 60);
 is($system->secs_per_year(), 426 * $system->secs_per_day());
