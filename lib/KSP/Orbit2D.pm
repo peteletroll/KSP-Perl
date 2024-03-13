@@ -198,7 +198,7 @@ sub _need_open {
 sub a { # major semiaxis
 	my ($self, $noerr) = @_;
 	$noerr or $self->_need_ellipse;
-	U(1 / $self->inv_a)
+	U(1 / $self->inv_a, "m")
 }
 
 sub inv_a { # 1 / major semiaxis
@@ -209,7 +209,7 @@ sub inv_a { # 1 / major semiaxis
 sub b { # minor semiaxis
 	my ($self) = @_;
 	$self->_need_ellipse;
-	U($self->a * (1 - $self->e ** 2))
+	U($self->a * (1 - $self->e ** 2), "m")
 }
 
 sub th_inf { # true anomaly at infinite distance
@@ -232,13 +232,13 @@ sub T { # orbital period
 
 sub pe { # periapsis height
 	my ($self) = @_;
-	U($self->p / (1 + $self->e) - $self->body->radius)
+	U($self->p / (1 + $self->e) - $self->body->radius, "m")
 }
 
 sub ap { # apoapsis height
 	my ($self, $noerr) = @_;
 	$noerr or $self->_need_ellipse;
-	U($self->p / (1 - $self->e) - $self->body->radius)
+	U($self->p / (1 - $self->e) - $self->body->radius, "m")
 }
 
 sub apses {
@@ -272,14 +272,15 @@ sub otherApsis {
 
 sub checkHeight {
 	my ($self, $h, $die) = @_;
+	$h = U($h, "m");
 	@_ > 2 or $die = 1;
 	my $r = $self->body->radius;
 	my $tol = 1e-4;
 	my $err = undef;
 	if (($h + $r) < ($self->pe  + $r) * (1 - $tol)) {
-		$err = U($h) . "m is lower than periapsis (" . $self->pe . "m)";
+		$err = "$h is lower than periapsis (" . $self->pe . ")";
 	} elsif ($self->e < 1 && ($h + $r) > ($self->ap + $r) * (1 + $tol)) {
-		$err = U($h) . "m is higher than apoapsis (" . $self->ap . "m)";
+		$err = "$h is higher than apoapsis (" . $self->ap . ")";
 	}
 	$err && $die and confess $err;
 	!$err
@@ -303,11 +304,12 @@ sub crosses {
 
 sub v { # v from h via vis viva equation
 	my ($self, $h) = @_;
+	$h = U($h, "m");
 	$self->checkHeight($h);
 	my $r = $h + $self->body->radius;
 	my $vsq = $self->body->mu * (2 / $r - $self->inv_a);
-	$vsq >= 0 or confess "can't find v at ", U($h), "m for $self";
-	U sqrt($vsq)
+	$vsq >= 0 or confess "can't find v at $h for $self";
+	U(sqrt($vsq), "m/s")
 }
 
 sub vmax {
@@ -319,7 +321,7 @@ sub vmin {
 	my ($self) = @_;
 	$self->e < 1 ?
 		$self->v($self->ap) :
-		U sqrt(-$self->body->mu * $self->inv_a)
+		U(sqrt(-$self->body->mu * $self->inv_a), "m/s")
 }
 
 sub hohmannTo {
@@ -377,12 +379,12 @@ sub desc {
 	my $wap = ($self->e >= 1 || $self->ap > 0 && $self->ap < $hmax) ? "": "⚠";
 
 	if ($self->e < 1e-6) {
-		push @d, sprintf("%s %sm%s, %sm/s", $tboth, $self->pe, $wpe, $self->vmax);
+		push @d, sprintf("%s %s%s, %s", $tboth, $self->pe, $wpe, $self->vmax);
 	} else {
-		push @d, sprintf("%s %sm%s, %sm/s", $tpe, $self->pe, $wpe, $self->vmax);
+		push @d, sprintf("%s %s%s, %s", $tpe, $self->pe, $wpe, $self->vmax);
 		push @d, $open ?
-			sprintf("%s ∞%s, %sm/s, ∡ %.0f°", $tap, $wap, $self->vmin, rad2deg($self->th_dev)) :
-			sprintf("%s %sm%s, %sm/s", $tap, $self->ap, $wap, $self->vmin);
+			sprintf("%s ∞%s, %s, ∡ %.0f°", $tap, $wap, $self->vmin, rad2deg($self->th_dev)) :
+			sprintf("%s %s%s, %s", $tap, $self->ap, $wap, $self->vmin);
 	}
 
 	$open or push @d, $self->body->system->pretty_interval($self->T);

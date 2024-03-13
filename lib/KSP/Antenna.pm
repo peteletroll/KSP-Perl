@@ -26,7 +26,7 @@ sub BUILD {
 		$exponent = $module->get("antennaCombinableExponent");
 	}
 	$self->set_type($type);
-	$self->set_range(U $range);
+	$self->set_range(U($range, "m"));
 	$self->set_combinable(!!$combinable);
 	$self->set_exponent($exponent || 0.75);
 	$self
@@ -45,7 +45,7 @@ sub DSN {
 
 sub rangeTo {
 	my ($self, $other) = @_;
-	U sqrt($self->range * $other->range)
+	U(sqrt($self->range * $other->range), "m")
 }
 
 sub combine {
@@ -71,7 +71,7 @@ sub desc {
 	$self->cache("desc", sub {
 		"Antenna"
 			. "[ "
-			. $self->range . "m; "
+			. $self->range . "; "
 			. $self->type
 			. ($self->combinable ? "; combinable ^" . $self->exponent : "")
 			. " ]"

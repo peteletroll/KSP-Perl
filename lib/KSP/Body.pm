@@ -59,16 +59,16 @@ sub hasSurface {
 }
 
 sub radius {
-	U $_[0]->json->{size}{radius}
+	U($_[0]->json->{size}{radius}, "m")
 }
 
 sub SOI {
 	my ($self) = @_;
 	scalar $self->cache("SOI", sub {
 		my $soi = $self->json->{size}{sphereOfInfluence};
-		defined $soi and return U $soi;
+		defined $soi and return U($soi, "m");
 		my $parent = $self->parent;
-		$parent ? U($self->orbit->a * ($self->mass / $parent->mass) ** (2 / 5)) : undef
+		$parent ? U($self->orbit->a * ($self->mass / $parent->mass) ** (2 / 5), "m") : undef
 	})
 }
 
@@ -77,7 +77,7 @@ sub mass {
 	scalar $self->cache("mass", sub {
 		my $mass = $self->json->{size}{mass};
 		defined $mass and return $mass;
-		U($self->mu / $self->system->G)
+		$self->mu / $self->system->G
 	})
 }
 
@@ -249,7 +249,7 @@ sub scienceValues {
 
 sub spaceThreshold {
 	my ($self) = @_;
-	U $self->json->{science}{spaceAltitudeThreshold}
+	U($self->json->{science}{spaceAltitudeThreshold}, "m")
 }
 
 sub biomes {
@@ -312,7 +312,7 @@ sub rocInfoInv {
 
 sub veq {
 	my ($self) = @_;
-	U(2 * pi * $self->radius / $self->siderealDay)
+	U(2 * pi * $self->radius / $self->siderealDay, "m/s")
 }
 
 sub g0 {
@@ -321,14 +321,14 @@ sub g0 {
 
 sub g {
 	my ($self, $height) = @_;
-	U($self->mu / ($self->radius + ($height || 0)) ** 2)
+	U($self->mu / ($self->radius + ($height || 0)) ** 2, "m/s²")
 }
 
 sub dvLiftoff {
 	my ($self) = @_;
 	my $dvGraph = $self->system->dvGraph or return undef;
 	my $name = $self->name;
-	U $dvGraph->graph->{$name}->{"$name/LO"}
+	U($dvGraph->graph->{$name}->{"$name/LO"}, "m/s")
 }
 
 sub dvLanding {
@@ -350,7 +350,7 @@ sub solarDayLength {
 }
 
 sub maxGroundHeight {
-	U($_[0]->json->{size}{maxHeight} || 0)
+	U(($_[0]->json->{size}{maxHeight} || 0), "m")
 }
 
 sub hasSolidSurface {
@@ -365,8 +365,7 @@ sub hasOcean {
 
 sub atmosphereDepth {
 	my ($self) = @_;
-	$self->json->{atmosphere} ?
-		U($self->json->{atmosphere}{atmosphereDepth} || 0) : 0
+	U(($self->json->{atmosphere} ? ($self->json->{atmosphere}{atmosphereDepth} || 0) : 0), "m")
 }
 
 sub lowHeight {
@@ -374,14 +373,14 @@ sub lowHeight {
 	my $safety = 10e3;
 	my $a = $self->atmosphereDepth;
 	my $g = $self->maxGroundHeight;
-	U(($a > $g ? $a : $g) + $safety)
+	U(($a > $g ? $a : $g) + $safety, "m")
 }
 
 sub highHeight {
 	my ($self) = @_;
 	my $soi = $self->SOI;
-	$soi and return U($soi - $self->radius);
-	U(1e9 * $self->lowHeight)
+	$soi and return U($soi - $self->radius, "m");
+	U(1e9 * $self->lowHeight, "m")
 }
 
 sub orbit {

@@ -9,7 +9,7 @@ use Carp;
 use KSP::ConfigNode;
 use KSP::DB;
 use KSP::DBNode;
-use KSP::Util qw(U matcher);
+use KSP::Util qw(matcher);
 
 use KSP::TinyStruct qw(+KSP::DBNode);
 

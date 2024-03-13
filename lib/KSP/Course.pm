@@ -57,14 +57,14 @@ sub dv {
 	for (my $i = 0; $i <= $at; $i++) {
 		$dv += abs($self->step->[$i]->{dv} || 0);
 	}
-	U $dv
+	U($dv, "m/s")
 }
 
 sub nextBurnHeight {
 	my ($self, $hdefault) = @_;
 	my $cur = $self->current;
 	$hdefault and $self->checkHeight($hdefault);
-	U($self->step->[-1]{hburn} || $hdefault || $cur->pe)
+	U(($self->step->[-1]{hburn} || $hdefault || $cur->pe), "m")
 }
 
 sub desc {
@@ -86,8 +86,8 @@ sub desc {
 	$table->add(
 		"",
 		"tot Δv",
-		$self->dv . "m/s",
-		$self->nextBurnHeight . "m ");
+		$self->dv,
+		$self->nextBurnHeight . " ");
 	$table
 }
 
@@ -106,12 +106,11 @@ sub _row {
 	if ($c->{dv}) {
 		$prep = "to";
 		if ($type =~ /incl/) {
-			$dv = "⟂" . U(abs($c->{dv}));
+			$dv = "⟂" . U(abs($c->{dv}), "m/s");
 		} else {
-			$dv = U($c->{dv});
+			$dv = U($c->{dv}, "m/s");
 			$dv =~ /^[\+\-]/ or $dv = "+$dv";
 		}
-		$dv .= "m/s";
 	}
 
 	my $h = $c->{h};
@@ -123,7 +122,7 @@ sub _row {
 			$hflag = "↑";
 		}
 	}
-	$h = defined $h ? U($h) . "m" : "";
+	$h = defined $h ? U($h, "m") : "";
 
 	("$i:", $type, $dv, "$h$hflag", $prep, $cur->desc($p && $p->{then}))
 }

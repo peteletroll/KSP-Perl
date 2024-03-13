@@ -10,7 +10,7 @@ use File::Find;
 use File::stat;
 use Cwd;
 
-use KSP::Util qw(U CACHE);
+use KSP::Util qw(filekey U CACHE);
 use KSP::StopWatch qw(stopwatch);
 
 use KSP::ConfigNode;
@@ -63,10 +63,10 @@ sub mmcache {
 		}
 		$time = $time->read;
 
-		-t STDIN && -t STDOUT && -t STDERR and warn sprintf "# %s scanned %d file, %sB in %ss, %sB/s\n",
+		-t STDIN && -t STDOUT && -t STDERR and warn sprintf "# %s scanned %d file, %s in %s, %s\n",
 			__PACKAGE__,
-			1, U($s->size),
-			U($time), ($time ? U($s->size / $time) : "∞");
+			1, U($s->size, "B"),
+			U($time, "s"), ($time ? U($s->size / $time, "B/s") : "∞");
 
 		\%ret
 	})

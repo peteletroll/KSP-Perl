@@ -28,7 +28,7 @@ sub maxThrust {
 	my ($self) = @_;
 	scalar $self->cache("maxThrust", sub {
 		my $n = $self->node;
-		1000 * ($n->get("maxThrust") || $n->get("thrusterPower", 0))
+		U(1000 * ($n->get("maxThrust") || $n->get("thrusterPower", 0)), "N")
 	})
 }
 
@@ -43,14 +43,14 @@ sub maxIsp {
 			my $k = 0 + $k[1];
 			$isp > $k or $isp = $k;
 		}
-		$isp
+		U($isp, "s")
 	})
 }
 
 sub maxMassFlow {
 	my ($self) = @_;
 	my $vout = $self->maxIsp * $KSP::SYSTEM->g0;
-	$self->maxThrust / $vout;
+	U(1000 * $self->maxThrust / $vout, "g/s");
 }
 
 sub propellants {
@@ -76,8 +76,8 @@ sub desc {
 		$self->id . "[ "
 		. $self->type . "@"
 		. $self->name . "; "
-		. U($self->maxIsp) . "m/s; "
-		. U($self->maxThrust) . "N"
+		. $self->maxIsp . "; "
+		. $self->maxThrust
 		. " ]"
 	})
 }
