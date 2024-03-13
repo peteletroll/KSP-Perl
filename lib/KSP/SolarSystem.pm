@@ -51,6 +51,8 @@ sub secs_per_day {
 
 sub G { $_[0]->grav_const }
 
+sub g0 { $_[0]->json->{g0} } # "g0": 9.80665,
+
 sub bodies {
 	my ($self, $unsorted) = @_;
 	my @lst = keys %{$self->json->{bodies}};

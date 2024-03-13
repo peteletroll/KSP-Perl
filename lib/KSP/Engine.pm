@@ -6,6 +6,7 @@ use warnings;
 
 use Carp;
 
+use KSP;
 use KSP::ConfigNode;
 use KSP::DB;
 use KSP::DBNode;
@@ -44,6 +45,12 @@ sub maxIsp {
 		}
 		$isp
 	})
+}
+
+sub maxMassFlow {
+	my ($self) = @_;
+	my $vout = $self->maxIsp * $KSP::SYSTEM->g0;
+	$self->maxThrust / $vout;
 }
 
 sub propellants {
