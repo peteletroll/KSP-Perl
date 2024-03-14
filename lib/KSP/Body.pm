@@ -458,8 +458,11 @@ sub desc {
 			if $self->siderealDay;
 		push @d, "SOI " . $self->SOI if $self->SOI;
 		$self->name
-			. ($self->isHomeWorld ? "@" : "")
-			. ($self->isStar ? "*" : "")
+			. ($self->isHomeWorld ? "⌂" : "")
+			. ($self->isStar ? "☼" : "")
+			. ($self->hasSolidSurface ? "" : "◌")
+			. ($self->atmosphereDepth > 0 ? "☁" : "")
+			. ($self->hasOcean ? "≈" : "")
 			. "[ " . join("; ", @d) . " ]"
 	})
 }
