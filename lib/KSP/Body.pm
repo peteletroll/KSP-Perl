@@ -350,12 +350,13 @@ sub solarDayLength {
 }
 
 sub maxGroundHeight {
-	U(($_[0]->json->{size}{maxHeight} || 0), "m")
+	my ($self) = @_;
+	U(($self->json->{surface} ? ($self->json->{surface}{maxHeight} || 0) : 0), "m")
 }
 
 sub hasSolidSurface {
 	my ($self) = @_;
-	!!$self->json->{surface}{hasSolidSurface}
+	!!$self->json->{surface}
 }
 
 sub hasOcean {
@@ -365,7 +366,7 @@ sub hasOcean {
 
 sub atmosphereDepth {
 	my ($self) = @_;
-	U(($self->json->{atmosphere} ? ($self->json->{atmosphere}{atmosphereDepth} || 0) : 0), "m")
+	U(($self->json->{atmosphere} ? ($self->json->{atmosphere}{depth} || 0) : 0), "m")
 }
 
 sub lowHeight {
