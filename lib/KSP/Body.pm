@@ -361,7 +361,7 @@ sub hasSolidSurface {
 
 sub hasOcean {
 	my ($self) = @_;
-	!!$self->json->{surface}{ocean}
+	!!$self->json->{ocean}
 }
 
 sub atmosphereDepth {
