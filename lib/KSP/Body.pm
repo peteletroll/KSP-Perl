@@ -55,7 +55,7 @@ sub isHomeWorld {
 }
 
 sub hasSurface {
-	!! $_[0]->json->{surface}{hasSolidSurface}
+	!! $_[0]->json->{surface}
 }
 
 sub radius {
@@ -356,12 +356,12 @@ sub maxGroundHeight {
 
 sub hasSolidSurface {
 	my ($self) = @_;
-	!!$self->json->{surface}
+	!! $self->json->{surface}
 }
 
 sub hasOcean {
 	my ($self) = @_;
-	!!$self->json->{ocean}
+	!! $self->json->{ocean}
 }
 
 sub atmosphereDepth {
