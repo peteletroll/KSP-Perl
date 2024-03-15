@@ -3,6 +3,8 @@
       "Ariel": {
          "KopernicusTemplate": "Eeloo",
          "info": {
+            "albedo": 0.5,
+            "emissivity": 0.5,
             "index": 92,
             "isHomeWorld": false,
             "isStar": false,
@@ -57,15 +59,14 @@
             "radius": 578900
          },
          "surface": {
-            "albedo": 0.5,
-            "emissivity": 0.5,
-            "hasSolidSurface": true,
-            "ocean": false
+            "maxHeight": 6000
          }
       },
       "Callisto": {
          "KopernicusTemplate": "Moho",
          "info": {
+            "albedo": 0.1,
+            "emissivity": 0.9,
             "index": 4,
             "isHomeWorld": false,
             "isStar": false,
@@ -110,15 +111,14 @@
             "radius": 2409300
          },
          "surface": {
-            "albedo": 0.1,
-            "emissivity": 0.9,
-            "hasSolidSurface": true,
-            "ocean": false
+            "maxHeight": 8000
          }
       },
       "Ceres": {
          "KopernicusTemplate": "Eeloo",
          "info": {
+            "albedo": 0.5,
+            "emissivity": 0.5,
             "index": 50,
             "isHomeWorld": false,
             "isStar": false,
@@ -173,15 +173,14 @@
             "radius": 473000
          },
          "surface": {
-            "albedo": 0.5,
-            "emissivity": 0.5,
-            "hasSolidSurface": true,
-            "ocean": false
+            "maxHeight": 6000
          }
       },
       "Charon": {
          "KopernicusTemplate": "Mun",
          "info": {
+            "albedo": 0.1,
+            "emissivity": 0.9,
             "index": 25,
             "isHomeWorld": false,
             "isStar": false,
@@ -236,15 +235,14 @@
             "radius": 603500
          },
          "surface": {
-            "albedo": 0.1,
-            "emissivity": 0.9,
-            "hasSolidSurface": true,
-            "ocean": false
+            "maxHeight": 9000
          }
       },
       "Deimos": {
          "KopernicusTemplate": "Bop",
          "info": {
+            "albedo": 0.200000002980232,
+            "emissivity": 0.800000011920929,
             "index": 12,
             "isHomeWorld": false,
             "isStar": false,
@@ -299,15 +297,14 @@
             "radius": 5456
          },
          "surface": {
-            "albedo": 0.200000002980232,
-            "emissivity": 0.800000011920929,
-            "hasSolidSurface": true,
-            "ocean": false
+            "maxHeight": 30000
          }
       },
       "Dione": {
          "KopernicusTemplate": "Mun",
          "info": {
+            "albedo": 0.1,
+            "emissivity": 0.9,
             "index": 18,
             "isHomeWorld": false,
             "isStar": false,
@@ -362,19 +359,20 @@
             "radius": 561400
          },
          "surface": {
-            "albedo": 0.1,
-            "emissivity": 0.9,
-            "hasSolidSurface": true,
-            "ocean": false
+            "maxHeight": 9000
          }
       },
       "Earth": {
          "KopernicusTemplate": "Kerbin",
          "atmosphere": {
             "atmosphereContainsOxygen": true,
-            "atmosphereDepth": 140000
+            "atmosphereDepth": 140000,
+            "containsOxygen": true,
+            "depth": 70000
          },
          "info": {
+            "albedo": 0.35,
+            "emissivity": 0.65,
             "index": 1,
             "isHomeWorld": true,
             "isStar": false,
@@ -392,6 +390,11 @@
                35000000,
                35000000
             ]
+         },
+         "ocean": {
+            "color": "#121a28",
+            "density": 1,
+            "height": 0
          },
          "orbit": {
             "argumentOfPeriapsisDeg": 102.972068329613,
@@ -431,15 +434,14 @@
             "radius": 6371000
          },
          "surface": {
-            "albedo": 0.35,
-            "emissivity": 0.65,
-            "hasSolidSurface": true,
-            "ocean": true
+            "maxHeight": 9600
          }
       },
       "Enceladus": {
          "KopernicusTemplate": "Mun",
          "info": {
+            "albedo": 0.1,
+            "emissivity": 0.9,
             "index": 16,
             "isHomeWorld": false,
             "isStar": false,
@@ -494,15 +496,14 @@
             "radius": 252100
          },
          "surface": {
-            "albedo": 0.1,
-            "emissivity": 0.9,
-            "hasSolidSurface": true,
-            "ocean": false
+            "maxHeight": 9000
          }
       },
       "Europa": {
          "KopernicusTemplate": "Mun",
          "info": {
+            "albedo": 0.1,
+            "emissivity": 0.9,
             "index": 9,
             "isHomeWorld": false,
             "isStar": false,
@@ -547,15 +548,14 @@
             "radius": 1550800
          },
          "surface": {
-            "albedo": 0.1,
-            "emissivity": 0.9,
-            "hasSolidSurface": true,
-            "ocean": false
+            "maxHeight": 9000
          }
       },
       "Ganymede": {
          "KopernicusTemplate": "Mun",
          "info": {
+            "albedo": 0.1,
+            "emissivity": 0.9,
             "index": 13,
             "isHomeWorld": false,
             "isStar": false,
@@ -600,15 +600,14 @@
             "radius": 2624100
          },
          "surface": {
-            "albedo": 0.1,
-            "emissivity": 0.9,
-            "hasSolidSurface": true,
-            "ocean": false
+            "maxHeight": 9000
          }
       },
       "Iapetus": {
          "KopernicusTemplate": "Mun",
          "info": {
+            "albedo": 0.1,
+            "emissivity": 0.9,
             "index": 20,
             "isHomeWorld": false,
             "isStar": false,
@@ -663,15 +662,14 @@
             "radius": 734500
          },
          "surface": {
-            "albedo": 0.1,
-            "emissivity": 0.9,
-            "hasSolidSurface": true,
-            "ocean": false
+            "maxHeight": 9000
          }
       },
       "Io": {
          "KopernicusTemplate": "Moho",
          "info": {
+            "albedo": 0.1,
+            "emissivity": 0.9,
             "index": 8,
             "isHomeWorld": false,
             "isStar": false,
@@ -716,19 +714,20 @@
             "radius": 1811300
          },
          "surface": {
-            "albedo": 0.1,
-            "emissivity": 0.9,
-            "hasSolidSurface": true,
-            "ocean": false
+            "maxHeight": 8000
          }
       },
       "Jupiter": {
          "KopernicusTemplate": "Jool",
          "atmosphere": {
             "atmosphereContainsOxygen": false,
-            "atmosphereDepth": 1550000
+            "atmosphereDepth": 1550000,
+            "containsOxygen": false,
+            "depth": 200000
          },
          "info": {
+            "albedo": 0.52,
+            "emissivity": 0.48,
             "index": 5,
             "isHomeWorld": false,
             "isStar": false,
@@ -776,21 +775,19 @@
          "size": {
             "mu": 126686534000000000,
             "radius": 69373000
-         },
-         "surface": {
-            "albedo": 0.52,
-            "emissivity": 0.48,
-            "hasSolidSurface": false,
-            "ocean": false
          }
       },
       "Mars": {
          "KopernicusTemplate": "Duna",
          "atmosphere": {
             "atmosphereContainsOxygen": false,
-            "atmosphereDepth": 125000
+            "atmosphereDepth": 125000,
+            "containsOxygen": false,
+            "depth": 50000
          },
          "info": {
+            "albedo": 0.170000001788139,
+            "emissivity": 0.8299999833107,
             "index": 11,
             "isHomeWorld": false,
             "isStar": false,
@@ -848,15 +845,14 @@
             "radius": 3375800
          },
          "surface": {
-            "albedo": 0.170000001788139,
-            "emissivity": 0.8299999833107,
-            "hasSolidSurface": true,
-            "ocean": false
+            "maxHeight": 10500
          }
       },
       "Mercury": {
          "KopernicusTemplate": "Mun",
          "info": {
+            "albedo": 0.1,
+            "emissivity": 0.9,
             "index": 2,
             "isHomeWorld": false,
             "isStar": false,
@@ -911,15 +907,14 @@
             "radius": 2439700
          },
          "surface": {
-            "albedo": 0.1,
-            "emissivity": 0.9,
-            "hasSolidSurface": true,
-            "ocean": false
+            "maxHeight": 9000
          }
       },
       "Mimas": {
          "KopernicusTemplate": "Mun",
          "info": {
+            "albedo": 0.1,
+            "emissivity": 0.9,
             "index": 15,
             "isHomeWorld": false,
             "isStar": false,
@@ -974,15 +969,14 @@
             "radius": 198200
          },
          "surface": {
-            "albedo": 0.1,
-            "emissivity": 0.9,
-            "hasSolidSurface": true,
-            "ocean": false
+            "maxHeight": 9000
          }
       },
       "Miranda": {
          "KopernicusTemplate": "Eeloo",
          "info": {
+            "albedo": 0.5,
+            "emissivity": 0.5,
             "index": 91,
             "isHomeWorld": false,
             "isStar": false,
@@ -1037,15 +1031,14 @@
             "radius": 235700
          },
          "surface": {
-            "albedo": 0.5,
-            "emissivity": 0.5,
-            "hasSolidSurface": true,
-            "ocean": false
+            "maxHeight": 6000
          }
       },
       "Moon": {
          "KopernicusTemplate": "Mun",
          "info": {
+            "albedo": 0.1,
+            "emissivity": 0.9,
             "index": 10,
             "isHomeWorld": false,
             "isStar": false,
@@ -1100,19 +1093,20 @@
             "radius": 1737100
          },
          "surface": {
-            "albedo": 0.1,
-            "emissivity": 0.9,
-            "hasSolidSurface": true,
-            "ocean": false
+            "maxHeight": 9000
          }
       },
       "Neptune": {
          "KopernicusTemplate": "Jool",
          "atmosphere": {
             "atmosphereContainsOxygen": false,
-            "atmosphereDepth": 1250000
+            "atmosphereDepth": 1250000,
+            "containsOxygen": false,
+            "depth": 200000
          },
          "info": {
+            "albedo": 0.52,
+            "emissivity": 0.48,
             "index": 22,
             "isHomeWorld": false,
             "isStar": false,
@@ -1167,17 +1161,13 @@
          "size": {
             "mu": 6836529000000000,
             "radius": 24085000
-         },
-         "surface": {
-            "albedo": 0.52,
-            "emissivity": 0.48,
-            "hasSolidSurface": false,
-            "ocean": false
          }
       },
       "Oberon": {
          "KopernicusTemplate": "Eeloo",
          "info": {
+            "albedo": 0.5,
+            "emissivity": 0.5,
             "index": 95,
             "isHomeWorld": false,
             "isStar": false,
@@ -1232,15 +1222,14 @@
             "radius": 761400
          },
          "surface": {
-            "albedo": 0.5,
-            "emissivity": 0.5,
-            "hasSolidSurface": true,
-            "ocean": false
+            "maxHeight": 6000
          }
       },
       "Phobos": {
          "KopernicusTemplate": "Bop",
          "info": {
+            "albedo": 0.200000002980232,
+            "emissivity": 0.800000011920929,
             "index": 7,
             "isHomeWorld": false,
             "isStar": false,
@@ -1295,10 +1284,7 @@
             "radius": 7250
          },
          "surface": {
-            "albedo": 0.200000002980232,
-            "emissivity": 0.800000011920929,
-            "hasSolidSurface": true,
-            "ocean": false
+            "maxHeight": 30000
          }
       },
       "Pluto": {
@@ -1308,6 +1294,8 @@
             "atmosphereDepth": 110000
          },
          "info": {
+            "albedo": 0.1,
+            "emissivity": 0.9,
             "index": 24,
             "isHomeWorld": false,
             "isStar": false,
@@ -1364,15 +1352,14 @@
             "radius": 1187000
          },
          "surface": {
-            "albedo": 0.1,
-            "emissivity": 0.9,
-            "hasSolidSurface": true,
-            "ocean": false
+            "maxHeight": 9000
          }
       },
       "Rhea": {
          "KopernicusTemplate": "Mun",
          "info": {
+            "albedo": 0.1,
+            "emissivity": 0.9,
             "index": 19,
             "isHomeWorld": false,
             "isStar": false,
@@ -1427,19 +1414,20 @@
             "radius": 763800
          },
          "surface": {
-            "albedo": 0.1,
-            "emissivity": 0.9,
-            "hasSolidSurface": true,
-            "ocean": false
+            "maxHeight": 9000
          }
       },
       "Saturn": {
          "KopernicusTemplate": "Jool",
          "atmosphere": {
             "atmosphereContainsOxygen": false,
-            "atmosphereDepth": 2000000
+            "atmosphereDepth": 2000000,
+            "containsOxygen": false,
+            "depth": 200000
          },
          "info": {
+            "albedo": 0.52,
+            "emissivity": 0.48,
             "index": 14,
             "isHomeWorld": false,
             "isStar": false,
@@ -1500,21 +1488,17 @@
          "size": {
             "mu": 37931187000000000,
             "radius": 57216000
-         },
-         "surface": {
-            "albedo": 0.52,
-            "emissivity": 0.48,
-            "hasSolidSurface": false,
-            "ocean": false
          }
       },
       "Sol": {
          "KopernicusTemplate": "Sun",
          "atmosphere": {
-            "atmosphereContainsOxygen": false,
-            "atmosphereDepth": 600000
+            "containsOxygen": false,
+            "depth": 600000
          },
          "info": {
+            "albedo": 0,
+            "emissivity": 0,
             "index": 0,
             "isHomeWorld": false,
             "isStar": true,
@@ -1557,17 +1541,13 @@
          "size": {
             "mu": 1.32712e+20,
             "radius": 696342000
-         },
-         "surface": {
-            "albedo": 0,
-            "emissivity": 0,
-            "hasSolidSurface": false,
-            "ocean": false
          }
       },
       "Tethys": {
          "KopernicusTemplate": "Mun",
          "info": {
+            "albedo": 0.1,
+            "emissivity": 0.9,
             "index": 17,
             "isHomeWorld": false,
             "isStar": false,
@@ -1622,19 +1602,20 @@
             "radius": 531100
          },
          "surface": {
-            "albedo": 0.1,
-            "emissivity": 0.9,
-            "hasSolidSurface": true,
-            "ocean": false
+            "maxHeight": 9000
          }
       },
       "Titan": {
          "KopernicusTemplate": "Laythe",
          "atmosphere": {
             "atmosphereContainsOxygen": false,
-            "atmosphereDepth": 600000
+            "atmosphereDepth": 600000,
+            "containsOxygen": true,
+            "depth": 50000
          },
          "info": {
+            "albedo": 0.3,
+            "emissivity": 0.7,
             "index": 6,
             "isHomeWorld": false,
             "isStar": false,
@@ -1650,6 +1631,11 @@
                35000000,
                35000000
             ]
+         },
+         "ocean": {
+            "color": "#1d2027",
+            "density": 1,
+            "height": 0
          },
          "orbit": {
             "argumentOfPeriapsisDeg": 182.088676502148,
@@ -1689,15 +1675,14 @@
             "radius": 2573300
          },
          "surface": {
-            "albedo": 0.3,
-            "emissivity": 0.7,
-            "hasSolidSurface": true,
-            "ocean": true
+            "maxHeight": 4096
          }
       },
       "Titania": {
          "KopernicusTemplate": "Eeloo",
          "info": {
+            "albedo": 0.5,
+            "emissivity": 0.5,
             "index": 94,
             "isHomeWorld": false,
             "isStar": false,
@@ -1752,10 +1737,7 @@
             "radius": 788900
          },
          "surface": {
-            "albedo": 0.5,
-            "emissivity": 0.5,
-            "hasSolidSurface": true,
-            "ocean": false
+            "maxHeight": 6000
          }
       },
       "Triton": {
@@ -1765,6 +1747,8 @@
             "atmosphereDepth": 110000
          },
          "info": {
+            "albedo": 0.1,
+            "emissivity": 0.9,
             "index": 23,
             "isHomeWorld": false,
             "isStar": false,
@@ -1819,15 +1803,14 @@
             "radius": 1353400
          },
          "surface": {
-            "albedo": 0.1,
-            "emissivity": 0.9,
-            "hasSolidSurface": true,
-            "ocean": false
+            "maxHeight": 9000
          }
       },
       "Umbriel": {
          "KopernicusTemplate": "Eeloo",
          "info": {
+            "albedo": 0.5,
+            "emissivity": 0.5,
             "index": 93,
             "isHomeWorld": false,
             "isStar": false,
@@ -1882,19 +1865,20 @@
             "radius": 584700
          },
          "surface": {
-            "albedo": 0.5,
-            "emissivity": 0.5,
-            "hasSolidSurface": true,
-            "ocean": false
+            "maxHeight": 6000
          }
       },
       "Uranus": {
          "KopernicusTemplate": "Jool",
          "atmosphere": {
             "atmosphereContainsOxygen": false,
-            "atmosphereDepth": 1400000
+            "atmosphereDepth": 1400000,
+            "containsOxygen": false,
+            "depth": 200000
          },
          "info": {
+            "albedo": 0.52,
+            "emissivity": 0.48,
             "index": 21,
             "isHomeWorld": false,
             "isStar": false,
@@ -1953,21 +1937,19 @@
          "size": {
             "mu": 5793939000000000,
             "radius": 24702000
-         },
-         "surface": {
-            "albedo": 0.52,
-            "emissivity": 0.48,
-            "hasSolidSurface": false,
-            "ocean": false
          }
       },
       "Venus": {
          "KopernicusTemplate": "Duna",
          "atmosphere": {
             "atmosphereContainsOxygen": false,
-            "atmosphereDepth": 145000
+            "atmosphereDepth": 145000,
+            "containsOxygen": false,
+            "depth": 50000
          },
          "info": {
+            "albedo": 0.170000001788139,
+            "emissivity": 0.8299999833107,
             "index": 3,
             "isHomeWorld": false,
             "isStar": false,
@@ -2023,15 +2005,14 @@
             "radius": 6049000
          },
          "surface": {
-            "albedo": 0.170000001788139,
-            "emissivity": 0.8299999833107,
-            "hasSolidSurface": true,
-            "ocean": false
+            "maxHeight": 10500
          }
       },
       "Vesta": {
          "KopernicusTemplate": "Eeloo",
          "info": {
+            "albedo": 0.5,
+            "emissivity": 0.5,
             "index": 60,
             "isHomeWorld": false,
             "isStar": false,
@@ -2086,10 +2067,7 @@
             "radius": 262700
          },
          "surface": {
-            "albedo": 0.5,
-            "emissivity": 0.5,
-            "hasSolidSurface": true,
-            "ocean": false
+            "maxHeight": 6000
          }
       }
    },

@@ -102,7 +102,7 @@ foreach my $b (@bodies) {
 		$j->{KopernicusTemplate} = $tmplname;
 		if ($tmpl->get("removeOcean", "") =~ /true/i) {
 			# warn "REMOVE OCEAN $name $tmpl\n";
-			delete $j->{surface}{ocean};
+			delete $j->{ocean};
 		}
 		if ($tmpl->get("removeAtmosphere", "") =~ /true/i) {
 			# warn "REMOVE ATMOSPHERE $name $tmpl\n";
