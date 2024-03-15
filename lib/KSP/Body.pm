@@ -453,14 +453,17 @@ sub desc {
 	my ($self) = @_;
 	scalar $self->cache("desc", sub {
 		my @d = ();
-		push @d, "r " . $self->radius . "m";
-		push @d, "g₀ " . $self->g0 . "m/s²";
+		push @d, "r " . $self->radius;
+		push @d, "g₀ " . $self->g0;
 		push @d, "↺ " . $self->system->pretty_interval($self->siderealDay)
 			if $self->siderealDay;
-		push @d, "SOI " . $self->SOI . "m" if $self->SOI;
+		push @d, "SOI " . $self->SOI if $self->SOI;
 		$self->name
-			. ($self->isHomeWorld ? "@" : "")
-			. ($self->isStar ? "*" : "")
+			. ($self->isHomeWorld ? "⌂" : "")
+			. ($self->isStar ? "☼" : "")
+			. ($self->hasSolidSurface ? "" : "◌")
+			. ($self->atmosphereDepth > 0 ? "☁" : "")
+			. ($self->hasOcean ? "≈" : "")
 			. "[ " . join("; ", @d) . " ]"
 	})
 }

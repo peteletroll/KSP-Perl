@@ -45,7 +45,7 @@ find {
 		my $node = KSP::ConfigNode->load($_) or return;
 		$node->visit(sub {
 			if ($_->name =~ /^!Body\[(\w+)\]/) {
-				warn "DELETE\t$1\t", $_->name, "\n";
+				# warn "DELETE\t$1\t", $_->name, "\n";
 				$bodies_to_delete{$1} = 1;
 				return;
 			}
@@ -78,7 +78,6 @@ foreach my $b (@bodies) {
 		my $tbody = $stockSystem->body($tmpl)
 			or die "NO TEMPLATE: $tmpl\n";
 		my $tjson = $tbody->json;
-		# warn "TEMPLATE $name <- $tmpl\n";
 		foreach my $i (sort keys %$tjson) {
 			my $k = $tjson->{$i};
 			ref $k eq "HASH" or next;
@@ -97,10 +96,18 @@ foreach my $b (@bodies) {
 	}
 
 	my $tmpl = $b->find("Template");
-	$tmpl &&= $tmpl->get("name");
-	if ($tmpl) {
-		import_stock_body($j, $name, $tmpl);
-		$j->{KopernicusTemplate} = $tmpl;
+	my $tmplname = ($tmpl && $tmpl->get("name"));
+	if ($tmplname) {
+		import_stock_body($j, $name, $tmplname);
+		$j->{KopernicusTemplate} = $tmplname;
+		if ($tmpl->get("removeOcean", "") =~ /true/i) {
+			# warn "REMOVE OCEAN $name $tmpl\n";
+			delete $j->{surface}{ocean};
+		}
+		if ($tmpl->get("removeAtmosphere", "") =~ /true/i) {
+			# warn "REMOVE ATMOSPHERE $name $tmpl\n";
+			delete $j->{atmosphere};
+		}
 	}
 
 	$j->{info}{name} = $rename{$name};
@@ -142,6 +149,9 @@ foreach my $b (@bodies) {
 		}
 	});
 	# warn "BODY ", to_json($j, { pretty => 1 }), "\n";
+	if ($bodiesJson{$rename{$name}}) {
+		die "$0: FATAL: redefining $rename{$name}\n";
+	}
 	$bodiesJson{$rename{$name}} = $j;
 }
 
