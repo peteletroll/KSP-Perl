@@ -12,7 +12,7 @@ use KSP::TinyStruct qw(body e p);
 
 use KSP::Course;
 
-use KSP::Util qw(U error proxy);
+use KSP::Util qw(U error proxy stumpff2 stumpff3);
 proxy("KSP::Course" => sub { KSP::Course->new($_) });
 
 use overload
@@ -354,6 +354,27 @@ sub hohmannTo {
 	my $trans = $self->body->orbit(pe => $innerh, ap => $outerh);
 	wantarray or return $trans;
 	$swap ? ($trans, $outerh, $innerh) : ($trans, $innerh, $outerh)
+}
+
+# source: https://orbital-mechanics.space/time-since-periapsis-and-keplers-equation/universal-variables-example.html
+
+sub universal_kepler($$$$$$) {
+	my ($chi, $r_0, $v_r0, $alpha, $delta_t, $mu) = @_;
+	my $z = $alpha * $chi ** 2;
+	my $first_term = $r_0 * $v_r0 / sqrt($mu) * $chi ** 2 * stumpff2($z);
+	my $second_term = (1 - $alpha * $r_0) * $chi ** 3 * stumpff3($z);
+	my $third_term = $r_0 * $chi;
+	my $fourth_term = sqrt($mu) * $delta_t;
+	$first_term + $second_term + $third_term - $fourth_term
+}
+
+sub d_universal_d_chi($$$$$$) {
+	my ($chi, $r_0, $v_r0, $alpha, $delta_t, $mu) = @_;
+	my $z = $alpha * $chi ** 2;
+	my $first_term = $r_0 * $v_r0 / sqrt($mu) * $chi * (1 - $z * stumpff3($z));
+	my $second_term = (1 - $alpha * $r_0) * $chi ** 2 * stumpff2($z);
+	my $third_term = $r_0;
+	$first_term + $second_term + $third_term
 }
 
 sub desc {
