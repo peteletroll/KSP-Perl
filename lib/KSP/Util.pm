@@ -7,10 +7,11 @@ use warnings;
 use File::stat;
 
 use Exporter qw(import);
-our @EXPORT_OK = qw(U Part Tech Resource sortby isnumber error matcher proxy deparse filekey CACHE);
+our @EXPORT_OK = qw(U Part Tech Resource sortby isnumber stumpff2 stumpff3 error matcher proxy deparse filekey CACHE);
 
 use Carp;
 use Scalar::Util qw(dualvar isdual looks_like_number);
+use Math::Trig;
 
 our @U = (
 	[ undef, 1e27 ],
@@ -99,6 +100,20 @@ sub sortby(&@) {
 
 sub isnumber($) {
 	isdual($_[0]) || looks_like_number($_[0])
+}
+
+sub stumpff2($) {
+	my ($z) = @_;
+	$z > 0 and return (1 - cos(sqrt($z))) / $z;
+	$z < 0 and return (cosh(sqrt(-$z)) - 1) / (-$z);
+	return 1.0/2;
+}
+
+sub stumpff3($) {
+	my ($z) = @_;
+	$z > 0 and return (sqrt($z) - sin(sqrt($z))) / sqrt($z) ** 3;
+	$z < 0 and return (sinh(sqrt(-$z)) - sqrt(-$z)) / sqrt(-$z) ** 3;
+	return 1.0/6;
 }
 
 sub error($$) {
