@@ -358,23 +358,103 @@ sub hohmannTo {
 
 # source: https://orbital-mechanics.space/time-since-periapsis-and-keplers-equation/universal-variables-example.html
 
-sub universal_kepler($$$$$$) {
-	my ($chi, $r_0, $v_r0, $alpha, $delta_t, $mu) = @_;
+sub chi($$) {
+	my ($self, $time_from_periapsis) = @_;
+	my $body = $self->body;
+	my $chi = 0;
+	my $r_0 = $self->pe + $body->radius;
+	my $v_r0 = $self->vmax;
+	my $alpha = $self->inv_a;
+	my $mu = $body->mu;
+
 	my $z = $alpha * $chi ** 2;
 	my $first_term = $r_0 * $v_r0 / sqrt($mu) * $chi ** 2 * stumpff2($z);
 	my $second_term = (1 - $alpha * $r_0) * $chi ** 3 * stumpff3($z);
 	my $third_term = $r_0 * $chi;
-	my $fourth_term = sqrt($mu) * $delta_t;
+	my $fourth_term = sqrt($mu) * $time_from_periapsis;
 	$first_term + $second_term + $third_term - $fourth_term
 }
 
-sub d_universal_d_chi($$$$$$) {
-	my ($chi, $r_0, $v_r0, $alpha, $delta_t, $mu) = @_;
+sub chi_prime($$) {
+	my ($self, $time_from_periapsis) = @_;
+	my $body = $self->body;
+	my $chi = 0;
+	my $r_0 = $self->pe + $body->radius;
+	my $v_r0 = $self->vmax;
+	my $alpha = $self->inv_a;
+	my $mu = $body->mu;
+
 	my $z = $alpha * $chi ** 2;
 	my $first_term = $r_0 * $v_r0 / sqrt($mu) * $chi * (1 - $z * stumpff3($z));
 	my $second_term = (1 - $alpha * $r_0) * $chi ** 2 * stumpff2($z);
 	my $third_term = $r_0;
 	$first_term + $second_term + $third_term
+}
+
+sub chi2eccentric($$) {
+	my ($self, $chi) = @_;
+	my $e = $self->e;
+	if ($e < 1) {
+		# elliptic orbit
+		return $chi / sqrt($self->a);
+	}
+	if ($e > 1) {
+		# hyperbolic orbit
+		return $chi / sqrt(-$self->a);
+	}
+	# parabolic orbit
+	my $h = ($self->body->radius + $self->pe) * $self->vmax;
+	return 2 * atan(sqrt($self->body->mu) / $h * $chi);
+}
+
+sub eccentric2real($$) {
+	my ($self, $E) = @_;
+	my $e = $self->e;
+	if ($e < 1) {
+		# elliptic orbit
+		my $ee = sqrt((1 + $e) / (1 - $e));
+		return 2 * atan($ee * tan($E / 2));
+	}
+	if ($e > 1) {
+		# hyperbolic orbit
+		my $ee = sqrt(($e + 1) / ($e - 1));
+		return 2 * atan($ee * tanh($E / 2));
+	}
+	# parabolic orbit
+	return $E;
+}
+
+sub eccentric2chi($$) {
+	my ($self, $E) = @_;
+	my $e = $self->e;
+	if ($e < 1) {
+		# elliptic orbit
+		return sqrt($self->a) * $E;
+	}
+	if ($e > 1) {
+		# hyperbolic orbit
+		return sqrt(-$self->a) * $E;
+	}
+	# parabolic orbit
+	my $h = ($self->body->radius + $self->pe) * $self->vmax;
+	return $h / sqrt($self->body->mu) * tan($E / 2);
+}
+
+sub real2eccentric($$) {
+	my ($self, $th) = @_;
+	my $e = $self->e;
+	if ($e < 1) {
+		# elliptic orbit
+		my $ee = sqrt((1 - $e) / (1 + $e));
+		return 2 * atan($ee * tan($th / 2));
+	}
+	if ($e > 1) {
+		# hyperbolic orbit
+		my $ee = sqrt(($e - 1) / ($e + 1));
+		return 2 * atanh($ee * tan($th / 2));
+	}
+	# parabolic orbit
+	return $th;
 }
 
 sub desc {
