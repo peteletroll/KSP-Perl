@@ -391,6 +391,11 @@ sub chi_prime($$) {
 	$first_term + $second_term + $third_term
 }
 
+sub chi2real($$) {
+	my ($self, $chi) = @_;
+	$self->eccentric2real($self->chi2eccentric($chi))
+}
+
 sub chi2eccentric($$) {
 	my ($self, $chi) = @_;
 	my $e = $self->e;
@@ -400,7 +405,7 @@ sub chi2eccentric($$) {
 	}
 	if ($e > 1) {
 		# hyperbolic orbit
-		return $chi / sqrt(-$self->a);
+		return $chi / sqrt(-$self->a(1));
 	}
 	# parabolic orbit
 	my $h = ($self->body->radius + $self->pe) * $self->vmax;
@@ -424,6 +429,11 @@ sub eccentric2real($$) {
 	return $E;
 }
 
+sub real2chi($$) {
+	my ($self, $th) = @_;
+	$self->eccentric2chi($self->real2eccentric($th))
+}
+
 sub eccentric2chi($$) {
 	my ($self, $E) = @_;
 	my $e = $self->e;
@@ -433,7 +443,7 @@ sub eccentric2chi($$) {
 	}
 	if ($e > 1) {
 		# hyperbolic orbit
-		return sqrt(-$self->a) * $E;
+		return sqrt(-$self->a(1)) * $E;
 	}
 	# parabolic orbit
 	my $h = ($self->body->radius + $self->pe) * $self->vmax;
