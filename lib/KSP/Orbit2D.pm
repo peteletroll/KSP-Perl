@@ -7,6 +7,7 @@ use warnings;
 use Carp;
 
 use Math::Trig;
+use Math::Vector::Real;
 
 use KSP::TinyStruct qw(body e p);
 
@@ -322,6 +323,29 @@ sub vmin {
 	$self->e < 1 ?
 		$self->v($self->ap) :
 		U(sqrt(-$self->body->mu * $self->inv_a), "m/s")
+}
+
+sub state($$) {
+	my ($self, $th) = @_;
+	wantarray or croak "state() wants list context";
+	my $p = $self->p;
+	my $e = $self->e;
+	my $sth = sin($th);
+	my $cth = cos($th);
+
+	# scalar values
+	my $r = $p / (1 + $e * $cth);
+	my $v = $self->v($r - $self->body->radius);
+
+	$r = V($r * $cth, $r * $sth);
+
+	my $tangent = V(
+		-$sth / (1 + $e * $cth) ** 2,
+		($cth * (1 + $e * $cth) + $e * $sth * $sth) / (1 + $e * $cth) ** 2
+	)->versor;
+	$v = $v * $tangent;
+
+	($r, $v)
 }
 
 sub hohmannTo {
