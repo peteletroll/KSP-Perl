@@ -98,6 +98,28 @@ sub mu {
 	})
 }
 
+sub verlet_step($$$$) {
+	my ($self, $r0, $v0, $dt) = @_;
+	wantarray or croak "verlet_step() wants list context";
+	my $a0 = $self->g_vect($r0);
+	my $r1 = $r0 + $v0 * $dt + (0.5 * $dt * $dt) * $a0;
+	my $v1 = $v0 + 0.5 * $dt * ($a0 + $self->g_vect($r1));
+	($r1, $v1)
+}
+
+sub verlet_steps($$$$$) {
+	my ($self, $r0, $v0, $dt, $n) = @_;
+	wantarray or croak "verlet_steps() wants list context";
+	$n = int $n;
+	while ($n > 0) {
+		my $t = $dt / $n--;
+		# warn "STEP[$n] T=$t/$dt R=$r0 V=$v0\n";
+		$dt -= $t;
+		($r0, $v0) = $self->verlet_step($r0, $v0, $t);
+	}
+	($r0, $v0)
+}
+
 sub parent {
 	my ($self) = @_;
 	my $o = $self->json->{orbit} or return undef;
@@ -322,6 +344,12 @@ sub g0 {
 sub g {
 	my ($self, $height) = @_;
 	U($self->mu / ($self->radius + ($height || 0)) ** 2, "m/s²")
+}
+
+sub g_vect {
+	my ($self, $r) = @_;
+	my $a = abs($r);
+	(-$self->mu / $a / $a / $a) * $r
 }
 
 sub dvLiftoff {
