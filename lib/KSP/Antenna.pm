@@ -66,6 +66,11 @@ sub combine {
 	KSP::Antenna->new("COMBINED", $range)
 }
 
+sub multi {
+	my ($self, $n) = @_;
+	combine(($self) x $n)
+}
+
 sub desc {
 	my ($self) = @_;
 	$self->cache("desc", sub {
