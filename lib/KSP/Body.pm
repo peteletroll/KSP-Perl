@@ -6,6 +6,10 @@ use warnings;
 
 use Carp;
 
+use Scalar::Util qw(dualvar);
+
+use POSIX qw(floor round);
+
 use Math::Vector::Real;
 
 use Math::Trig;
@@ -184,6 +188,26 @@ sub nextTo {
 sub hohmannTo {
 	my ($self, $other, @rest) = @_;
 	$self->orbit->hohmannTo($other, @rest)
+}
+
+sub transferPhase {
+	my ($body, $from, $to) = @_;
+	$from = $body->orbit($from);
+	$to = $body->orbit($to);
+	my $tr = $body->orbit($from->pe, $to->pe);
+	# print "FROM $from\nTO   $to\nVIA  $tr\n";
+	my $ratio = $tr->T / 2 / $to->T;
+	$ratio = 0.5 - ($ratio - floor($ratio));
+	dualvar(2 * pi * $ratio, sprintf("%d°", round(360 * $ratio)))
+}
+
+sub transferPhaseTo {
+	my ($from, $to) = @_;
+	my $parent = $from->parent;
+	$parent && $to->parent == $parent
+		or croak "transfer needs common parent";
+	$parent->transferPhase($from->orbit->a - $parent->radius,
+		$to->orbit->a - $parent->radius)
 }
 
 sub hasDescendant {

@@ -3,6 +3,8 @@ package KSP::SolarSystem;
 use strict;
 use warnings;
 
+use POSIX qw(floor);
+
 use KSP;
 use KSP::Body;
 use KSP::Cache;
@@ -144,15 +146,9 @@ sub dvGraph {
 
 # Time functions
 
-sub _floor($) {
-	my ($v) = @_;
-	my $r = int $v;
-	$r <= $v ? $r : $r - 1
-}
-
 sub _mod($$) {
 	my ($val, $mod) = @_;
-	my $ret = _floor($val / $mod);
+	my $ret = floor($val / $mod);
 	$_[0] = $val - $ret * $mod;
 	$ret
 }
