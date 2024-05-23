@@ -14,6 +14,7 @@ my $n = KSP::ConfigNode->parse_string(q{
 		d { // comment
 			name = d
 			e = f
+			http://something = url test
 		}
 	}
 });

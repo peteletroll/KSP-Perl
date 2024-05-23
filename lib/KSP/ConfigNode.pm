@@ -220,7 +220,9 @@ our $COMMENT = qr{//[^\n]*};
 our $CR_OPT = qr/(?:\s+|$COMMENT)*/s;
 our $LSTRING = qr{$CR_OPT(
 	(?:
-		[^\n=\{\}\+\-\*\/]+
+		:(?:\/\/)?
+		|
+		[^\n=\{\}\+\-\*\/:]+
 		|
 		\/(?![\/=])
 		|
