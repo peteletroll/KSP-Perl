@@ -7,10 +7,11 @@ BEGIN { use_ok('KSP') };
 #########################
 
 my $n = KSP::ConfigNode->parse_string(q{
+	// comment
 	a {
-		name = a
+		name = a // comment
 		b = c
-		d {
+		d { // comment
 			name = d
 			e = f
 		}
@@ -18,9 +19,7 @@ my $n = KSP::ConfigNode->parse_string(q{
 });
 ok($n);
 
-exit 0;
-
-use Data::Dump qw(dump);
-warn dump($n), "\n";
-warn $n->asString();
+# use Data::Dump qw(dump);
+# print dump($n), "\n";
+print $n->asString();
 
