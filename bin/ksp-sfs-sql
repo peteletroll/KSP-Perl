@@ -193,12 +193,13 @@ sub insert($@) {
 	} @val)
 }
 
-create(bodies => qw(index:i body sort:i atmosphere:b ocean:b surface:b));
+create(bodies => qw(index:i body sort:i parent atmosphere:b ocean:b surface:b));
 $SW->reset->start;
 $DB->begin_work;
 my $bodysort = 0;
 foreach my $b ($system->bodies) {
 	insert("bodies", $b->index, $b->name, $bodysort++,
+		($b->parent ? $b->parent->name : undef),
 		($b->atmosphereDepth > 0 ? 1 : 0),
 		($b->hasOcean ? 1 : 0),
 		($b->hasSurface ? 1 : 0));
