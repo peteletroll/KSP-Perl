@@ -365,10 +365,8 @@
       "Earth": {
          "KopernicusTemplate": "Kerbin",
          "atmosphere": {
-            "atmosphereContainsOxygen": true,
-            "atmosphereDepth": 140000,
             "containsOxygen": true,
-            "depth": 70000
+            "depth": 140000
          },
          "info": {
             "albedo": 0.35,
@@ -720,10 +718,8 @@
       "Jupiter": {
          "KopernicusTemplate": "Jool",
          "atmosphere": {
-            "atmosphereContainsOxygen": false,
-            "atmosphereDepth": 1550000,
             "containsOxygen": false,
-            "depth": 200000
+            "depth": 1550000
          },
          "info": {
             "albedo": 0.52,
@@ -780,10 +776,8 @@
       "Mars": {
          "KopernicusTemplate": "Duna",
          "atmosphere": {
-            "atmosphereContainsOxygen": false,
-            "atmosphereDepth": 125000,
             "containsOxygen": false,
-            "depth": 50000
+            "depth": 125000
          },
          "info": {
             "albedo": 0.170000001788139,
@@ -1099,10 +1093,8 @@
       "Neptune": {
          "KopernicusTemplate": "Jool",
          "atmosphere": {
-            "atmosphereContainsOxygen": false,
-            "atmosphereDepth": 1250000,
             "containsOxygen": false,
-            "depth": 200000
+            "depth": 1250000
          },
          "info": {
             "albedo": 0.52,
@@ -1290,8 +1282,8 @@
       "Pluto": {
          "KopernicusTemplate": "Mun",
          "atmosphere": {
-            "atmosphereContainsOxygen": false,
-            "atmosphereDepth": 110000
+            "containsOxygen": false,
+            "depth": 110000
          },
          "info": {
             "albedo": 0.1,
@@ -1420,10 +1412,8 @@
       "Saturn": {
          "KopernicusTemplate": "Jool",
          "atmosphere": {
-            "atmosphereContainsOxygen": false,
-            "atmosphereDepth": 2000000,
             "containsOxygen": false,
-            "depth": 200000
+            "depth": 2000000
          },
          "info": {
             "albedo": 0.52,
@@ -1608,10 +1598,8 @@
       "Titan": {
          "KopernicusTemplate": "Laythe",
          "atmosphere": {
-            "atmosphereContainsOxygen": false,
-            "atmosphereDepth": 600000,
-            "containsOxygen": true,
-            "depth": 50000
+            "containsOxygen": false,
+            "depth": 600000
          },
          "info": {
             "albedo": 0.3,
@@ -1743,8 +1731,8 @@
       "Triton": {
          "KopernicusTemplate": "Mun",
          "atmosphere": {
-            "atmosphereContainsOxygen": false,
-            "atmosphereDepth": 110000
+            "containsOxygen": false,
+            "depth": 110000
          },
          "info": {
             "albedo": 0.1,
@@ -1871,10 +1859,8 @@
       "Uranus": {
          "KopernicusTemplate": "Jool",
          "atmosphere": {
-            "atmosphereContainsOxygen": false,
-            "atmosphereDepth": 1400000,
             "containsOxygen": false,
-            "depth": 200000
+            "depth": 1400000
          },
          "info": {
             "albedo": 0.52,
@@ -1942,10 +1928,8 @@
       "Venus": {
          "KopernicusTemplate": "Duna",
          "atmosphere": {
-            "atmosphereContainsOxygen": false,
-            "atmosphereDepth": 145000,
             "containsOxygen": false,
-            "depth": 50000
+            "depth": 145000
          },
          "info": {
             "albedo": 0.170000001788139,
