@@ -298,6 +298,11 @@ sub spaceThreshold {
 	U($self->json->{science}{spaceAltitudeThreshold}, "m")
 }
 
+sub atmosphereThreshold {
+	my ($self) = @_;
+	U($self->json->{science}{flyingAltitudeThreshold}, "m")
+}
+
 sub biomes {
 	my ($self) = @_;
 	my $b = $self->json->{science} && $self->json->{science}{biomes};
