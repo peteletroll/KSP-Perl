@@ -6,6 +6,7 @@ use warnings;
 use DBI;
 use JSON;
 use File::Temp;
+use URI;
 use KSP qw(:all);
 
 binmode \*STDOUT, ":utf8";
@@ -352,6 +353,7 @@ foreach my $r ($SFS->find("SCENARIO", name => "ResourceScenario")) {
 		my $id = $k->get("PlanetId");
 		defined $id or next;
 		my $biome = $k->get("BiomeName");
+		$biome and $biome =~ s/\s+//gs;
 		insert("resources_full", $id, $biome);
 	}
 }
@@ -367,10 +369,11 @@ view("resources", q{
 });
 
 my @vessels_cols = qw(persistentId:i pid type name lct:r ctrl:b sit);
-create(vessels_full => @vessels_cols, qw(body parts:i));
+create(vessels_full => @vessels_cols, qw(body parts:i uri));
 s/:\w+$// foreach @vessels_cols;
 $SW->reset->start;
 $DB->begin_work;
+my $base_uri = URI->new("http://localhost/~pietro/ksp/ksp-sphere-map/main.html");
 foreach my $r ($SFS->find("VESSEL")) {
 	my $b = $r->getnodes("ORBIT");
 	$b = $b->get("REF") if $b;
@@ -378,7 +381,16 @@ foreach my $r ($SFS->find("VESSEL")) {
 	$b = $b->name if $b;
 	my @parts = $r->getnodes("PART");
 	my $parts = @parts;
-	insert("vessels_full", (map { scalar $r->get($_) } @vessels_cols), $b, $parts);
+	my $uri = undef;
+	my $sit = $r->get("sit") || "";
+	my $lat = $r->get("lat");
+	my $lon = $r->get("lon");
+	if ($sit =~ /landed|splashed/i) {
+		$uri = $base_uri;
+		$uri->query_form(body => lc $b,
+			lat => sprintf("%1.3f", $lat), lon => sprintf("%1.3f", $lon));
+	}
+	insert("vessels_full", (map { scalar $r->get($_) } @vessels_cols), $b, $parts, $uri);
 }
 $DB->commit;
 printf "-- Generated vessels_full [$insert_count{vessels_full}] in %1.3f seconds\n", $SW->read;
@@ -392,6 +404,13 @@ view("vessels", q{
 		type, name
 	from vessels_full
 	order by lct
+});
+
+view("maplinks", q{
+	select body, substring(type, 1, 9) as type, name, uri
+	from vessels_full
+	where uri is not null
+	order by body, name
 });
 
 enqueue("analyze");
@@ -409,6 +428,7 @@ if ($RUNSQLITE) {
 	print $init ".read \"$ENV{HOME}/.sqliterc\"\n"
 		if -f "$ENV{HOME}/.sqliterc";
 	print $init ".prompt \"$prompt> \" \"", ("." x length($prompt)), "> \"\n";
+	print $init ".mode table --wrap 256 --wordwrap off --noquote\n";
 	$init->flush();
 	system "sqlite3", "-init", $init->filename, $DBNAME;
 }
