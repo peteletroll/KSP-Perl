@@ -398,19 +398,21 @@ printf "-- Generated vessels_full [$insert_count{vessels_full}] in %1.3f seconds
 view("vessels", q{
 	select persistentId as id,
 		sit as situation,
-		body,
+		vessels_full.body,
 		ctrl, parts,
 		round(lct / 3600 / 6) as launch,
 		type, name
-	from vessels_full
-	order by lct
+	from vessels_full, bodies
+	where vessels_full.body = bodies.body
+	order by bodies.sort, lct
 });
 
 view("maplinks", q{
-	select body, substring(type, 1, 9) as type, name, uri
-	from vessels_full
-	where uri is not null
-	order by body, name
+	select vessels_full.body, substring(type, 1, 9) as type, name, uri
+	from vessels_full, bodies
+	where vessels_full.body = bodies.body
+		and uri is not null
+	order by bodies.sort, name
 });
 
 enqueue("analyze");
