@@ -194,6 +194,14 @@ sub insert($@) {
 	} @val)
 }
 
+sub maplink($$$) {
+	my ($body, $lat, $lon) = @_;
+	my $uri = URI->new("http://localhost/~pietro/ksp/ksp-sphere-map/main.html");
+	$uri->query_form(body => lc $body,
+		lat => sprintf("%1.3f", $lat), lon => sprintf("%1.3f", $lon));
+	$uri
+}
+
 create(bodies => qw(index:i body sort:i parent atmosphere:b ocean:b surface:b));
 $SW->reset->start;
 $DB->begin_work;
@@ -373,7 +381,6 @@ create(vessels_full => @vessels_cols, qw(body parts:i uri));
 s/:\w+$// foreach @vessels_cols;
 $SW->reset->start;
 $DB->begin_work;
-my $base_uri = URI->new("http://localhost/~pietro/ksp/ksp-sphere-map/main.html");
 foreach my $r ($SFS->find("VESSEL")) {
 	my $b = $r->getnodes("ORBIT");
 	$b = $b->get("REF") if $b;
@@ -383,17 +390,30 @@ foreach my $r ($SFS->find("VESSEL")) {
 	my $parts = @parts;
 	my $uri = undef;
 	my $sit = $r->get("sit") || "";
-	my $lat = $r->get("lat");
-	my $lon = $r->get("lon");
 	if ($sit =~ /landed|splashed/i) {
-		$uri = $base_uri;
-		$uri->query_form(body => lc $b,
-			lat => sprintf("%1.3f", $lat), lon => sprintf("%1.3f", $lon));
+		my $lat = $r->get("lat");
+		my $lon = $r->get("lon");
+		$uri = maplink($b, $lat, $lon);
 	}
 	insert("vessels_full", (map { scalar $r->get($_) } @vessels_cols), $b, $parts, $uri);
 }
 $DB->commit;
 printf "-- Generated vessels_full [$insert_count{vessels_full}] in %1.3f seconds\n", $SW->read;
+
+my @waypoints_cols = qw(name body lat:r lon:r uri);
+create(waypoints => @waypoints_cols);
+$SW->reset->start;
+$DB->begin_work;
+foreach my $r ($SFS->find("WAYPOINT")) {
+	my $name = $r->get("name");
+	my $body = $r->get("celestialName");
+	my $lat = $r->get("latitude");
+	my $lon = $r->get("longitude");
+	grep { !defined } ($name, $body, $lat, $lon)
+		or insert("waypoints", $name, $body, $lat, $lon, maplink($body, $lat, $lon));
+}
+$DB->commit;
+printf "-- Generated waypoints [$insert_count{waypoints}] in %1.3f seconds\n", $SW->read;
 
 view("vessels", q{
 	select persistentId as id,
@@ -407,11 +427,19 @@ view("vessels", q{
 	order by bodies.sort, lct
 });
 
-view("maplinks", q{
+view("maplinks_full", q{
 	select vessels_full.body, substring(type, 1, 9) as type, name, uri
-	from vessels_full, bodies
-	where vessels_full.body = bodies.body
-		and uri is not null
+	from vessels_full
+	where uri is not null
+	union
+	select waypoints.body, 'Waypoint' as type, name, uri
+	from waypoints
+});
+
+view("maplinks", q{
+	select maplinks_full.*
+	from maplinks_full, bodies
+	where maplinks_full.body = bodies.body
 	order by bodies.sort, name
 });
 
