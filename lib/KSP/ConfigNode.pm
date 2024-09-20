@@ -78,6 +78,7 @@ sub load {
 			}
 		}
 	}
+	local $KSP::TinyParser::CONTEXT = $file;
 	my $ret = $pkg->parse_string($cnt);
 	$ret
 }

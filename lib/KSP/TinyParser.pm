@@ -23,6 +23,10 @@ sub _tag($;$);
 our $TRACE = 0;
 our $LEVEL = 0;
 
+use vars qw($CONTEXT);
+local $CONTEXT;
+BEGIN { $CONTEXT = "[UNK]" }
+
 sub new {
 	my $pkg = shift;
 	my $ret = (@_ == 1 && ref $_[0] eq "HASH") ? { %{$_[0]} } : { @_ };
@@ -177,8 +181,9 @@ sub EXTRACT($@) {
 sub ERR($) {
 	my ($msg) = @_;
 	_tag sub {
+		my $ctx = $CONTEXT ? "$CONTEXT: " : "";
 		my $line = _line($_[1]);
-		warn "line $line: $msg ", _status($_[1]), "\n";
+		warn "${ctx}line $line: $msg ", _status($_[1]), "\n";
 		undef
 	}
 }
