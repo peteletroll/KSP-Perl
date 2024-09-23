@@ -56,6 +56,14 @@ if ($SFSNAME !~ /\// && ! -f $SFSNAME) {
 
 our $system = KSP::SolarSystem->load();
 
+sub bodyName($) {
+	my ($b) = @_;
+	defined $b or return undef;
+	$b =~ /^\d+$/ and $b = $system->body($b);
+	ref $b or return undef;
+	$b->name
+}
+
 sub extractPrefix($@) {
 	my ($str, @re) = @_;
 	foreach my $re (@re) {
@@ -384,8 +392,7 @@ $DB->begin_work;
 foreach my $r ($SFS->find("VESSEL")) {
 	my $b = $r->getnodes("ORBIT");
 	$b = $b->get("REF") if $b;
-	$b = $system->body($b) if defined $b;
-	$b = $b->name if $b;
+	$b = bodyName($b);
 	my @parts = $r->getnodes("PART");
 	my $parts = @parts;
 	my $uri = undef;
@@ -412,6 +419,26 @@ foreach my $r ($SFS->find("WAYPOINT")) {
 	grep { !defined } ($name, $body, $lat, $lon)
 		or insert("waypoints", $name, $body, $lat, $lon, maplink($body, $lat, $lon));
 }
+foreach my $c ($SFS->find("CONTRACT")) {
+	my $type = $c->get("state", "");
+	$type =~ /^(offered|active)$/i or next;
+	my $body = bodyName($c->get("targetBody"));
+	defined $body or next;
+	my $name = $c->get("locationName");
+	defined $name or next;
+	my @w = $c->getnodes("PARAM", name => qr/waypoint/i);
+	@w or next;
+	warn "CONTRACT: ", $c->get("type"), " ",
+		$c->get("state"), " ",
+		$c->get("agent"), "\n";
+	warn $_, "\n" foreach @w;
+	foreach my $w (@w) {
+		my $lat = $w->get("wpLatitude");
+		my $lon = $w->get("wpLongitude");
+		defined $lat && defined $lon or next;
+		insert("waypoints", $name, $body, $lat, $lon, maplink($body, $lat, $lon));
+	}
+}
 $DB->commit;
 printf "-- Generated waypoints [$insert_count{waypoints}] in %1.3f seconds\n", $SW->read;
 
@@ -434,6 +461,7 @@ view("maplinks_full", q{
 	union
 	select waypoints.body, 'Waypoint' as type, name, uri
 	from waypoints
+	where uri is not null
 });
 
 view("maplinks", q{
