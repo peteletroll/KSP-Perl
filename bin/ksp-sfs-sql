@@ -428,10 +428,6 @@ foreach my $c ($SFS->find("CONTRACT")) {
 	defined $name or next;
 	my @w = $c->getnodes("PARAM", name => qr/waypoint/i);
 	@w or next;
-	warn "CONTRACT: ", $c->get("type"), " ",
-		$c->get("state"), " ",
-		$c->get("agent"), "\n";
-	warn $_, "\n" foreach @w;
 	foreach my $w (@w) {
 		my $lat = $w->get("wpLatitude");
 		my $lon = $w->get("wpLongitude");
