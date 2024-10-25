@@ -115,7 +115,7 @@ sub modules {
 sub module {
 	my ($self, $name) = @_;
 	my @ret =
-		map { KSP::DBNode->new($name, $_) }
+		map { KSP::DBNode->new($_->get("name"), $_) }
 		$self->node->getnodes("MODULE", name => $name);
 	wantarray ? @ret : $ret[0]
 }
