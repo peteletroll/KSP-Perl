@@ -253,7 +253,10 @@ sub resourceInfo {
 					# $h->{z_node} = $ri;
 				}
 			}
-			$h and push @ret, $h;
+			$h or next;
+			$h->{mass} = $h->{units} * $h->{resource}->unitMass
+				if $h->{class} eq "STORE";
+			push @ret, $h;
 		}
 		\@ret
 	})
@@ -264,7 +267,7 @@ sub wetMass {
 	scalar $self->cache("wetMass", sub {
 		my $ret = $self->dryMass;
 		foreach (@{$self->resourceInfo("STORE")}) {
-			$ret += $_->{units} * $_->{resource}->unitMass;
+			$ret += $_->{mass};
 		}
 		$ret
 	})
