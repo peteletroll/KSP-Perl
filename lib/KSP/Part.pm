@@ -220,6 +220,12 @@ our %resourceInfoTable = (
 				class => "PRODUCE",
 				resource => scalar KSP::Resource->get("Ore"),
 			}
+		} elsif ($name =~ /^ModuleRCS/ && !$_->getnodes("PROPELLANT")) {
+			+{
+				class => "CONSUME",
+				resource => scalar KSP::Resource->get($_->get("resourceName")),
+				ratio => 1,
+			}
 		}
 	},
 );
