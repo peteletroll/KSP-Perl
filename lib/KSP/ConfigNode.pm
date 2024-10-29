@@ -170,8 +170,9 @@ sub find {
 	$_ = matcher($_) foreach $name, $valname, $value;
 	my @ret = ();
 	$self->visit(sub {
-		$_->name =~ $name
-			or return;
+		if ($name) {
+			$_->name =~ $name or return;
+		}
 		if ($valname) {
 			my $found = undef;
 			foreach my $v ($_->values) {
