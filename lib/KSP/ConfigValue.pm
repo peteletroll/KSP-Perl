@@ -27,7 +27,7 @@ our @ATTACH;
 BEGIN { @ATTACH = qw(stack SrfAttach allowStack allowSrfAttach allowCollision) }
 
 sub _comment {
-	$KSP::ConfigNode or return undef;
+	$KSP::ConfigNode::PUTCOMMENTS or return undef;
 	my ($self) = @_;
 	my $name = $self->name();
 	my $value = $self->value();
