@@ -223,7 +223,7 @@ our %resourceInfoTable = (
 		} elsif ($name =~ /^ModuleRCS/ && !$_->getnodes("PROPELLANT")) {
 			+{
 				class => "CONSUME",
-				resource => scalar KSP::Resource->get($_->get("resourceName")),
+				resource => scalar KSP::Resource->get($_->get("resourceName", "MonoPropellant")),
 				ratio => 1,
 			}
 		}
