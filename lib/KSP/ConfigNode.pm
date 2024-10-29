@@ -170,12 +170,13 @@ sub find {
 	$_ = matcher($_) foreach $name, $valname, $value;
 	my @ret = ();
 	$self->visit(sub {
-		$_->name =~ $name
-			or return;
-		if ($valname) {
+		if ($name) {
+			$_->name =~ $name or return;
+		}
+		if ($valname || $value) {
 			my $found = undef;
 			foreach my $v ($_->values) {
-				$v->name =~ $valname or next;
+				$valname and ($v->name =~ $valname or next);
 				$value and ($v->value =~ $value or next);
 				$found = $v;
 				last;
@@ -406,10 +407,12 @@ sub _elt($$) {
 	my ($list, $name) = @_;
 	$list or return;
 	$name = matcher($name);
-	my @ret = grep {
-		# warn "CHECK $name ", $_->name(), "\n";
-		($_->name() || "") =~ $name
-	} @$list;
+	my @ret = $name ?
+		(grep {
+			# warn "CHECK $name ", $_->name(), "\n";
+			($_->name() || "") =~ $name
+		} @$list) :
+		@$list;
 	# warn "FOUND ", scalar(@ret), "\n";
 	wantarray ? @ret : $ret[0]
 }
