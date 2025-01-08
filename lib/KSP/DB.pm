@@ -130,16 +130,30 @@ sub locTable {
 }
 
 sub part_images {
+	my @thumbdirs = ();
+	find({
+		no_chdir => 0,
+		follow => 0,
+		wanted => sub {
+			$_ eq '@thumbs' or return;
+			my $s = stat($_) or return;
+			-d $s or return;
+			push @thumbdirs, $File::Find::name;
+		}
+	}, KSP::HOME() . "/GameData");
+
 	my %images = ();
-	my $dir = KSP::HOME() . '/GameData/Squad/Parts/@thumbs';
-	opendir DIR, $dir or croak __PACKAGE__, "::images(): can't opendir $dir: $!";
-	foreach (sort readdir DIR) {
-		my $path = "$dir/$_";
-		/^(\w+)_icon\d*.png/ or next;
-		my $name = $1;
-		push @{$images{$name}}, $path;
+	foreach my $dir (@thumbdirs) {
+		opendir DIR, $dir or croak __PACKAGE__, "::images(): can't opendir $dir: $!";
+		foreach (sort readdir DIR) {
+			/^(\w.+)_icon\d*.png/ or next;
+			my $path = "$dir/$_";
+			my $name = $1;
+			$name =~ s/\./_/g;
+			push @{$images{$name}}, $path;
+		}
+		closedir DIR or croak __PACKAGE__, "::images(): can't closedir $dir: $!";
 	}
-	closedir DIR or croak __PACKAGE__, "::images(): can't closedir $dir: $!";
 	\%images
 }
 memoize("part_images", NORMALIZER => sub { "" });
