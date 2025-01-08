@@ -97,6 +97,14 @@ sub dryMass {
 	});
 }
 
+sub crashTolerance {
+	my ($self) = @_;
+	scalar $self->cache("crashTolerance", sub {
+		$self->node->get("crashTolerance", 9)
+	});
+
+}
+
 sub crew {
 	my ($self) = @_;
 	scalar $self->cache("crew", sub {
