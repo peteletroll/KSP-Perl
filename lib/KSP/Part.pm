@@ -286,5 +286,13 @@ sub massRatio {
 	$self->dryMass ? $self->wetMass / $self->dryMass : 1
 }
 
+sub images {
+	my ($self) = @_;
+	wantarray or croak __PACKAGE__, "::images() wants list context";
+	my $name = $self->name;
+	my $images = KSP::DB::part_images()->{$name};
+	$images ? @$images : ()
+}
+
 1;
 

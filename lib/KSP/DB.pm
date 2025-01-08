@@ -129,5 +129,20 @@ sub locTable {
 	wantarray ? %$ret : $ret
 }
 
+sub part_images {
+	my %images = ();
+	my $dir = KSP::HOME() . '/GameData/Squad/Parts/@thumbs';
+	opendir DIR, $dir or croak __PACKAGE__, "::images(): can't opendir $dir: $!";
+	foreach (sort readdir DIR) {
+		my $path = "$dir/$_";
+		/^(\w+)_icon\d*.png/ or next;
+		my $name = $1;
+		push @{$images{$name}}, $path;
+	}
+	closedir DIR or croak __PACKAGE__, "::images(): can't closedir $dir: $!";
+	\%images
+}
+memoize("part_images", NORMALIZER => sub { "" });
+
 1;
 
