@@ -149,7 +149,7 @@ sub part_images {
 			/^(\w.+)_icon\d*.png/ or next;
 			my $path = "$dir/$_";
 			my $name = $1;
-			$name =~ s/\./_/g;
+			$name =~ s/[^\w\-]/_/g;
 			push @{$images{$name}}, $path;
 		}
 		closedir DIR or croak __PACKAGE__, "::images(): can't closedir $dir: $!";
