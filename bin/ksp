@@ -1,0 +1,116 @@
+#!/bin/bash
+
+if [ -z "$KSPHOME" ]
+then
+	echo "$0: undefined \$KSPHOME" 1>&2
+	exit 1
+fi
+
+arch=x86
+uname -m | grep -q 64 && arch=x86_64
+
+SHOWHELP=0
+KSPLINK="`basename $KSPHOME`"
+
+while getopts cd: opt
+do
+	case $opt in
+	c)
+		cd "$KSPHOME/.." || exit 1
+		cur=`readlink $KSPLINK`
+		PS3="[current: $cur] #? "
+		lst=()
+		for exe in `ls -rt */KSP.$arch`
+		do
+			kspdir=`dirname $exe`
+			[ -L "$kspdir" ] && continue
+			lst=("${lst[@]}" "$kspdir")
+		done
+		select elt in ${lst[@]}
+		do
+			[ "$elt" == "" ] && continue
+			rm -f "$KSPLINK"
+			ln -s -v "$elt" "$KSPLINK" || exit 1
+			break
+		done
+		exit
+		;;
+	d)
+		KSPHOME="$OPTARG"
+		;;
+	*)
+		SHOWHELP=1
+		;;
+	esac
+done
+shift `expr $OPTIND - 1`
+
+if [ "$SHOWHELP" -ne 0 ]
+then
+	echo "usage: $0 [ -c ] [ -d <dir> ] <ksp binary argument> ..."
+	exit 1
+fi
+
+export LANG="C"
+export LC_ALL="$LANG"
+export __GL_THREADED_OPTIMIZATIONS=1
+
+# see https://forum.kerbalspaceprogram.com/index.php?/topic/203645-how-to-play-ksp-with-unity-2019-on-old-potatoes/
+export MONO_THREADS_PER_CPU=2
+
+unset \
+	LC_CTYPE \
+	LC_COLLATE \
+	LC_TIME \
+	LC_NUMERIC \
+	LC_MONETARY \
+	LC_MESSAGES \
+	LC_PAPER \
+	LC_NAME \
+	LC_ADDRESS \
+	LC_TELEPHONE \
+	LC_MEASUREMENT \
+	LC_IDENTIFICATION \
+	|| exit 1
+
+cd "$KSPHOME" || exit 1
+
+find . -type f -print0 | xargs -0 chmod a-x
+find . -name "*.$arch" -print0 | xargs -0 chmod a+x
+
+find ./thumbs/. ./Ships/@thumbs/. -name \*.png -print0 | xargs -0 touch
+
+for file in KSP.log settings.cfg
+do
+	if [ -f $file ]
+	then
+		for i in `seq 8 -1 1`
+		do
+			j=`expr $i + 1`
+			[ -f $file.$i ] && mv $file.$i $file.$j
+		done
+		cp $file $file.1
+	fi
+done
+
+# jstest-gtk
+
+mainpid=$$
+(
+	for ext in dll dds png cfg mu
+	do
+		find GameData -type f -size -1000k -name "*.$ext" -print0 | nice xargs -0 cat > /dev/null
+		echo precache $ext done
+		# kill -0 $mainpid > /dev/null 2>&1 || exit 0
+	done
+	echo precache done
+) &
+
+export __NV_PRIME_RENDER_OFFLOAD=1
+export __GLX_VENDOR_LIBRARY_NAME=nvidia
+
+wrapper="`which primusrun`"
+# [ -z "$wrapper" ] || wrapper="$wrapper --failsafe"
+# echo RUN "$wrapper" "./KSP.$arch" "$@"
+exec $wrapper "./KSP.$arch" "$@"
+

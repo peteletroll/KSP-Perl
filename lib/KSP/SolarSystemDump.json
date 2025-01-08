@@ -279,6 +279,13 @@
           "class": "PQSCity"
         },
         {
+          "name": "Randolith",
+          "objectName": "Randolith",
+          "lat": -11.86992073059082,
+          "lon": 72.544570922851563,
+          "class": "PQSCity"
+        },
+        {
           "name": "Pyramids",
           "objectName": "Pyramids",
           "lat": -6.5056900978088379,
