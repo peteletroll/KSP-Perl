@@ -286,6 +286,13 @@ sub massRatio {
 	$self->dryMass ? $self->wetMass / $self->dryMass : 1
 }
 
+sub maxTemp {
+	my ($self) = @_;
+	scalar $self->cache("maxTemp", sub {
+		$self->node->get("maxTemp", 2000)
+	});
+}
+
 sub images {
 	my ($self) = @_;
 	wantarray or croak __PACKAGE__, "::images() wants list context";
