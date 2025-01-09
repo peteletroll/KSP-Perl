@@ -188,7 +188,7 @@ sub _pardesc($) {
 		keys %$par) || "nothing";
 }
 
-sub _need_ellipse {
+sub _need_closed {
 	$_[0]->e < 1 or croak "not allowed for open orbit";
 }
 
@@ -198,7 +198,7 @@ sub _need_open {
 
 sub a { # major semiaxis
 	my ($self, $noerr) = @_;
-	$noerr or $self->_need_ellipse;
+	$noerr or $self->_need_closed;
 	U(1 / $self->inv_a, "m")
 }
 
@@ -209,7 +209,7 @@ sub inv_a { # 1 / major semiaxis
 
 sub b { # minor semiaxis
 	my ($self) = @_;
-	$self->_need_ellipse;
+	$self->_need_closed;
 	U($self->a * (1 - $self->e ** 2), "m")
 }
 
@@ -227,7 +227,7 @@ sub th_dev { # gravity assist deviation
 
 sub T { # orbital period
 	my ($self) = @_;
-	$self->_need_ellipse;
+	$self->_need_closed;
 	2 * pi * sqrt($self->a ** 3 / $self->body->mu)
 }
 
@@ -238,7 +238,7 @@ sub pe { # periapsis height
 
 sub ap { # apoapsis height
 	my ($self, $noerr) = @_;
-	$noerr or $self->_need_ellipse;
+	$noerr or $self->_need_closed;
 	U($self->p / (1 - $self->e) - $self->body->radius, "m")
 }
 
