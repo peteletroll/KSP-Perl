@@ -1,0 +1,62 @@
+#!/usr/bin/perl
+
+use strict;
+use warnings;
+
+use String::ShellQuote;
+
+use File::Temp;
+
+use Getopt::Std;
+my %opt = ();
+getopts("k", \%opt) or die "bad options";
+
+sub run {
+	my $cmd = shell_quote(@_);
+	print "\$ $cmd\n";
+	my $exit = (system($cmd) >> 8);
+	if ($exit && !defined(wantarray)) {
+		die "$0: $_[0] returned $exit\n";
+	}
+	$exit
+}
+
+sub tmp($) {
+	my ($suf) = @_;
+	File::Temp->new(SUFFIX => $suf)
+}
+
+sub mbm2any($$) {
+	my ($mbm, $out) = @_;
+
+	open MBM, "<:bytes", $mbm;
+	local $/ = undef;
+	my $buffer = <MBM>;
+	close MBM;
+
+	my $header = substr($buffer, 0, 20, "");
+	length $header == 20 or die "$0: $mbm: bad header read\n";
+
+	my @header = unpack("V*", $header);
+	print "header: ", join(" ", map { sprintf("%08x", $_) } @header), "\n";
+	my ($magic, $width, $height, $type, $bits) = @header;
+	$magic == 0x50534b03 or die "$0: $mbm: bad header magic\n";
+	print "info: size = $width x $height, type = $type, bits = $bits\n";
+	$bits == 24 || $bits == 32 or die "$0: illegal bits value\n";
+	
+	my $fmt = $bits == 32 ? "rgba" : "rgb";
+	my $rgb = tmp(".$fmt");
+	print "exporting $rgb\n";
+	open RGB, ">:bytes", $rgb or die "$0: can't open $rgb: $!\n";
+	print RGB $buffer;
+	close RGB;
+
+	run "convert", "-size", "${width}x${height}", "-depth", 8, "$fmt:$rgb", $out;
+
+	$type != 0
+}
+
+@ARGV == 2 or die "usage: $0 <input> <output>\n";
+my ($input, $output) = @ARGV;
+mbm2any($input, $output);
+

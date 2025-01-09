@@ -1,0 +1,44 @@
+#!/usr/bin/perl
+
+use strict;
+use warnings;
+
+use String::ShellQuote;
+
+use File::Find;
+
+use File::Basename;
+
+use File::Temp;
+
+
+sub mbminfo($) {
+	my ($mbm) = @_;
+
+	my $header;
+
+	open MBM, "<:bytes", $mbm or die "can't open $mbm: $!\n";
+	read MBM, $header, 20;
+	close MBM or die "can't close $mbm: $!\n";
+
+	length $header == 20 or die "$0: $mbm: bad header read\n";
+
+	my @header = unpack("V*", $header);
+	my ($magic, $width, $height, $type, $bits) = @header;
+	$magic == 0x50534b03 or die "$0: $mbm: bad header magic\n";
+	print "$mbm: ${width}x${height}, $bits bits, type $type\n";
+}
+
+@ARGV or die "usage: $0 <mbm> ...\n";
+my $exitcode = 0;
+foreach my $mbm (@ARGV) {
+	local $@;
+	eval { mbminfo($mbm); };
+	if ($@) {
+		$exitcode = 1;
+		warn "$0: $@\n";
+	}
+}
+
+exit $exitcode;
+
