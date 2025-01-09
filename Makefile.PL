@@ -3,8 +3,8 @@ use ExtUtils::MakeMaker;
 # See lib/ExtUtils/MakeMaker.pm for details of how to influence
 # the contents of the Makefile that is written.
 
-my $JSON = "$ENV{HOME}/KSP/KSP_linux/GameData/SolarSystemDump/SolarSystemDump.json";
--f $JSON and system "cp", "-v", $JSON, "lib/KSP";
+# my $JSON = "$ENV{HOME}/KSP/KSP_linux/GameData/SolarSystemDump/SolarSystemDump.json";
+# -f $JSON and system "cp", "-v", $JSON, "lib/KSP";
 
 WriteMakefile(
     NAME              => 'KSP',
