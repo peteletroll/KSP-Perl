@@ -10,9 +10,10 @@ arch=x86
 uname -m | grep -q 64 && arch=x86_64
 
 SHOWHELP=0
+JUSTCACHE=0
 KSPLINK="`basename $KSPHOME`"
 
-while getopts cd: opt
+while getopts cCd: opt
 do
 	case $opt in
 	c)
@@ -38,6 +39,9 @@ do
 	d)
 		KSPHOME="$OPTARG"
 		;;
+	C)
+		JUSTCACHE=1
+		;;
 	*)
 		SHOWHELP=1
 		;;
@@ -47,7 +51,7 @@ shift `expr $OPTIND - 1`
 
 if [ "$SHOWHELP" -ne 0 ]
 then
-	echo "usage: $0 [ -c ] [ -d <dir> ] <ksp binary argument> ..."
+	echo "usage: $0 [ -cC ] [ -d <dir> ] <ksp binary argument> ..."
 	exit 1
 fi
 
@@ -75,6 +79,24 @@ unset \
 
 cd "$KSPHOME" || exit 1
 
+mainpid=$$
+(
+	for ext in dll dds png cfg mu
+	do
+		find GameData -type f -size -1000k -name "*.$ext" -print0 | nice xargs -0 cat > /dev/null
+		echo precache $ext done
+		# kill -0 $mainpid > /dev/null 2>&1 || exit 0
+	done
+	echo precache done
+) &
+
+if [ "$JUSTCACHE" -ne 0 ]
+then
+	echo just cacheing...
+	wait
+	exit 0
+fi
+
 find . -type f -print0 | xargs -0 chmod a-x
 find . -name "*.$arch" -print0 | xargs -0 chmod a+x
 
@@ -94,17 +116,6 @@ do
 done
 
 # jstest-gtk
-
-mainpid=$$
-(
-	for ext in dll dds png cfg mu
-	do
-		find GameData -type f -size -1000k -name "*.$ext" -print0 | nice xargs -0 cat > /dev/null
-		echo precache $ext done
-		# kill -0 $mainpid > /dev/null 2>&1 || exit 0
-	done
-	echo precache done
-) &
 
 export __NV_PRIME_RENDER_OFFLOAD=1
 export __GLX_VENDOR_LIBRARY_NAME=nvidia
