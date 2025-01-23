@@ -292,10 +292,7 @@ sub intersects {
 	UNIVERSAL::isa($other, "KSP::Body") and $other = $other->intersectOrbit;
 	$other or return undef;
 	$self->body == $other->body or return undef;
-	$self->pe < $other->pe ?
-		$self->ap >= $other->pe :
-		$other->ap >= $self->pe
-
+	!($self->pe > $other->ap || $self->ap < $other->pe)
 }
 
 sub crosses {
