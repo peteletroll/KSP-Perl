@@ -23,15 +23,13 @@ sub asString {
 		. _encode($self->value())
 }
 
-our @ATTACH;
-BEGIN { @ATTACH = qw(stack SrfAttach allowStack allowSrfAttach allowCollision) }
-
 sub _comment {
 	$KSP::ConfigNode::PUTCOMMENTS or return undef;
 	my ($self) = @_;
 	my $name = $self->name();
 	my $value = $self->value();
 	# warn "_COMMENT(", dump($name), ", ", dump($value), ")\n";
+	my $ATTACH = \@KSP::Part::ATTACH;
 	if ($name eq "attachRules") {
 		# warn "$name\n";
 		defined $value or return undef;
@@ -39,8 +37,8 @@ sub _comment {
 		$value =~ s/\s+//g;
 		my @f = split /,/, $value;
 		my @a = ();
-		foreach my $i (0..$#ATTACH) {
-			my $a = $ATTACH[$i];
+		foreach my $i (0..$#$ATTACH) {
+			my $a = $ATTACH->[$i];
 			push @a, ($f[$i] ? $a : "no $a");
 		}
 		join(", ", @a)
