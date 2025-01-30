@@ -131,7 +131,7 @@ sub nodes {
 			my $name = $1;
 			my @v = map { 0 + $_ } split /\s*,\s*/, $n->value;
 			@v == 6 and push @v, 1;
-			if (@v != 7) {
+			if (@v < 7) {
 				warn "bad node $name in $self ", scalar(@v), "\n";
 				next;
 			}
