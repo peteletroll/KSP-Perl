@@ -130,7 +130,11 @@ sub nodes {
 			$n->name =~ /^node_(.+)$/ or next;
 			my $name = $1;
 			my @v = map { 0 + $_ } split /\s*,\s*/, $n->value;
-			my $pos = V(@v[0..2]);
+			@v == 6 and push @v, 1;
+			if (@v != 7) {
+				warn "bad node $name in $self ", scalar(@v), "\n";
+				next;
+			}
 			exists $n{$name} and warn "repeated node $name in $self\n";
 			$n{$name} = {
 				size => $v[6],
