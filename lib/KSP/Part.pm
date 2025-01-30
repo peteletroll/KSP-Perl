@@ -14,6 +14,7 @@ use KSP::Antenna;
 use KSP::Resource;
 use KSP::Tech;
 use KSP::Util qw(U matcher);
+use Math::Vector::Real;
 
 use KSP::TinyStruct qw(+KSP::DBNode);
 
@@ -118,6 +119,26 @@ sub attach {
 			$a{$a} = $f[$i] ? 1 : 0;
 		}
 		\%a
+	})
+}
+
+sub nodes {
+	my ($self) = @_;
+	scalar $self->cache("nodes", sub {
+		my %n = ();
+		foreach my $n ($self->node->values) {
+			$n->name =~ /^node_(.+)$/ or next;
+			my $name = $1;
+			my @v = map { 0 + $_ } split /\s*,\s*/, $n->value;
+			my $pos = V(@v[0..2]);
+			exists $n{$name} and warn "repeated node $name in $self\n";
+			$n{$name} = {
+				size => $v[6],
+				pos => V(@v[0..2]),
+				dir => V(@v[3..5]),
+			};
+		}
+		\%n
 	})
 }
 
