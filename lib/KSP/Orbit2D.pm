@@ -41,28 +41,28 @@ sub BUILD {
 
 	if (_defined($par, qw(h !r))) {
 		$par{r} = $par{h} + $r;
-		$trace and warn "\tCMP r:\t", _pardesc($par), "\n";
+		$trace and warn "CALC r: ", _pardesc($par), "\n";
 	}
 
 	if (_defined($par, qw(v_soi !v !r))) {
 		$par{v} = $par{v_soi};
 		$par{r} = $body->SOI;
-		$trace and warn "\tCMP v:\t", _pardesc($par), "\n";
+		$trace and warn "CALC v: ", _pardesc($par), "\n";
 	}
 
 	if (_defined($par, qw(v r !E))) {
 		$par{E} = $par{v} ** 2 / 2 - $mu / $par{r};
-		$trace and warn "\tCMP E:\t", _pardesc($par), "\n";
+		$trace and warn "CALC E: ", _pardesc($par), "\n";
 	}
 
 	if (_defined($par, qw(e v !a)) && $par{v} && !$par{e}) {
 		$par{a} = $mu / $par{v} ** 2;
-		$trace and warn "\tCMP a:\t", _pardesc($par), "\n";
+		$trace and warn "CALC a: ", _pardesc($par), "\n";
 	}
 
 	if (_defined($par, qw(v_inf !a))) {
 		$par{a} = -$mu / $par{v_inf} ** 2;
-		$trace and warn "\tCMP a:\t", _pardesc($par), "\n";
+		$trace and warn "CALC a: ", _pardesc($par), "\n";
 	}
 
 	if (_defined($par, qw(E !a))) {
@@ -72,12 +72,12 @@ sub BUILD {
 		} else {
 			$par{inv_a} = 0;
 		}
-		$trace and warn "\tCMP a:\t", _pardesc($par), "\n";
+		$trace and warn "CALC inv_a: ", _pardesc($par), "\n";
 	}
 
 	if (_defined($par, qw(T !a))) {
 		$par{a} = ($mu * ($par{T} / 2 / pi) ** 2) ** (1 / 3);
-		$trace and warn "\tCMP a:\t", _pardesc($par), "\n";
+		$trace and warn "CALC a: ", _pardesc($par), "\n";
 	}
 
 	if (_defined($par, qw(ap pe))) {
@@ -86,58 +86,58 @@ sub BUILD {
 		if ($pe < 0 || $ap > 0 && $pe > $ap) {
 			$par{pe} = $ap;
 			$par{ap} = $pe;
-			$trace and warn "\tSWAP:\t", _pardesc($par), "\n";
+			$trace and warn "SWAP: ", _pardesc($par), "\n";
 		}
 	}
 
 	if (_defined($par, qw(ap pe !a))) {
 		$par{a} = ($par{ap} + $par{pe}) / 2 + $r;
-		$trace and warn "\tCMP a:\t", _pardesc($par), "\n";
+		$trace and warn "CALC a: ", _pardesc($par), "\n";
 	}
 
 	if (_defined($par, qw(a !inv_a)) && $par{a}) {
 		$par{inv_a} = 1 / $par{a};
-		$trace and warn "\tCMP inv_a:\t", _pardesc($par), "\n";
+		$trace and warn "CALC inv_a: ", _pardesc($par), "\n";
 	}
 
 	if (_defined($par, qw(inv_a !a)) && $par{inv_a}) {
 		$par{a} = 1 / $par{inv_a};
-		$trace and warn "\tCMP a:\t", _pardesc($par), "\n";
+		$trace and warn "CALC a: ", _pardesc($par), "\n";
 	}
 
 	if (_defined($par, qw(a pe !ap))) {
 		$par{ap} = 2 * $par{a} - 2 * $r - $par{pe};
-		$trace and warn "\tCMP ap:\t", _pardesc($par), "\n";
+		$trace and warn "CALC ap: ", _pardesc($par), "\n";
 	}
 
 	if (_defined($par, qw(a ap !pe))) {
 		$par{pe} = 2 * $par{a} - 2 * $r - $par{ap};
-		$trace and warn "\tCMP pe:\t", _pardesc($par), "\n";
+		$trace and warn "CALC pe: ", _pardesc($par), "\n";
 	}
 
 	if (_defined($par, qw(ap pe a)) && $par{a} > 0 && $par{ap} < $par{pe}) {
 		($par{ap}, $par{pe}) = ($par{pe}, $par{ap});
-		$trace and warn "\tSWP ap:\t", _pardesc($par), "\n";
+		$trace and warn "SWAP ap: ", _pardesc($par), "\n";
 	}
 
 	if (_defined($par, qw(ap pe !e))) {
 		$par{e} = ($par{ap} - $par{pe}) / ($par{ap} + $par{pe} + 2 * $r);
-		$trace and warn "\tCMP e:\t", _pardesc($par), "\n";
+		$trace and warn "CALC e: ", _pardesc($par), "\n";
 	}
 
 	if (_defined($par, qw(E)) && !$par{E}) {
 		$par{e} = 1;
-		$trace and warn "\tCMP e:\t", _pardesc($par), "\n";
+		$trace and warn "CALC e: ", _pardesc($par), "\n";
 	}
 
 	if (_defined($par, qw(th_dev !th_inf))) {
 		$par{th_inf} = ($par{th_dev} + pi) / 2;
-		$trace and warn "\tCMP th_inf\t", _pardesc($par), "\n";
+		$trace and warn "CALC th_inf ", _pardesc($par), "\n";
 	}
 
 	if (_defined($par, qw(th_inf !e))) {
 		$par{e} = -1 / cos($par{th_inf});
-		$trace and warn "\tCMP e:\t", _pardesc($par), "\n";
+		$trace and warn "CALC e: ", _pardesc($par), "\n";
 	}
 
 	_defined($par, qw(!e)) and croak "can't compute e from $origpar";
@@ -146,17 +146,17 @@ sub BUILD {
 
 	if (_defined($par, qw(pe e !p))) {
 		$par{p} = ($par{pe} + $r) * (1 + $par{e});
-		$trace and warn "\tCMP p:\t", _pardesc($par), "\n";
+		$trace and warn "CALC p: ", _pardesc($par), "\n";
 	}
 
 	if (_defined($par, qw(ap e !p)) && $par{e} != 1) {
 		$par{p} = ($par{ap} + $r) * (1 - $par{e});
-		$trace and warn "\tCMP p:\t", _pardesc($par), "\n";
+		$trace and warn "CALC p: ", _pardesc($par), "\n";
 	}
 
 	if (_defined($par, qw(a !p))) {
 		$par{p} = $par{a} * (1 - $e * $e);
-		$trace and warn "\tCMP p:\t", _pardesc($par), "\n";
+		$trace and warn "CALC p: ", _pardesc($par), "\n";
 	}
 
 	_defined($par, qw(!p)) and croak "can't compute p from $origpar";
@@ -183,7 +183,12 @@ sub _defined($@) {
 sub _pardesc($) {
 	my ($par) = @_;
 	join(", ",
-		map { sprintf "%s=%g", $_, $par->{$_} }
+		map {
+			my $n = sprintf "%s=%.3g", $_, $par->{$_};
+			$n =~ s/(e)\+(\d+)\Z/$1$2/i;
+			$n =~ s/(e)([+\-]*)0*(\d+)\Z/$1$2$3/i;
+			$n
+		}
 		sort grep { defined $par->{$_} }
 		keys %$par) || "nothing";
 }
