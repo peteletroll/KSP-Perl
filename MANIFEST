@@ -23,6 +23,7 @@ lib/KSP/DeltaVGraph.pm
 lib/KSP/TinyParser.pm
 lib/KSP/TinyStruct.pm
 lib/KSP/StopWatch.pm
+lib/KSP/IndentParser.pm
 Makefile.PL
 MANIFEST
 README

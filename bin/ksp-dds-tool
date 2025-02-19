@@ -18,6 +18,8 @@ use File::Temp;
 use File::Copy;
 use File::Find;
 
+use KSP::IndentParser;
+
 ############################################################
 
 sub ispowerof2($) {
@@ -174,6 +176,8 @@ sub indent_parser($) {
 		}
 	}
 	$pop->() while @st > 1;
+	use JSON;
+	print to_json($st[0]{body}, { pretty => 1 }), "\n";
 	$st[0]{body}
 }
 
