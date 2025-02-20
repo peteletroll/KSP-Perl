@@ -132,53 +132,11 @@ sub mv($$) {
 
 sub indent_parser($) {
 	my ($in) = @_;
-
-	local $_;
-	my @st = ();
-
-	my $push = sub { push @st, { ind => $_[0], body => [ ] } };
-
-	my $pop = sub {
-		my $tos = pop @st;
-		push @{$st[-1]{body}[-1]{body}}, @{$tos->{body}};
-	};
-
-	my $add = sub { push @{$st[-1]{body}}, @_ };
-
-	$push->(0);
-
+	my $ip = KSP::IndentParser->new();
 	while (<$in>) {
-		s/\s+$//s;
-		next if $_ eq "";
-		my $ind = 0;
-		while (s/^( +|\t)//) {
-			if ($1 eq "\t") {
-				$ind = $ind + 8 - ($ind & 7);
-			} else {
-				$ind += length $1;
-			}
-		}
-		
-		# /^(\d+):/ and $ind += length($1);
-
-		if ($ind > $st[-1]{ind}) {
-			$push->($ind);
-		} elsif ($ind < $st[-1]{ind}) {
-			while ($ind < $st[-1]{ind}) {
-				$pop->();
-			}
-			$ind == $st[-1]{ind} or die "$0: bad dedent at `$_'\n";
-		}
-		if (/^(.+?)\s*:\s*(.*)/) {
-			$add->({ name => $1, (($2 eq "") ? () : (value => $2)) });
-		} else {
-			$add->({ name => $_ });
-		}
+		$ip->add($_);
 	}
-	$pop->() while @st > 1;
-	use JSON;
-	print to_json($st[0]{body}, { pretty => 1 }), "\n";
-	$st[0]{body}
+	$ip->parsed_body();
 }
 
 sub _get($$@);
