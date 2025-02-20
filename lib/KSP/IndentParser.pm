@@ -69,29 +69,5 @@ sub body {
 	wantarray ? @$b : $b
 }
 
-sub _parse($);
-sub _parse($) {
-	my @b = @{$_[0]};
-	my @ret = ();
-	while (@b) {
-		local $_ = shift @b;
-		ref $_ and croak "unexpected ", ref $_;
-		if (/^(.+?)\s*:\s*(.*)/) {
-			push @ret, { name => $1, (($2 eq "") ? () : (value => $2)) };
-		} else {
-			push @ret, { name => $_ };
-		}
-		if (@b && ref($b[0]) eq "ARRAY") {
-			$ret[-1]->{body} = _parse(shift @b);
-		}
-	}
-	wantarray ? @ret : \@ret
-}
-
-sub parsed_body {
-	my ($self) = @_;
-	_parse($self->body);
-}
-
 1;
 
