@@ -51,7 +51,7 @@ sub desc {
 	scalar $self->cache("desc", sub {
 		my $ret = $self->name . "[ ";
 		$ret .= "lvl " . $self->level . "; ";
-		$ret .= $self->cost . "\x{269b}";
+		$ret .= $self->cost . "⚛";
 		$ret .= " ]";
 		$ret
 	})

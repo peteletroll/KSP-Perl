@@ -151,7 +151,7 @@ sub path {
 			while (my $prev = $res->{$at}[1]) {
 				my $dist = $scale * ($res->{$at}[0] - $res->{$prev}[0]);
 				# warn "DIST $dist\n";
-				push @path, sprintf "%7d %7d %12s \x{2192} %s", $dist, $scale * ($res->{$at}[0] + $carry), $prev, $at;
+				push @path, sprintf "%7d %7d %12s → %s", $dist, $scale * ($res->{$at}[0] + $carry), $prev, $at;
 				$at = $prev;
 			}
 			print "$_\n" foreach reverse @path;
@@ -164,7 +164,7 @@ sub path {
 		my $res = $self->dijkstra_graph($from);
 		# print "dijkstra_graph($from) = ", dump($res), "\n";
 		foreach my $to (sort { $res->{$a}[0] <=> $res->{$b}[0] } keys %$res) {
-			printf "%7d %12s \x{2192} %s\n", $scale * $res->{$to}[0], $from, $to
+			printf "%7d %12s → %s\n", $scale * $res->{$to}[0], $from, $to
 				if defined $res->{$to}[1];
 		}
 	} elsif (@_ == 0) {
