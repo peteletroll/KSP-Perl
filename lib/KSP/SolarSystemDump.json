@@ -363,6 +363,13 @@
           "class": "PQSCity2"
         },
         {
+          "name": "Woomerang_Launch_Site",
+          "objectName": "Woomerang_Launch_Site",
+          "lat": 45.289603354010659,
+          "lon": 136.10998341516066,
+          "class": "PQSCity2"
+        },
+        {
           "name": "Anniversary2",
           "objectName": "Anniversary2",
           "lat": -17.534202575683594,
