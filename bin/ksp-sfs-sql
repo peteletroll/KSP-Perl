@@ -398,7 +398,7 @@ foreach my $r ($SFS->find("VESSEL")) {
 	my $parts = @parts;
 	my $uri = undef;
 	my $sit = $r->get("sit") || "";
-	if ($sit =~ /landed|splashed/i) {
+	if ($sit =~ /landed|splashed|prelaunch/i) {
 		my $lat = $r->get("lat");
 		my $lon = $r->get("lon");
 		$uri = maplink($b, $lat, $lon);
