@@ -363,6 +363,13 @@
           "class": "PQSCity2"
         },
         {
+          "name": "Dessert_Launch_Site",
+          "objectName": "Dessert_Launch_Site",
+          "lat": -6.5603224138079979,
+          "lon": -143.94986568603511,
+          "class": "PQSCity2"
+        },
+        {
           "name": "Woomerang_Launch_Site",
           "objectName": "Woomerang_Launch_Site",
           "lat": 45.289603354010659,
