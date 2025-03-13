@@ -7,7 +7,7 @@ use warnings;
 use File::stat;
 
 use Exporter qw(import);
-our @EXPORT_OK = qw(U Part Tech Resource sortby isnumber stumpff2 stumpff3 error matcher proxy deparse filekey CACHE);
+our @EXPORT_OK = qw(U Part Tech Resource sortby indexby isnumber stumpff2 stumpff3 error matcher proxy deparse filekey CACHE);
 
 use Carp;
 use Scalar::Util qw(dualvar isdual looks_like_number);
@@ -96,6 +96,18 @@ sub sortby(&@) {
 		return isnumber($kb) ? 1 : $ka cmp $kb;
 	} map { [ $k->(), $_ ] }
 	@l
+}
+
+sub indexby(&@) {
+	my ($k, @l) = @_;
+	local $_;
+	my %ret = ();
+	foreach (@l) {
+		my $v = $k->();
+		defined $v or $v = "";
+		push @{$ret{"$v"}}, $_
+	}
+	wantarray ? %ret : \%ret
 }
 
 sub isnumber($) {
