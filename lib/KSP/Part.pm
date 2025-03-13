@@ -312,6 +312,11 @@ sub resourceInfo {
 	})
 }
 
+sub physics {
+	my ($self) = @_;
+	$self->node->get("PhysicsSignificance") ? 0 : 1
+}
+
 sub wetMass {
 	my ($self) = @_;
 	scalar $self->cache("wetMass", sub {
