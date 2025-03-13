@@ -31,7 +31,7 @@ sub _load() {
 
 sub desc {
 	my ($self) = @_;
-	$self->name . "[ " . U(1000 * $self->unitMass) . "g/u ]"
+	$self->name . "[ " . U(1000 * $self->unitMass) . "g/u; " . $self->flowMode . " ]"
 }
 
 sub all {
@@ -48,6 +48,11 @@ sub get {
 		$p->name =~ $matcher and push @ret, $p;
 	}
 	wantarray ? @ret : $ret[0]
+}
+
+sub flowMode {
+	my ($self) = @_;
+	$self->node->get("flowMode", "UNK")
 }
 
 sub unitMass {
