@@ -84,16 +84,23 @@ sub Resource(;$) {
 	@_ ? KSP::Resource->get($_[0]) : KSP::Resource->all()
 }
 
+sub _smartcmp($$) {
+	my ($ka, $kb) = @_;
+	use Data::Dump qw(dump);
+	defined($ka) or return defined($kb) ? -1 : 0;
+	defined($kb) or return 1;
+	isnumber($ka) and return isnumber($kb) ? $ka <=> $kb : -1;
+	return isnumber($kb) ? 1 : $ka cmp $kb;
+}
+
 sub sortby(&@) {
 	my ($k, @l) = @_;
 	local $_;
 	map { $_->[1] }
 	sort {
+		use Data::Dump qw(dump);
 		my ($ka, $kb) = ($a->[0], $b->[0]);
-		defined($ka) or return defined($kb) ? -1 : 0;
-		defined($kb) or return 1;
-		isnumber($ka) and return isnumber($kb) ? $ka <=> $kb : -1;
-		return isnumber($kb) ? 1 : $ka cmp $kb;
+		_smartcmp($ka, $kb);
 	} map { [ $k->(), $_ ] }
 	@l
 }
@@ -111,7 +118,8 @@ sub indexby(&@) {
 }
 
 sub isnumber($) {
-	isdual($_[0]) || looks_like_number($_[0])
+	my ($x) = @_;
+	isdual($x) || looks_like_number($x);
 }
 
 sub stumpff2($) {
