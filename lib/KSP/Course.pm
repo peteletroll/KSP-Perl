@@ -69,17 +69,10 @@ sub nextBurnHeight {
 
 sub desc {
 	my ($self) = @_;
-	my $table = Text::Table->new(
-		{ align => "right" },
-		{ align => "left" },
-		\"  ",
-		{ align => "right" },
-		\"  ",
-		{ align => "right" },
-		\"  ",
-		{ align => "left" },
-		{ align => "left" },
-	);
+	my $al = { align => "left" };
+	my $ar = { align => "right" };
+	my $sp = \"  ";
+	my $table = Text::Table->new($ar, $al, $sp, $ar, $sp, $ar, $sp, $al, $al);
 	for (my $i = 0; $i < $self->length; $i++) {
 		$table->add($self->_row($i));
 	}
