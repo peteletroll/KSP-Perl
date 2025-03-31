@@ -350,15 +350,17 @@ sub rocInfo {
 
 sub rocInfoInv {
 	my ($self) = @_;
-	my $i = $self->rocInfo;
-	my %ret = map { $_ => [ ] } $self->biomes;
-	foreach my $r (sort keys %$i) {
-		my $b = $i->{$r};
-		if (ref $b eq "ARRAY") {
-			push @{$ret{$_}}, $r foreach @$b;
+	$self->cache("rocInfoInv", sub {
+		my $i = $self->rocInfo;
+		my %ret = map { $_ => [ ] } $self->biomes;
+		foreach my $r (sort keys %$i) {
+			my $b = $i->{$r};
+			if (ref $b eq "ARRAY") {
+				push @{$ret{$_}}, $r foreach @$b;
+			}
 		}
-	}
-	\%ret
+		\%ret
+	})
 }
 
 sub veq {
