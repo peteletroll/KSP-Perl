@@ -86,7 +86,6 @@ sub Resource(;$) {
 
 sub _smartcmp($$) {
 	my ($ka, $kb) = @_;
-	use Data::Dump qw(dump);
 	defined($ka) or return defined($kb) ? -1 : 0;
 	defined($kb) or return 1;
 	isnumber($ka) and return isnumber($kb) ? $ka <=> $kb : -1;
@@ -98,7 +97,6 @@ sub sortby(&@) {
 	local $_;
 	map { $_->[1] }
 	sort {
-		use Data::Dump qw(dump);
 		my ($ka, $kb) = ($a->[0], $b->[0]);
 		_smartcmp($ka, $kb);
 	} map { [ $k->(), $_ ] }
