@@ -51,6 +51,7 @@ sub dv {
 	my ($self, $at) = @_;
 	my $l = $self->length;
 	defined $at or $at = $l - 1;
+	$at < 0 and $at = $l + $at;
 	$at >= 0 or $at = 0;
 	$at < $l or $at = $l - 1;
 	my $dv = 0;
