@@ -48,5 +48,12 @@ sub cached {
 	}
 }
 
+sub clearCache {
+	my ($self) = @_;
+	$self->set_scalar_cache(undef);
+	$self->set_list_cache(undef);
+	$self
+}
+
 1;
 
