@@ -69,8 +69,6 @@ sub radius {
 sub SOI {
 	my ($self) = @_;
 	scalar $self->cache("SOI", sub {
-		my $soi = $self->json->{size}{sphereOfInfluence};
-		defined $soi and return U($soi, "m");
 		my $parent = $self->parent;
 		$parent ? U($self->orbit->a * ($self->mass / $parent->mass) ** (2 / 5), "m") : undef
 	})
@@ -79,8 +77,6 @@ sub SOI {
 sub mass {
 	my ($self) = @_;
 	scalar $self->cache("mass", sub {
-		my $mass = $self->json->{size}{mass};
-		defined $mass and return $mass;
 		$self->mu / $self->system->G
 	})
 }
@@ -448,7 +444,6 @@ sub orbit {
 	@rest or return scalar $self->cache("bodyOrbit", sub {
 		my $p = $self->parent or return undef;
 		KSP::Orbit2D->new($p,
-			p => $self->json->{orbit}{semiLatusRectum},
 			a => $self->json->{orbit}{semiMajorAxis},
 			e => $self->json->{orbit}{eccentricity})
 	});
