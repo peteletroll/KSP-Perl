@@ -377,60 +377,25 @@
           "class": "PQSCity"
         },
         {
-          "name": "Island_Airfield",
-          "objectName": "Island_Airfield",
-          "lat": -1.5292754088285911,
-          "lon": -71.885304024834014,
-          "class": "LaunchSite+SpawnPoint"
-        },
-        {
           "name": "Woomerang_Launch_Site",
           "objectName": "Woomerang_Launch_Site",
-          "lat": 45.289617706498589,
-          "lon": 136.10998454633074,
-          "class": "LaunchSite+SpawnPoint"
+          "lat": 45.290004730224609,
+          "lon": 136.11000061035156,
+          "class": "PQSCity2"
         },
         {
           "name": "Desert_Airfield",
           "objectName": "Desert_Airfield",
-          "lat": -6.5997044683641137,
-          "lon": -144.04086747365258,
-          "class": "LaunchSite+SpawnPoint"
+          "lat": -6.5199999809265137,
+          "lon": -144.04000854492188,
+          "class": "PQSCity2"
         },
         {
           "name": "Desert_Launch_Site",
           "objectName": "Desert_Launch_Site",
-          "lat": -6.5603810053290417,
-          "lon": -143.95000368504049,
-          "class": "LaunchSite+SpawnPoint"
-        },
-        {
-          "name": "Crater_Launch_Site",
-          "objectName": "Crater_Launch_Site",
-          "lat": 8.3858308190859745,
-          "lon": -179.69771553532476,
-          "class": "LaunchSite+SpawnPoint"
-        },
-        {
-          "name": "MahiMahi_Launch_Site",
-          "objectName": "MahiMahi_Launch_Site",
-          "lat": -49.802551510535537,
-          "lon": -120.76610963712312,
-          "class": "LaunchSite+SpawnPoint"
-        },
-        {
-          "name": "Cove_Launch_Site",
-          "objectName": "Cove_Launch_Site",
-          "lat": 3.7477828299157538,
-          "lon": -72.213327208958518,
-          "class": "LaunchSite+SpawnPoint"
-        },
-        {
-          "name": "GlacierLake_Launch_Site",
-          "objectName": "GlacierLake_Launch_Site",
-          "lat": 73.5614946234844,
-          "lon": 84.247966643037032,
-          "class": "LaunchSite+SpawnPoint"
+          "lat": -6.559999942779541,
+          "lon": -143.95001220703125,
+          "class": "PQSCity2"
         }
       ],
       "roc": {
@@ -1812,7 +1777,7 @@
         "referenceBody": "Jool",
         "period": 544507.42851665418,
         "semiMajorAxis": 128500000,
-        "semiLatusRectum": 121403587.53599818,
+        "semiLatusRectum": 121403587.5359982,
         "eccentricity": 0.234999999403954,
         "inclinationRad": 0.26179938779914941,
         "inclinationDeg": 15,
