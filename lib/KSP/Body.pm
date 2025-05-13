@@ -400,7 +400,7 @@ sub siderealDay {
 		$self->json->{rotation}{rotationPeriod}
 }
 
-sub solarDayLength {
+sub solarDay {
 	$_[0]->json->{rotation}{solarDayLength}
 }
 
