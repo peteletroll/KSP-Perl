@@ -122,6 +122,6 @@ export __GLX_VENDOR_LIBRARY_NAME=nvidia
 
 wrapper="`which primusrun`"
 # [ -z "$wrapper" ] || wrapper="$wrapper --failsafe"
-echo RUN "$wrapper" "./KSP.$arch" "$@"
+echo RUN $wrapper "./KSP.$arch" "$@"
 $wrapper "./KSP.$arch" "$@"
 
