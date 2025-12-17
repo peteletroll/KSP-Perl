@@ -9,21 +9,37 @@ use File::Temp;
 use URI;
 use KSP qw(:all);
 
-binmode \*STDOUT, ":utf8";
-
 ##################################################
 
 # process parameters
 
 ##################################################
 
-our $script = $0;
-$script =~ s/.*\///;
-our $usage = "usage: $script [ -dip ] [ <db> ] <save file or save name>\n";
+our $VERSION = $KSP::VERSION;
+
+binmode $_, ":utf8" foreach (\*STDOUT, \*STDERR);
+
+sub help_message() {
+	my $script = $0;
+	$script =~ s/.*\///;
+	"usage: $script [ -dip ] [ <db> ] <save file or save name>\n";
+}
 
 use Getopt::Std;
+$Getopt::Std::STANDARD_HELP_VERSION = 1;
+
+sub HELP_MESSAGE {
+	my ($out, $pkg, $ver, $swtch) = @_;
+	print $out help_message();
+}
+
+sub VERSION_MESSAGE {
+	my ($out, $pkg, $ver, $swtch) = @_;
+	print $out "Version $VERSION\n";
+}
+
 our %opt = ();
-getopts("dip", \%opt) or die $usage;
+getopts("dip", \%opt) or die help_message();
 
 our $FILE = ($opt{p} ? "persistent" : "quicksave") . ".sfs";
 
@@ -37,11 +53,11 @@ our ($DBNAME, $SFSNAME);
 if (@ARGV == 2) {
 	($DBNAME, $SFSNAME) = @ARGV;
 } elsif (@ARGV == 1) {
-	$DBNAME = File::Temp->new(DIR => "/var/tmp", TEMPLATE => "$script-XXXXXXXX", SUFFIX => ".db");
+	$DBNAME = File::Temp->new(DIR => "/var/tmp", TEMPLATE => "ksp-sfs-XXXXXXXX", SUFFIX => ".db");
 	($SFSNAME) = @ARGV;
 	$RUNSQLITE = 1;
 } else {
-	die $usage;
+	die help_message();
 }
 
 if ($SFSNAME !~ /\// && ! -f $SFSNAME) {
@@ -475,7 +491,7 @@ runqueue();
 
 if ($RUNSQLITE) {
 	my $init = File::Temp->new(DIR => "/var/tmp",
-		TEMPLATE => "$script-XXXXXXXX",
+		TEMPLATE => "ksp-sfs-XXXXXXXX",
 		SUFFIX => ".sqlite");
 	my $prompt = $TITLE;
 	$prompt =~ s/\(.*$//;
