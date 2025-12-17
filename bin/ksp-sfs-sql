@@ -335,7 +335,7 @@ view("report", q{
 		and (sources.situation = science.situation or (sources.situation is null and science.situation is null))
 });
 
-my @roster_cols = qw(name gender type trait state badS:b hero:b veteran:b tour:b inactive:b);
+my @roster_cols = qw(name gender trait type state badS:b hero:b veteran:b tour:b inactive:b);
 create(roster => @roster_cols);
 create(career => qw(name flight body situation));
 s/:\w+$// foreach @roster_cols;
