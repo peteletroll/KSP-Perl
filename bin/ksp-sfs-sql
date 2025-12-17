@@ -315,6 +315,13 @@ view("results", q{
 	order by experiment, situation
 });
 
+view("biome_sources", q{
+	select distinct experiment, situation
+	from science
+	where biome is not null
+	order by experiment, situation
+});
+
 view("sources_full", q{
 	select *
 	from biomes
