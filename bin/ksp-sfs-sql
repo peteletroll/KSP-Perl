@@ -228,14 +228,16 @@ sub maplink($$$) {
 	$uri
 }
 
-mktable(bodies => qw(index:i body sort:i parent radius:r atmosphere:b ocean:b surface:b));
+mktable(bodies => qw(body parent index:i sort:i atmosphere:b ocean:b surface:b));
 $SW->reset->start;
 $DB->begin_work;
 my $bodysort = 0;
 foreach my $b ($system->bodies) {
-	insert("bodies", $b->index, $b->name, $bodysort++,
+	insert("bodies",
+		$b->name,
 		($b->parent ? $b->parent->name : undef),
-		0 + $b->radius,
+		$b->index,
+		$bodysort++,
 		($b->atmosphereDepth > 0 ? 1 : 0),
 		($b->hasOcean ? 1 : 0),
 		($b->hasSurface ? 1 : 0));
@@ -243,23 +245,23 @@ foreach my $b ($system->bodies) {
 $DB->commit;
 printf "-- Generated table bodies [$insert_count{bodies}] in %1.3f seconds\n", $SW->read;
 
-mktable(biomes_all => qw(body biome ismini:b));
+mktable(biomes_raw => qw(body biome ismini:b));
 $SW->reset->start;
 $DB->begin_work;
 foreach my $b ($system->bodies) {
 	foreach my $i (undef, $b->biomes) {
-		insert("biomes_all", $b->name, $i, 0);
+		insert("biomes_raw", $b->name, $i, 0);
 	}
 	foreach my $i ($b->miniBiomes) {
-		insert("biomes_all", $b->name, $i, 1);
+		insert("biomes_raw", $b->name, $i, 1);
 	}
 }
 $DB->commit;
-printf "-- Generated table biomes_all [$insert_count{biomes_all}] in %1.3f seconds\n", $SW->read;
+printf "-- Generated table biomes_raw [$insert_count{biomes_raw}] in %1.3f seconds\n", $SW->read;
 
 mkview("biomes", q{
 	select body, biome
-	from biomes_all
+	from biomes_raw
 	where not ismini
 });
 
@@ -283,17 +285,17 @@ foreach my $c ($SFS->find("CAREER")) {
 	$sm > 0 && $sm < 1.00001 and $scienceGainMultiplier = $sm;
 }
 
-mktable(science_full => qw(experiment body situation biome extra points:r full:r id));
+mktable(science_raw => qw(experiment body situation biome extra points:r full:r id));
 $SW->reset->start;
 $DB->begin_work;
 foreach my $n ($SFS->find("Science", id => qr/\@/)) {
 	my $id = $n->get("id");
 	my $points = $scienceGainMultiplier * $n->get("sci");
 	my $full = $scienceGainMultiplier * $n->get("cap");
-	insert("science_full", parseScienceId($id), $points, $full, $id);
+	insert("science_raw", parseScienceId($id), $points, $full, $id);
 }
 $DB->commit;
-printf "-- Generated table science_full [$insert_count{science_full}] in %1.3f seconds\n", $SW->read;
+printf "-- Generated table science_raw [$insert_count{science_raw}] in %1.3f seconds\n", $SW->read;
 
 mkview("science", q{
 	select bodies.body,
@@ -304,15 +306,15 @@ mkview("science", q{
 		printf('%6.2f', points) as points,
 		printf('%6.2f', full) as full,
 		printf('%1.2f', points / full) as perc
-	from science_full, bodies
-	where science_full.body = bodies.body
+	from science_raw, bodies
+	where science_raw.body = bodies.body
 	order by bodies.sort, situation, extra, experiment, extra, full
 });
 
 mkview("results", q{
 	select distinct experiment, situation,
 		iif(biome is null, 1, 0) as nullbiome
-	from science_full
+	from science_raw
 	where experiment <> 'ROCScience'
 	order by experiment, situation
 });
@@ -340,12 +342,12 @@ mkview("sources_full", q{
 	select *
 	from biomes
 	join (select experiment, situation from results where nullbiome = 0)
-	where biome is not null and body in (select distinct body from science_full)
+	where biome is not null and body in (select distinct body from science_raw)
 	union
 	select *
 	from biomes
 	join (select experiment, situation from results where nullbiome > 0)
-	where biome is null and body in (select distinct body from science_full)
+	where biome is null and body in (select distinct body from science_raw)
 });
 
 mkview("sources", q{
@@ -398,7 +400,7 @@ $DB->commit;
 printf "-- Generated table roster [$insert_count{roster}], career [$insert_count{career}] in %1.3f seconds\n", $SW->read;
 
 my @resources_cols = qw(body:i biome);
-mktable(resources_full => @resources_cols);
+mktable(resources_raw => @resources_cols);
 s/:\w+$// foreach @roster_cols;
 $SW->reset->start;
 $DB->begin_work;
@@ -408,22 +410,22 @@ foreach my $r ($SFS->find("SCENARIO", name => "ResourceScenario")) {
 		defined $id or next;
 		my $biome = $k->get("BiomeName");
 		$biome and $biome =~ s/\s+//gs;
-		insert("resources_full", $id, $biome);
+		insert("resources_raw", $id, $biome);
 	}
 }
 $DB->commit;
-printf "-- Generated table resources_full [$insert_count{roster}], career [$insert_count{career}] in %1.3f seconds\n", $SW->read;
+printf "-- Generated table resources_raw [$insert_count{roster}], career [$insert_count{career}] in %1.3f seconds\n", $SW->read;
 
 mkview("resources", q{
-	select bodies.body, resources_full.biome
-	from resources_full
+	select bodies.body, resources_raw.biome
+	from resources_raw
 	left join bodies
-		on resources_full.body = bodies.`index`
+		on resources_raw.body = bodies.`index`
 	order by bodies.sort, biome
 });
 
 my @vessels_cols = qw(persistentId:i pid type name lct:r ctrl:b sit);
-mktable(vessels_full => @vessels_cols, qw(body parts:i uri));
+mktable(vessels_raw => @vessels_cols, qw(body parts:i uri));
 s/:\w+$// foreach @vessels_cols;
 $SW->reset->start;
 $DB->begin_work;
@@ -440,10 +442,22 @@ foreach my $r ($SFS->find("VESSEL")) {
 		my $lon = $r->get("lon");
 		$uri = maplink($b, $lat, $lon);
 	}
-	insert("vessels_full", (map { scalar $r->get($_) } @vessels_cols), $b, $parts, $uri);
+	insert("vessels_raw", (map { scalar $r->get($_) } @vessels_cols), $b, $parts, $uri);
 }
 $DB->commit;
-printf "-- Generated table vessels_full [$insert_count{vessels_full}] in %1.3f seconds\n", $SW->read;
+printf "-- Generated table vessels_raw [$insert_count{vessels_raw}] in %1.3f seconds\n", $SW->read;
+
+mkview("vessels", q{
+	select persistentId as id,
+		sit as situation,
+		vessels_raw.body,
+		ctrl, parts,
+		round(lct / 3600 / 6) as launch,
+		type, name
+	from vessels_raw, bodies
+	where vessels_raw.body = bodies.body
+	order by bodies.sort, lct
+});
 
 my @waypoints_cols = qw(name body lat:r lon:r uri);
 mktable(waypoints => @waypoints_cols);
@@ -476,21 +490,9 @@ foreach my $c ($SFS->find("CONTRACT")) {
 $DB->commit;
 printf "-- Generated table waypoints [$insert_count{waypoints}] in %1.3f seconds\n", $SW->read;
 
-mkview("vessels", q{
-	select persistentId as id,
-		sit as situation,
-		vessels_full.body,
-		ctrl, parts,
-		round(lct / 3600 / 6) as launch,
-		type, name
-	from vessels_full, bodies
-	where vessels_full.body = bodies.body
-	order by bodies.sort, lct
-});
-
 mkview("maplinks_full", q{
-	select vessels_full.body, substring(type, 1, 9) as type, name, uri
-	from vessels_full
+	select vessels_raw.body, substring(type, 1, 9) as type, name, uri
+	from vessels_raw
 	where uri is not null
 	union
 	select waypoints.body, 'Waypoint' as type, name, uri
