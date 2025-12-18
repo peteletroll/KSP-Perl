@@ -221,8 +221,10 @@ sub insert($@) {
 sub maplink($$$) {
 	my ($body, $lat, $lon) = @_;
 	my $uri = URI->new("http://localhost/~pietro/ksp/ksp-sphere-map/main.html");
-	$uri->query_form(body => lc $body,
-		lat => sprintf("%1.3f", $lat), lon => sprintf("%1.3f", $lon));
+	$uri->query_form(
+		body => lc $body,
+		lat => sprintf("%1.3f", $lat),
+		lon => sprintf("%1.3f", $lon));
 	$uri
 }
 
@@ -239,7 +241,7 @@ foreach my $b ($system->bodies) {
 		($b->hasSurface ? 1 : 0));
 }
 $DB->commit;
-printf "-- Generated bodies [$insert_count{bodies}] in %1.3f seconds\n", $SW->read;
+printf "-- Generated table bodies [$insert_count{bodies}] in %1.3f seconds\n", $SW->read;
 
 mktable(biomes_all => qw(body biome ismini:b));
 $SW->reset->start;
@@ -253,7 +255,7 @@ foreach my $b ($system->bodies) {
 	}
 }
 $DB->commit;
-printf "-- Generated biomes_all [$insert_count{biomes_all}] in %1.3f seconds\n", $SW->read;
+printf "-- Generated table biomes_all [$insert_count{biomes_all}] in %1.3f seconds\n", $SW->read;
 
 mkview("biomes", q{
 	select body, biome
@@ -273,7 +275,7 @@ foreach my $b ($system->bodies) {
 	}
 }
 $DB->commit;
-printf "-- Generated roc [$insert_count{roc}] in %1.3f seconds\n", $SW->read;
+printf "-- Generated table roc [$insert_count{roc}] in %1.3f seconds\n", $SW->read;
 
 my $scienceGainMultiplier = 1;
 foreach my $c ($SFS->find("CAREER")) {
@@ -291,7 +293,7 @@ foreach my $n ($SFS->find("Science", id => qr/\@/)) {
 	insert("science_full", parseScienceId($id), $points, $full, $id);
 }
 $DB->commit;
-printf "-- Generated science_full [$insert_count{science_full}] in %1.3f seconds\n", $SW->read;
+printf "-- Generated table science_full [$insert_count{science_full}] in %1.3f seconds\n", $SW->read;
 
 mkview("science", q{
 	select bodies.body,
@@ -381,7 +383,7 @@ foreach my $r ($SFS->find("ROSTER")) {
 	}
 }
 $DB->commit;
-printf "-- Generated roster [$insert_count{roster}], career [$insert_count{career}] in %1.3f seconds\n", $SW->read;
+printf "-- Generated table roster [$insert_count{roster}], career [$insert_count{career}] in %1.3f seconds\n", $SW->read;
 
 my @resources_cols = qw(body:i biome);
 mktable(resources_full => @resources_cols);
@@ -398,7 +400,7 @@ foreach my $r ($SFS->find("SCENARIO", name => "ResourceScenario")) {
 	}
 }
 $DB->commit;
-printf "-- Generated resources_full [$insert_count{roster}], career [$insert_count{career}] in %1.3f seconds\n", $SW->read;
+printf "-- Generated table resources_full [$insert_count{roster}], career [$insert_count{career}] in %1.3f seconds\n", $SW->read;
 
 mkview("resources", q{
 	select bodies.body, resources_full.biome
@@ -429,7 +431,7 @@ foreach my $r ($SFS->find("VESSEL")) {
 	insert("vessels_full", (map { scalar $r->get($_) } @vessels_cols), $b, $parts, $uri);
 }
 $DB->commit;
-printf "-- Generated vessels_full [$insert_count{vessels_full}] in %1.3f seconds\n", $SW->read;
+printf "-- Generated table vessels_full [$insert_count{vessels_full}] in %1.3f seconds\n", $SW->read;
 
 my @waypoints_cols = qw(name body lat:r lon:r uri);
 mktable(waypoints => @waypoints_cols);
@@ -460,7 +462,7 @@ foreach my $c ($SFS->find("CONTRACT")) {
 	}
 }
 $DB->commit;
-printf "-- Generated waypoints [$insert_count{waypoints}] in %1.3f seconds\n", $SW->read;
+printf "-- Generated table waypoints [$insert_count{waypoints}] in %1.3f seconds\n", $SW->read;
 
 mkview("vessels", q{
 	select persistentId as id,
