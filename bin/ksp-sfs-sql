@@ -160,7 +160,7 @@ our %insert_count = ();
 
 sub mktable($@) {
 	my ($table, @col) = @_;
-	my @idx = ();
+	my @index = ();
 	$insert_count{$table} = 0;
 	run("drop table if exists " . qi($table));
 	run("create table " . qi($table) . " ("
@@ -177,12 +177,12 @@ sub mktable($@) {
 					$type = "boolean";
 				}
 			}
-			push @idx, $col;
+			push @index, $col;
 			"\n\t" . qi($col) . " " . $type
 		} @col)
 		. ")");
 	if ($INDEX) {
-		foreach my $c (@idx) {
+		foreach my $c (@index) {
 			enqueue("create index " . qi("idx_${table}_${c}") . " on " . qi($table) . " (" . qi($c). ")");
 		}
 	}
@@ -228,7 +228,7 @@ sub maplink($$$) {
 	$uri
 }
 
-mktable(bodies => qw(body parent index:i sort:i atmosphere:b ocean:b surface:b));
+mktable(bodies => qw(body parent idx:i sort:i atmosphere:b ocean:b surface:b));
 $SW->reset->start;
 $DB->begin_work;
 my $bodysort = 0;
@@ -420,7 +420,7 @@ mkview(resources => q{
 	select bodies.body, resources_raw.biome
 	from resources_raw
 	left join bodies
-		on resources_raw.body = bodies."index"
+		on resources_raw.body = bodies.idx
 	order by bodies.sort, biome
 });
 
