@@ -317,6 +317,18 @@ mkview("results", q{
 	order by experiment, situation
 });
 
+mkview("situations", q{
+	select distinct b.body, s.situation
+	from sources_full as s
+	left join bodies as b
+		on s.body = b.body
+	where not (situation like 'Srf%' or situation like 'Flying%')
+		or (situation like 'Flying%' and atmosphere)
+		or (situation = 'SrfSplashed' and ocean)
+		or (situation = 'SrfLanded' and surface)
+	order by b.sort, situation
+});
+
 mkview("biome_sources", q{
 	select distinct experiment, situation
 	from science
