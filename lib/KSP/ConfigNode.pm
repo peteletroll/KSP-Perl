@@ -65,7 +65,16 @@ sub load {
 			or croak "can't open $file: $!";
 	}
 	local $/ = undef;
-	my $cnt = <FILE>;
+	my $cnt;
+	if ($file =~ /\.gz$/) {
+		require IO::Uncompress::Gunzip;
+		my $gz = IO::Uncompress::Gunzip->new(\*FILE, -transparent => 0)
+			or die "IO::Uncompress::Gunzip failed: $IO::Uncompress::Gunzip::GunzipError\n";;
+		$cnt = <$gz>;
+		close $gz or croak "can't close $gz: $!";
+	} else {
+		$cnt = <FILE>;
+	}
 	close FILE or croak "can't close $file: $!";
 	unless (utf8::is_utf8($cnt) || utf8::decode($cnt)) {
 		warn "warning: $file is not UTF-8, reading as latin-1\n";
