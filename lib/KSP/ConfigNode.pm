@@ -55,31 +55,29 @@ sub gulp {
 
 sub load {
 	my ($pkg, $file) = @_;
-	my $stdin = 0;
+
+	my $mayrecode = 0;
+	my $IN = undef;
 	if ($file eq "-") {
-		open FILE, "<&:bytes", \*STDIN
-			or croak "can't dup STDIN: $!";
-		$stdin = 1;
-	} else {
-		open FILE, "<:bytes", $file
-			or croak "can't open $file: $!";
-	}
-	local $/ = undef;
-	my $cnt;
-	if ($file =~ /\.gz$/) {
+		$IN = \*STDIN;
+	} elsif ($file =~ /\.gz$/) {
 		require IO::Uncompress::Gunzip;
-		my $gz = IO::Uncompress::Gunzip->new(\*FILE, -transparent => 0)
+		$IN = IO::Uncompress::Gunzip->new($file, -transparent => 0)
 			or die "IO::Uncompress::Gunzip failed: $IO::Uncompress::Gunzip::GunzipError\n";;
-		$cnt = <$gz>;
-		close $gz or croak "can't close $gz: $!";
 	} else {
-		$cnt = <FILE>;
+		open $IN, "<:bytes", $file
+			or croak "can't open $file: $!";
+		$mayrecode = 1;
 	}
-	close FILE or croak "can't close $file: $!";
+
+	local $/ = undef;
+	my $cnt = <$IN>;
+	close $IN or croak "can't close $file: $!";
+
 	unless (utf8::is_utf8($cnt) || utf8::decode($cnt)) {
 		warn "warning: $file is not UTF-8, reading as latin-1\n";
 		utf8::upgrade($cnt);
-		if ($FIXENCODING && !$stdin) {
+		if ($FIXENCODING && $mayrecode) {
 			warn "warning: recoding $file to UTF-8\n";
 			if (open FILE, ">:utf8", $file) {
 				print FILE $cnt;
@@ -87,6 +85,7 @@ sub load {
 			}
 		}
 	}
+
 	local $KSP::TinyParser::CONTEXT = $file;
 	my $ret = $pkg->parse_string($cnt);
 	$ret
