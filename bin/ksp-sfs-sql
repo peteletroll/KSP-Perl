@@ -247,6 +247,19 @@ foreach my $b ($system->bodies) {
 $DB->commit;
 printf "-- Generated table bodies [$insert_count{bodies}] in %1.3f seconds\n", $SW->read;
 
+mktable(science_values => qw(body situation value:r));
+$SW->reset->start;
+$DB->begin_work;
+foreach my $b ($system->bodies) {
+	my $s = $b->json->{science};
+	foreach my $k (sort keys %$s) {
+		$k =~ /^(.+)DataValue$/ or next;
+		insert("science_values", $b->name, $1, $s->{$k});
+	}
+}
+$DB->commit;
+printf "-- Generated table science_values [$insert_count{bodies}] in %1.3f seconds\n", $SW->read;
+
 mktable(biomes_raw => qw(body biome ismini:b));
 $SW->reset->start;
 $DB->begin_work;

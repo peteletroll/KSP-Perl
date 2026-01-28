@@ -44,14 +44,10 @@
             "tidallyLocked": true
          },
          "science": {
-            "FlyingHighDataValue": 1,
-            "FlyingLowDataValue": 1,
             "InSpaceHighDataValue": 10,
             "InSpaceLowDataValue": 12,
-            "LandedDataValue": 15,
-            "RecoveryValue": 10,
-            "SplashedDataValue": 1,
-            "flyingAltitudeThreshold": 18000,
+            "RecoveryDataValue": 10,
+            "SrfLandedDataValue": 15,
             "spaceAltitudeThreshold": 60000
          },
          "size": {
@@ -96,14 +92,10 @@
             "tidallyLocked": true
          },
          "science": {
-            "FlyingHighDataValue": 1,
-            "FlyingLowDataValue": 1,
             "InSpaceHighDataValue": 7,
             "InSpaceLowDataValue": 8,
-            "LandedDataValue": 10,
-            "RecoveryValue": 7,
-            "SplashedDataValue": 1,
-            "flyingAltitudeThreshold": 18000,
+            "RecoveryDataValue": 7,
+            "SrfLandedDataValue": 10,
             "spaceAltitudeThreshold": 80000
          },
          "size": {
@@ -158,14 +150,10 @@
             "tidallyLocked": false
          },
          "science": {
-            "FlyingHighDataValue": 1,
-            "FlyingLowDataValue": 1,
             "InSpaceHighDataValue": 10,
             "InSpaceLowDataValue": 12,
-            "LandedDataValue": 15,
-            "RecoveryValue": 10,
-            "SplashedDataValue": 1,
-            "flyingAltitudeThreshold": 18000,
+            "RecoveryDataValue": 10,
+            "SrfLandedDataValue": 15,
             "spaceAltitudeThreshold": 60000
          },
          "size": {
@@ -220,14 +208,10 @@
             "tidallyLocked": true
          },
          "science": {
-            "FlyingHighDataValue": 1,
-            "FlyingLowDataValue": 1,
             "InSpaceHighDataValue": 2,
             "InSpaceLowDataValue": 3,
-            "LandedDataValue": 4,
-            "RecoveryValue": 2,
-            "SplashedDataValue": 1,
-            "flyingAltitudeThreshold": 18000,
+            "RecoveryDataValue": 2,
+            "SrfLandedDataValue": 4,
             "spaceAltitudeThreshold": 60000
          },
          "size": {
@@ -282,14 +266,10 @@
             "tidallyLocked": true
          },
          "science": {
-            "FlyingHighDataValue": 1,
-            "FlyingLowDataValue": 1,
             "InSpaceHighDataValue": 8,
             "InSpaceLowDataValue": 9,
-            "LandedDataValue": 12,
-            "RecoveryValue": 8,
-            "SplashedDataValue": 1,
-            "flyingAltitudeThreshold": 18000,
+            "RecoveryDataValue": 8,
+            "SrfLandedDataValue": 12,
             "spaceAltitudeThreshold": 25000
          },
          "size": {
@@ -344,14 +324,10 @@
             "tidallyLocked": true
          },
          "science": {
-            "FlyingHighDataValue": 1,
-            "FlyingLowDataValue": 1,
             "InSpaceHighDataValue": 2,
             "InSpaceLowDataValue": 3,
-            "LandedDataValue": 4,
-            "RecoveryValue": 2,
-            "SplashedDataValue": 1,
-            "flyingAltitudeThreshold": 18000,
+            "RecoveryDataValue": 2,
+            "SrfLandedDataValue": 4,
             "spaceAltitudeThreshold": 60000
          },
          "size": {
@@ -421,9 +397,9 @@
             "FlyingLowDataValue": 0.699999988079071,
             "InSpaceHighDataValue": 1.5,
             "InSpaceLowDataValue": 1,
-            "LandedDataValue": 0.300000011920929,
-            "RecoveryValue": 1,
-            "SplashedDataValue": 0.400000005960465,
+            "RecoveryDataValue": 1,
+            "SrfLandedDataValue": 0.300000011920929,
+            "SrfSplashedDataValue": 0.400000005960465,
             "flyingAltitudeThreshold": 18000,
             "spaceAltitudeThreshold": 250000
          },
@@ -479,14 +455,10 @@
             "tidallyLocked": true
          },
          "science": {
-            "FlyingHighDataValue": 1,
-            "FlyingLowDataValue": 1,
             "InSpaceHighDataValue": 2,
             "InSpaceLowDataValue": 3,
-            "LandedDataValue": 4,
-            "RecoveryValue": 2,
-            "SplashedDataValue": 1,
-            "flyingAltitudeThreshold": 18000,
+            "RecoveryDataValue": 2,
+            "SrfLandedDataValue": 4,
             "spaceAltitudeThreshold": 60000
          },
          "size": {
@@ -531,14 +503,10 @@
             "tidallyLocked": true
          },
          "science": {
-            "FlyingHighDataValue": 1,
-            "FlyingLowDataValue": 1,
             "InSpaceHighDataValue": 2,
             "InSpaceLowDataValue": 3,
-            "LandedDataValue": 4,
-            "RecoveryValue": 2,
-            "SplashedDataValue": 1,
-            "flyingAltitudeThreshold": 18000,
+            "RecoveryDataValue": 2,
+            "SrfLandedDataValue": 4,
             "spaceAltitudeThreshold": 60000
          },
          "size": {
@@ -583,14 +551,10 @@
             "tidallyLocked": true
          },
          "science": {
-            "FlyingHighDataValue": 1,
-            "FlyingLowDataValue": 1,
             "InSpaceHighDataValue": 2,
             "InSpaceLowDataValue": 3,
-            "LandedDataValue": 4,
-            "RecoveryValue": 2,
-            "SplashedDataValue": 1,
-            "flyingAltitudeThreshold": 18000,
+            "RecoveryDataValue": 2,
+            "SrfLandedDataValue": 4,
             "spaceAltitudeThreshold": 60000
          },
          "size": {
@@ -645,14 +609,10 @@
             "tidallyLocked": true
          },
          "science": {
-            "FlyingHighDataValue": 1,
-            "FlyingLowDataValue": 1,
             "InSpaceHighDataValue": 2,
             "InSpaceLowDataValue": 3,
-            "LandedDataValue": 4,
-            "RecoveryValue": 2,
-            "SplashedDataValue": 1,
-            "flyingAltitudeThreshold": 18000,
+            "RecoveryDataValue": 2,
+            "SrfLandedDataValue": 4,
             "spaceAltitudeThreshold": 60000
          },
          "size": {
@@ -697,14 +657,10 @@
             "tidallyLocked": true
          },
          "science": {
-            "FlyingHighDataValue": 1,
-            "FlyingLowDataValue": 1,
             "InSpaceHighDataValue": 7,
             "InSpaceLowDataValue": 8,
-            "LandedDataValue": 10,
-            "RecoveryValue": 7,
-            "SplashedDataValue": 1,
-            "flyingAltitudeThreshold": 18000,
+            "RecoveryDataValue": 7,
+            "SrfLandedDataValue": 10,
             "spaceAltitudeThreshold": 80000
          },
          "size": {
@@ -762,9 +718,7 @@
             "FlyingLowDataValue": 12,
             "InSpaceHighDataValue": 6,
             "InSpaceLowDataValue": 7,
-            "LandedDataValue": 30,
-            "RecoveryValue": 6,
-            "SplashedDataValue": 1,
+            "RecoveryDataValue": 6,
             "flyingAltitudeThreshold": 120000,
             "spaceAltitudeThreshold": 4000000
          },
@@ -828,9 +782,8 @@
             "FlyingLowDataValue": 5,
             "InSpaceHighDataValue": 5,
             "InSpaceLowDataValue": 7,
-            "LandedDataValue": 8,
-            "RecoveryValue": 5,
-            "SplashedDataValue": 1,
+            "RecoveryDataValue": 5,
+            "SrfLandedDataValue": 8,
             "flyingAltitudeThreshold": 12000,
             "spaceAltitudeThreshold": 140000
          },
@@ -886,14 +839,10 @@
             "tidallyLocked": true
          },
          "science": {
-            "FlyingHighDataValue": 1,
-            "FlyingLowDataValue": 1,
             "InSpaceHighDataValue": 2,
             "InSpaceLowDataValue": 3,
-            "LandedDataValue": 4,
-            "RecoveryValue": 2,
-            "SplashedDataValue": 1,
-            "flyingAltitudeThreshold": 18000,
+            "RecoveryDataValue": 2,
+            "SrfLandedDataValue": 4,
             "spaceAltitudeThreshold": 60000
          },
          "size": {
@@ -948,14 +897,10 @@
             "tidallyLocked": true
          },
          "science": {
-            "FlyingHighDataValue": 1,
-            "FlyingLowDataValue": 1,
             "InSpaceHighDataValue": 2,
             "InSpaceLowDataValue": 3,
-            "LandedDataValue": 4,
-            "RecoveryValue": 2,
-            "SplashedDataValue": 1,
-            "flyingAltitudeThreshold": 18000,
+            "RecoveryDataValue": 2,
+            "SrfLandedDataValue": 4,
             "spaceAltitudeThreshold": 60000
          },
          "size": {
@@ -1010,14 +955,10 @@
             "tidallyLocked": true
          },
          "science": {
-            "FlyingHighDataValue": 1,
-            "FlyingLowDataValue": 1,
             "InSpaceHighDataValue": 10,
             "InSpaceLowDataValue": 12,
-            "LandedDataValue": 15,
-            "RecoveryValue": 10,
-            "SplashedDataValue": 1,
-            "flyingAltitudeThreshold": 18000,
+            "RecoveryDataValue": 10,
+            "SrfLandedDataValue": 15,
             "spaceAltitudeThreshold": 60000
          },
          "size": {
@@ -1072,14 +1013,10 @@
             "tidallyLocked": true
          },
          "science": {
-            "FlyingHighDataValue": 1,
-            "FlyingLowDataValue": 1,
             "InSpaceHighDataValue": 2,
             "InSpaceLowDataValue": 3,
-            "LandedDataValue": 4,
-            "RecoveryValue": 2,
-            "SplashedDataValue": 1,
-            "flyingAltitudeThreshold": 18000,
+            "RecoveryDataValue": 2,
+            "SrfLandedDataValue": 4,
             "spaceAltitudeThreshold": 60000
          },
          "size": {
@@ -1144,9 +1081,7 @@
             "FlyingLowDataValue": 12,
             "InSpaceHighDataValue": 6,
             "InSpaceLowDataValue": 7,
-            "LandedDataValue": 30,
-            "RecoveryValue": 6,
-            "SplashedDataValue": 1,
+            "RecoveryDataValue": 6,
             "flyingAltitudeThreshold": 120000,
             "spaceAltitudeThreshold": 4000000
          },
@@ -1199,14 +1134,10 @@
             "tidallyLocked": true
          },
          "science": {
-            "FlyingHighDataValue": 1,
-            "FlyingLowDataValue": 1,
             "InSpaceHighDataValue": 10,
             "InSpaceLowDataValue": 12,
-            "LandedDataValue": 15,
-            "RecoveryValue": 10,
-            "SplashedDataValue": 1,
-            "flyingAltitudeThreshold": 18000,
+            "RecoveryDataValue": 10,
+            "SrfLandedDataValue": 15,
             "spaceAltitudeThreshold": 60000
          },
          "size": {
@@ -1261,14 +1192,10 @@
             "tidallyLocked": true
          },
          "science": {
-            "FlyingHighDataValue": 1,
-            "FlyingLowDataValue": 1,
             "InSpaceHighDataValue": 8,
             "InSpaceLowDataValue": 9,
-            "LandedDataValue": 12,
-            "RecoveryValue": 8,
-            "SplashedDataValue": 1,
-            "flyingAltitudeThreshold": 18000,
+            "RecoveryDataValue": 8,
+            "SrfLandedDataValue": 12,
             "spaceAltitudeThreshold": 25000
          },
          "size": {
@@ -1329,14 +1256,10 @@
             "tidallyLocked": true
          },
          "science": {
-            "FlyingHighDataValue": 1,
-            "FlyingLowDataValue": 1,
             "InSpaceHighDataValue": 2,
             "InSpaceLowDataValue": 3,
-            "LandedDataValue": 4,
-            "RecoveryValue": 2,
-            "SplashedDataValue": 1,
-            "flyingAltitudeThreshold": 18000,
+            "RecoveryDataValue": 2,
+            "SrfLandedDataValue": 4,
             "spaceAltitudeThreshold": 60000
          },
          "size": {
@@ -1391,14 +1314,10 @@
             "tidallyLocked": true
          },
          "science": {
-            "FlyingHighDataValue": 1,
-            "FlyingLowDataValue": 1,
             "InSpaceHighDataValue": 2,
             "InSpaceLowDataValue": 3,
-            "LandedDataValue": 4,
-            "RecoveryValue": 2,
-            "SplashedDataValue": 1,
-            "flyingAltitudeThreshold": 18000,
+            "RecoveryDataValue": 2,
+            "SrfLandedDataValue": 4,
             "spaceAltitudeThreshold": 60000
          },
          "size": {
@@ -1469,9 +1388,7 @@
             "FlyingLowDataValue": 12,
             "InSpaceHighDataValue": 6,
             "InSpaceLowDataValue": 7,
-            "LandedDataValue": 30,
-            "RecoveryValue": 6,
-            "SplashedDataValue": 1,
+            "RecoveryDataValue": 6,
             "flyingAltitudeThreshold": 120000,
             "spaceAltitudeThreshold": 4000000
          },
@@ -1522,9 +1439,7 @@
             "FlyingLowDataValue": 1,
             "InSpaceHighDataValue": 2,
             "InSpaceLowDataValue": 11,
-            "LandedDataValue": 1,
-            "RecoveryValue": 4,
-            "SplashedDataValue": 1,
+            "RecoveryDataValue": 4,
             "flyingAltitudeThreshold": 18000,
             "spaceAltitudeThreshold": 1000000000
          },
@@ -1577,14 +1492,10 @@
             "tidallyLocked": true
          },
          "science": {
-            "FlyingHighDataValue": 1,
-            "FlyingLowDataValue": 1,
             "InSpaceHighDataValue": 2,
             "InSpaceLowDataValue": 3,
-            "LandedDataValue": 4,
-            "RecoveryValue": 2,
-            "SplashedDataValue": 1,
-            "flyingAltitudeThreshold": 18000,
+            "RecoveryDataValue": 2,
+            "SrfLandedDataValue": 4,
             "spaceAltitudeThreshold": 60000
          },
          "size": {
@@ -1652,9 +1563,9 @@
             "FlyingLowDataValue": 11,
             "InSpaceHighDataValue": 8,
             "InSpaceLowDataValue": 9,
-            "LandedDataValue": 14,
-            "RecoveryValue": 8,
-            "SplashedDataValue": 12,
+            "RecoveryDataValue": 8,
+            "SrfLandedDataValue": 14,
+            "SrfSplashedDataValue": 12,
             "flyingAltitudeThreshold": 10000,
             "spaceAltitudeThreshold": 200000
          },
@@ -1710,14 +1621,10 @@
             "tidallyLocked": true
          },
          "science": {
-            "FlyingHighDataValue": 1,
-            "FlyingLowDataValue": 1,
             "InSpaceHighDataValue": 10,
             "InSpaceLowDataValue": 12,
-            "LandedDataValue": 15,
-            "RecoveryValue": 10,
-            "SplashedDataValue": 1,
-            "flyingAltitudeThreshold": 18000,
+            "RecoveryDataValue": 10,
+            "SrfLandedDataValue": 15,
             "spaceAltitudeThreshold": 60000
          },
          "size": {
@@ -1776,14 +1683,10 @@
             "tidallyLocked": true
          },
          "science": {
-            "FlyingHighDataValue": 1,
-            "FlyingLowDataValue": 1,
             "InSpaceHighDataValue": 2,
             "InSpaceLowDataValue": 3,
-            "LandedDataValue": 4,
-            "RecoveryValue": 2,
-            "SplashedDataValue": 1,
-            "flyingAltitudeThreshold": 18000,
+            "RecoveryDataValue": 2,
+            "SrfLandedDataValue": 4,
             "spaceAltitudeThreshold": 60000
          },
          "size": {
@@ -1838,14 +1741,10 @@
             "tidallyLocked": true
          },
          "science": {
-            "FlyingHighDataValue": 1,
-            "FlyingLowDataValue": 1,
             "InSpaceHighDataValue": 10,
             "InSpaceLowDataValue": 12,
-            "LandedDataValue": 15,
-            "RecoveryValue": 10,
-            "SplashedDataValue": 1,
-            "flyingAltitudeThreshold": 18000,
+            "RecoveryDataValue": 10,
+            "SrfLandedDataValue": 15,
             "spaceAltitudeThreshold": 60000
          },
          "size": {
@@ -1914,9 +1813,7 @@
             "FlyingLowDataValue": 12,
             "InSpaceHighDataValue": 6,
             "InSpaceLowDataValue": 7,
-            "LandedDataValue": 30,
-            "RecoveryValue": 6,
-            "SplashedDataValue": 1,
+            "RecoveryDataValue": 6,
             "flyingAltitudeThreshold": 120000,
             "spaceAltitudeThreshold": 4000000
          },
@@ -1977,9 +1874,8 @@
             "FlyingLowDataValue": 5,
             "InSpaceHighDataValue": 5,
             "InSpaceLowDataValue": 7,
-            "LandedDataValue": 8,
-            "RecoveryValue": 5,
-            "SplashedDataValue": 1,
+            "RecoveryDataValue": 5,
+            "SrfLandedDataValue": 8,
             "flyingAltitudeThreshold": 12000,
             "spaceAltitudeThreshold": 140000
          },
@@ -2036,14 +1932,10 @@
             "tidallyLocked": false
          },
          "science": {
-            "FlyingHighDataValue": 1,
-            "FlyingLowDataValue": 1,
             "InSpaceHighDataValue": 10,
             "InSpaceLowDataValue": 12,
-            "LandedDataValue": 15,
-            "RecoveryValue": 10,
-            "SplashedDataValue": 1,
-            "flyingAltitudeThreshold": 18000,
+            "RecoveryDataValue": 10,
+            "SrfLandedDataValue": 15,
             "spaceAltitudeThreshold": 60000
          },
          "size": {
