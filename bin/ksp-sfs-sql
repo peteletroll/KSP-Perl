@@ -228,7 +228,7 @@ sub maplink($$$) {
 	$uri
 }
 
-mktable(bodies => qw(body parent idx:i sort:i atmosphere:b ocean:b surface:b));
+mktable(bodies => qw(body parent idx:i sort:i atmosphere:b ocean:b surface:b atm_thr:r spc_thr:r));
 $SW->reset->start;
 $DB->begin_work;
 my $bodysort = 0;
@@ -240,7 +240,9 @@ foreach my $b ($system->bodies) {
 		$bodysort++,
 		($b->atmosphereDepth > 0 ? 1 : 0),
 		($b->hasOcean ? 1 : 0),
-		($b->hasSurface ? 1 : 0));
+		($b->hasSurface ? 1 : 0),
+		($b->atmosphereDepth > 0 ? 0 + $b->atmosphereThreshold : undef),
+		0 + $b->spaceThreshold);
 }
 $DB->commit;
 printf "-- Generated table bodies [$insert_count{bodies}] in %1.3f seconds\n", $SW->read;
