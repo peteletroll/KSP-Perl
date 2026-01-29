@@ -232,7 +232,8 @@ sub mkview($$) {
 	run("drop view if exists " . qi($name));
 	run("create view " . qi($name) . " as $select");
 	$DB->commit;
-	printf "-- Generated view $name in %1.3f seconds\n", $SW->read;
+	printf "-- Generated view %s in %1.3f seconds\n",
+		$name, $SW->read;
 }
 
 sub maplink($$$) {
@@ -286,17 +287,6 @@ mkview(biomes => q{
 	select body, biome
 	from biomes_raw
 	where not ismini
-});
-
-mktable(roc => qw(body name biome), sub {
-	foreach my $b ($system->bodies) {
-		my $i = $b->rocInfo;
-		foreach my $r (keys %$i) {
-			foreach my $n (@{$i->{$r}}) {
-				insert("roc", $b->name, $r, $n);
-			}
-		}
-	}
 });
 
 my $scienceGainMultiplier = 1;
@@ -386,6 +376,17 @@ mkview(report => q{
 		and (sources.biome = science.biome or (sources.biome is null and science.biome is null))
 		and sources.experiment = science.experiment
 		and (sources.situation = science.situation or (sources.situation is null and science.situation is null))
+});
+
+mktable(roc => qw(body name biome), sub {
+	foreach my $b ($system->bodies) {
+		my $i = $b->rocInfo;
+		foreach my $r (keys %$i) {
+			foreach my $n (@{$i->{$r}}) {
+				insert("roc", $b->name, $r, $n);
+			}
+		}
+	}
 });
 
 my @kerbal = ();
