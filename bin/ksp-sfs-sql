@@ -335,14 +335,11 @@ mkview(results => q{
 });
 
 mkview(situations => q{
-	select distinct b.body, s.situation
-	from sources_full as s
+	select distinct s.body, s.situation
+	from science_values as s
 	left join bodies as b
 		on s.body = b.body
-	where not (situation like 'Srf%' or situation like 'Flying%')
-		or (situation like 'Flying%' and atmosphere)
-		or (situation = 'SrfSplashed' and ocean)
-		or (situation = 'SrfLanded' and surface)
+	where s.situation <> 'Recovery'
 	order by b.sort, situation
 });
 
