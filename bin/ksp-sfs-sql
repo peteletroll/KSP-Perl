@@ -159,7 +159,15 @@ sub runqueue() {
 our %insert_count = ();
 
 sub mktable($@) {
-	my ($table, @col) = @_;
+	my $table = shift;
+	my (@col, @fill);
+	foreach (@_) {
+		if (UNIVERSAL::isa($_, "CODE")) {
+			push @fill, $_;
+		} else {
+			push @col, $_;
+		}
+	}
 	my @index = ();
 	$insert_count{$table} = 0;
 	run("drop table if exists " . qi($table));
@@ -181,21 +189,20 @@ sub mktable($@) {
 			"\n\t" . qi($col) . " " . $type
 		} @col)
 		. ")");
+
 	if ($INDEX) {
 		foreach my $c (@index) {
 			enqueue("create index " . qi("idx_${table}_${c}") . " on " . qi($table) . " (" . qi($c). ")");
 		}
 	}
-}
 
-sub mkview($$) {
-	my ($name, $select) = @_;
-	my $sw = stopwatch->start;
+	$SW->reset->start;
 	$DB->begin_work;
-	run("drop view if exists " . qi($name));
-	run("create view " . qi($name) . " as $select");
+	@fill or die "OLDSTYLE \U$table\E\n";
+	$_->() foreach @fill;
 	$DB->commit;
-	printf "-- Generated view $name in %1.3f seconds\n", $SW->read;
+	printf "-- Generated table %s [%d] in %1.3f seconds\n",
+		$table, $insert_count{$table}, $SW->read;
 }
 
 our %_insert_handle = ();
@@ -218,6 +225,16 @@ sub insert($@) {
 	} @val)
 }
 
+sub mkview($$) {
+	my ($name, $select) = @_;
+	my $sw = stopwatch->start;
+	$DB->begin_work;
+	run("drop view if exists " . qi($name));
+	run("create view " . qi($name) . " as $select");
+	$DB->commit;
+	printf "-- Generated view $name in %1.3f seconds\n", $SW->read;
+}
+
 sub maplink($$$) {
 	my ($body, $lat, $lon) = @_;
 	my $uri = URI->new("http://localhost/~pietro/ksp/ksp-sphere-map/main.html");
@@ -228,51 +245,42 @@ sub maplink($$$) {
 	$uri
 }
 
-mktable(bodies => qw(body parent idx:i sort:i atmosphere:b ocean:b surface:b atm_thr:r spc_thr:r));
-$SW->reset->start;
-$DB->begin_work;
 my $bodysort = 0;
-foreach my $b ($system->bodies) {
-	insert("bodies",
-		$b->name,
-		($b->parent ? $b->parent->name : undef),
-		$b->index,
-		$bodysort++,
-		($b->atmosphereDepth > 0 ? 1 : 0),
-		($b->hasOcean ? 1 : 0),
-		($b->hasSurface ? 1 : 0),
-		($b->atmosphereDepth > 0 ? 0 + $b->atmosphereThreshold : undef),
-		0 + $b->spaceThreshold);
-}
-$DB->commit;
-printf "-- Generated table bodies [$insert_count{bodies}] in %1.3f seconds\n", $SW->read;
+mktable(bodies => qw(body parent idx:i sort:i atmosphere:b ocean:b surface:b atm_thr:r spc_thr:r), sub {
+	foreach my $b ($system->bodies) {
+		insert("bodies",
+			$b->name,
+			($b->parent ? $b->parent->name : undef),
+			$b->index,
+			$bodysort++,
+			($b->atmosphereDepth > 0 ? 1 : 0),
+			($b->hasOcean ? 1 : 0),
+			($b->hasSurface ? 1 : 0),
+			($b->atmosphereDepth > 0 ? 0 + $b->atmosphereThreshold : undef),
+			0 + $b->spaceThreshold);
+	}
+});
 
-mktable(science_values => qw(body situation value:r));
-$SW->reset->start;
-$DB->begin_work;
-foreach my $b ($system->bodies) {
-	my $s = $b->json->{science};
-	foreach my $k (sort keys %$s) {
-		$k =~ /^(.+)DataValue$/ or next;
-		insert("science_values", $b->name, $1, $s->{$k});
+mktable(science_values => qw(body situation value:r), sub {
+	foreach my $b ($system->bodies) {
+		my $s = $b->json->{science};
+		foreach my $k (sort keys %$s) {
+			$k =~ /^(.+)DataValue$/ or next;
+			insert("science_values", $b->name, $1, $s->{$k});
+		}
 	}
-}
-$DB->commit;
-printf "-- Generated table science_values [$insert_count{bodies}] in %1.3f seconds\n", $SW->read;
+});
 
-mktable(biomes_raw => qw(body biome ismini:b));
-$SW->reset->start;
-$DB->begin_work;
-foreach my $b ($system->bodies) {
-	foreach my $i (undef, $b->biomes) {
-		insert("biomes_raw", $b->name, $i, 0);
+mktable(biomes_raw => qw(body biome ismini:b), sub {
+	foreach my $b ($system->bodies) {
+		foreach my $i (undef, $b->biomes) {
+			insert("biomes_raw", $b->name, $i, 0);
+		}
+		foreach my $i ($b->miniBiomes) {
+			insert("biomes_raw", $b->name, $i, 1);
+		}
 	}
-	foreach my $i ($b->miniBiomes) {
-		insert("biomes_raw", $b->name, $i, 1);
-	}
-}
-$DB->commit;
-printf "-- Generated table biomes_raw [$insert_count{biomes_raw}] in %1.3f seconds\n", $SW->read;
+});
 
 mkview(biomes => q{
 	select body, biome
@@ -280,19 +288,16 @@ mkview(biomes => q{
 	where not ismini
 });
 
-mktable(roc => qw(body biome name));
-$SW->reset->start;
-$DB->begin_work;
-foreach my $b ($system->bodies) {
-	my $i = $b->rocInfo;
-	foreach my $r (keys %$i) {
-		foreach my $n (@{$i->{$r}}) {
-			insert("roc", $b->name, $n, $r);
+mktable(roc => qw(body name biome), sub {
+	foreach my $b ($system->bodies) {
+		my $i = $b->rocInfo;
+		foreach my $r (keys %$i) {
+			foreach my $n (@{$i->{$r}}) {
+				insert("roc", $b->name, $r, $n);
+			}
 		}
 	}
-}
-$DB->commit;
-printf "-- Generated table roc [$insert_count{roc}] in %1.3f seconds\n", $SW->read;
+});
 
 my $scienceGainMultiplier = 1;
 foreach my $c ($SFS->find("CAREER")) {
@@ -300,17 +305,14 @@ foreach my $c ($SFS->find("CAREER")) {
 	$sm > 0 && $sm < 1.00001 and $scienceGainMultiplier = $sm;
 }
 
-mktable(science_raw => qw(experiment body situation biome extra points:r full:r id));
-$SW->reset->start;
-$DB->begin_work;
-foreach my $n ($SFS->find("Science", id => qr/\@/)) {
-	my $id = $n->get("id");
-	my $points = $scienceGainMultiplier * $n->get("sci");
-	my $full = $scienceGainMultiplier * $n->get("cap");
-	insert("science_raw", parseScienceId($id), $points, $full, $id);
-}
-$DB->commit;
-printf "-- Generated table science_raw [$insert_count{science_raw}] in %1.3f seconds\n", $SW->read;
+mktable(science_raw => qw(experiment body situation biome extra points:r full:r id), sub {
+	foreach my $n ($SFS->find("Science", id => qr/\@/)) {
+		my $id = $n->get("id");
+		my $points = $scienceGainMultiplier * $n->get("sci");
+		my $full = $scienceGainMultiplier * $n->get("cap");
+		insert("science_raw", parseScienceId($id), $points, $full, $id);
+	}
+});
 
 mkview(science => q{
 	select bodies.body,
@@ -386,16 +388,20 @@ mkview(report => q{
 		and (sources.situation = science.situation or (sources.situation is null and science.situation is null))
 });
 
+my @kerbal = ();
 my @roster_cols = qw(name gender trait type state badS:b hero:b veteran:b tour:b inactive:b);
-mktable(roster => @roster_cols);
-mktable(career => qw(name flight body situation));
-s/:\w+$// foreach @roster_cols;
-$SW->reset->start;
-$DB->begin_work;
-my $career_count = 0;
-foreach my $r ($SFS->find("ROSTER")) {
-	foreach my $k ($r->getnodes("KERBAL")) {
-		insert("roster", map { scalar $k->get($_) } @roster_cols);
+mktable(roster => @roster_cols, sub {
+	s/:\w+$// foreach @roster_cols;
+	foreach my $r ($SFS->find("ROSTER")) {
+		foreach my $k ($r->getnodes("KERBAL")) {
+			push @kerbal, $k;
+			insert("roster", map { scalar $k->get($_) } @roster_cols);
+		}
+	}
+});
+
+mktable(career => qw(name flight body situation), sub {
+	foreach my $k (@kerbal) {
 		my $n = $k->get("name");
 		my $c = $k->getnodes("CAREER_LOG");
 		if ($n && $c) {
@@ -407,26 +413,19 @@ foreach my $r ($SFS->find("ROSTER")) {
 			}
 		}
 	}
-}
-$DB->commit;
-printf "-- Generated table roster [$insert_count{roster}], career [$insert_count{career}] in %1.3f seconds\n", $SW->read;
+});
 
-my @resources_cols = qw(body:i biome);
-mktable(resources_raw => @resources_cols);
-s/:\w+$// foreach @roster_cols;
-$SW->reset->start;
-$DB->begin_work;
-foreach my $r ($SFS->find("SCENARIO", name => "ResourceScenario")) {
-	foreach my $k ($r->find(qr/_DATA$/)) {
-		my $id = $k->get("PlanetId");
-		defined $id or next;
-		my $biome = $k->get("BiomeName");
-		$biome and $biome =~ s/\s+//gs;
-		insert("resources_raw", $id, $biome);
+mktable(resources_raw => qw(body:i biome), sub {
+	foreach my $r ($SFS->find("SCENARIO", name => "ResourceScenario")) {
+		foreach my $k ($r->find(qr/_DATA$/)) {
+			my $id = $k->get("PlanetId");
+			defined $id or next;
+			my $biome = $k->get("BiomeName");
+			$biome and $biome =~ s/\s+//gs;
+			insert("resources_raw", $id, $biome);
+		}
 	}
-}
-$DB->commit;
-printf "-- Generated table resources_raw [$insert_count{roster}], career [$insert_count{career}] in %1.3f seconds\n", $SW->read;
+});
 
 mkview(resources => q{
 	select bodies.body, resources_raw.biome
@@ -437,27 +436,24 @@ mkview(resources => q{
 });
 
 my @vessels_cols = qw(persistentId:i pid type name lct:r ctrl:b sit);
-mktable(vessels_raw => @vessels_cols, qw(body parts:i uri));
-s/:\w+$// foreach @vessels_cols;
-$SW->reset->start;
-$DB->begin_work;
-foreach my $r ($SFS->find("VESSEL")) {
-	my $b = $r->getnodes("ORBIT");
-	$b = $b->get("REF") if $b;
-	$b = bodyName($b);
-	my @parts = $r->getnodes("PART");
-	my $parts = @parts;
-	my $uri = undef;
-	my $sit = $r->get("sit") || "";
-	if ($sit =~ /landed|splashed|prelaunch/i) {
-		my $lat = $r->get("lat");
-		my $lon = $r->get("lon");
-		$uri = maplink($b, $lat, $lon);
+mktable(vessels_raw => @vessels_cols, qw(body parts:i uri), sub {
+	s/:\w+$// foreach @vessels_cols;
+	foreach my $r ($SFS->find("VESSEL")) {
+		my $b = $r->getnodes("ORBIT");
+		$b = $b->get("REF") if $b;
+		$b = bodyName($b);
+		my @parts = $r->getnodes("PART");
+		my $parts = @parts;
+		my $uri = undef;
+		my $sit = $r->get("sit") || "";
+		if ($sit =~ /landed|splashed|prelaunch/i) {
+			my $lat = $r->get("lat");
+			my $lon = $r->get("lon");
+			$uri = maplink($b, $lat, $lon);
+		}
+		insert("vessels_raw", (map { scalar $r->get($_) } @vessels_cols), $b, $parts, $uri);
 	}
-	insert("vessels_raw", (map { scalar $r->get($_) } @vessels_cols), $b, $parts, $uri);
-}
-$DB->commit;
-printf "-- Generated table vessels_raw [$insert_count{vessels_raw}] in %1.3f seconds\n", $SW->read;
+});
 
 mkview(vessels => q{
 	select persistentId as id,
@@ -471,36 +467,32 @@ mkview(vessels => q{
 	order by bodies.sort, lct
 });
 
-my @waypoints_cols = qw(name body lat:r lon:r uri);
-mktable(waypoints => @waypoints_cols);
-$SW->reset->start;
-$DB->begin_work;
-foreach my $r ($SFS->find("WAYPOINT")) {
-	my $name = $r->get("name");
-	my $body = $r->get("celestialName");
-	my $lat = $r->get("latitude");
-	my $lon = $r->get("longitude");
-	grep { !defined } ($name, $body, $lat, $lon)
-		or insert("waypoints", $name, $body, $lat, $lon, maplink($body, $lat, $lon));
-}
-foreach my $c ($SFS->find("CONTRACT")) {
-	my $type = $c->get("state", "");
-	$type =~ /^(offered|active)$/i or next;
-	my $body = bodyName($c->get("targetBody"));
-	defined $body or next;
-	my $name = $c->get("locationName");
-	defined $name or next;
-	my @w = $c->getnodes("PARAM", name => qr/waypoint/i);
-	@w or next;
-	foreach my $w (@w) {
-		my $lat = $w->get("wpLatitude");
-		my $lon = $w->get("wpLongitude");
-		defined $lat && defined $lon or next;
-		insert("waypoints", $name, $body, $lat, $lon, maplink($body, $lat, $lon));
+mktable(waypoints => qw(name body lat:r lon:r uri), sub {
+	foreach my $r ($SFS->find("WAYPOINT")) {
+		my $name = $r->get("name");
+		my $body = $r->get("celestialName");
+		my $lat = $r->get("latitude");
+		my $lon = $r->get("longitude");
+		grep { !defined } ($name, $body, $lat, $lon)
+			or insert("waypoints", $name, $body, $lat, $lon, maplink($body, $lat, $lon));
 	}
-}
-$DB->commit;
-printf "-- Generated table waypoints [$insert_count{waypoints}] in %1.3f seconds\n", $SW->read;
+	foreach my $c ($SFS->find("CONTRACT")) {
+		my $type = $c->get("state", "");
+		$type =~ /^(offered|active)$/i or next;
+		my $body = bodyName($c->get("targetBody"));
+		defined $body or next;
+		my $name = $c->get("locationName");
+		defined $name or next;
+		my @w = $c->getnodes("PARAM", name => qr/waypoint/i);
+		@w or next;
+		foreach my $w (@w) {
+			my $lat = $w->get("wpLatitude");
+			my $lon = $w->get("wpLongitude");
+			defined $lat && defined $lon or next;
+			insert("waypoints", $name, $body, $lat, $lon, maplink($body, $lat, $lon));
+		}
+	}
+});
 
 mkview(maplinks_full => q{
 	select vessels_raw.body, substring(type, 1, 9) as type, name, uri
