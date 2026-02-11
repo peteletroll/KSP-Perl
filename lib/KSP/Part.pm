@@ -4,6 +4,8 @@ use utf8;
 use strict;
 use warnings;
 
+use String::ShellQuote;
+
 use Carp;
 
 use KSP::ConfigNode;
@@ -346,6 +348,16 @@ sub images {
 	my $name = $self->name;
 	my $images = KSP::DB::part_images()->{$name};
 	$images ? @$images : ()
+}
+
+sub show {
+	my ($self) = @_;
+	my @images = $self->images;
+	my $cmd = shell_quote("loupe", @images, "/dev/null");
+	# warn "CMD $cmd\n";
+	system "$cmd &";
+	sleep 1;
+	()
 }
 
 1;
