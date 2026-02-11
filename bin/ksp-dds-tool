@@ -18,6 +18,8 @@ use File::Temp;
 use File::Copy;
 use File::Find;
 
+use String::ShellQuote;
+
 use KSP::IndentParser;
 
 ############################################################
@@ -69,19 +71,6 @@ END
 
 ############################################################
 
-sub shellquote(@) {
-	join " ", map {
-		if (/^[a-z0-9_\-\.\/]+$/i) {
-			$_
-		} else {
-			my $win = $^O eq "MSWin32";
-			my $t = $_;
-			$t =~ s{"}{ $win ? "\"\"" : "\\\"" }ges;
-			"\"$t\""
-		}
-	} @_
-}
-
 our $TMPDIR = undef;
 
 sub tmp($) {
@@ -109,8 +98,8 @@ sub run {
 	my $run = (@_ == 1 && ref $_[0] eq "HASH") ?
 		$_[0] :
 		{ cmd => \@_ };
-	my $cmd = shellquote(@{$run->{cmd}});
-	defined $run->{out} and $cmd .= " > " . shellquote($run->{out});
+	my $cmd = shell_quote(@{$run->{cmd}});
+	defined $run->{out} and $cmd .= " > " . shell_quote($run->{out});
 	print "\$ $cmd\n" if $opt{D};
 	my $exit = system($cmd);
 	$exit && !defined(wantarray)
@@ -119,12 +108,12 @@ sub run {
 }
 
 sub cp($$) {
-	print "\$ cp ", shellquote(@_), "\n" if $opt{D};
+	print "\$ cp ", shell_quote(@_), "\n" if $opt{D};
 	copy @_ or die "$0: copy failed: $!\n";
 }
 
 sub mv($$) {
-	print "\$ mv ", shellquote(@_), "\n" if $opt{D};
+	print "\$ mv ", shell_quote(@_), "\n" if $opt{D};
 	move @_ or die "$0: move failed: $!\n";
 }
 
