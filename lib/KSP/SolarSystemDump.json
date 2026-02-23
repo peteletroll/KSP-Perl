@@ -246,154 +246,225 @@
           "objectName": "KSC",
           "lat": -0.096909910440444946,
           "lon": -74.600395202636719,
-          "class": "PQSCity"
+          "class": "PQSCity",
+          "src": [
+            "pqsSurfaceObject"
+          ]
         },
         {
           "name": "KSC2",
           "objectName": "KSC2",
           "lat": 20.582893371582031,
           "lon": -146.5115966796875,
-          "class": "PQSCity"
+          "class": "PQSCity",
+          "src": [
+            "pqsSurfaceObject"
+          ]
         },
         {
           "name": "Monolith00",
           "objectName": "Monolith00",
           "lat": 35.570526123046875,
           "lon": -74.977302551269531,
-          "class": "PQSCity"
+          "class": "PQSCity",
+          "src": [
+            "pqsSurfaceObject"
+          ]
         },
         {
           "name": "Monolith01",
           "objectName": "Monolith01",
           "lat": -0.64016741514205933,
           "lon": -80.766769409179688,
-          "class": "PQSCity"
+          "class": "PQSCity",
+          "src": [
+            "pqsSurfaceObject"
+          ]
         },
         {
           "name": "Monolith02",
           "objectName": "Monolith02",
           "lat": -28.808313369750977,
           "lon": -13.440113067626953,
-          "class": "PQSCity"
+          "class": "PQSCity",
+          "src": [
+            "pqsSurfaceObject"
+          ]
         },
         {
           "name": "Pyramids",
           "objectName": "Pyramids",
           "lat": -6.5056900978088379,
           "lon": -141.68559265136719,
-          "class": "PQSCity"
+          "class": "PQSCity",
+          "src": [
+            "pqsSurfaceObject"
+          ]
         },
         {
           "name": "UFO",
           "objectName": "UFO",
           "lat": 81.95513916015625,
           "lon": -128.5179443359375,
-          "class": "PQSCity"
+          "class": "PQSCity",
+          "src": [
+            "pqsSurfaceObject"
+          ]
         },
         {
           "name": "IslandAirfield",
           "objectName": "IslandAirfield",
           "lat": -1.5409176349639893,
           "lon": -71.9098892211914,
-          "class": "PQSCity"
+          "class": "PQSCity",
+          "src": [
+            "pqsSurfaceObject",
+            "launchSite"
+          ]
         },
         {
           "name": "CommNetDish",
           "objectName": "Harvester Massif",
           "lat": -11.949999809265137,
           "lon": 33.7400016784668,
-          "class": "PQSCity2"
+          "class": "PQSCity2",
+          "src": [
+            "pqsSurfaceObject"
+          ]
         },
         {
           "name": "CommNetDish",
           "objectName": "Nye Island",
           "lat": 5.3600001335144043,
           "lon": 108.54999542236328,
-          "class": "PQSCity2"
+          "class": "PQSCity2",
+          "src": [
+            "pqsSurfaceObject"
+          ]
         },
         {
           "name": "CommNetDish",
           "objectName": "Mesa South",
           "lat": -59.590000152587891,
           "lon": -25.869998931884766,
-          "class": "PQSCity2"
+          "class": "PQSCity2",
+          "src": [
+            "pqsSurfaceObject"
+          ]
         },
         {
           "name": "CommNetDish",
           "objectName": "Crater Rim",
           "lat": 9.4499998092651367,
           "lon": -172.11000061035156,
-          "class": "PQSCity2"
+          "class": "PQSCity2",
+          "src": [
+            "pqsSurfaceObject"
+          ]
         },
         {
           "name": "CommNetDish",
           "objectName": "North Station One",
           "lat": 63.095001220703125,
           "lon": -90.080001831054688,
-          "class": "PQSCity2"
+          "class": "PQSCity2",
+          "src": [
+            "pqsSurfaceObject"
+          ]
         },
         {
           "name": "Crater_Launch_Site",
           "objectName": "Crater_Launch_Site",
           "lat": 8.3862085342407227,
           "lon": -179.69776916503906,
-          "class": "PQSCity2"
+          "class": "PQSCity2",
+          "src": [
+            "pqsSurfaceObject",
+            "launchSite"
+          ]
         },
         {
           "name": "MahiMahi_Launch_Site",
           "objectName": "MahiMahi_Launch_Site",
           "lat": -49.802360534667969,
           "lon": -120.76560211181641,
-          "class": "PQSCity2"
+          "class": "PQSCity2",
+          "src": [
+            "pqsSurfaceObject",
+            "launchSite"
+          ]
         },
         {
           "name": "Cove_Launch_Site",
           "objectName": "Cove_Launch_Site",
           "lat": 3.7474768161773682,
           "lon": -72.213096618652344,
-          "class": "PQSCity2"
+          "class": "PQSCity2",
+          "src": [
+            "pqsSurfaceObject",
+            "launchSite"
+          ]
         },
         {
           "name": "GlacierLake_Launch_Site",
           "objectName": "GlacierLake_Launch_Site",
           "lat": 73.5615234375,
           "lon": 84.246620178222656,
-          "class": "PQSCity2"
+          "class": "PQSCity2",
+          "src": [
+            "pqsSurfaceObject",
+            "launchSite"
+          ]
         },
         {
           "name": "Anniversary2",
           "objectName": "Anniversary2",
           "lat": -17.534202575683594,
           "lon": 61.0620002746582,
-          "class": "PQSCity"
+          "class": "PQSCity",
+          "src": [
+            "pqsSurfaceObject"
+          ]
         },
         {
           "name": "Anniversary1",
           "objectName": "Anniversary1",
           "lat": -6.518000602722168,
           "lon": -144.01600646972656,
-          "class": "PQSCity"
+          "class": "PQSCity",
+          "src": [
+            "pqsSurfaceObject"
+          ]
         },
         {
           "name": "Woomerang_Launch_Site",
           "objectName": "Woomerang_Launch_Site",
           "lat": 45.290004730224609,
           "lon": 136.11000061035156,
-          "class": "PQSCity2"
+          "class": "PQSCity2",
+          "src": [
+            "launchSite"
+          ]
         },
         {
           "name": "Desert_Airfield",
           "objectName": "Desert_Airfield",
           "lat": -6.5199999809265137,
           "lon": -144.04000854492188,
-          "class": "PQSCity2"
+          "class": "PQSCity2",
+          "src": [
+            "launchSite"
+          ]
         },
         {
           "name": "Desert_Launch_Site",
           "objectName": "Desert_Launch_Site",
           "lat": -6.559999942779541,
           "lon": -143.95001220703125,
-          "class": "PQSCity2"
+          "class": "PQSCity2",
+          "src": [
+            "launchSite"
+          ]
         }
       ],
       "roc": {
@@ -519,56 +590,80 @@
           "objectName": "Monolith00",
           "lat": -9.8313722610473633,
           "lon": 25.917720794677734,
-          "class": "PQSCity"
+          "class": "PQSCity",
+          "src": [
+            "pqsSurfaceObject"
+          ]
         },
         {
           "name": "Monolith02",
           "objectName": "Monolith02",
           "lat": -82.2062759399414,
           "lon": 102.92873382568359,
-          "class": "PQSCity"
+          "class": "PQSCity",
+          "src": [
+            "pqsSurfaceObject"
+          ]
         },
         {
           "name": "Monolith01",
           "objectName": "Monolith01",
           "lat": 57.660232543945313,
           "lon": 9.1423168182373047,
-          "class": "PQSCity"
+          "class": "PQSCity",
+          "src": [
+            "pqsSurfaceObject"
+          ]
         },
         {
           "name": "RockArch02",
           "objectName": "RockArch02",
           "lat": 2.4694588184356689,
           "lon": 81.513236999511719,
-          "class": "PQSCity"
+          "class": "PQSCity",
+          "src": [
+            "pqsSurfaceObject"
+          ]
         },
         {
           "name": "RockArch00",
           "objectName": "RockArch00",
-          "lat": 12.443114280700684,
+          "lat": 12.443113327026367,
           "lon": 39.178012847900391,
-          "class": "PQSCity"
+          "class": "PQSCity",
+          "src": [
+            "pqsSurfaceObject"
+          ]
         },
         {
           "name": "RockArch01",
           "objectName": "RockArch01",
-          "lat": -12.443114280700684,
-          "lon": -140.82199096679688,
-          "class": "PQSCity"
+          "lat": -12.464049339294434,
+          "lon": -140.94424438476563,
+          "class": "PQSCity",
+          "src": [
+            "pqsSurfaceObject"
+          ]
         },
         {
           "name": "ArmstrongMemorial",
           "objectName": "ArmstrongMemorial",
           "lat": 0.70273619890213013,
           "lon": 22.746955871582031,
-          "class": "PQSCity"
+          "class": "PQSCity",
+          "src": [
+            "pqsSurfaceObject"
+          ]
         },
         {
           "name": "UFO",
           "objectName": "UFO",
           "lat": -70.955635070800781,
           "lon": -68.137153625488281,
-          "class": "PQSCity"
+          "class": "PQSCity",
+          "src": [
+            "pqsSurfaceObject"
+          ]
         }
       ],
       "roc": {
@@ -728,7 +823,10 @@
           "objectName": "Monolith00",
           "lat": 23.776256561279297,
           "lon": 60.046394348144531,
-          "class": "PQSCity"
+          "class": "PQSCity",
+          "src": [
+            "pqsSurfaceObject"
+          ]
         }
       ],
       "roc": {
@@ -851,7 +949,10 @@
           "objectName": "Mohole",
           "lat": 90,
           "lon": 0,
-          "class": "PQSCity2"
+          "class": "PQSCity2",
+          "src": [
+            "pqsSurfaceObject"
+          ]
         }
       ],
       "roc": {
@@ -1152,28 +1253,40 @@
           "objectName": "Face",
           "lat": 17.058536529541016,
           "lon": -85.459297180175781,
-          "class": "PQSCity"
+          "class": "PQSCity",
+          "src": [
+            "pqsSurfaceObject"
+          ]
         },
         {
           "name": "MSL",
           "objectName": "MSL",
           "lat": -30.341999053955078,
           "lon": -28.810346603393555,
-          "class": "PQSCity"
+          "class": "PQSCity",
+          "src": [
+            "pqsSurfaceObject"
+          ]
         },
         {
           "name": "Pyramid",
           "objectName": "Pyramid",
           "lat": -66.0483169555664,
           "lon": -160.88162231445313,
-          "class": "PQSCity"
+          "class": "PQSCity",
+          "src": [
+            "pqsSurfaceObject"
+          ]
         },
         {
           "name": "Anniversary4",
           "objectName": "Anniversary4",
           "lat": -2.4140005111694336,
           "lon": -5.3229999542236328,
-          "class": "PQSCity"
+          "class": "PQSCity",
+          "src": [
+            "pqsSurfaceObject"
+          ]
         }
       ],
       "roc": {
@@ -1333,7 +1446,10 @@
           "objectName": "Anniversary5",
           "lat": -11.378998756408691,
           "lon": 27.307998657226563,
-          "class": "PQSCity"
+          "class": "PQSCity",
+          "src": [
+            "pqsSurfaceObject"
+          ]
         }
       ],
       "roc": {
@@ -1543,7 +1659,10 @@
           "objectName": "Anniversary7",
           "lat": 0.074000023305416107,
           "lon": -162.52499389648438,
-          "class": "PQSCity"
+          "class": "PQSCity",
+          "src": [
+            "pqsSurfaceObject"
+          ]
         }
       ],
       "roc": {
@@ -1665,7 +1784,10 @@
           "objectName": "Icehenge",
           "lat": -60.089035034179688,
           "lon": 83.779594421386719,
-          "class": "PQSCity"
+          "class": "PQSCity",
+          "src": [
+            "pqsSurfaceObject"
+          ]
         }
       ],
       "roc": {
@@ -1791,7 +1913,10 @@
           "objectName": "DeadKraken",
           "lat": 68.429290771484375,
           "lon": 116.99019622802734,
-          "class": "PQSCity"
+          "class": "PQSCity",
+          "src": [
+            "pqsSurfaceObject"
+          ]
         }
       ],
       "roc": {
@@ -1899,7 +2024,10 @@
           "objectName": "Cave",
           "lat": 40.203742980957031,
           "lon": 173.99761962890625,
-          "class": "PQSCity"
+          "class": "PQSCity",
+          "src": [
+            "pqsSurfaceObject"
+          ]
         }
       ],
       "roc": {
@@ -2212,7 +2340,10 @@
           "objectName": "Anniversary6",
           "lat": 1.9545198678970337,
           "lon": 64.139511108398438,
-          "class": "PQSCity"
+          "class": "PQSCity",
+          "src": [
+            "pqsSurfaceObject"
+          ]
         }
       ],
       "roc": {
@@ -2337,7 +2468,10 @@
           "objectName": "Anniversary3",
           "lat": 25.99799919128418,
           "lon": 110.59200286865234,
-          "class": "PQSCity"
+          "class": "PQSCity",
+          "src": [
+            "pqsSurfaceObject"
+          ]
         }
       ],
       "roc": {
