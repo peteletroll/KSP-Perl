@@ -49,10 +49,12 @@ sub desc {
 		my $wm = $self->wetMass;
 		my $dm = $self->dryMass;
 		my $crew = $self->crew;
+		my ($engine) = $self->engine();
 		my $ret = $self->name . "[ ";
 		my $t = $self->title;
 		$ret .= "$t; " if defined $t;
 		$ret .= "$crew☺; " if $crew;
+		$ret .= $engine->maxIsp . "; " . $engine->maxThrust . "; " if $engine;
 		$ret .= U(1000 * $wm) . "g / " if $wm > $dm;
 		$ret .= U(1000 * $dm) . "g ]";
 		$ret
