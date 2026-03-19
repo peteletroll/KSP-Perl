@@ -34,6 +34,11 @@ sub desc {
 	$self->name . "[ " . U(1000 * $self->unitMass) . "g/u; " . $self->flowMode . " ]"
 }
 
+sub abbr {
+	my ($self) = @_;
+	scalar $self->node->get("abbreviation") || $self->name
+}
+
 sub all {
 	_load();
 	wantarray ? @RES : scalar @RES
