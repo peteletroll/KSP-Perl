@@ -61,6 +61,14 @@ sub desc {
 	})
 }
 
+sub nickname {
+	my ($self) = @_;
+	scalar $self->cache("nickname", sub {
+		my $t = $self->title || "";
+		$t =~ /"(.*?)"/ ? $1 : undef
+	})
+}
+
 sub all {
 	_load();
 	wantarray ? @PART : scalar @PART
