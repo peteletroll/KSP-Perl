@@ -130,7 +130,7 @@ sub locTable {
 }
 
 sub part_images {
-	my @thumbdirs = ();
+	my @thumbdirs = (KSP::HOME() . "/\@thumbs/Parts");
 	find({
 		no_chdir => 0,
 		follow => 0,
