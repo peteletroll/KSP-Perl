@@ -23,7 +23,7 @@ while (@ARGV > 1 && $ARGV[0] =~ /^(\w+)=(\w+)$/) {
 	shift;
 }
 
-@ARGV == 1 && -d $ARGV[0] or die "usage: $0 <directory>";
+@ARGV == 1 && -d $ARGV[0] or die "usage: $0 [ oldname=newname ... ] <directory>\n";
 my $DIR = $ARGV[0];
 
 my @bodies = ();
