@@ -27,7 +27,8 @@ sub load {
 	defined $json or $json = "SolarSystemDump";
 	$json =~ /\.\w+$/ or $json = "$json.json";
 	$json =~ /\// or $json = "$KSP::KSP_DIR/$json";
-	my $key = filekey($json);
+	my $key = filekey($json)
+		or confess __PACKAGE__, "::load() can't access $json: $!";
 	local $loading = 1;
 	$LOAD{$key} ||= __PACKAGE__->new($json)
 }
