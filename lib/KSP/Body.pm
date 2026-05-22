@@ -339,15 +339,15 @@ sub _anomalies_list {
 	})
 }
 
-sub rocInfo {
+sub rocJson {
 	my ($self) = @_;
 	$self->json->{science} && $self->json->{roc} || { };
 }
 
-sub rocInfoInv {
+sub roc {
 	my ($self) = @_;
-	$self->cache("rocInfoInv", sub {
-		my $i = $self->rocInfo;
+	$self->cache("roc", sub {
+		my $i = $self->rocJson;
 		my %ret = map { $_ => [ ] } $self->biomes;
 		foreach my $r (sort keys %$i) {
 			my $b = $i->{$r};
