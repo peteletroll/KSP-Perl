@@ -269,7 +269,7 @@ our %resourceInfoTable = (
 		if ($name eq "ModuleDeployableSolarPanel") {
 			+{
 				class => "PRODUCE",
-				resource => scalar KSP::Resource->get(scalar $_->get("resourceName")),
+				resource => scalar KSP::Resource->get(scalar $_->get("resourceName", "ElectricCharge")),
 				units => scalar $_->get("chargeRate", 0),
 			}
 		} elsif ($name eq "ModuleResourceIntake") {
