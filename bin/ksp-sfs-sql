@@ -378,15 +378,21 @@ mkview(report => q{
 		and (sources.situation = science.situation or (sources.situation is null and science.situation is null))
 });
 
-mktable(roc => qw(body biome name), sub {
+mktable(roc_raw => qw(body biome name), sub {
 	foreach my $b ($system->bodies) {
 		my $i = $b->rocJson;
 		foreach my $r (keys %$i) {
 			foreach my $n (@{$i->{$r}}) {
-				insert("roc", $b->name, $n, $r);
+				insert("roc_raw", $b->name, $n, $r);
 			}
 		}
 	}
+});
+mkview(roc => q{
+	select roc_raw.*
+	from roc_raw, bodies
+	where roc_raw.body = bodies.body
+	order by bodies.sort, biome, name
 });
 
 my @kerbal = ();
