@@ -378,12 +378,12 @@ mkview(report => q{
 		and (sources.situation = science.situation or (sources.situation is null and science.situation is null))
 });
 
-mktable(roc => qw(body name biome), sub {
+mktable(roc => qw(body biome name), sub {
 	foreach my $b ($system->bodies) {
-		my $i = $b->rocInfo;
+		my $i = $b->rocJson;
 		foreach my $r (keys %$i) {
 			foreach my $n (@{$i->{$r}}) {
-				insert("roc", $b->name, $r, $n);
+				insert("roc", $b->name, $n, $r);
 			}
 		}
 	}
