@@ -279,7 +279,7 @@ sub scienceValues {
 		foreach my $k (keys %$s) {
 			my $v = $s->{$k};
 			ref $v and next;
-			($self->atmosphereDepth <= 0 && $k =~ /^fly/i) and next;
+			($self->hasAtmosphere && $k =~ /^fly/i) and next;
 			(!$self->hasOcean && $k =~ /^splash/i) and next;
 			(!$self->hasSolidSurface && $k =~ /^land/i) and next;
 			$k =~ s/(Data)?Value$// or next;
@@ -419,6 +419,11 @@ sub hasOcean {
 	!! $self->json->{ocean}
 }
 
+sub hasAtmosphere {
+	my ($self) = @_;
+	$self->atmosphereDepth > 0
+}
+
 sub atmosphereDepth {
 	my ($self) = @_;
 	U(($self->json->{atmosphere} ? ($self->json->{atmosphere}{depth} || 0) : 0), "m")
@@ -516,7 +521,7 @@ sub desc {
 			. ($self->isHomeWorld ? "⌂" : "")
 			. ($self->isStar ? "☼" : "")
 			. ($self->hasSolidSurface ? "" : "◌")
-			. ($self->atmosphereDepth > 0 ? "☁" : "")
+			. ($self->hasAtmosphere ? "☁" : "")
 			. ($self->hasOcean ? "≈" : "")
 			. "[ " . join("; ", @d) . " ]"
 	})
