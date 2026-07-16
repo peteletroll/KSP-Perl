@@ -424,6 +424,11 @@ sub hasAtmosphere {
 	$self->atmosphereDepth > 0
 }
 
+sub hasOxygen {
+	my ($self) = @_;
+	!!$self->json->{atmosphere}{containsOxygen}
+}
+
 sub atmosphereDepth {
 	my ($self) = @_;
 	U(($self->json->{atmosphere} ? ($self->json->{atmosphere}{depth} || 0) : 0), "m")
