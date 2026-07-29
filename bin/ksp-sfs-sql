@@ -45,7 +45,7 @@ our $FILE = ($opt{p} ? "persistent" : "quicksave") . ".sfs";
 
 our $DEBUG = $opt{d};
 our $INDEX = $opt{i};
-our $RUNSQLITE;
+our $RUNSQLITE = 0;
 
 our $SW = stopwatch;
 
@@ -266,8 +266,6 @@ sub import_solar_system() {
 		order by bodies.sort, biome, name
 	});
 }
-
-import_solar_system();
 
 ##################################################
 
@@ -545,9 +543,13 @@ sub import_savefile() {
 	runqueue();
 }
 
-import_savefile();
+##################################################
 
-if ($RUNSQLITE) {
+# sqlite shell
+
+##################################################
+
+sub run_sqlite() {
 	my $init = File::Temp->new(DIR => "/var/tmp",
 		TEMPLATE => "ksp-sfs-XXXXXXXX",
 		SUFFIX => ".sqlite");
@@ -562,4 +564,16 @@ if ($RUNSQLITE) {
 	$init->flush();
 	system "sqlite3", "-init", $init->filename, $DBNAME;
 }
+
+##################################################
+
+# main processing
+
+##################################################
+
+import_solar_system();
+
+import_savefile();
+
+$RUNSQLITE and run_sqlite();
 
