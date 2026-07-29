@@ -529,7 +529,8 @@ if ($RUNSQLITE) {
 		SUFFIX => ".sqlite");
 	my $prompt = $TITLE;
 	$prompt =~ s/\(.*$//;
-	$prompt =~ s/[^\w\-\.]//;
+	$prompt =~ s/[^\w\-\.]//g;
+	$prompt = substr($prompt, 0, 16);
 	print $init ".read \"$ENV{HOME}/.sqliterc\"\n"
 		if -f "$ENV{HOME}/.sqliterc";
 	print $init ".prompt \"$prompt> \" \"", ("." x length($prompt)), "> \"\n";
