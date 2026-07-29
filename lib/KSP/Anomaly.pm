@@ -39,6 +39,11 @@ sub lon {
 	$self->json->{lon}
 }
 
+sub isLaunchSite($) {
+	my ($self) = @_;
+	!!$self->json->{isLaunchSite}
+}
+
 sub _coord($$$) {
 	my ($deg, $plus, $minus) = @_;
 	sprintf("%1.2f°", abs($deg))
