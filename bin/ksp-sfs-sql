@@ -18,6 +18,8 @@ use KSP qw(:all);
 
 our $VERSION = $KSP::VERSION;
 
+our $VERBOSE = 1;
+
 binmode $_, ":utf8" foreach (\*STDOUT, \*STDERR);
 
 sub help_message() {
@@ -74,7 +76,7 @@ if ($SFSNAME !~ /\// && ! -f $SFSNAME) {
 our $DB = undef;
 
 sub opensql() {
-	printf "-- Connecting db $DBNAME\n";
+	$VERBOSE and printf "-- Connecting db $DBNAME\n";
 	DBI->connect("dbi:SQLite:dbname=$DBNAME", "", "", {
 		AutoCommit => 1,
 		RaiseError => 1,
@@ -150,7 +152,7 @@ sub mktable($@) {
 	$SW->reset->start;
 	@fill or die "OLDSTYLE \U$table\E\n";
 	$_->() foreach @fill;
-	printf "-- Generated table %s [%d] in %1.3f seconds\n",
+	$VERBOSE and printf "-- Generated table %s [%d] in %1.3f seconds\n",
 		$table, $insert_count{$table}, $SW->read;
 }
 
@@ -177,7 +179,7 @@ sub mkview($$) {
 	my $sw = stopwatch->start;
 	run("drop view if exists " . qi($name));
 	run("create view " . qi($name) . " as $select");
-	printf "-- Generated view %s in %1.3f seconds\n",
+	$VERBOSE and printf "-- Generated view %s in %1.3f seconds\n",
 		$name, $SW->read;
 }
 
@@ -322,10 +324,10 @@ sub import_savefile() {
 
 	$DB->begin_work();
 
-	printf "-- Parsing sfs $SFSNAME, %1.1fKiB\n", (-s $SFSNAME) / 1024;
+	$VERBOSE and printf "-- Parsing sfs $SFSNAME, %1.1fKiB\n", (-s $SFSNAME) / 1024;
 	our $SFS = KSP::ConfigNode->load($SFSNAME);
 	eval { $TITLE = $SFS->getnodes("GAME")->get("Title") };
-	printf "-- Parsed $TITLE in %1.3f seconds\n", $SW->read;
+	$VERBOSE and printf "-- Parsed $TITLE in %1.3f seconds\n", $SW->read;
 
 	my $scienceGainMultiplier = 1;
 	foreach my $c ($SFS->find("CAREER")) {
@@ -553,13 +555,13 @@ our $SFSKEY = "";
 
 sub import_savefile_if_needed() {
 	my $s = stat($SFSNAME);
-	return unless $s;
-	return if time - $s->mtime < 3;
+	return 0 unless $s;
+	return 0 if time - $s->mtime < 3;
 	my $key = sprintf("%d-%d", $s->size, $s->mtime);
-	if ($key ne $SFSKEY) {
-		$SFSKEY = $key;
-		import_savefile();
-	}
+	return 0 if $key eq $SFSKEY;
+	$SFSKEY = $key;
+	import_savefile();
+	1
 }
 
 sub fork_import_checker() {
@@ -568,11 +570,12 @@ sub fork_import_checker() {
         my $pid = fork();
 	defined $pid or die "$0: can't fork(): $!";
 	unless ($pid) {
+		$VERBOSE = 0;
 		for (;;) {
 			sleep 1;
 			kill 0, $mainpid or last;
 			local $@ = undef;
-			eval { import_savefile_if_needed() };
+			eval { import_savefile_if_needed() and warn "\n-- Reloaded\n" };
 			$@ and warn "CHECKER: ", $@;
 		}
 		exit 0;
