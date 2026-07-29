@@ -6,6 +6,7 @@ use warnings;
 use DBI;
 use JSON;
 use File::Temp;
+use File::stat;
 use URI;
 use KSP qw(:all);
 
@@ -147,10 +148,8 @@ sub mktable($@) {
 	}
 
 	$SW->reset->start;
-	$DB->begin_work;
 	@fill or die "OLDSTYLE \U$table\E\n";
 	$_->() foreach @fill;
-	$DB->commit;
 	printf "-- Generated table %s [%d] in %1.3f seconds\n",
 		$table, $insert_count{$table}, $SW->read;
 }
@@ -178,10 +177,8 @@ sub insert($@) {
 sub mkview($$) {
 	my ($name, $select) = @_;
 	my $sw = stopwatch->start;
-	$DB->begin_work;
 	run("drop view if exists " . qi($name));
 	run("create view " . qi($name) . " as $select");
-	$DB->commit;
 	printf "-- Generated view %s in %1.3f seconds\n",
 		$name, $SW->read;
 }
@@ -265,6 +262,8 @@ sub import_solar_system() {
 		where roc_raw.body = bodies.body
 		order by bodies.sort, biome, name
 	});
+
+	runqueue();
 }
 
 ##################################################
@@ -320,6 +319,9 @@ sub import_savefile() {
 	local $DB = opensql();
 
 	$SW->reset->start;
+
+	$DB->begin_work();
+
 	printf "-- Parsing sfs $SFSNAME, %1.1fKiB\n", (-s $SFSNAME) / 1024;
 	our $SFS = KSP::ConfigNode->load($SFSNAME);
 	eval { $TITLE = $SFS->getnodes("GAME")->get("Title") };
@@ -538,9 +540,23 @@ sub import_savefile() {
 	});
 
 	enqueue("analyze");
-	enqueue("vacuum");
 
 	runqueue();
+
+	$DB->commit();
+
+	enqueue("vacuum");
+}
+
+our $SFSKEY = "";
+
+sub import_savefile_if_needed() {
+	my $s = stat($SFSNAME);
+	my $key = $s ? sprintf("%d-%d", $s->size, $s->mtime) : "";
+	if ($key ne $SFSKEY) {
+		import_savefile();
+		$SFSKEY = $key;
+	}
 }
 
 ##################################################
@@ -573,7 +589,7 @@ sub run_sqlite() {
 
 import_solar_system();
 
-import_savefile();
+import_savefile_if_needed();
 
 $RUNSQLITE and run_sqlite();
 
