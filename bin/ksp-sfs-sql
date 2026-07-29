@@ -366,7 +366,7 @@ sub import_savefile() {
 		order by experiment, situation
 	});
 
-	mkview(situations => q{
+	mkview(situations_off => q{
 		select distinct s.body, s.situation
 		from science_values as s
 		left join bodies as b
@@ -375,10 +375,17 @@ sub import_savefile() {
 		order by b.sort, situation
 	});
 
-	mkview(biome_sources => q{
+	mkview(biome_sources_off => q{
 		select distinct experiment, situation
 		from science
 		where biome is not null
+		order by experiment, situation
+	});
+
+	mkview(no_biome_sources_off => q{
+		select distinct experiment, situation
+		from science
+		where biome is null
 		order by experiment, situation
 	});
 
