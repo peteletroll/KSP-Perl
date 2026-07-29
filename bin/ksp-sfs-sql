@@ -154,17 +154,15 @@ sub mktable($@) {
 		$table, $insert_count{$table}, $SW->read;
 }
 
-our %_insert_handle = ();
+our %_insert_stmt = ();
 
 sub insert($@) {
 	my ($table, @val) = @_;
 	@val == 1 && ref $val[0] eq "ARRAY" and @val = @{$val[0]};
 	my $n = @val;
-	my $h = $_insert_handle{$table}[$n] ||= do {
-		my $i = "insert into " . qi($table) . " values (" . join(", ", (("?") x $n)) . ")";
-		# print "-- $i\n";
-		$DB->prepare_cached($i)
-	};
+	my $i = $_insert_stmt{$table}[$n] ||= "insert into " . qi($table)
+		. " values (" . join(", ", (("?") x $n)) . ")";
+	my $h = $DB->prepare_cached($i);
 	$insert_count{$table}++;
 	$h->execute(map {
 		!defined ? undef :
@@ -264,6 +262,8 @@ sub import_solar_system() {
 	});
 
 	runqueue();
+
+	$DB->disconnect();
 }
 
 ##################################################
@@ -539,23 +539,43 @@ sub import_savefile() {
 		order by bodies.sort, name
 	});
 
-	enqueue("analyze");
-
 	runqueue();
 
 	$DB->commit();
 
-	enqueue("vacuum");
+	run("analyze");
+	run("vacuum");
+
+	$DB->disconnect();
 }
 
 our $SFSKEY = "";
 
 sub import_savefile_if_needed() {
 	my $s = stat($SFSNAME);
-	my $key = $s ? sprintf("%d-%d", $s->size, $s->mtime) : "";
+	return unless $s;
+	return if time - $s->mtime < 3;
+	my $key = sprintf("%d-%d", $s->size, $s->mtime);
 	if ($key ne $SFSKEY) {
-		import_savefile();
 		$SFSKEY = $key;
+		import_savefile();
+	}
+}
+
+sub fork_import_checker() {
+	$DB and die "can't fork, SQL db is open";
+	my $mainpid = $$;
+        my $pid = fork();
+	defined $pid or die "$0: can't fork(): $!";
+	unless ($pid) {
+		for (;;) {
+			sleep 1;
+			kill 0, $mainpid or last;
+			local $@ = undef;
+			eval { import_savefile_if_needed() };
+			$@ and warn "CHECKER: ", $@;
+		}
+		exit 0;
 	}
 }
 
@@ -566,13 +586,14 @@ sub import_savefile_if_needed() {
 ##################################################
 
 sub run_sqlite() {
+	fork_import_checker();
 	my $init = File::Temp->new(DIR => "/var/tmp",
 		TEMPLATE => "ksp-sfs-XXXXXXXX",
 		SUFFIX => ".sqlite");
 	my $prompt = $TITLE;
 	$prompt =~ s/\(.*$//;
 	$prompt =~ s/[^\w\-\.]//g;
-	$prompt = substr($prompt, 0, 16);
+	$prompt = substr($prompt, 0, 14);
 	print $init ".read \"$ENV{HOME}/.sqliterc\"\n"
 		if -f "$ENV{HOME}/.sqliterc";
 	print $init ".prompt \"$prompt> \" \"", ("." x length($prompt)), "> \"\n";
