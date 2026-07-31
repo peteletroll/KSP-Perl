@@ -28,7 +28,6 @@ sub _load() {
 
 	my %n = ();
 	foreach my $n (KSP::DB->root->getnodes("PART")) {
-		$n->get("TechHidden", "") =~ /true/i and next;
 		my $name = $n->get("name");
 		defined $name or next;
 		my $prev = $n{$name};
@@ -51,6 +50,7 @@ sub desc {
 		my $crew = $self->crew;
 		my ($engine) = $self->engine();
 		my $ret = $self->name . "[ ";
+		$ret .= "🗙 " if $self->hidden();
 		my $t = $self->title;
 		$ret .= "$t; " if defined $t;
 		$ret .= "$crew☺; " if $crew;
@@ -101,6 +101,11 @@ sub tech {
 	my ($self) = @_;
 	my $n = $self->node->get("TechRequired") or return undef;
 	KSP::Tech->get($n)
+}
+
+sub hidden {
+	my ($self) = @_;
+	$self->node->get("TechHidden", "") =~ /true/i
 }
 
 sub dryMass {
