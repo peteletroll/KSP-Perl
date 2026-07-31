@@ -245,6 +245,15 @@ sub import_solar_system() {
 		}
 	});
 
+	mkview(situations_off => q{
+		select distinct s.body, s.situation
+		from science_values as s
+		left join bodies as b
+			on s.body = b.body
+		where s.situation <> 'Recovery'
+		order by b.sort, situation
+	});
+
 	mktable(roc_raw => qw(body biome name), sub {
 		foreach my $b ($SYSTEM->bodies) {
 			my $i = $b->rocJson;
@@ -364,15 +373,6 @@ sub import_savefile() {
 		from science_raw
 		where experiment <> 'ROCScience'
 		order by experiment, situation
-	});
-
-	mkview(situations_off => q{
-		select distinct s.body, s.situation
-		from science_values as s
-		left join bodies as b
-			on s.body = b.body
-		where s.situation <> 'Recovery'
-		order by b.sort, situation
 	});
 
 	mkview(biome_sources_off => q{
