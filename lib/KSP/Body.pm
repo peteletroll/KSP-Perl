@@ -395,14 +395,14 @@ sub dvLanding {
 
 sub siderealDay {
 	my ($self) = @_;
-	$self->json->{rotation}{tidallyLocked} ?
-		$self->orbit->T :
-		$self->json->{rotation}{rotationPeriod}
+	$self->json->{rotation}{rotationPeriod}
 }
 
-sub solarDay {
+sub synodicDay {
 	$_[0]->json->{rotation}{solarDayLength}
 }
+
+sub solarDay { goto &synodicDay }
 
 sub maxGroundHeight {
 	my ($self) = @_;
