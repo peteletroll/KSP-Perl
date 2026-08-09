@@ -367,30 +367,23 @@ sub import_savefile() {
 		order by bodies.sort, situation, extra, experiment, extra, full
 	});
 
-	mkview(results => q{
+	mkview(experiment_situations => q{
 		select distinct experiment, situation,
-			iif(biome is null, 1, 0) as nullbiome
-		from science_raw
-		where experiment <> 'ROCScience'
-		order by experiment, situation
-	});
-
-	mkview(experiment_situations_off => q{
-		select distinct experiment, situation,
-			iif(biome is null, 0, 1) as biomeflag
+			iif(biome is null, 0, 1) as biome_flag
 		from science
+		where experiment not in ('ROCScience', 'recovery')
 		order by experiment, situation
 	});
 
 	mkview(sources_full => q{
 		select *
 		from biomes
-		join (select experiment, situation from results where nullbiome = 0)
+		join (select experiment, situation from experiment_situations where biome_flag <> 0)
 		where biome is not null and body in (select distinct body from science_raw)
 		union
 		select *
 		from biomes
-		join (select experiment, situation from results where nullbiome > 0)
+		join (select experiment, situation from experiment_situations where biome_flag = 0)
 		where biome is null and body in (select distinct body from science_raw)
 	});
 
