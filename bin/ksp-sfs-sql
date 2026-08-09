@@ -375,17 +375,10 @@ sub import_savefile() {
 		order by experiment, situation
 	});
 
-	mkview(biome_sources_off => q{
-		select distinct experiment, situation
+	mkview(experiment_sources_off => q{
+		select distinct experiment, situation,
+			iif(biome is null, 0, 1) as biomeflag
 		from science
-		where biome is not null
-		order by experiment, situation
-	});
-
-	mkview(no_biome_sources_off => q{
-		select distinct experiment, situation
-		from science
-		where biome is null
 		order by experiment, situation
 	});
 
