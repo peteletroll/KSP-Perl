@@ -245,7 +245,7 @@ sub import_solar_system() {
 		}
 	});
 
-	mkview(situations_off => q{
+	mkview(body_situations_off => q{
 		select distinct s.body, s.situation
 		from science_values as s
 		left join bodies as b
@@ -375,7 +375,7 @@ sub import_savefile() {
 		order by experiment, situation
 	});
 
-	mkview(experiment_sources_off => q{
+	mkview(experiment_situations_off => q{
 		select distinct experiment, situation,
 			iif(biome is null, 0, 1) as biomeflag
 		from science
