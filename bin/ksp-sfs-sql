@@ -369,7 +369,7 @@ sub import_savefile() {
 
 	mkview(experiment_situations => q{
 		select distinct experiment, situation,
-			iif(biome is null, 0, 1) as biome_flag
+			biome is not null as biome_flag
 		from science
 		where experiment not in ('ROCScience', 'recovery')
 		order by experiment, situation
