@@ -126,7 +126,6 @@ sub crashTolerance {
 our @ATTACH = qw(stack SrfAttach allowStack allowSrfAttach allowCollision);
 sub attach {
 	my ($spec) = @_;
-	warn "ATTACH $spec\n";
 	if (UNIVERSAL::isa($spec, __PACKAGE__)) {
 		return $spec->cache("attach", sub {
 			attach($spec->node->get("attachRules", ""));
