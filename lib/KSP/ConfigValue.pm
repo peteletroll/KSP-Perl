@@ -32,7 +32,8 @@ sub _comment {
 	my $ATTACH = \@KSP::Part::ATTACH;
 	if ($name eq "attachRules") {
 		defined $value or return undef;
-		join(", ", sort keys %{KSP::Part::attach($value)})
+		my $a = KSP::Part::attach($value);
+		join(", ", grep { $a->{$_} } KSP::Part::attach())
 	} elsif ($name =~ /UT$/ && $value =~ /^-?\d/) {
 		# KSP::Time->new($value)->pretty_date()
 	} else {

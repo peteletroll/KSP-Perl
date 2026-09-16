@@ -126,6 +126,10 @@ sub crashTolerance {
 our @ATTACH = qw(stack SrfAttach allowStack allowSrfAttach allowCollision);
 sub attach {
 	my ($spec) = @_;
+	unless (@_) {
+		wantarray or croak __PACKAGE__, "::attach() wants list context";
+		return @ATTACH;
+	}
 	if (UNIVERSAL::isa($spec, __PACKAGE__)) {
 		return $spec->cache("attach", sub {
 			attach($spec->node->get("attachRules", ""));
