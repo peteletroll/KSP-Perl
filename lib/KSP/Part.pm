@@ -131,7 +131,7 @@ sub attach {
 		return @ATTACH;
 	}
 	if (UNIVERSAL::isa($spec, __PACKAGE__)) {
-		return $spec->cache("attach", sub {
+		return scalar $spec->cache("attach", sub {
 			attach($spec->node->get("attachRules", ""));
 		});
 	}
