@@ -125,18 +125,22 @@ sub crashTolerance {
 
 our @ATTACH = qw(stack SrfAttach allowStack allowSrfAttach allowCollision);
 sub attach {
-	my ($self) = @_;
-	scalar $self->cache("attach", sub {
-		my $rules = $self->node->get("attachRules", "");
-		$rules =~ s/\s+//g;
-		my @f = split /,/, $rules;
-		my %a = ();
-		foreach my $i (0..$#ATTACH) {
-			my $a = $ATTACH[$i];
-			$a{$a} = $f[$i] ? 1 : 0;
-		}
-		\%a
-	})
+	my ($spec) = @_;
+	warn "ATTACH $spec\n";
+	if (UNIVERSAL::isa($spec, __PACKAGE__)) {
+		return $spec->cache("attach", sub {
+			attach($spec->node->get("attachRules", ""));
+		});
+	}
+	$spec =~ s/\s+//g;
+	my @f = split /,/, $spec;
+	@f == @ATTACH or croak "bad attach spec: $spec";
+	my %a = ();
+	foreach my $i (0..$#ATTACH) {
+		my $a = $ATTACH[$i];
+		$a{$a} = $f[$i] ? 1 : 0;
+	}
+	\%a
 }
 
 sub nodes {

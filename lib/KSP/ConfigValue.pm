@@ -31,17 +31,8 @@ sub _comment {
 	# warn "_COMMENT(", dump($name), ", ", dump($value), ")\n";
 	my $ATTACH = \@KSP::Part::ATTACH;
 	if ($name eq "attachRules") {
-		# warn "$name\n";
 		defined $value or return undef;
-		# warn "$name: ", dump($value), "\n";
-		$value =~ s/\s+//g;
-		my @f = split /,/, $value;
-		my @a = ();
-		foreach my $i (0..$#$ATTACH) {
-			my $a = $ATTACH->[$i];
-			push @a, ($f[$i] ? $a : "no $a");
-		}
-		join(", ", @a)
+		join(", ", sort keys %{KSP::Part::attach($value)})
 	} elsif ($name =~ /UT$/ && $value =~ /^-?\d/) {
 		# KSP::Time->new($value)->pretty_date()
 	} else {
