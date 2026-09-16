@@ -126,7 +126,7 @@ sub crashTolerance {
 our @ATTACH = qw(stack SrfAttach allowStack allowSrfAttach allowCollision);
 sub attach {
 	my ($spec) = @_;
-	unless (@_) {
+	unless (defined $spec) {
 		wantarray or croak __PACKAGE__, "::attach() wants list context";
 		return @ATTACH;
 	}
@@ -137,7 +137,6 @@ sub attach {
 	}
 	$spec =~ s/\s+//g;
 	my @f = split /,/, $spec;
-	@f == @ATTACH or croak "bad attach spec: $spec";
 	my %a = ();
 	foreach my $i (0..$#ATTACH) {
 		my $a = $ATTACH[$i];
