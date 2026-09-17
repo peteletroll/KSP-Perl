@@ -123,6 +123,14 @@ sub crashTolerance {
 
 }
 
+sub cost {
+	my ($self) = @_;
+	scalar $self->cache("cost", sub {
+		$self->node->get("cost", 9)
+	});
+
+}
+
 our @ATTACH = qw(stack SrfAttach allowStack allowSrfAttach allowCollision);
 sub attach {
 	my ($spec) = @_;
