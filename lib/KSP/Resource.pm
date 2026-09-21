@@ -67,6 +67,13 @@ sub unitMass {
 	});
 }
 
+sub unitCost {
+	my ($self) = @_;
+	scalar $self->cache("unitCost", sub {
+		$self->node->get("unitCost", 0)
+	});
+}
+
 sub _resfilter($$) {
 	my ($self, $class) = @_;
 	$self->cache("resfilter-$class", sub {

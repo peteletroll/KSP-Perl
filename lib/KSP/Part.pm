@@ -123,12 +123,23 @@ sub crashTolerance {
 
 }
 
-sub cost {
+sub wetCost {
 	my ($self) = @_;
-	scalar $self->cache("cost", sub {
+	scalar $self->cache("wetCost", sub {
 		$self->node->get("cost", 0)
 	});
 
+}
+
+sub dryCost {
+	my ($self) = @_;
+	scalar $self->cache("dryCost", sub {
+		my $ret = $self->wetCost;
+		foreach (@{$self->resourceInfo("STORE")}) {
+			$ret -= $_->{cost};
+		}
+		$ret
+	})
 }
 
 our @ATTACH = qw(stack SrfAttach allowStack allowSrfAttach allowCollision);
@@ -252,32 +263,36 @@ our %resourceInfoTable = (
 		} elsif ((my $r = $_->get("rate", 0)) > 0) {
 			my $module = $_->parent;
 			my $producer = $module && $module->name eq "MODULE" && $producerModule{$module->get("name")};
+			my $resource = KSP::Resource->get(scalar $_->get("name"));
 			+{
 				class => ($producer ? "PRODUCE" : "CONSUME"),
-				resource => scalar KSP::Resource->get(scalar $_->get("name")),
+				resource => $resource,
 				units => $r,
 			};
 		}
 	},
 	INPUT_RESOURCE => sub {
+		my $resource = KSP::Resource->get(scalar $_->get("ResourceName"));
 		+{
 			class => "CONSUME",
-			resource => scalar KSP::Resource->get(scalar $_->get("ResourceName")),
+			resource => $resource,
 			ratio => scalar $_->get("Ratio"),
 		}
 	},
 	OUTPUT_RESOURCE => sub {
+		my $resource = scalar KSP::Resource->get(scalar $_->get("ResourceName") || scalar $_->get("name"));
 		+{
 			class => "PRODUCE",
-			resource => scalar KSP::Resource->get(scalar $_->get("ResourceName") || scalar $_->get("name")),
+			resource => $resource,
 			ratio => scalar $_->get("Ratio"),
 			rate => scalar $_->get("rate"),
 		}
 	},
 	RESOURCE_PROCESS => sub {
+		my $resource => KSP::Resource->get(scalar $_->get("name"));
 		+{
 			class => "CONSUME",
-			resource => scalar KSP::Resource->get(scalar $_->get("name")),
+			resource => $resource,
 			amount => scalar $_->get("amount"),
 		}
 	},
@@ -335,8 +350,11 @@ sub resourceInfo {
 				}
 			}
 			$h or next;
-			$h->{mass} = $h->{units} * $h->{resource}->unitMass
-				if $h->{class} eq "STORE";
+			if ($h->{class} eq "STORE") {
+				my $r = $h->{resource};
+				$h->{mass} = $h->{units} * $r->unitMass;
+				$h->{cost} = $h->{units} * $r->unitCost;
+			}
 			push @ret, $h;
 		}
 		\@ret
