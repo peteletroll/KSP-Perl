@@ -321,6 +321,7 @@ sub maplink($$$) {
 	my $uri = URI->new("http://localhost/~pietro/ksp/ksp-sphere-map/main.html");
 	$uri->query_form(
 		body => lc $body,
+		map => "biome",
 		lat => sprintf("%1.3f", $lat),
 		lon => sprintf("%1.3f", $lon));
 	$uri
