@@ -20,7 +20,8 @@ print "transfer = $trans\n";
 my $vKerbin = V(Kerbin->vmax, 0);
 print "vKerbin = $vKerbin\n";
 
-my $vminTrans = V($trans->vmin * cos($incl), $trans->vmin * sin($incl));
+my $vminTrans = $trans->vmin;
+$vminTrans = V($vminTrans * cos($incl), $vminTrans * sin($incl));
 print "vminTrans = $vminTrans\n";
 
 my $vOut = $vminTrans - $vKerbin;
