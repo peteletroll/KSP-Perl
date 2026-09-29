@@ -33,6 +33,10 @@ sub files() {
 		follow => 0,
 		wanted => sub {
 			my $s = stat($_) or return;
+
+			# removing this messes up resourceInfo()
+			-d $s && $_ eq "zDeprecated" and $File::Find::prune = 1;
+
 			-d $s && $_ eq "PluginData" and $File::Find::prune = 1;
 			-f $s && (/\.cfg$/i)
 				or return;
