@@ -5,6 +5,7 @@ use warnings;
 
 use DBI;
 use JSON;
+use Time::Piece;
 use File::Temp;
 use File::stat;
 use URI;
@@ -569,7 +570,13 @@ sub fork_import_checker() {
 			sleep 1;
 			kill 0, $mainpid or last;
 			local $@ = undef;
-			eval { import_savefile_if_needed() and warn "\n-- Reloaded\n" };
+			eval {
+				import_savefile_if_needed()
+					and warn "\n-- ",
+						localtime->hms,
+						" - reloaded",
+						"\n"
+			};
 			$@ and warn "CHECKER: ", $@;
 		}
 		exit 0;
