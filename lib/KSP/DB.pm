@@ -10,7 +10,7 @@ use File::Find;
 use File::stat;
 use Cwd;
 
-use KSP::Util qw(filekey U CACHE);
+use KSP::Util qw(U CACHE);
 use KSP::StopWatch qw(stopwatch);
 
 use KSP::ConfigNode;
