@@ -532,6 +532,11 @@ sub desc {
 	})
 }
 
+sub PT($$) {
+	my ($self, $T) = @_;
+	$self->system->PT($T)
+}
+
 sub index {
 	$_[0]->json->{info}{index}
 }

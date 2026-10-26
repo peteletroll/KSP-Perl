@@ -5,6 +5,8 @@ use warnings;
 
 use POSIX qw(floor);
 
+use Scalar::Util qw(dualvar);
+
 use KSP;
 use KSP::Body;
 use KSP::Cache;
@@ -223,6 +225,11 @@ sub pretty_interval {
 
 	end:
 	join("", $sign, @ret)
+}
+
+sub PT($$) {
+	my ($self, $T) = @_;
+	dualvar($T, $self->pretty_interval($T))
 }
 
 sub desc {
