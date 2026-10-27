@@ -279,7 +279,7 @@ sub scienceValues {
 		foreach my $k (keys %$s) {
 			my $v = $s->{$k};
 			ref $v and next;
-			($self->hasAtmosphere && $k =~ /^fly/i) and next;
+			(!$self->hasAtmosphere && $k =~ /^fly/i) and next;
 			(!$self->hasOcean && $k =~ /^splash/i) and next;
 			(!$self->hasSolidSurface && $k =~ /^land/i) and next;
 			$k =~ s/(Data)?Value$// or next;
