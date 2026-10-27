@@ -393,9 +393,13 @@ sub dvLanding {
 	U $dvGraph->graph->{"$name/LO"}->{$name}
 }
 
+sub isTidallyLocked {
+	!!($_[0]->json->{rotation}{tidallyLocked} && $_[0]->orbit)
+}
+
 sub siderealDay {
 	my ($self) = @_;
-	$self->json->{rotation}{tidallyLocked} && $self->orbit ?
+	$self->isTidallyLocked ?
 		$self->orbit->T :
 		$self->T($self->json->{rotation}{rotationPeriod})
 }
