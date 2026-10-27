@@ -412,6 +412,7 @@ sub synodicDay {
 		$orbit = $_->orbit;
 	}
 	$orbit or return $siderealDay;
+	$orbit->T == $siderealDay and return "Inf";
 	$self->T($orbit->T * $siderealDay / ($orbit->T - $siderealDay))
 }
 
