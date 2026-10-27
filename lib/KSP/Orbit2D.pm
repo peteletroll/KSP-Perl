@@ -524,7 +524,7 @@ sub desc {
 			sprintf("%s %s%s, %s", $tap, $self->ap, $wap, $self->vmin);
 	}
 
-	$open or push @d, $self->body->T($self->T);
+	$open or push @d, $self->T;
 
 	my $y = $open ? "U" : $self->e > 0.06 ? "O" : "o";
 	"$y:" . $self->body->name . "[ " . join("; ", @d) . " ]"

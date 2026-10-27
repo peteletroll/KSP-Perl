@@ -394,7 +394,7 @@ sub dvLanding {
 }
 
 sub isTidallyLocked {
-	!!($_[0]->json->{rotation}{tidallyLocked} && $_[0]->orbit)
+	!! ($_[0]->json->{rotation}{tidallyLocked} && $_[0]->orbit)
 }
 
 sub siderealDay {
@@ -443,7 +443,7 @@ sub hasAtmosphere {
 
 sub hasOxygen {
 	my ($self) = @_;
-	!!$self->json->{atmosphere}{containsOxygen}
+	!! $self->json->{atmosphere}{containsOxygen}
 }
 
 sub atmosphereDepth {
@@ -536,7 +536,7 @@ sub desc {
 		my @d = ();
 		push @d, "r " . $self->radius;
 		push @d, "g₀ " . $self->g0;
-		push @d, "↺ " . $self->T($self->siderealDay)
+		push @d, "↺ " . $self->siderealDay
 			if $self->siderealDay;
 		push @d, "SOI " . $self->SOI if $self->SOI;
 		$self->name
