@@ -140,12 +140,14 @@ foreach my $b (@bodies) {
 				map { 0 + $_ }
 				split(/\s+/, $_->get("timewarpAltitudeLimits"))
 			];
-			$_->get("rotationPeriod") and $j->{rotation}{rotationPeriod} = 0 + $_->get("rotationPeriod")
-				or ($_->get("tidallyLocked") || "") =~ /true/i and $j->{rotation}{tidallyLocked} = JSON::true;
+
+			my $tl = $_->get("tidallyLocked", "false");
+			my $tl2 = $tl =~ /true/i || 0;
+			$j->{rotation}{tidallyLocked} = JSON::boolean($tl =~ /true/i);
+			warn "BODY $j->{info}{name} tl=$tl tl2=$tl2 ", $j->{rotation}{tidallyLocked}, "\n";
 		} elsif ($p eq "Body" && $n eq "Atmosphere") {
 			$j->{atmosphere}{depth} = 0 + ($_->get("maxAltitude") || $_->get("altitude") || 0);
-			$j->{atmosphere}{containsOxygen} = ($_->get("oxygen") || "") =~ /true/i ?
-				JSON::true : JSON::false;
+			$j->{atmosphere}{containsOxygen} = JSON::boolean($_->get("oxygen", "false") =~ /true/i);
 		}
 	});
 	# warn "BODY ", to_json($j, { pretty => 1 }), "\n";
