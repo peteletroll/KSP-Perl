@@ -399,11 +399,21 @@ sub siderealDay {
 }
 
 sub synodicDay {
-	my ($self) = @_;
-	$self->T($self->json->{rotation}{solarDayLength})
+	my ($self, $ref) = @_;
+	my $bodyTest = $ref ? sub { $_ == $ref } : sub { $_->isStar };
+	my $siderealDay = $self->siderealDay;
+	defined $siderealDay or return undef;
+	my $orbit = $self->orbit;
+	while ($orbit) {
+		local $_ = $orbit->body;
+		$bodyTest->() and last;
+		$orbit = $_->orbit;
+	}
+	$orbit or return $siderealDay;
+	$self->T($orbit->T * $siderealDay / ($orbit->T - $siderealDay))
 }
 
-sub solarDay { goto &synodicDay }
+sub solarDay { $_[0]->synodicDay }
 
 sub maxGroundHeight {
 	my ($self) = @_;
