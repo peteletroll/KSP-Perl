@@ -406,14 +406,13 @@ sub siderealDay {
 
 sub synodicDay {
 	my ($self, $ref) = @_;
-	my $bodyTest = $ref ? sub { $_ == $ref } : sub { $_->isStar };
 	my $siderealDay = $self->siderealDay;
 	defined $siderealDay or return undef;
 	my $orbit = $self->orbit;
 	while ($orbit) {
-		local $_ = $orbit->body;
-		$bodyTest->() and last;
-		$orbit = $_->orbit;
+		my $body = $orbit->body;
+		$ref ? $body == $ref : $body->isStar and last;
+		$orbit = $body->orbit;
 	}
 	$orbit or return $siderealDay;
 	$orbit->T == $siderealDay and return "Inf";
