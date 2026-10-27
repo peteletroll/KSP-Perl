@@ -227,7 +227,7 @@ sub pretty_interval {
 	join("", $sign, @ret)
 }
 
-sub PT($$) {
+sub T($$) {
 	my ($self, $T) = @_;
 	dualvar($T, $self->pretty_interval($T))
 }

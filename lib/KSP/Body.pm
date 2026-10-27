@@ -532,9 +532,9 @@ sub desc {
 	})
 }
 
-sub PT($$) {
+sub T($$) {
 	my ($self, $T) = @_;
-	$self->system->PT($T)
+	$self->system->T($T)
 }
 
 sub index {
