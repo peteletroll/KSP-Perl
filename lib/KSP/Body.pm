@@ -395,7 +395,9 @@ sub dvLanding {
 
 sub siderealDay {
 	my ($self) = @_;
-	$self->T($self->json->{rotation}{rotationPeriod})
+	$self->json->{rotation}{tidallyLocked} && $self->orbit ?
+		$self->orbit->T :
+		$self->T($self->json->{rotation}{rotationPeriod})
 }
 
 sub synodicDay {
