@@ -233,7 +233,7 @@ sub th_dev { # gravity assist deviation
 sub T { # orbital period
 	my ($self) = @_;
 	$self->_need_closed;
-	2 * pi * sqrt($self->a ** 3 / $self->body->mu)
+	$self->body->T(2 * pi * sqrt($self->a ** 3 / $self->body->mu))
 }
 
 sub pe { # periapsis height
@@ -524,7 +524,7 @@ sub desc {
 			sprintf("%s %s%s, %s", $tap, $self->ap, $wap, $self->vmin);
 	}
 
-	$open or push @d, $self->body->system->pretty_interval($self->T);
+	$open or push @d, $self->body->T($self->T);
 
 	my $y = $open ? "U" : $self->e > 0.06 ? "O" : "o";
 	"$y:" . $self->body->name . "[ " . join("; ", @d) . " ]"

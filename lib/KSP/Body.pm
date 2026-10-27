@@ -395,11 +395,12 @@ sub dvLanding {
 
 sub siderealDay {
 	my ($self) = @_;
-	$self->json->{rotation}{rotationPeriod}
+	$self->T($self->json->{rotation}{rotationPeriod})
 }
 
 sub synodicDay {
-	$_[0]->json->{rotation}{solarDayLength}
+	my ($self) = @_;
+	$self->T($self->json->{rotation}{solarDayLength})
 }
 
 sub solarDay { goto &synodicDay }
@@ -519,7 +520,7 @@ sub desc {
 		my @d = ();
 		push @d, "r " . $self->radius;
 		push @d, "g₀ " . $self->g0;
-		push @d, "↺ " . $self->system->pretty_interval($self->siderealDay)
+		push @d, "↺ " . $self->T($self->siderealDay)
 			if $self->siderealDay;
 		push @d, "SOI " . $self->SOI if $self->SOI;
 		$self->name
