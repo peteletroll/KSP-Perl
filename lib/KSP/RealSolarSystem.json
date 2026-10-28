@@ -51,7 +51,7 @@
             "spaceAltitudeThreshold": 60000
          },
          "size": {
-            "mass": 1.29e+21,
+            "mu": 83463444317.7048,
             "radius": 578900
          },
          "surface": {
@@ -99,7 +99,7 @@
             "spaceAltitudeThreshold": 80000
          },
          "size": {
-            "mass": 1.075938e+23,
+            "mu": 7179289361397.27,
             "radius": 2409300
          },
          "surface": {
@@ -157,7 +157,7 @@
             "spaceAltitudeThreshold": 60000
          },
          "size": {
-            "mass": 9.39e+20,
+            "mu": 62632500000,
             "radius": 473000
          },
          "surface": {
@@ -215,7 +215,7 @@
             "spaceAltitudeThreshold": 60000
          },
          "size": {
-            "mass": 1.52e+21,
+            "mu": 105879988860.188,
             "radius": 603500
          },
          "surface": {
@@ -273,7 +273,7 @@
             "spaceAltitudeThreshold": 25000
          },
          "size": {
-            "mass": 1480000000000000,
+            "mu": 96155.6964812031,
             "radius": 5456
          },
          "surface": {
@@ -331,7 +331,7 @@
             "spaceAltitudeThreshold": 60000
          },
          "size": {
-            "mass": 1.095452e+21,
+            "mu": 73116366487.32,
             "radius": 561400
          },
          "surface": {
@@ -404,7 +404,7 @@
             "spaceAltitudeThreshold": 250000
          },
          "size": {
-            "mu": 398600441800000,
+            "mu": 398600435436096,
             "radius": 6371000
          },
          "surface": {
@@ -462,7 +462,7 @@
             "spaceAltitudeThreshold": 60000
          },
          "size": {
-            "mass": 1.08022e+20,
+            "mu": 7211454165.826,
             "radius": 252100
          },
          "surface": {
@@ -510,7 +510,7 @@
             "spaceAltitudeThreshold": 60000
          },
          "size": {
-            "mass": 4.7998e+22,
+            "mu": 3202738774922.89,
             "radius": 1550800
          },
          "surface": {
@@ -558,7 +558,7 @@
             "spaceAltitudeThreshold": 60000
          },
          "size": {
-            "mass": 1.4819e+23,
+            "mu": 9887834453334.14,
             "radius": 2624100
          },
          "surface": {
@@ -616,7 +616,7 @@
             "spaceAltitudeThreshold": 60000
          },
          "size": {
-            "mass": 1.805e+21,
+            "mu": 120512088703.3,
             "radius": 734500
          },
          "surface": {
@@ -664,7 +664,7 @@
             "spaceAltitudeThreshold": 80000
          },
          "size": {
-            "mass": 8.9319e+22,
+            "mu": 5959916033410.4,
             "radius": 1811300
          },
          "surface": {
@@ -723,7 +723,7 @@
             "spaceAltitudeThreshold": 4000000
          },
          "size": {
-            "mu": 126686534000000000,
+            "mu": 126686534921800800,
             "radius": 69373000
          }
       },
@@ -788,7 +788,7 @@
             "spaceAltitudeThreshold": 140000
          },
          "size": {
-            "mu": 42828310000000,
+            "mu": 42828373620699.1,
             "radius": 3375800
          },
          "surface": {
@@ -836,7 +836,7 @@
             "rotationPeriod": 5067031.68,
             "solarDayLength": 141115.385296176,
             "solarRotationPeriod": false,
-            "tidallyLocked": true
+            "tidallyLocked": false
          },
          "science": {
             "InSpaceHighDataValue": 2,
@@ -846,7 +846,7 @@
             "spaceAltitudeThreshold": 60000
          },
          "size": {
-            "mass": 3.3022e+23,
+            "mu": 22031780000000,
             "radius": 2439700
          },
          "surface": {
@@ -904,7 +904,7 @@
             "spaceAltitudeThreshold": 60000
          },
          "size": {
-            "mass": 3.7493e+19,
+            "mu": 2503524000,
             "radius": 198200
          },
          "surface": {
@@ -962,7 +962,7 @@
             "spaceAltitudeThreshold": 60000
          },
          "size": {
-            "mass": 6.6e+19,
+            "mu": 4319516899.2321,
             "radius": 235700
          },
          "surface": {
@@ -1020,7 +1020,7 @@
             "spaceAltitudeThreshold": 60000
          },
          "size": {
-            "mass": 7.34767309e+22,
+            "mu": 4902800066163.8,
             "radius": 1737100
          },
          "surface": {
@@ -1086,7 +1086,7 @@
             "spaceAltitudeThreshold": 4000000
          },
          "size": {
-            "mu": 6836529000000000,
+            "mu": 6835099502439672,
             "radius": 24085000
          }
       },
@@ -1141,7 +1141,7 @@
             "spaceAltitudeThreshold": 60000
          },
          "size": {
-            "mass": 2.88e+21,
+            "mu": 205323430253.562,
             "radius": 761400
          },
          "surface": {
@@ -1199,7 +1199,7 @@
             "spaceAltitudeThreshold": 25000
          },
          "size": {
-            "mass": 10720000000000000,
+            "mu": 708754.606689445,
             "radius": 7250
          },
          "surface": {
@@ -1253,7 +1253,7 @@
             "rotationPeriod": 551856.672,
             "solarDayLength": 141115.385296176,
             "solarRotationPeriod": false,
-            "tidallyLocked": true
+            "tidallyLocked": false
          },
          "science": {
             "InSpaceHighDataValue": 2,
@@ -1263,7 +1263,7 @@
             "spaceAltitudeThreshold": 60000
          },
          "size": {
-            "mass": 1.305e+22,
+            "mu": 869613817760.875,
             "radius": 1187000
          },
          "surface": {
@@ -1321,7 +1321,7 @@
             "spaceAltitudeThreshold": 60000
          },
          "size": {
-            "mass": 2.306518e+21,
+            "mu": 153942464353.5,
             "radius": 763800
          },
          "surface": {
@@ -1393,7 +1393,7 @@
             "spaceAltitudeThreshold": 4000000
          },
          "size": {
-            "mu": 37931187000000000,
+            "mu": 37931207498652240,
             "radius": 57216000
          }
       },
@@ -1444,7 +1444,7 @@
             "spaceAltitudeThreshold": 1000000000
          },
          "size": {
-            "mu": 1.32712e+20,
+            "mu": 1.32712440041939e+20,
             "radius": 696342000
          }
       },
@@ -1499,7 +1499,7 @@
             "spaceAltitudeThreshold": 60000
          },
          "size": {
-            "mass": 6.17449e+20,
+            "mu": 41211077826.41,
             "radius": 531100
          },
          "surface": {
@@ -1570,7 +1570,7 @@
             "spaceAltitudeThreshold": 200000
          },
          "size": {
-            "mu": 8978133000000,
+            "mu": 8978138376543,
             "radius": 2573300
          },
          "surface": {
@@ -1628,7 +1628,7 @@
             "spaceAltitudeThreshold": 60000
          },
          "size": {
-            "mass": 3.42e+21,
+            "mu": 226943700374.125,
             "radius": 788900
          },
          "surface": {
@@ -1690,7 +1690,7 @@
             "spaceAltitudeThreshold": 60000
          },
          "size": {
-            "mu": 1427900000000,
+            "mu": 1427598140725.03,
             "radius": 1353400
          },
          "surface": {
@@ -1748,7 +1748,7 @@
             "spaceAltitudeThreshold": 60000
          },
          "size": {
-            "mass": 1.22e+21,
+            "mu": 85093380944.8939,
             "radius": 584700
          },
          "surface": {
@@ -1818,7 +1818,7 @@
             "spaceAltitudeThreshold": 4000000
          },
          "size": {
-            "mu": 5793939000000000,
+            "mu": 5793951322279009,
             "radius": 24702000
          }
       },
@@ -1880,8 +1880,7 @@
             "spaceAltitudeThreshold": 140000
          },
          "size": {
-            "mass": 4.8676e+24,
-            "mu": 324859000000000,
+            "mu": 324858592000000,
             "radius": 6049000
          },
          "surface": {
@@ -1939,7 +1938,7 @@
             "spaceAltitudeThreshold": 60000
          },
          "size": {
-            "mass": 2.59e+20,
+            "mu": 17288244969.3,
             "radius": 262700
          },
          "surface": {
@@ -1950,7 +1949,8 @@
    "generator": [
       "util/kopernicus-to-json.pl",
       "Sun=Sol",
-      "RSSKopernicus"
+      "Kerbin=Earth",
+      "RSSKopernicus/."
    ],
    "rootBody": "Sol",
    "timeUnits": {

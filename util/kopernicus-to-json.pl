@@ -108,48 +108,64 @@ foreach my $b (@bodies) {
 			# warn "REMOVE ATMOSPHERE $name $tmpl\n";
 			delete $j->{atmosphere};
 		}
+		# warn "IMPORTED $name <- $tmplname -> ", to_json($j, { pretty => 1 }), "\n";
 	}
 
-	$j->{info}{name} = $rename{$name};
-	$j->{info}{index} = 0 + ($b->get("flightGlobalsIndex") || 0);
-	$j->{info}{orbitingBodies} = [ ];
+	sub replace($$) {
+		defined $_[1] and $_[0] = $_[1];
+		$_[0]
+	}
+
+	sub asnum($) {
+		defined $_[0] ? 0 + $_[0] : undef
+	}
+
+	sub asbool($) {
+		defined $_[0] ? JSON::boolean($_[0] =~ /true/i) : undef
+	}
+
+	my $i = $j->{info};
+	$i->{name} = $rename{$name};
+	$i->{orbitingBodies} = [ ];
+	replace($i->{index}, $b->get("flightGlobalsIndex"));
+
 	$b->visit(sub {
 		my $n = $_->name;
 		my $p = $_->parent ? $_->parent->name : "";
 		# warn "NODE $name $p $n\n";
 		if ($p eq "Body" && $n eq "Orbit") {
 			my $o = $j->{orbit} = { };
-			$o->{referenceBody} = $_->get("referenceBody");
-			$o->{semiMajorAxis} = 0 + $_->get("semiMajorAxis");
-			$o->{eccentricity} = 0 + $_->get("eccentricity");
-			$o->{inclinationDeg} = 0 + $_->get("inclination");
-			$o->{longitudeOfAscendingNodeDeg} = 0 + $_->get("longitudeOfAscendingNode");
-			$o->{argumentOfPeriapsisDeg} = 0 + $_->get("argumentOfPeriapsis");
-			$o->{meanAnomalyAtEpochDeg} = 0 + ($_->get("meanAnomalyAtEpochD") || 0);
+			replace($o->{referenceBody}, $_->get("referenceBody"));
+			replace($o->{semiMajorAxis}, asnum $_->get("semiMajorAxis"));
+			replace($o->{eccentricity}, asnum $_->get("eccentricity"));
+			replace($o->{inclinationDeg}, asnum $_->get("inclination"));
+			replace($o->{longitudeOfAscendingNodeDeg}, asnum $_->get("longitudeOfAscendingNode"));
+			replace($o->{argumentOfPeriapsisDeg}, asnum $_->get("argumentOfPeriapsis"));
+			replace($o->{meanAnomalyAtEpochDeg}, asnum $_->get("meanAnomalyAtEpochD"));
 			foreach (keys %$o) {
 				/^(.*)Deg$/ and $j->{orbit}{"${1}Rad"} = deg2rad $j->{orbit}{$_};
 			}
 		} elsif ($p eq "Body" && $n eq "Properties") {
 			my $s = $j->{size} = { };
-			$_->get("radius") and $s->{radius} = 0 + $_->get("radius");
-			$_->get("mass") and $s->{mass} = 0 + $_->get("mass");
-			$_->get("gravParameter") and $s->{mu} = 0 + $_->get("gravParameter");
-			$_->get("geeASL") and $s->{g0} = 9.81 * $_->get("geeASL");
+			replace($s->{radius}, asnum $_->get("radius"));
+			replace($s->{mass}, asnum $_->get("mass"));
+			replace($s->{mu}, asnum $_->get("gravParameter"));
+			defined $_->get("geeASL") and $s->{g0} = 9.81 * $_->get("geeASL");
 
 			$_->get("timewarpAltitudeLimits") and $j->{info}{timeWarpAltitudeLimits} = [
-				map { 0 + $_ }
+				map { asnum $_ }
 				split(/\s+/, $_->get("timewarpAltitudeLimits"))
 			];
 
 			my $r = $j->{rotation};
 			# warn "BEFORE $name ", to_json($j->{rotation}, { pretty => 1 }), "\n";
-			$r->{tidallyLocked} = JSON::boolean($_->get("tidallyLocked", "false") =~ /true/i);
-			$r->{rotationPeriod} = $_->get("rotationPeriod", $j->{rotation}{rotationPeriod});
+			replace($r->{tidallyLocked}, asbool $_->get("tidallyLocked"));
+			replace($r->{rotationPeriod}, $_->get("rotationPeriod"));
 			# warn "AFTER $name ", to_json($j->{rotation}, { pretty => 1 }), "\n";
 		} elsif ($p eq "Body" && $n eq "Atmosphere") {
 			my $a = $j->{atmosphere};
-			$a->{depth} = 0 + ($_->get("maxAltitude") || $_->get("altitude") || 0);
-			$a->{containsOxygen} = JSON::boolean($_->get("oxygen", "false") =~ /true/i);
+			replace($a->{depth}, asnum($_->get("maxAltitude") || $_->get("altitude")));
+			replace($a->{containsOxygen}, asbool $_->get("oxygen"));
 		}
 	});
 	if ($bodiesJson{$rename{$name}}) {
