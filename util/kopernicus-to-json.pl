@@ -118,39 +118,40 @@ foreach my $b (@bodies) {
 		my $p = $_->parent ? $_->parent->name : "";
 		# warn "NODE $name $p $n\n";
 		if ($p eq "Body" && $n eq "Orbit") {
-			$j->{orbit} = { };
-			$j->{orbit}{referenceBody} = $_->get("referenceBody");
-			$j->{orbit}{semiMajorAxis} = 0 + $_->get("semiMajorAxis");
-			$j->{orbit}{eccentricity} = 0 + $_->get("eccentricity");
-			$j->{orbit}{inclinationDeg} = 0 + $_->get("inclination");
-			$j->{orbit}{longitudeOfAscendingNodeDeg} = 0 + $_->get("longitudeOfAscendingNode");
-			$j->{orbit}{argumentOfPeriapsisDeg} = 0 + $_->get("argumentOfPeriapsis");
-			$j->{orbit}{meanAnomalyAtEpochDeg} = 0 + ($_->get("meanAnomalyAtEpochD") || 0);
-			foreach (keys %{$j->{orbit}}) {
+			my $o = $j->{orbit} = { };
+			$o->{referenceBody} = $_->get("referenceBody");
+			$o->{semiMajorAxis} = 0 + $_->get("semiMajorAxis");
+			$o->{eccentricity} = 0 + $_->get("eccentricity");
+			$o->{inclinationDeg} = 0 + $_->get("inclination");
+			$o->{longitudeOfAscendingNodeDeg} = 0 + $_->get("longitudeOfAscendingNode");
+			$o->{argumentOfPeriapsisDeg} = 0 + $_->get("argumentOfPeriapsis");
+			$o->{meanAnomalyAtEpochDeg} = 0 + ($_->get("meanAnomalyAtEpochD") || 0);
+			foreach (keys %$o) {
 				/^(.*)Deg$/ and $j->{orbit}{"${1}Rad"} = deg2rad $j->{orbit}{$_};
 			}
 		} elsif ($p eq "Body" && $n eq "Properties") {
-			$j->{size} = { };
-			$_->get("radius") and $j->{size}{radius} = 0 + $_->get("radius");
-			$_->get("mass") and $j->{size}{mass} = 0 + $_->get("mass");
-			$_->get("gravParameter") and $j->{size}{mu} = 0 + $_->get("gravParameter");
-			$_->get("geeASL") and $j->{size}{g0} = 9.81 * $_->get("geeASL");
+			my $s = $j->{size} = { };
+			$_->get("radius") and $s->{radius} = 0 + $_->get("radius");
+			$_->get("mass") and $s->{mass} = 0 + $_->get("mass");
+			$_->get("gravParameter") and $s->{mu} = 0 + $_->get("gravParameter");
+			$_->get("geeASL") and $s->{g0} = 9.81 * $_->get("geeASL");
 
 			$_->get("timewarpAltitudeLimits") and $j->{info}{timeWarpAltitudeLimits} = [
 				map { 0 + $_ }
 				split(/\s+/, $_->get("timewarpAltitudeLimits"))
 			];
 
-			my $tl = $_->get("tidallyLocked", "false");
-			my $tl2 = $tl =~ /true/i || 0;
-			$j->{rotation}{tidallyLocked} = JSON::boolean($tl =~ /true/i);
-			warn "BODY $j->{info}{name} tl=$tl tl2=$tl2 ", $j->{rotation}{tidallyLocked}, "\n";
+			my $r = $j->{rotation};
+			# warn "BEFORE $name ", to_json($j->{rotation}, { pretty => 1 }), "\n";
+			$r->{tidallyLocked} = JSON::boolean($_->get("tidallyLocked", "false") =~ /true/i);
+			$r->{rotationPeriod} = $_->get("rotationPeriod", $j->{rotation}{rotationPeriod});
+			# warn "AFTER $name ", to_json($j->{rotation}, { pretty => 1 }), "\n";
 		} elsif ($p eq "Body" && $n eq "Atmosphere") {
-			$j->{atmosphere}{depth} = 0 + ($_->get("maxAltitude") || $_->get("altitude") || 0);
-			$j->{atmosphere}{containsOxygen} = JSON::boolean($_->get("oxygen", "false") =~ /true/i);
+			my $a = $j->{atmosphere};
+			$a->{depth} = 0 + ($_->get("maxAltitude") || $_->get("altitude") || 0);
+			$a->{containsOxygen} = JSON::boolean($_->get("oxygen", "false") =~ /true/i);
 		}
 	});
-	# warn "BODY ", to_json($j, { pretty => 1 }), "\n";
 	if ($bodiesJson{$rename{$name}}) {
 		die "$0: FATAL: redefining $rename{$name}\n";
 	}
