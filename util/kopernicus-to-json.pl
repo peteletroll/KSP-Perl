@@ -163,7 +163,7 @@ foreach my $b (@bodies) {
 			replace($r->{rotationPeriod}, $_->get("rotationPeriod"));
 			# warn "AFTER $name ", to_json($j->{rotation}, { pretty => 1 }), "\n";
 		} elsif ($p eq "Body" && $n eq "Atmosphere") {
-			my $a = $j->{atmosphere};
+			my $a = $j->{atmosphere} ||= { };
 			replace($a->{depth}, asnum($_->get("maxAltitude") || $_->get("altitude")));
 			replace($a->{containsOxygen}, asbool $_->get("oxygen"));
 		}
