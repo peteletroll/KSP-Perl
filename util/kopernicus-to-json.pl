@@ -67,8 +67,7 @@ find {
 # print KSP::ConfigNode->new("bodies", @bodies)->asString, "\n";
 
 sub replace($$) {
-	defined $_[1] and $_[0] = $_[1];
-	$_[0]
+	defined $_[1] ? $_[0] = $_[1] : $_[0]
 }
 
 sub asnum($) {
