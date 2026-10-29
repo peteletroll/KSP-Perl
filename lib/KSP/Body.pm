@@ -414,6 +414,7 @@ sub synodicDay {
 		$ref ? $body == $ref : $body->isStar and last;
 		$orbit = $body->orbit;
 	}
+	$self->hasAncestor($orbit->body) or croak "synodicDay() wants ancestor body";
 	$orbit or return $siderealDay;
 	$orbit->T == $siderealDay and return "Inf";
 	$self->T($orbit->T * $siderealDay / ($orbit->T - $siderealDay))
