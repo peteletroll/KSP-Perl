@@ -66,34 +66,47 @@ find {
 
 # print KSP::ConfigNode->new("bodies", @bodies)->asString, "\n";
 
+sub replace($$) {
+	defined $_[1] and $_[0] = $_[1];
+	$_[0]
+}
+
+sub asnum($) {
+	defined $_[0] ? 0 + $_[0] : undef
+}
+
+sub asbool($) {
+	defined $_[0] ? JSON::boolean($_[0] =~ /true/i) : undef
+}
+
+sub import_stock_body($$$) {
+	my ($j, $name, $tmpl) = @_;
+	my $tbody = $stockSystem->body($tmpl)
+		or die "NO TEMPLATE: $tmpl\n";
+	my $tjson = $tbody->json;
+	foreach my $i (sort keys %$tjson) {
+		my $k = $tjson->{$i};
+		ref $k eq "HASH" or next;
+		# warn "\tI $i = $k\n";
+		foreach my $n (sort keys %$k) {
+			my $v = $k->{$n};
+			if (JSON::is_bool($v)) {
+				# nothing
+			} elsif (ref $v) {
+				next;
+			}
+			# warn "\t\tN $n = ", to_json($v), "\n";
+			$j->{$i}{$n} = $v;
+		}
+	}
+}
+
 my $rootBody = undef;
 my %bodiesJson = ();
 foreach my $b (@bodies) {
 	my $name = $b->get("name") or die "NO NAME: ", $b->asString, "\n";
 	$rename{$name} ||= $b->get("cbNameLater") || $name;
 	my $j = { };
-
-	sub import_stock_body($$$) {
-		my ($j, $name, $tmpl) = @_;
-		my $tbody = $stockSystem->body($tmpl)
-			or die "NO TEMPLATE: $tmpl\n";
-		my $tjson = $tbody->json;
-		foreach my $i (sort keys %$tjson) {
-			my $k = $tjson->{$i};
-			ref $k eq "HASH" or next;
-			# warn "\tI $i = $k\n";
-			foreach my $n (sort keys %$k) {
-				my $v = $k->{$n};
-				if (JSON::is_bool($v)) {
-					# nothing
-				} elsif (ref $v) {
-					next;
-				}
-				# warn "\t\tN $n = ", to_json($v), "\n";
-				$j->{$i}{$n} = $v;
-			}
-		}
-	}
 
 	my $tmpl = $b->find("Template");
 	my $tmplname = ($tmpl && $tmpl->get("name"));
@@ -109,19 +122,6 @@ foreach my $b (@bodies) {
 			delete $j->{atmosphere};
 		}
 		# warn "IMPORTED $name <- $tmplname -> ", to_json($j, { pretty => 1 }), "\n";
-	}
-
-	sub replace($$) {
-		defined $_[1] and $_[0] = $_[1];
-		$_[0]
-	}
-
-	sub asnum($) {
-		defined $_[0] ? 0 + $_[0] : undef
-	}
-
-	sub asbool($) {
-		defined $_[0] ? JSON::boolean($_[0] =~ /true/i) : undef
 	}
 
 	my $i = $j->{info};
