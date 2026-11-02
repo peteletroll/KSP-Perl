@@ -118,7 +118,7 @@ sub dryMass {
 sub crashTolerance {
 	my ($self) = @_;
 	scalar $self->cache("crashTolerance", sub {
-		$self->node->get("crashTolerance", 9)
+		U($self->node->get("crashTolerance", 9), "m/s")
 	});
 
 }
