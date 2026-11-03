@@ -537,7 +537,9 @@ sub desc {
 		my @d = ();
 		push @d, "r " . $self->radius;
 		push @d, "g₀ " . $self->g0;
-		push @d, "↺ " . $self->siderealDay
+		push @d,
+			($self->isTidallyLocked ? "(↺) " : "↺ ")
+			. $self->siderealDay
 			if $self->siderealDay;
 		push @d, "SOI " . $self->SOI if $self->SOI;
 		$self->name
