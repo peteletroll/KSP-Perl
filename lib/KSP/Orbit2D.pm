@@ -9,11 +9,14 @@ use Carp;
 use Math::Trig;
 use Math::Vector::Real;
 
+use KSP::Util qw(U error proxy stumpff2 stumpff3);
+
+use namespace::clean;
+
 use KSP::TinyStruct qw(body e p);
 
 use KSP::Course;
 
-use KSP::Util qw(U error proxy stumpff2 stumpff3);
 proxy("KSP::Course" => sub { KSP::Course->new($_) });
 
 use overload

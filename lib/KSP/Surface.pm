@@ -6,6 +6,8 @@ use warnings;
 
 use Carp;
 
+use namespace::clean;
+
 use KSP::TinyStruct qw(+KSP::Orbit2D);
 
 sub BUILD {

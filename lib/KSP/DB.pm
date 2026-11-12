@@ -7,10 +7,14 @@ use warnings;
 use Carp qw(croak cluck);
 
 use File::Find;
-use File::stat;
 use Cwd;
 
 use KSP::Util qw(U CACHE);
+
+use namespace::clean;
+
+use File::stat;
+
 use KSP::StopWatch qw(stopwatch);
 
 use KSP::ConfigNode;

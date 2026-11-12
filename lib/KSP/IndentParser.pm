@@ -5,6 +5,8 @@ use warnings;
 
 use Carp;
 
+use namespace::clean;
+
 our $TAB = 8;
 
 sub new {

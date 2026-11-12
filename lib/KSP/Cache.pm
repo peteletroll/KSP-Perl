@@ -4,9 +4,11 @@ use utf8;
 use strict;
 use warnings;
 
-use KSP::TinyStruct qw(scalar_cache list_cache);
-
 use Scalar::Util qw(refaddr);
+
+use namespace::clean;
+
+use KSP::TinyStruct qw(scalar_cache list_cache);
 
 use overload
 	'==' => sub { refaddr($_[0]) == (refaddr($_[1]) || 0) },

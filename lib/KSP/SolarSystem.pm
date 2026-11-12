@@ -7,14 +7,17 @@ use POSIX qw(floor);
 
 use Scalar::Util qw(dualvar);
 
-use KSP;
-use KSP::Body;
-use KSP::Cache;
-use KSP::Util qw(filekey);
-
 use Carp;
 
 use JSON;
+
+use KSP::Util qw(filekey);
+
+use namespace::clean;
+
+use KSP;
+use KSP::Body;
+use KSP::Cache;
 
 use KSP::TinyStruct qw(name json grav_const +KSP::Cache);
 

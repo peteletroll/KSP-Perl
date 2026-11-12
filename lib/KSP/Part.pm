@@ -8,6 +8,10 @@ use String::ShellQuote;
 
 use Carp;
 
+use KSP::Util qw(U matcher);
+
+use namespace::clean;
+
 use KSP::ConfigNode;
 use KSP::DB;
 use KSP::DBNode;
@@ -15,7 +19,6 @@ use KSP::Engine;
 use KSP::Antenna;
 use KSP::Resource;
 use KSP::Tech;
-use KSP::Util qw(U matcher);
 use Math::Vector::Real;
 
 use KSP::TinyStruct qw(+KSP::DBNode);

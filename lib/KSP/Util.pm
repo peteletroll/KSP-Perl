@@ -4,14 +4,16 @@ use utf8;
 use strict;
 use warnings;
 
+use Carp;
+use Scalar::Util qw(dualvar isdual looks_like_number);
+use Math::Trig;
+
+use namespace::clean;
+
 use File::stat;
 
 use Exporter qw(import);
 our @EXPORT_OK = qw(U Part Tech Resource sortby indexby isnumber stumpff2 stumpff3 error matcher proxy deparse filekey CACHE);
-
-use Carp;
-use Scalar::Util qw(dualvar isdual looks_like_number);
-use Math::Trig;
 
 our @U = (
 	[ undef, 1e27 ],

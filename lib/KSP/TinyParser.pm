@@ -4,6 +4,10 @@ use 5.008000;
 use strict;
 use warnings;
 
+use Carp;
+
+use namespace::clean;
+
 use Exporter qw(import);
 our @EXPORT = qw(
 	REX EOS
@@ -14,8 +18,6 @@ our @EXPORT = qw(
 );
 
 our $VERSION = '0.01';
-
-use Carp;
 
 sub _fix(@);
 sub _tag($;$);

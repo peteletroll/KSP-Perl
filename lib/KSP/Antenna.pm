@@ -6,9 +6,12 @@ use warnings;
 
 use Carp;
 
+use KSP::Util qw(U);
+
+use namespace::clean;
+
 use KSP::ConfigNode;
 use KSP::DBNode;
-use KSP::Util qw(U);
 
 use KSP::TinyStruct qw(part type range combinable exponent +KSP::DBNode);
 
