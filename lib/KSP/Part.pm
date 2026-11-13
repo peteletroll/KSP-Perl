@@ -356,7 +356,7 @@ sub resourceInfo {
 			if ($h->{class} eq "STORE") {
 				my $r = $h->{resource};
 				$h->{mass} = U($h->{units} * $r->unitMass, "kg");
-				$h->{cost} = U($h->{units} * $r->unitCost, "kg");
+				$h->{cost} = $h->{units} * $r->unitCost;
 			}
 			push @ret, $h;
 		}
