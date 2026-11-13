@@ -5,15 +5,15 @@ use warnings;
 
 use Carp;
 
+use KSP::Util qw(U isnumber matcher);
+
+use Scalar::Util qw(weaken isweak refaddr);
+
 use KSP::TinyStruct qw(src name parent _values _nodes);
 
 use KSP::TinyParser;
 
 use KSP::ConfigValue;
-
-use KSP::Util qw(U isnumber matcher);
-
-use Scalar::Util qw(weaken isweak refaddr);
 
 use overload
 	bool => sub { $_[0] },

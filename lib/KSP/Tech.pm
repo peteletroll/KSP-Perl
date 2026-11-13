@@ -6,10 +6,11 @@ use warnings;
 
 use Carp;
 
+use KSP::Util qw(matcher);
+
 use KSP::ConfigNode;
 use KSP::DB;
 use KSP::DBNode;
-use KSP::Util qw(matcher);
 
 use KSP::TinyStruct qw(+KSP::DBNode);
 

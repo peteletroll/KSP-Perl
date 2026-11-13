@@ -12,9 +12,9 @@ use Math::Trig;
 
 use KSP::Util qw(U error);
 
-use KSP::TinyStruct qw(step);
-
 use Text::Table;
+
+use KSP::TinyStruct qw(step);
 
 use overload
 	'""' => sub { $_[0]->desc };

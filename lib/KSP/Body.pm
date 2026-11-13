@@ -14,6 +14,8 @@ use Math::Vector::Real;
 
 use Math::Trig;
 
+use KSP::Util qw(U isnumber proxy);
+
 use KSP::Cache;
 use KSP::SolarSystem;
 use KSP::Orbit2D;
@@ -21,7 +23,6 @@ use KSP::Surface;
 use KSP::Course;
 use KSP::Anomaly;
 
-use KSP::Util qw(U isnumber proxy);
 proxy("KSP::Orbit2D" => sub { $_->orbit }, qw(pe ap e a b vmin vmax));
 proxy("KSP::Course" => sub { KSP::Course->new($_->lowOrbit) });
 
