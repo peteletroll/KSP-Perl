@@ -53,7 +53,7 @@ sub maxIsp {
 sub maxMassFlow {
 	my ($self) = @_;
 	my $vout = $self->maxIsp * $KSP::SYSTEM->g0;
-	U(1000 * $self->maxThrust / $vout, "g/s");
+	U($self->maxThrust / $vout, "kg/s");
 }
 
 sub propellants {

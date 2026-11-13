@@ -58,8 +58,8 @@ sub desc {
 		$ret .= "$t; " if defined $t;
 		$ret .= "$crew☺; " if $crew;
 		$ret .= $engine->maxIsp . "; " . $engine->maxThrust . "; " if $engine;
-		$ret .= U(1000 * $wm) . "g / " if $wm > $dm;
-		$ret .= U(1000 * $dm) . "g ]";
+		$ret .= U($wm, "kg") . " / " if $wm > $dm;
+		$ret .= U($dm, "kg") . " ]";
 		$ret
 	})
 }
@@ -114,7 +114,7 @@ sub hidden {
 sub dryMass {
 	my ($self) = @_;
 	scalar $self->cache("dryMass", sub {
-		1000 * $self->node->get("mass", 0)
+		U(1000 * $self->node->get("mass", 0), "kg")
 	});
 }
 
@@ -355,8 +355,8 @@ sub resourceInfo {
 			$h or next;
 			if ($h->{class} eq "STORE") {
 				my $r = $h->{resource};
-				$h->{mass} = $h->{units} * $r->unitMass;
-				$h->{cost} = $h->{units} * $r->unitCost;
+				$h->{mass} = U($h->{units} * $r->unitMass, "kg");
+				$h->{cost} = U($h->{units} * $r->unitCost, "kg");
 			}
 			push @ret, $h;
 		}
@@ -376,7 +376,7 @@ sub wetMass {
 		foreach (@{$self->resourceInfo("STORE")}) {
 			$ret += $_->{mass};
 		}
-		$ret
+		U($ret, "kg")
 	})
 }
 

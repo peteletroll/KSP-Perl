@@ -48,6 +48,8 @@ sub U($;$$) {
 	defined $d or $d = 3;
 	defined $unit or $unit = "";
 
+	$x *= 1000 if $unit =~ s/^kg\b/g/;
+
 	my $a = abs($x);
 	my $m = undef;
 	foreach my $u (@U) {

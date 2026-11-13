@@ -66,7 +66,7 @@ sub flowMode {
 sub unitMass {
 	my ($self) = @_;
 	scalar $self->cache("unitMass", sub {
-		1000 * $self->node->get("density", 0)
+		U(1000 * $self->node->get("density", 0), "kg/u");
 	});
 }
 

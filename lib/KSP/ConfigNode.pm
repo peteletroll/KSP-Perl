@@ -460,7 +460,7 @@ sub _comment($$) {
 			$wetMass += $p->wetMass;
 		}
 		sprintf "$sit debris %d parts %sg / %sg", scalar(@parts),
-			U(1000 * $wetMass), U(1000 * $dryMass);
+			U($wetMass, "kg"), U($dryMass, "kg");
 	} elsif ($name eq "MODULE") {
 		my $modname = $self->_val("name", "");
 		if ($modname eq "ModuleDataTransmitter") {

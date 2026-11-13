@@ -80,7 +80,7 @@ sub SOI {
 sub mass {
 	my ($self) = @_;
 	scalar $self->cache("mass", sub {
-		$self->mu / $self->system->G
+		U($self->mu / $self->system->G, "kg")
 	})
 }
 
