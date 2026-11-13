@@ -5,6 +5,8 @@ use warnings;
 
 use Carp;
 
+use namespace::clean;
+
 our $VERSION = '0.01';
 
 use vars qw($PRINT $PICKY $XS $BASE $FIELDS $FLD);

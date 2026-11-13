@@ -6,6 +6,8 @@ use warnings;
 
 use Carp;
 
+use namespace::clean;
+
 use Exporter qw(import);
 our @EXPORT = qw(
 	REX EOS

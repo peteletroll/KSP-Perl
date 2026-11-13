@@ -9,6 +9,8 @@ use KSP::Util qw(U isnumber matcher);
 
 use Scalar::Util qw(weaken isweak refaddr);
 
+use namespace::clean;
+
 use KSP::TinyStruct qw(src name parent _values _nodes);
 
 use KSP::TinyParser;

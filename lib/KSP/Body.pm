@@ -16,6 +16,8 @@ use Math::Trig;
 
 use KSP::Util qw(U isnumber proxy);
 
+use namespace::clean;
+
 use KSP::Cache;
 use KSP::SolarSystem;
 use KSP::Orbit2D;

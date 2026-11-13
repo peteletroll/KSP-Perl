@@ -8,6 +8,8 @@ use Carp;
 
 use KSP::Util qw(U);
 
+use namespace::clean;
+
 use KSP::ConfigNode;
 use KSP::DBNode;
 

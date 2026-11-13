@@ -6,6 +6,8 @@ use warnings;
 
 use Carp;
 
+use namespace::clean;
+
 use KSP::ConfigNode;
 
 use KSP::TinyStruct qw(name node +KSP::Cache);

@@ -10,6 +10,8 @@ use Carp;
 
 use KSP::Util qw(U matcher);
 
+use namespace::clean;
+
 use KSP::ConfigNode;
 use KSP::DB;
 use KSP::DBNode;

@@ -6,6 +6,8 @@ use warnings;
 
 use Scalar::Util qw(refaddr);
 
+use namespace::clean;
+
 use KSP::TinyStruct qw(scalar_cache list_cache);
 
 use overload

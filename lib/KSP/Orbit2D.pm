@@ -11,6 +11,8 @@ use Math::Vector::Real;
 
 use KSP::Util qw(U error proxy stumpff2 stumpff3);
 
+use namespace::clean;
+
 use KSP::TinyStruct qw(body e p);
 
 use KSP::Course;

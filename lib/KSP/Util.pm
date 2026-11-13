@@ -8,6 +8,8 @@ use Carp;
 use Scalar::Util qw(dualvar isdual looks_like_number);
 use Math::Trig;
 
+use namespace::clean;
+
 use File::stat;
 
 use Exporter qw(import);

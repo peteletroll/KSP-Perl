@@ -12,6 +12,8 @@ use Math::Trig;
 
 use KSP::Util qw(U error);
 
+use namespace::clean;
+
 use Text::Table;
 
 use KSP::TinyStruct qw(step);
