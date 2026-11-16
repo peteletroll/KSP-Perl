@@ -239,6 +239,28 @@ sub allEngines {
 	})
 }
 
+sub experiment {
+	my ($self, $name) = @_;
+	$name = matcher($name);
+	my @ret = grep { !defined($name) || $_->id =~ $name }
+		$self->allExperiments;
+	wantarray ? @ret : $ret[0]
+}
+
+sub experiments {
+	my ($self) = @_;
+	wantarray or croak __PACKAGE__, "::experiments() wants list context";
+	map { $_->id } $self->allExperiments
+}
+
+sub allExperiments {
+	my ($self) = @_;
+	wantarray or croak __PACKAGE__, "::allExperiments() wants list context";
+	$self->cache("allExperiments", sub {
+		$self->node->getnodes("MODULE", name => "ModuleScienceExperiment")
+	})
+}
+
 sub antenna {
 	my ($self) = @_;
 	KSP::Antenna->new($self)

@@ -16,6 +16,7 @@ use KSP::Orbit2D;
 use KSP::Course;
 use KSP::DeltaVGraph;
 use KSP::Part;
+use KSP::Experiment;
 use KSP::Tech;
 use KSP::Util qw(U);
 use KSP::StopWatch qw(stopwatch);
