@@ -137,6 +137,8 @@ sub mktable($@) {
 					$type = "integer";
 				} elsif ($1 eq "b") {
 					$type = "boolean";
+				} else {
+					die "bad column type '$1'";
 				}
 			}
 			push @index, $col;
@@ -152,7 +154,9 @@ sub mktable($@) {
 
 	$SW->reset->start;
 	@fill or die "OLDSTYLE \U$table\E\n";
+	$DB->begin_work;
 	$_->() foreach @fill;
+	$DB->commit;
 	$VERBOSE and printf "-- Generated table %s [%d] in %1.3f seconds\n",
 		$table, $insert_count{$table}, $SW->read;
 }
@@ -333,8 +337,6 @@ sub import_savefile() {
 
 	$SW->reset->start;
 
-	$DB->begin_work();
-
 	$VERBOSE and printf "-- Parsing sfs $SFSNAME, %1.1fKiB\n", (-s $SFSNAME) / 1024;
 	our $SFS = KSP::ConfigNode->load($SFSNAME);
 	eval { $TITLE = $SFS->getnodes("GAME")->get("Title") };
@@ -345,6 +347,7 @@ sub import_savefile() {
 		my $sm = 1 * $c->get("ScienceGainMultiplier");
 		$sm > 0 && $sm < 1.00001 and $scienceGainMultiplier = $sm;
 	}
+	$VERBOSE and print "-- ScienceGainMultiplier = $scienceGainMultiplier\n";
 
 	mktable(science_raw => qw(experiment body situation biome extra points:r full:r id), sub {
 		foreach my $n ($SFS->find("Science", id => qr/\@/)) {
@@ -537,8 +540,6 @@ sub import_savefile() {
 	});
 
 	runqueue();
-
-	$DB->commit();
 
 	run("analyze");
 	run("vacuum");
