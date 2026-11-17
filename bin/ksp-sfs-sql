@@ -250,15 +250,6 @@ sub import_solar_system() {
 		}
 	});
 
-	mkview(body_situations_off => q{
-		select distinct s.body, s.situation
-		from science_values as s
-		left join bodies as b
-			on s.body = b.body
-		where s.situation <> 'Recovery'
-		order by b.sort, situation
-	});
-
 	mktable(roc_raw => qw(body biome name), sub {
 		foreach my $b ($SYSTEM->bodies) {
 			my $i = $b->rocJson;
@@ -277,6 +268,8 @@ sub import_solar_system() {
 			my @biomes = $body->biomes;
 			@biomes or push @biomes, undef;
 			foreach my $exp (@exp) {
+				my $rbn = $exp->rocBodyName;
+				next if $rbn && $rbn ne $body->name;
 				foreach my $sit ($exp->bodySituations($body)) {
 					foreach my $biome ($exp->biomeMatters($sit) ? @biomes : (undef)) {
 						insert("sources_raw", $body->name, $exp->name, $sit, $biome, $exp->scienceCap * $science->{$sit});
@@ -286,7 +279,7 @@ sub import_solar_system() {
 		}
 	});
 
-	mkview(sources_new => q{
+	mkview(sources => q{
 		select body, biome, experiment, situation
 		from sources_raw
 		where not (experiment = 'asteroidSample' or experiment like 'cometSample%')
@@ -394,42 +387,11 @@ sub import_savefile() {
 		order by bodies.sort, situation, extra, experiment, extra, full
 	});
 
-	mkview(experiment_situations => q{
-		select distinct experiment, situation,
-			biome is not null as biome_flag
-		from science
-		where experiment not in ('ROCScience', 'recovery')
-		order by experiment, situation
-	});
-
-	mkview(sources_full => q{
-		select *
-		from biomes
-		join (select experiment, situation from experiment_situations where biome_flag <> 0)
-		where biome is not null and body in (select distinct body from science_raw)
-		union
-		select *
-		from biomes
-		join (select experiment, situation from experiment_situations where biome_flag = 0)
-		where biome is null and body in (select distinct body from science_raw)
-	});
-
-	mkview(sources => q{
-		select bodies.body, biome, experiment, situation
-		from sources_full
-		left join bodies
-			on sources_full.body = bodies.body
-		where not (situation like 'Srf%' or situation like 'Flying%')
-			or (situation like 'Flying%' and atmosphere)
-			or (situation = 'SrfSplashed' and ocean)
-			or (situation = 'SrfLanded' and surface)
-	});
-
 	mkview(report => q{
 		select sources.*,
-			coalesce(science.points, 0.0) as points,
+			coalesce(science.points, '  0.00') as points,
 			science.full,
-			coalesce(science.perc, 0.0) as perc
+			coalesce(science.perc, '0.00') as perc
 		from sources
 		left join science
 		on sources.body = science.body
