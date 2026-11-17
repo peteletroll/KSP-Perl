@@ -69,6 +69,8 @@ sub situations {
 sub bodySituations {
 	my ($self, $body) = @_;
 	wantarray or croak __PACKAGE__, "::bodySituations() wants list context";
+	my $rb = $self->rocBodyName;
+	return () if $rb && $rb ne $body->name;
 	my $v = $body->scienceValues;
 	grep { $v->{$_} } $self->situations
 }
@@ -113,7 +115,7 @@ sub get {
 	wantarray ? @ret : $ret[0]
 }
 
-sub rocBody {
+sub rocBodyName {
 	my ($self) = @_;
 	$self->name =~ /^ROCScience_([A-Z][a-z]+)/ or return undef;
 	$1
