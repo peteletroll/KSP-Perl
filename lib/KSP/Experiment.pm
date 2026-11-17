@@ -66,6 +66,13 @@ sub situations {
 	});
 }
 
+sub bodySituations {
+	my ($self, $body) = @_;
+	wantarray or croak __PACKAGE__, "::bodySituations() wants list context";
+	my $v = $body->scienceValues;
+	grep { $v->{$_} } $self->situations
+}
+
 sub biomeMatters {
 	my ($self, $sit) = @_;
 	defined $sit or croak "situation required";
