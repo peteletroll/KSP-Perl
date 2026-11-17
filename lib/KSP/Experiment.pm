@@ -127,5 +127,17 @@ sub rocBodyName {
 	$1
 }
 
+sub requireAtmosphere {
+	my ($self) = @_;
+	my $flag = $self->node->get("requireAtmosphere", "False");
+	$flag =~ /^true/i
+}
+
+sub requireNoAtmosphere {
+	my ($self) = @_;
+	my $flag = $self->node->get("requireNoAtmosphere", "False");
+	$flag =~ /^true/i
+}
+
 1;
 
