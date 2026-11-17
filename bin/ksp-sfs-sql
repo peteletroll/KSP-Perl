@@ -268,10 +268,7 @@ sub import_solar_system() {
 			my @biomes = $body->biomes;
 			@biomes or push @biomes, undef;
 			foreach my $exp (@exp) {
-				next if $exp->requireAtmosphere && !$body->hasAtmosphere;
-				next if $exp->requireNoAtmosphere && $body->hasAtmosphere;
-				my $rbn = $exp->rocBodyName;
-				next if $rbn && $rbn ne $body->name;
+				$exp->availableOn($body) or next;
 				foreach my $sit ($exp->bodySituations($body)) {
 					foreach my $biome ($exp->biomeMatters($sit) ? @biomes : (undef)) {
 						insert("sources_raw", $body->name, $exp->name, $sit, $biome, $exp->scienceCap * $science->{$sit});

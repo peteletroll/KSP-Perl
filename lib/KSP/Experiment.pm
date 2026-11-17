@@ -139,5 +139,13 @@ sub requireNoAtmosphere {
 	$flag =~ /^true/i
 }
 
+sub availableOn {
+	my ($self, $body) = @_;
+	$self->requireAtmosphere && !$body->hasAtmosphere and return 0;
+	$self->requireNoAtmosphere && $body->hasAtmosphere and return 0;
+	my $rbn = $self->rocBodyName or return 1;
+	$rbn ne $self->name
+}
+
 1;
 
