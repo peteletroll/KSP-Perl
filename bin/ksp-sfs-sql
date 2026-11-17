@@ -270,6 +270,28 @@ sub import_solar_system() {
 		}
 	});
 
+	mktable(sources_raw => qw(body experiment situation biome cap:r), sub {
+		my @exp = KSP::Experiment->all;
+		foreach my $body ($SYSTEM->bodies) {
+			my $science = $body->scienceValues;
+			my @biomes = $body->biomes;
+			@biomes or push @biomes, undef;
+			foreach my $exp (@exp) {
+				foreach my $sit ($exp->bodySituations($body)) {
+					foreach my $biome ($exp->biomeMatters($sit) ? @biomes : (undef)) {
+						insert("sources_raw", $body->name, $exp->name, $sit, $biome, $exp->scienceCap * $science->{$sit});
+					}
+				}
+			}
+		}
+	});
+
+	mkview(sources_new => q{
+		select body, biome, experiment, situation
+		from sources_raw
+		where not (experiment = 'asteroidSample' or experiment like 'cometSample%')
+	});
+
 	mkview(roc => q{
 		select roc_raw.*
 		from roc_raw, bodies
@@ -342,18 +364,18 @@ sub import_savefile() {
 	eval { $TITLE = $SFS->getnodes("GAME")->get("Title") };
 	$VERBOSE and printf "-- Parsed $TITLE in %1.3f seconds\n", $SW->read;
 
-	my $scienceGainMultiplier = 1;
+	my $sciMul = 1;
 	foreach my $c ($SFS->find("CAREER")) {
 		my $sm = 1 * $c->get("ScienceGainMultiplier");
-		$sm > 0 && $sm < 1.00001 and $scienceGainMultiplier = $sm;
+		$sm > 0 && $sm < 1.00001 and $sciMul = $sm;
 	}
-	$VERBOSE and print "-- ScienceGainMultiplier = $scienceGainMultiplier\n";
+	$VERBOSE and print "-- ScienceGainMultiplier = $sciMul\n";
 
 	mktable(science_raw => qw(experiment body situation biome extra points:r full:r id), sub {
 		foreach my $n ($SFS->find("Science", id => qr/\@/)) {
 			my $id = $n->get("id");
-			my $points = $scienceGainMultiplier * $n->get("sci");
-			my $full = $scienceGainMultiplier * $n->get("cap");
+			my $points = $sciMul * $n->get("sci");
+			my $full = $sciMul * $n->get("cap");
 			insert("science_raw", parseScienceId($id), $points, $full, $id);
 		}
 	});
@@ -414,6 +436,19 @@ sub import_savefile() {
 			and (sources.biome = science.biome or (sources.biome is null and science.biome is null))
 			and sources.experiment = science.experiment
 			and (sources.situation = science.situation or (sources.situation is null and science.situation is null))
+	});
+
+	mkview(report_new => q{
+		select src.body, src.biome, src.experiment, src.situation,
+			coalesce(sci.points, 0.0) as points,
+			sci.full,
+			coalesce(sci.perc, 0.0) as perc
+		from sources_new as src
+		left join science as sci
+		on src.body = sci.body
+			and (src.biome = sci.biome or (src.biome is null and sci.biome is null))
+			and src.experiment = sci.experiment
+			and (src.situation = sci.situation or (src.situation is null and sci.situation is null))
 	});
 
 	my @kerbal = ();
