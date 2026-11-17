@@ -78,7 +78,6 @@ sub biomeMatters {
 	defined $sit or croak "situation required";
 	my $mask = $self->node->get("biomeMask", 0);
 	!!($mask & $SIT{$sit})
-
 }
 
 sub scienceCap {
@@ -100,7 +99,6 @@ sub desc {
 sub all {
 	_load();
 	wantarray ? @EXP : scalar @EXP
-
 }
 
 sub get {
