@@ -69,22 +69,28 @@ sub situations {
 sub bodySituations {
 	my ($self, $body) = @_;
 	wantarray or croak __PACKAGE__, "::bodySituations() wants list context";
-	my $rb = $self->rocBodyName;
-	return () if $rb && $rb ne $body->name;
-	my $v = $body->scienceValues;
-	grep { $v->{$_} } $self->situations
+	$self->cache("bodySituations:" . $body->name, sub {
+		my $rb = $self->rocBodyName;
+		return () if $rb && $rb ne $body->name;
+		my $v = $body->scienceValues;
+		grep { $v->{$_} } $self->situations
+	})
 }
 
 sub biomeMatters {
 	my ($self, $sit) = @_;
 	defined $sit or croak "situation required";
-	my $mask = $self->node->get("biomeMask", 0);
-	!!($mask & $SIT{$sit})
+	$self->cache("biomeMatters:$sit", sub {
+		my $mask = $self->node->get("biomeMask", 0);
+		!!($mask & $SIT{$sit})
+	})
 }
 
 sub scienceCap {
 	my ($self) = @_;
-	scalar $self->node->get("scienceCap") || 0;
+	$self->cache("scienceCap", sub {
+		scalar $self->node->get("scienceCap") || 0
+	})
 }
 
 sub desc {
