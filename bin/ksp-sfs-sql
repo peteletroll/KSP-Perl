@@ -312,29 +312,6 @@ sub extractPrefix($@) {
 	("", $str)
 }
 
-sub parseScienceId($) {
-	my ($id) = @_;
-	my $tmp = $id;
-	my $experiment = $tmp =~ s/^(.*?)@// ? $1 : undef;
-	(my $body, $tmp) = extractPrefix($tmp, $SYSTEM->bodyPrefixMatchers);
-	(my $situation, $tmp) = extractPrefix($tmp, $SYSTEM->situationPrefixMatchers);
-	(my $biome, $tmp) = extractPrefix($tmp, $SYSTEM->body($body)->biomePrefixMatchers);
-
-	if ($biome && $tmp) {
-		$biome = "$biome$tmp";
-		$tmp = "";
-	}
-
-	if (!$tmp && $experiment =~ s/_(\w+)$//) {
-		$tmp = $1;
-	}
-
-	$tmp =~ s/^_//;
-
-	my @ret = map { (defined $_ && $_ eq "") ? undef : $_ } ($experiment, $body, $situation, $biome, $tmp);
-	wantarray ? @ret : \@ret
-}
-
 sub maplink($$$) {
 	my ($body, $lat, $lon) = @_;
 	my $uri = URI->new("http://localhost/~pietro/ksp/ksp-sphere-map/main.html");
@@ -366,9 +343,10 @@ sub import_savefile() {
 	mktable(science_raw => qw(experiment body situation biome extra points:r full:r id), sub {
 		foreach my $n ($SFS->find("Science", id => qr/\@/)) {
 			my $id = $n->get("id");
+			my $info = KSP::ExperimentId->new($id, $SYSTEM)->parsed;
 			my $points = $sciMul * $n->get("sci");
 			my $full = $sciMul * $n->get("cap");
-			insert("science_raw", parseScienceId($id), $points, $full, $id);
+			insert("science_raw", (map { $info->{$_} } qw(name body situation biome rest)), $points, $full, $id);
 		}
 	});
 

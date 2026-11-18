@@ -18,6 +18,7 @@ lib/KSP/Engine.pm
 lib/KSP/Antenna.pm
 lib/KSP/Resource.pm
 lib/KSP/Experiment.pm
+lib/KSP/ExperimentId.pm
 lib/KSP/Tech.pm
 lib/KSP/Util.pm
 lib/KSP/DeltaVGraph.pm
