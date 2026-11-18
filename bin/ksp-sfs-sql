@@ -387,24 +387,11 @@ sub import_savefile() {
 	});
 
 	mkview(report => q{
-		select sources.*,
-			coalesce(science.points, '  0.00') as points,
-			science.full,
-			coalesce(science.perc, '0.00') as perc
-		from sources
-		left join science
-		on sources.body = science.body
-			and (sources.biome = science.biome or (sources.biome is null and science.biome is null))
-			and sources.experiment = science.experiment
-			and (sources.situation = science.situation or (sources.situation is null and science.situation is null))
-	});
-
-	mkview(report_new => q{
 		select src.body, src.biome, src.experiment, src.situation,
-			coalesce(sci.points, 0.0) as points,
+			coalesce(sci.points, '  0.00') as points,
 			sci.full,
-			coalesce(sci.perc, 0.0) as perc
-		from sources_new as src
+			coalesce(sci.perc, '0.00') as perc
+		from sources as src
 		left join science as sci
 		on src.body = sci.body
 			and (src.biome = sci.biome or (src.biome is null and sci.biome is null))
