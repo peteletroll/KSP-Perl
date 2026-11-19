@@ -250,7 +250,7 @@ sub allEngines {
 sub experiment {
 	my ($self, $name) = @_;
 	$name = matcher($name);
-	my @ret = grep { !defined($name) || $_->id =~ $name }
+	my @ret = grep { !defined($name) || $_->name =~ $name }
 		$self->allExperiments;
 	wantarray ? @ret : $ret[0]
 }
@@ -258,13 +258,14 @@ sub experiment {
 sub experiments {
 	my ($self) = @_;
 	wantarray or croak __PACKAGE__, "::experiments() wants list context";
-	map { $_->id } $self->allExperiments
+	map { $_->name } $self->allExperiments
 }
 
 sub allExperiments {
 	my ($self) = @_;
 	wantarray or croak __PACKAGE__, "::allExperiments() wants list context";
 	$self->cache("allExperiments", sub {
+		map { scalar KSP::Experiment->get($_->get("experimentID")) }
 		$self->node->getnodes("MODULE", name => "ModuleScienceExperiment")
 	})
 }
