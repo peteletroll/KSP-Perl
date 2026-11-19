@@ -6,7 +6,7 @@ use warnings;
 
 use Carp;
 
-use KSP::Util qw(matcher);
+use KSP::Util qw(matcher getprefix);
 
 use namespace::clean;
 
@@ -122,11 +122,12 @@ sub get {
 }
 
 sub rocBodyName {
-	my ($self) = @_;
-	my $n = $self->name;
-	$n =~ s/^ROCScience_// or return undef;
-	$n =~ /^([A-Z][a-z]+)/ or return undef;
-	$1
+	my ($self, $system) = @_;
+	$system ||= KSP::SolarSystem->load();
+	my $tmp = $self->name;
+	$tmp =~ s/^ROCScience_// or return undef;
+	my ($body) = getprefix($tmp, $system->bodyPrefixMatchers);
+	$body
 }
 
 sub requireAtmosphere {
