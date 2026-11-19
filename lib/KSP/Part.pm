@@ -92,23 +92,31 @@ sub get {
 
 sub title {
 	my ($self) = @_;
-	scalar $self->node->get("title");
+	scalar $self->cache("title", sub {
+		$self->node->get("title")
+	})
 }
 
 sub category {
 	my ($self) = @_;
-	scalar $self->node->get("category", "none");
+	scalar $self->cache("category", sub {
+		$self->node->get("category", "none");
+	})
 }
 
 sub tech {
 	my ($self) = @_;
-	my $n = $self->node->get("TechRequired") or return undef;
-	KSP::Tech->get($n)
+	$self->cache("tech", sub {
+		my $n = $self->node->get("TechRequired") or return undef;
+		KSP::Tech->get($n)
+	})
 }
 
 sub hidden {
 	my ($self) = @_;
-	$self->node->get("TechHidden", "") =~ /true/i
+	$self->cache("hidden", sub {
+		$self->node->get("TechHidden", "") =~ /true/i
+	})
 }
 
 sub dryMass {
