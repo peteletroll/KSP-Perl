@@ -278,12 +278,6 @@ sub import_solar_system() {
 		}
 	});
 
-	mkview(sources => q{
-		select body, biome, experiment, situation
-		from sources_raw
-		where not (experiment = 'asteroidSample' or experiment like 'cometSample%')
-	});
-
 	mkview(roc => q{
 		select roc_raw.*
 		from roc_raw, bodies
@@ -340,6 +334,12 @@ sub import_savefile() {
 	}
 	$VERBOSE and print "-- ScienceGainMultiplier = $sciMul\n";
 
+	mkview(sources => qq{
+		select body, biome, experiment, situation, $sciMul * cap as cap
+		from sources_raw
+		where not (experiment = 'asteroidSample' or experiment like 'cometSample%')
+	});
+
 	mktable(science_raw => qw(experiment body situation biome extra points:r full:r id), sub {
 		foreach my $n ($SFS->find("Science", id => qr/\@/)) {
 			my $id = $n->get("id");
@@ -366,9 +366,9 @@ sub import_savefile() {
 
 	mkview(report => q{
 		select src.body, src.biome, src.experiment, src.situation,
-			coalesce(sci.points, '  0.00') as points,
-			sci.full,
-			coalesce(sci.perc, '0.00') as perc
+			printf('%6.2f', coalesce(sci.points, 0)) as points,
+			printf('%6.2f', coalesce(sci.full, src.cap)) as full,
+			printf('%6.2f', coalesce(sci.perc, 0)) as perc
 		from sources as src
 		left join science as sci
 		on src.body = sci.body
