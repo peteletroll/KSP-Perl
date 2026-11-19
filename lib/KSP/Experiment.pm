@@ -70,8 +70,10 @@ sub bodySituations {
 	my ($self, $body) = @_;
 	wantarray or croak __PACKAGE__, "::bodySituations() wants list context";
 	$self->cache("bodySituations:" . $body->name, sub {
-		my $rb = $self->rocBodyName;
-		return () if $rb && $rb ne $body->name;
+		my $roc = $self->rocName;
+		if ($roc) {
+			$body->rocJson->{$roc} or return ();
+		}
 		my $v = $body->scienceValues;
 		grep { $v->{$_} } $self->situations
 	})
@@ -121,13 +123,9 @@ sub get {
 	wantarray ? @ret : $ret[0]
 }
 
-sub rocBodyName {
-	my ($self, $system) = @_;
-	$system ||= KSP::SolarSystem->load();
-	my $tmp = $self->name;
-	$tmp =~ s/^ROCScience_// or return undef;
-	my ($body) = getprefix($tmp, $system->bodyPrefixMatchers);
-	$body
+sub rocName {
+	my ($self) = @_;
+	$self->name =~ /^ROCScience_(.*)/ ? $1 : undef
 }
 
 sub requireAtmosphere {
@@ -146,8 +144,11 @@ sub availableOn {
 	my ($self, $body) = @_;
 	$self->requireAtmosphere && !$body->hasAtmosphere and return 0;
 	$self->requireNoAtmosphere && $body->hasAtmosphere and return 0;
-	my $rbn = $self->rocBodyName or return 1;
-	$rbn ne $self->name
+	my $roc = $self->rocName;
+	if ($roc) {
+		grep { $_ == $body } $body->system->findRoc($roc) or return 0;
+	}
+	1
 }
 
 1;

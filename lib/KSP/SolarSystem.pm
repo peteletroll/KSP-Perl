@@ -143,6 +143,15 @@ sub import_bodies {
 	()
 }
 
+sub findRoc {
+	my ($self, $roc) = @_;
+	my @ret = ();
+	foreach my $b ($self->bodies) {
+		$b->rocJson->{$roc} and push @ret, $b;
+	}
+	@ret
+}
+
 sub dvGraph {
 	my ($self) = @_;
 	scalar $self->cache("dvGraph", sub {
