@@ -13,7 +13,7 @@ use namespace::clean;
 use File::stat;
 
 use Exporter qw(import);
-our @EXPORT_OK = qw(U Part Tech Resource sortby indexby isnumber stumpff2 stumpff3 error matcher getprefix proxy deparse filekey CACHE);
+our @EXPORT_OK = qw(U Part Tech Resource Experiment sortby indexby isnumber stumpff2 stumpff3 error matcher getprefix proxy deparse filekey CACHE);
 
 our @U = (
 	[ undef, 1e27 ],
@@ -86,6 +86,11 @@ sub Tech(;$) {
 sub Resource(;$) {
 	require KSP::Resource;
 	@_ ? KSP::Resource->get($_[0]) : KSP::Resource->all()
+}
+
+sub Experiment(;$) {
+	require KSP::Experiment;
+	@_ ? KSP::Experiment->get($_[0]) : KSP::Experiment->all()
 }
 
 sub _smartcmp($$) {
