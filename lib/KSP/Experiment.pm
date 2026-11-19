@@ -123,7 +123,9 @@ sub get {
 
 sub rocBodyName {
 	my ($self) = @_;
-	$self->name =~ /^ROCScience_([A-Z][a-z]+)/ or return undef;
+	my $n = $self->name;
+	$n =~ s/^ROCScience_// or return undef;
+	$n =~ /^([A-Z][a-z]+)/ or return undef;
 	$1
 }
 
