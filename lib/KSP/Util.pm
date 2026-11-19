@@ -13,7 +13,7 @@ use namespace::clean;
 use File::stat;
 
 use Exporter qw(import);
-our @EXPORT_OK = qw(U Part Tech Resource sortby indexby isnumber stumpff2 stumpff3 error matcher proxy deparse filekey CACHE);
+our @EXPORT_OK = qw(U Part Tech Resource sortby indexby isnumber stumpff2 stumpff3 error matcher getprefix proxy deparse filekey CACHE);
 
 our @U = (
 	[ undef, 1e27 ],
@@ -154,6 +154,16 @@ sub matcher($) {
 		croak "got $r, string or Regexp required";
 	}
 	$v
+}
+
+sub getprefix {
+	my ($str, @re) = @_;
+	# warn "PREFIX $str\n";
+	foreach my $re (@re) {
+		# warn "TRY $re\n";
+		$str =~ $re and return ($1, $2);
+	}
+	(undef, $str)
 }
 
 sub proxy($$@) {

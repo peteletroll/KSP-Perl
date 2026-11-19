@@ -6,6 +6,8 @@ use warnings;
 
 use Carp;
 
+use KSP::Util qw(getprefix);
+
 use namespace::clean;
 
 use KSP::SolarSystem;
@@ -23,14 +25,6 @@ sub BUILD {
 use overload
 	'""' => sub { $_[0]->desc };
 
-sub _getPrefix($@) {
-	my ($str, @re) = @_;
-	foreach my $re (@re) {
-		$str =~ $re and return ($1, $2);
-	}
-	(undef, $str)
-}
-
 sub parsed {
 	my ($self) = @_;
 	$self->cache("parsed", sub {
@@ -38,9 +32,9 @@ sub parsed {
 		my $system = $self->system;
 
 		my $type = $tmp =~ s/^(.*?)@// ? $1 : undef;
-		(my $body, $tmp) = _getPrefix($tmp, $system->bodyPrefixMatchers);
-		(my $situation, $tmp) = _getPrefix($tmp, $system->situationPrefixMatchers);
-		(my $biome, $tmp) = _getPrefix($tmp, $system->body($body)->biomePrefixMatchers);
+		(my $body, $tmp) = getprefix($tmp, $system->bodyPrefixMatchers);
+		(my $situation, $tmp) = getprefix($tmp, $system->situationPrefixMatchers);
+		(my $biome, $tmp) = getprefix($tmp, $system->body($body)->biomePrefixMatchers);
 
 		my $expname = $type;
 
