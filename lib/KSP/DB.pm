@@ -108,10 +108,10 @@ sub root {
 		}
 		$time = $time->read;
 
-		-t STDIN && -t STDOUT && -t STDERR and warn sprintf "# %s scanned %d files, %sB in %ss, %sB/s\n",
+		-t STDIN && -t STDOUT && -t STDERR and warn sprintf "# %s scanned %d files, %s in %s, %s\n",
 			__PACKAGE__,
-			$files, U($bytes),
-			U($time), ($time ? U($bytes / $time) : "∞");
+			$files, U($bytes, "B"),
+			U($time, "s"), ($time ? U($bytes / $time, "B/s") : "∞");
 
 		$root
 	})
