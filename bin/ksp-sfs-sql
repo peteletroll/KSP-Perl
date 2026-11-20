@@ -114,6 +114,7 @@ our %insert_count = ();
 
 sub mktable($@) {
 	my $table = shift;
+	$SW->reset->start;
 	my (@col, @fill);
 	foreach (@_) {
 		if (UNIVERSAL::isa($_, "CODE")) {
@@ -152,13 +153,13 @@ sub mktable($@) {
 		}
 	}
 
-	$SW->reset->start;
 	@fill or die "OLDSTYLE \U$table\E\n";
 	$DB->begin_work;
 	$_->() foreach @fill;
 	$DB->commit;
-	$VERBOSE and printf "-- Generated table %s [%d] in %1.3f seconds\n",
-		$table, $insert_count{$table}, $SW->read;
+	$SW->stop;
+	$VERBOSE and printf "-- Generated table %s [%d] in %s\n",
+		$table, $insert_count{$table}, U($SW->read, "s");
 }
 
 our %_insert_stmt = ();
@@ -181,11 +182,11 @@ sub insert($@) {
 
 sub mkview($$) {
 	my ($name, $select) = @_;
-	my $sw = stopwatch->start;
+	$SW->reset->start;
 	run("drop view if exists " . qi($name));
 	run("create view " . qi($name) . " as $select");
-	$VERBOSE and printf "-- Generated view %s in %1.3f seconds\n",
-		$name, $SW->read;
+	$VERBOSE and printf "-- Generated view %s in %s\n",
+		$name, U($SW->read, "s");
 }
 
 ##################################################
@@ -322,10 +323,12 @@ sub import_savefile() {
 
 	$SW->reset->start;
 
-	$VERBOSE and printf "-- Parsing sfs $SFSNAME, %1.1fKiB\n", (-s $SFSNAME) / 1024;
-	our $SFS = KSP::ConfigNode->load($SFSNAME);
+	my $sfsbytes = -s $SFSNAME;
+	$VERBOSE and printf "-- Parsing sfs %s, %s\n", $SFSNAME, U($sfsbytes, "B");
+	my $SFS = KSP::ConfigNode->load($SFSNAME);
 	eval { $TITLE = $SFS->getnodes("GAME")->get("Title") };
-	$VERBOSE and printf "-- Parsed $TITLE in %1.3f seconds\n", $SW->read;
+	$SW->stop;
+	$VERBOSE and printf "-- Parsed $TITLE in %s, %s\n", U($SW->read, "s"), U($sfsbytes / $SW->read, "B/s");
 
 	my $sciMul = 1;
 	foreach my $c ($SFS->find("CAREER")) {
