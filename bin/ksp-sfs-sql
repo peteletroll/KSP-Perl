@@ -369,7 +369,7 @@ sub import_savefile() {
 
 	mkview(report => q{
 		select src.body, src.biome, src.experiment, src.situation,
-			printf('%6.2f', coalesce(sci.points, 0)) as points,
+			iif(sci.points is null, null, printf('%6.2f', sci.points)) as points,
 			printf('%6.2f', coalesce(sci.full, src.cap)) as full,
 			printf('%6.2f', coalesce(sci.perc, 0)) as perc
 		from sources as src
