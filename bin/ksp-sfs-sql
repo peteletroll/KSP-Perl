@@ -51,8 +51,6 @@ our $DEBUG = $opt{d};
 our $INDEX = $opt{i};
 our $RUNSQLITE = 0;
 
-our $SW = stopwatch;
-
 our ($DBNAME, $SFSNAME);
 if (@ARGV == 2) {
 	($DBNAME, $SFSNAME) = @ARGV;
@@ -114,7 +112,7 @@ our %insert_count = ();
 
 sub mktable($@) {
 	my $table = shift;
-	$SW->reset->start;
+	my $SW = stopwatch->start;
 	my (@col, @fill);
 	foreach (@_) {
 		if (UNIVERSAL::isa($_, "CODE")) {
@@ -182,7 +180,7 @@ sub insert($@) {
 
 sub mkview($$) {
 	my ($name, $select) = @_;
-	$SW->reset->start;
+	my $SW = stopwatch->start;
 	run("drop view if exists " . qi($name));
 	run("create view " . qi($name) . " as $select");
 	$VERBOSE and printf "-- Generated view %s in %s\n",
@@ -321,7 +319,7 @@ sub maplink($$$) {
 sub import_savefile() {
 	local $DB = opensql();
 
-	$SW->reset->start;
+	my $SW = stopwatch->start;
 
 	my $sfsbytes = -s $SFSNAME;
 	$VERBOSE and printf "-- Parsing sfs %s, %s\n", $SFSNAME, U($sfsbytes, "B");
