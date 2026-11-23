@@ -265,7 +265,7 @@ sub allExperiments {
 	my ($self) = @_;
 	wantarray or croak __PACKAGE__, "::allExperiments() wants list context";
 	$self->cache("allExperiments", sub {
-		map { scalar KSP::Experiment->get($_->get("experimentID")) }
+		map { my $id = $_->get("experimentID"); scalar KSP::Experiment->get($id) || $id }
 		$self->node->getnodes("MODULE", name => "ModuleScienceExperiment")
 	})
 }
