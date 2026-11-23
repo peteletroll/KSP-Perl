@@ -484,7 +484,7 @@ sub import_savefile() {
 		}
 	});
 
-	mkview(maplinks_full => q{
+	mkview(maplinks_raw => q{
 		select vessels_raw.body, substring(type, 1, 9) as type, name, uri
 		from vessels_raw
 		where uri is not null
@@ -495,9 +495,9 @@ sub import_savefile() {
 	});
 
 	mkview(maplinks => q{
-		select maplinks_full.*
-		from maplinks_full, bodies
-		where maplinks_full.body = bodies.body
+		select maplinks_raw.*
+		from maplinks_raw, bodies
+		where maplinks_raw.body = bodies.body
 		order by bodies.sort, name
 	});
 
